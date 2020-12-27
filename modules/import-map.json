@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "basicscroll": "./basicscroll.js",
+    "lit-element": "./lit-element.js",
+    "lit-element-router": "./lit-element-router.js",
+    "lit-html": "./lit-html.js"
+  }
+}
