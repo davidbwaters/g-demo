@@ -12,23 +12,15 @@
   box-sizing: border-box;
 }
 
+html,
+body,
 ul,
 ol {
   padding: 0;
 }
 
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-ul,
-ol,
-figure,
-blockquote,
-dl,
-dd {
+html,
+body {
   margin: 0;
 }
 
@@ -90,7 +82,7 @@ fieldset {
 :root,
 body {
   font-size: 1rem;
-  font-size: clamp(1rem, 15.8333333333px + 0.0520833333vw, 1.0416666667rem);
+  font-size: clamp( 1rem, 15.8333333333px + 0.0520833333vw, 1.0416666667rem );
   line-height: 1.5;
 }
 
@@ -105,43 +97,43 @@ body {
  */
 h6 {
   font-size: 1.2rem;
-  font-size: clamp(1.2rem, 19px + 0.0625vw, 1.25rem);
+  font-size: clamp( 1.2rem, 19px + 0.0625vw, 1.25rem );
   line-height: 1.5;
 }
 
 h5 {
   font-size: 1.44rem;
-  font-size: clamp(1.44rem, 22.8px + 0.075vw, 1.5rem);
+  font-size: clamp( 1.44rem, 22.8px + 0.075vw, 1.5rem );
   line-height: 1.5;
 }
 
 h4 {
   font-size: 1.728rem;
-  font-size: clamp(1.728rem, 27.36px + 0.09vw, 1.8rem);
+  font-size: clamp( 1.728rem, 27.36px + 0.09vw, 1.8rem );
   line-height: 1.5;
 }
 
 h3 {
   font-size: 2.0736rem;
-  font-size: clamp(2.0736rem, 32.832px + 0.108vw, 2.16rem);
+  font-size: clamp( 2.0736rem, 32.832px + 0.108vw, 2.16rem );
   line-height: 1.3;
 }
 
 h2 {
   font-size: 2.48832rem;
-  font-size: clamp(2.48832rem, 39.3984px + 0.1296vw, 2.592rem);
+  font-size: clamp( 2.48832rem, 39.3984px + 0.1296vw, 2.592rem );
   line-height: 1.3;
 }
 
 h1 {
   font-size: 2.985984rem;
-  font-size: clamp(2.985984rem, 47.27808px + 0.15552vw, 3.1104rem);
+  font-size: clamp( 2.985984rem, 47.27808px + 0.15552vw, 3.1104rem );
   line-height: 1.3;
 }
 
 small {
   font-size: 0.8333333333rem;
-  font-size: clamp(0.8333333333rem, 13.1944444444px + 0.0434027778vw, 0.8680555556rem);
+  font-size: clamp( 0.8333333333rem, 13.1944444444px + 0.0434027778vw, 0.8680555556rem );
   line-height: 1.5;
 }
 
@@ -2194,62 +2186,62 @@ small {
  */
 .u-text-normal {
   font-size: 1rem !important;
-  font-size: clamp(1rem, 15.8333333333px + 0.0520833333vw, 1.0416666667rem) !important;
+  font-size: clamp( 1rem, 15.8333333333px + 0.0520833333vw, 1.0416666667rem ) !important;
   line-height: 1.5 !important;
 }
 
 .u-text-large-1 {
   font-size: 1.2rem !important;
-  font-size: clamp(1.2rem, 19px + 0.0625vw, 1.25rem) !important;
+  font-size: clamp( 1.2rem, 19px + 0.0625vw, 1.25rem ) !important;
   line-height: 1.5 !important;
   margin-bottom: 0.5rem;
 }
 
 .u-text-large-2 {
   font-size: 1.44rem !important;
-  font-size: clamp(1.44rem, 22.8px + 0.075vw, 1.5rem) !important;
+  font-size: clamp( 1.44rem, 22.8px + 0.075vw, 1.5rem ) !important;
   line-height: 1.5 !important;
   margin-bottom: 0.5rem;
 }
 
 .u-text-large-3 {
   font-size: 1.728rem !important;
-  font-size: clamp(1.728rem, 27.36px + 0.09vw, 1.8rem) !important;
+  font-size: clamp( 1.728rem, 27.36px + 0.09vw, 1.8rem ) !important;
   line-height: 1.5 !important;
   margin-bottom: 0.5rem;
 }
 
 .u-text-large-4 {
   font-size: 2.0736rem !important;
-  font-size: clamp(2.0736rem, 32.832px + 0.108vw, 2.16rem) !important;
+  font-size: clamp( 2.0736rem, 32.832px + 0.108vw, 2.16rem ) !important;
   line-height: 1.3 !important;
   margin-bottom: 0.5rem;
 }
 
 .u-text-large-5 {
   font-size: 2.48832rem !important;
-  font-size: clamp(2.48832rem, 39.3984px + 0.1296vw, 2.592rem) !important;
+  font-size: clamp( 2.48832rem, 39.3984px + 0.1296vw, 2.592rem ) !important;
   line-height: 1.3 !important;
   margin-bottom: 0.5rem;
 }
 
 .u-text-large-6 {
   font-size: 2.985984rem !important;
-  font-size: clamp(2.985984rem, 47.27808px + 0.15552vw, 3.1104rem) !important;
+  font-size: clamp( 2.985984rem, 47.27808px + 0.15552vw, 3.1104rem ) !important;
   line-height: 1.3 !important;
   margin-bottom: 0.5rem;
 }
 
 .u-text-small-1 {
   font-size: 0.8333333333rem !important;
-  font-size: clamp(0.8333333333rem, 13.1944444444px + 0.0434027778vw, 0.8680555556rem) !important;
+  font-size: clamp( 0.8333333333rem, 13.1944444444px + 0.0434027778vw, 0.8680555556rem ) !important;
   line-height: 1.5 !important;
   margin-bottom: 1rem;
 }
 
 .u-text-small-2 {
   font-size: 0.6944444444rem !important;
-  font-size: clamp(0.6944444444rem, 10.9953703704px + 0.0361689815vw, 0.7233796296rem) !important;
+  font-size: clamp( 0.6944444444rem, 10.9953703704px + 0.0361689815vw, 0.7233796296rem ) !important;
   line-height: 1.5 !important;
   margin-bottom: 1rem;
 }
@@ -2357,6 +2349,8 @@ small {
   --font-lighter-weight: normal;
   --font-heading: var(--font-main);
   --font-heading-weight: bold;
+  --text-size-tiny: .8rem;
+  --text-size-small: 1rem;
   --text-size-normal: 1.25rem;
   --text-size-medium: 1.5rem;
   --text-size-large: 1.75rem;
@@ -2364,31 +2358,52 @@ small {
   --text-size-heading-medium: 2.5rem;
   --text-size-heading-large: 3rem;
   --text-size-heading-huge: 4rem;
+  --line-height-heading-small: 1.1;
+  --line-height-heading-medium: 1.1;
+  --line-height-heading-normal: 1.1;
+  --line-height-heading-large: 1.08;
+  --line-height-heading-huge: 1.08;
+  --text-size-title-tiny: .625rem;
+  --text-size-title-normal: 1.2rem;
+  --text-size-title-stylized: 1.2rem;
+  --line-height-title-tiny: 1.2;
+  --line-height-title-normal: 1.2;
+  --line-height-title-stylized: 1;
+  --letter-spacing-title-tiny: .3em;
+  --letter-spacing-title-normal: 0em;
+  --letter-spacing-title-stylized: .1em;
+  --line-height-text-tiny: 1.2;
+  --line-height-text-small: 1.2;
+  --line-height-text-normal: 1.2;
+  --line-height-text-medium: 1.18;
+  --line-height-text-large: 1.15;
   --color-bg: white;
-  --color-fg:hsla(220,5,15,1);
+  --color-fg: hsla(220, 5%, 15%,1);
+  --color-fg-lighter: hsla(220, 5%, 60%,1);
+  --color-fg-white: white;
   --color-opaque: rgba(0,0,0,.2);
   --color-opaque-heavy: rgba(0,0,0,.22);
   --color-opaque-alternate: rgba(255,255,255,.175);
   --color-opaque-overlay: rgba(0,0,0,0.02);
   --color-opaque-shadow: rgba(0,0,0,.1);
-  --color-gw-gray:hsla(240,4%,25%,1);
-  --color-gw-silver:hsla(220,12%,70%,1);
-  --color-gw-blue:hsla(206,80%,60%,1);
-  --color-gw-red:hsla(356,100%,51%,1);
-  --color-gw-green:hsla(143,35%,62%,1);
-  --color-gw-yellow:hsla(48,93%,62%,1);
-  --color-subtle-dark-1:hsla(220,5%,15%,1);
-  --color-subtle-dark-2:hsla(220,5%,30%,1);
-  --color-subtle-dark-3:hsla(220,5%,45%,1);
-  --color-subtle-dark-4:hsla(220,5%,60%,1);
-  --color-subtle-dark-5:hsla(220,5%,75%,1);
-  --color-subtle-dark-6:hsla(220,5%,90%,1);
-  --color-subtle-light-1:hsla(220,10%,75%,1);
-  --color-subtle-light-2:hsla(220,15%,80%,1);
-  --color-subtle-light-3:hsla(220,20%,85%,1);
-  --color-subtle-light-4:hsla(220,25%,90%,1);
-  --color-subtle-light-5:hsla(220,30%,95%,1);
-  --color-subtle-light-6:hsla(0,0%,100%,1);
+  --color-gw-gray:hsla(240, 4%, 25%,1);
+  --color-gw-silver:hsla(220, 12%, 70%,1);
+  --color-gw-blue:hsla(206, 80%, 60%,1);
+  --color-gw-red:hsla(356,100%, 51%,1);
+  --color-gw-green:hsla(143, 35%, 62%,1);
+  --color-gw-yellow:hsla(48, 93%, 62%,1);
+  --color-subtle-dark-1:hsla(220, 5%, 15%,1);
+  --color-subtle-dark-2:hsla(220, 5%, 30%,1);
+  --color-subtle-dark-3:hsla(220, 5%, 45%,1);
+  --color-subtle-dark-4:hsla(220, 5%, 60%,1);
+  --color-subtle-dark-5:hsla(220, 5%, 75%,1);
+  --color-subtle-dark-6:hsla(220, 5%, 90%,1);
+  --color-subtle-light-1:hsla(220, 10%, 75%,1);
+  --color-subtle-light-2:hsla(220, 15%, 80%,1);
+  --color-subtle-light-3:hsla(220, 20%, 85%,1);
+  --color-subtle-light-4:hsla(220, 25%, 90%,1);
+  --color-subtle-light-5:hsla(220, 30%, 95%,1);
+  --color-subtle-light-6:hsla( 0, 0%,100%,1);
   --gradient-main: linear-gradient(
       90deg,
      hsla(222,10%,75%,1) 0%,
@@ -2757,8 +2772,9 @@ body {
   background-color: var(--color-bg);
   color: var(--color-fg);
   font-family: var(--font-main);
-  font-size: 1.25rem;
+  font-size: var(--text-size-normal);
   font-weight: var(--font-main-weight);
+  line-height: var(--line-height-normal);
 }
 
 a,
@@ -2766,16 +2782,21 @@ a:visited {
   color: inherit;
 }
 
-nav-menu {
+c-nav-menu {
   font-size: 1rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
+  margin-bottom: 0.75em;
 }
 
-h1, h2 {
+h1 {
+  font-size: var(--text-size-heading-huge);
+}
+
+h2 {
   font-size: var(--text-size-heading-huge);
 }
 
@@ -2798,6 +2819,11 @@ h6 {
 
 strong {
   font-weight: var(--font-bolder-weight);
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 2rem;
 }
 
 /*

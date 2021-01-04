@@ -7,11 +7,11 @@ export default [{
   data: {
     title: 'Home'
   },
-  component: 'home-page'
+  component: 'c-home-page'
 }, {
   name: 'contact',
   pattern: 'contact',
-  component: 'contact-page',
+  component: 'c-contact-page',
   navTitle: 'Contact',
   navLink: '/contact'
 }];

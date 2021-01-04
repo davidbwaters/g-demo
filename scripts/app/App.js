@@ -7,23 +7,29 @@ import { RouterLink } from '../router/Link.js';
 import { HomePage } from '../pages/Home/Home.js';
 import { ContactPage } from '../pages/Contact/Contact.js';
 import { NavMenu } from '../components/NavMenu/NavMenu.js';
-import { ProductFrames } from '../components/ProductFrames/ProductFrames.js';
+import { AngleSection } from '../components/AngleSection/AngleSection.js';
+import { ScaleSection } from '../components/ScaleSection/ScaleSection.js';
 import { SlantTitle } from '../components/SlantTitle/SlantTitle.js';
-customElements.define('router-app', Router);
-customElements.define('router-link', RouterLink);
-customElements.define('home-page', HomePage);
-customElements.define('contact-page', ContactPage);
-customElements.define('nav-menu', NavMenu);
-customElements.define('product-frames', ProductFrames);
-customElements.define('slant-title', SlantTitle);
+import { MotionBlur } from '../components/MotionBlur/MotionBlur.js';
+import { FadeTransition } from '../components/FadeTransition/FadeTransition.js';
+import { Loader } from '../components/Loader/Loader.js';
+import { Heading } from '../components/Heading/Heading.js';
+import { HeadingSection } from '../components/HeadingSection/HeadingSection.js';
+import { TextBlock } from '../components/TextBlock/TextBlock.js';
+customElements.define('c-router-app', Router);
+customElements.define('c-router-link', RouterLink);
+customElements.define('c-home-page', HomePage);
+customElements.define('c-contact-page', ContactPage);
+customElements.define('c-nav-menu', NavMenu);
+customElements.define('c-angle-section', AngleSection);
+customElements.define('c-slant-title', SlantTitle);
+customElements.define('c-motion-blur', MotionBlur);
+customElements.define('c-heading', Heading);
+customElements.define('c-heading-section', HeadingSection);
+customElements.define('c-text-block', TextBlock);
+customElements.define('c-scale-section', ScaleSection);
+customElements.define('c-fade-transition', FadeTransition);
+customElements.define('c-loader', Loader);
 render(html`
-    <nav-menu>
-      <router-link
-        class="c-logo-responsive c-logo-responsive--light"
-        slot="branding"
-      >
-
-      </router-link>
-    </nav-menu>
-    <router-app></router-app>
+    <c-router-app></c-router-app>
   `, document.body);

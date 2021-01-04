@@ -10,6 +10,7 @@ export class NavMenu extends LitElement {
       :host {
         align-items: center;
         background-color: var(--color-subtle-dark-2);
+        box-sizing: border-box;
         color: white;
         display: grid;
         grid-column-gap: 1rem;
@@ -23,7 +24,7 @@ export class NavMenu extends LitElement {
         position: absolute;
         top: 0;
         width: 100%;
-        z-index: 9;
+        z-index: 1;
       }
 
       @media (min-width:45em) {
@@ -46,7 +47,7 @@ export class NavMenu extends LitElement {
 
   firstUpdated() {
     this.routes = routes;
-    this.menuEl = this.shadowRoot.querySelector('.c-nav-menu__links');
+    this.menuEl = this.shadowRoot.querySelector('.c-c-nav-menu__links');
 
     this._addRouterLinks();
   }
@@ -54,13 +55,13 @@ export class NavMenu extends LitElement {
   _addRouterLinks() {
     this.routes.map(route => {
       if (route.navTitle && route.navLink) {
-        const linkEl = document.createElement('router-link');
+        const linkEl = document.createElement('c-router-link');
         linkEl.setAttribute('route', route.navLink);
         linkEl.innerText = route.navTitle;
 
         if (!this.routerLinkWrapperEl) {
           const wrapperEl = document.createElement('div');
-          wrapperEl.classList.add('c-nav-menu__router-links');
+          wrapperEl.classList.add('c-c-nav-menu__c-router-links');
           wrapperEl.dataset.routerLinks = '';
           this.menuEl.appendChild(wrapperEl);
           this.routerLinkWrapperEl = wrapperEl;
@@ -76,9 +77,9 @@ export class NavMenu extends LitElement {
 
         <slot name="branding"></slot>
 
-        <nav class="c-nav-menu__links">
+        <nav class="c-c-nav-menu__links">
           <div
-            class="c-nav-menu__anchor-links"
+            class="c-c-nav-menu__anchor-links"
           >
             <slot name="link"></slot>
 
