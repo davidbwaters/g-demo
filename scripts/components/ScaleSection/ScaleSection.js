@@ -24,6 +24,7 @@ export class ScaleSection extends LitElement {
         padding-bottom: 6rem;
         padding-top: 6rem;
         position: relative;
+        text-align: center;
         width: 100%;
         will-change: background-size, transform;
       }
@@ -56,7 +57,7 @@ export class ScaleSection extends LitElement {
 
         filter: url(#blur);
         justify-content: center;
-        row-gap: 2rem;
+        row-gap: 3rem;
       }
 
       .c-scale-section__image {

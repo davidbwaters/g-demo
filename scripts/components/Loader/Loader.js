@@ -7,7 +7,7 @@ export class Loader extends LitElement {
 
       :host {
         align-content: center;
-        background-color: white;
+        background-color: #666;
         display: grid;
         grid-template-columns: 60%;
         height: 100%;
@@ -31,7 +31,6 @@ export class Loader extends LitElement {
         height: 100%;
         left: -10vw;
         position: fixed;
-
         top: 0;
         width: 120vw;
         z-index: -1;
@@ -43,6 +42,12 @@ export class Loader extends LitElement {
         margin-right: auto;
         max-width: 12rem;
         row-gap: 2rem;
+      }
+
+      .c-loader__content img{
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
       }
 
       .c-loader__bar {

@@ -1,7 +1,7 @@
 /*
  *  Scripts - Utilities - Motion Blur
  */
-export const motionBlur = (filter, ammount = 15, throttle = 25) => {
+export const motionBlur = (filter, ammount = 15, throttle = 15) => {
   let start = ammount;
   let currentTime;
 

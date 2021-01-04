@@ -59,7 +59,7 @@ export class HomePage extends LitElement {
         }
 
         .c-hero-frame__content:first-child {
-          padding-left: 1.5rem;
+          padding-left: 3rem;
         }
       }
 
@@ -115,7 +115,7 @@ export class HomePage extends LitElement {
 
       .c-exterior-section {
         align-content: center;
-        background-color: var(--color-subtle-light-5);
+        background-color: var(--color-subtle-light-6);
         display: grid;
         grid-template-columns: 80%;
         justify-content: center;
@@ -293,6 +293,9 @@ export class HomePage extends LitElement {
           src=${url + this.data.ExteriorImage.url}
           alt=${url + this.data.ExteriorImage.caption}
         />
+        <div class="c-exterior-section__content">
+
+        </div>
       </div>
 
 

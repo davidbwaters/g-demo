@@ -14,10 +14,8 @@ export class TextBlock extends LitElement {
         font-weight: var(--text-block-weight);
         grid-template-columns: 80%;
         justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom: 4rem;
-        padding-top: 4rem;
+        padding-bottom: 5rem;
+        padding-top: 5rem;
       }
 
       span {

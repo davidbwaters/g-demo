@@ -11,8 +11,8 @@ export class HeadingSection extends LitElement {
         display: grid;
         grid-template-columns: 80%;
         justify-content: center;
-        padding-bottom: 6rem;
-        padding-top: 6rem;
+        padding-bottom: 8rem;
+        padding-top: 8rem;
       }
     `;
   }

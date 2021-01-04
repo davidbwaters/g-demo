@@ -25,6 +25,7 @@ export class Heading extends LitElement {
         line-height: var(--heading-line-height);
         margin-bottom: .33em;
         margin-top: 0;
+        text-align: center;
       }
 
       span {
