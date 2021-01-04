@@ -47,12 +47,12 @@ export class Loader extends LitElement {
       .c-loader__content img{
         margin-left: auto;
         margin-right: auto;
-        width: 80%;
+        width: 70%;
       }
 
       .c-loader__bar {
         background-color: rgba(0,0,0,.8);
-        height: .4rem;
+        height: .25rem;
         overflow: hidden;
         width: 100%;
       }
@@ -92,12 +92,15 @@ export class Loader extends LitElement {
     };
   }
 
-  firstUpdated() {}
+  firstUpdated() {
+    document.body.style.position = 'fixed';
+  }
 
   updated(changedProperties) {
     if (this.loaded === true) {
       this.shadowRoot.host.style.opacity = 0;
       setTimeout(() => {
+        document.body.style.position = '';
         this.shadowRoot.host.style.display = 'none';
       }, 500);
     }

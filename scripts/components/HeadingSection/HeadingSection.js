@@ -7,11 +7,11 @@ export class HeadingSection extends LitElement {
     return css`
       :host {
         align-content: center;
-        background-color: white;
+        background-color: var(--heading-section-bg-color);
         display: grid;
-        grid-template-columns: 80%;
+        grid-template-columns: 66%;
         justify-content: center;
-        padding-bottom: 8rem;
+        padding-bottom: 6rem;
         padding-top: 8rem;
       }
     `;
@@ -20,10 +20,20 @@ export class HeadingSection extends LitElement {
   static get properties() {
     return {
       data: {
-        type: Object,
-        attribue: true
+        type: Object
+      },
+      backgroundColor: {
+        type: String
       }
     };
+  }
+
+  firstUpdated() {
+    if (this.backgroundColor === 'gray') {
+      this.shadowRoot.host.style.setProperty('--heading-section-bg-color', 'var(--color-subtle-light-5)');
+    } else {
+      this.shadowRoot.host.style.setProperty('--heading-section-bg-color', 'white');
+    }
   }
 
   render() {

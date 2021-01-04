@@ -12,10 +12,11 @@ export class TextBlock extends LitElement {
         display: grid;
         font-size: var(--text-block-size);
         font-weight: var(--text-block-weight);
-        grid-template-columns: 80%;
+        grid-template-columns: var(--text-block-width);
         justify-content: center;
-        padding-bottom: 5rem;
-        padding-top: 5rem;
+        line-height: 1.2;
+        padding-bottom: var(--text-block-padding-y);
+        padding-top: var(--text-block-padding-y);
       }
 
       span {
@@ -24,8 +25,10 @@ export class TextBlock extends LitElement {
 
       p {
         max-width: 1080px;
+        margin-bottom: 0;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 0;
       }
 
     `;
@@ -34,28 +37,26 @@ export class TextBlock extends LitElement {
   static get properties() {
     return {
       data: {
-        type: Object,
-        attribue: true
+        type: Object
       },
       content: {
         type: String,
         attribute: true
       },
       size: {
-        type: String,
-        attribute: true
+        type: String
       },
       lighterColor: {
-        type: Boolean,
-        attribute: true
+        type: Boolean
       },
       isBold: {
-        type: Boolean,
-        attribute: true
+        type: Boolean
+      },
+      isFlush: {
+        type: Boolean
       },
       backgroundColor: {
-        type: String,
-        attribute: true
+        type: String
       }
     };
   }
@@ -64,6 +65,7 @@ export class TextBlock extends LitElement {
     super();
     this.size = 'Normal';
     this.isBold = true;
+    this.isFlush = false;
   }
 
   firstUpdated() {
@@ -78,6 +80,14 @@ export class TextBlock extends LitElement {
 
     this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-text' + this.size.toLowerCase() + ')');
 
+    if (this.isFlush) {
+      this.shadowRoot.host.style.setProperty('--text-block-weight', '0rem');
+      this.shadowRoot.host.style.setProperty('--text-block-width', '100%');
+    } else {
+      this.shadowRoot.host.style.setProperty('--text-block-weight', '5rem');
+      this.shadowRoot.host.style.setProperty('--text-block-width', '80%');
+    }
+
     if (this.isBold) {
       this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-bolder-weight)');
     }
@@ -91,7 +101,9 @@ export class TextBlock extends LitElement {
     }
 
     if (this.backgroundColor === 'gray') {
-      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'var(--color-fg-lighter)');
+      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'var(--color-subtle-5)');
+    } else if (this.backgroundColor === 'transparent') {
+      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'transparent');
     } else {
       this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'white');
     }
@@ -108,10 +120,11 @@ export class TextBlock extends LitElement {
         const paragraphEl = document.createElement('p');
         paragraphEl.innerHTML = content.Paragraph;
         console.log(paragraphEl);
-        contentEl.appendChild(paragraphEl);
       });
     } else {
-      contentEl.innerHTML = JSON.parse(this.content);
+      const paragraphEl = document.createElement('p');
+      paragraphEl.innerHTML = JSON.parse(this.content);
+      contentEl.appendChild(paragraphEl);
     }
   }
 

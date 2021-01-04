@@ -23,6 +23,8 @@ export class HomePage extends LitElement {
     return css`
       :host {
         display: block;
+        font-size: 2rem;
+        line-height: 1.2;
         min-height: 100%;
         position: relative;
         width: 100%;
@@ -41,11 +43,10 @@ export class HomePage extends LitElement {
         justify-content: center;
         margin-left: auto;
         margin-right: auto;
-        padding-bottom: 6rem;
         padding-top: calc(6rem + 3rem);
         row-gap: 4rem;
-        text-align: center;
-        width: 80%;
+        text-align: left;
+        width: 100%;
       }
 
       @media (min-width:45em) {
@@ -53,85 +54,89 @@ export class HomePage extends LitElement {
         .c-hero-frame__content {
           align-content: center;
           display: grid;
-          grid-template-columns: 33% 67%;
           grid-template-rows: min-content min-content;
+          padding-left: 0;
+          padding-right: 0;
           width: 100%;
         }
 
-        .c-hero-frame__content:first-child {
-          padding-left: 3rem;
-        }
       }
 
+      .c-hero-frame__branding {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 35rem;
+        padding-left: 10%;
+        padding-right: 10%;
+      }
 
+      @media (min-width:45em) {
+
+        .c-hero-frame__branding {
+          max-width: none;
+          padding-left: 5%;
+          padding-right: 55%;
+          text-align: right;
+          width: 100%;
+        }
+
+      }
 
       .c-hero-frame__image {
         filter: url('#blur');
+        opacity: var(--hero-image-opacity);
+        transition: opacity .5s;
+        width: 80%;
+        will-change: opacity;
       }
 
       @media (min-width:45em) {
 
         .c-hero-frame__image {
           max-width: none;
-          width: 110%;
+          padding-left: 20%;
+          width: 100%;
         }
 
       }
 
       .c-hero-frame__text {
+        background-color: var(--color-subtle-light-6);
         color: var(--color-subtle-dark-3);
+        padding-bottom: 6rem;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 6rem;
       }
 
       @media (min-width:45em) {
 
         .c-hero-frame__text {
           font-weight: var(--font-bolder-weight);
-          grid-column: 1 / span 2;
-          padding-left: 10%;
-          padding-right: 10%;
+          padding-bottom: 8rem;
+          padding-left: 5%;
+          padding-right: 5%;
+          padding-top: 8rem;
         }
 
-      }
-
-      .c-hero-frame__background {
-        position: fixed;
-        height: 100vh;
-        left: 0;
-        overflow: hidden;
-        top: 0;
-        width: 100%;
-        z-index: -1;
-      }
-
-      .c-hero-frame__background::before {
-        background-color: var(--hero-frame-color);
-        content: '';
-        display: block;
-        height: 300vh;
-        position: absolute;
-        left: 50%;
-        top: -100vh;
-        transform:
-          rotate(var(--hero-frame-angle))
-          translateY(0)
-          translateX(0);
-        transform-origin: center left;
-        transition: background-color var(--transition-duration);
-        width: 400vw;
-        will-change: transform , background-color;
-        z-index: 0;
       }
 
       .c-exterior-section {
         align-content: center;
         background-color: var(--color-subtle-light-6);
         display: grid;
-        grid-template-columns: 80%;
+        grid-template-columns: 90%;
         justify-content: center;
         padding-bottom: 6rem;
         padding-top: 6rem;
-        row-gap: 2rem;
+        row-gap: 1rem;
         text-align: center;
+      }
+
+      .c-exterior-section__text {
+        margin-left: auto;
+        margin-right: auto;
+        width: 66%;
       }
 
       .c-filters {
@@ -227,7 +232,7 @@ export class HomePage extends LitElement {
     return html`
       <section class="c-hero-frame">
         <div class="c-hero-frame__content">
-          <div class="u-text-align-right">
+          <div class="c-hero-frame__branding">
             <img
               class="u-margin-bottom-5"
               src="${url + this.data.HeroLogo.url}"
@@ -236,7 +241,6 @@ export class HomePage extends LitElement {
             <c-slant-title
               data=${JSON.stringify(this.data.HeroSlantTitle)}
             >
-
             </c-slant-title>
           </div>
           <img
@@ -249,28 +253,33 @@ export class HomePage extends LitElement {
           >
             <c-heading
               text = ${this.data.HeroHeading}
+              textAlign = 'left'
             >
             </c-heading>
-            <p>
-              ${this.data.HeroText}
-            </p>
+            <c-text-block
+              content=${this.data.HeroText}
+              backgroundColor='transparent'
+              isFlush=true
+            >
+            </c-text-block>
           </div>
 
 
         </div>
         <c-angle-section
           data=${JSON.stringify(this.data.HeroAngleBG)}
+
         >
         </c-angle-section>
       </section>
       <c-scale-section
         data=${JSON.stringify(this.data.ScaleSection1)}
+        backgroundColor = "gray"
       >
       </c-scale-section>
       <c-scale-section
         data=${JSON.stringify(this.data.ScaleSection2)}
-        small="true"
-        backgroundColor = "gray"
+        small=true
       >
       </c-scale-section>
       <c-scale-section
@@ -279,6 +288,7 @@ export class HomePage extends LitElement {
       </c-scale-section>
       <c-text-block
         data=${JSON.stringify(this.data.TextBlock1)}
+        backgroundColor = "gray"
       >
       </c-text-block>
       <c-fade-transition
@@ -287,6 +297,7 @@ export class HomePage extends LitElement {
       </c-fade-transition>
       <c-heading-section
         data=${JSON.stringify(this.data.HeadingSection1)}
+        backgroundColor="gray"
       >
       </c-heading-section>
       <c-scale-section
@@ -297,6 +308,7 @@ export class HomePage extends LitElement {
       <div class="c-exterior-section">
         <c-heading
           data=${JSON.stringify(this.data.ExteriorHeading)}
+          class="c-exterior-section__text"
         ></c-heading>
         <img
           src=${url + this.data.ExteriorImage.url}

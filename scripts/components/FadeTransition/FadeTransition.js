@@ -11,8 +11,8 @@ export class FadeTransition extends LitElement {
         background-color: white;
         display: grid;
         height: var(--fade-transition-height);
-        padding-bottom: 4vw;
-        padding-top: 4vw;
+        padding-bottom: 12vw;
+        padding-top: 12vw;
         position: relative;
         width: 100%;
       }
@@ -21,7 +21,7 @@ export class FadeTransition extends LitElement {
         height: auto;
         left: 0;
         position: absolute;
-        top: 4vw;
+        top: 12vw;
         transition: opacity .25s;
         width: 100%;
         will-change: opacity;
@@ -53,7 +53,7 @@ export class FadeTransition extends LitElement {
     this.url = 'https://admin.guntherwerks.info';
     let count = 1;
     const firstFrame = this.data[0].Frame;
-    this.shadowRoot.host.style.setProperty('--fade-transition-height', 100 * firstFrame.height / firstFrame.width + 8 + 'vw');
+    this.shadowRoot.host.style.setProperty('--fade-transition-height', 100 * firstFrame.height / firstFrame.width + 24 + 'vw');
     this.data.forEach(item => {
       this.shadowRoot.host.style.setProperty('--fade-transition-' + count, 0.1);
       const image = document.createElement('img');

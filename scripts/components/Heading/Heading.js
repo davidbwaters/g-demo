@@ -22,10 +22,11 @@ export class Heading extends LitElement {
         display: block;
         font-size: var(--heading-size);
         font-weight: var(--heading-weight);
+        letter-spacing: -.015em;
         line-height: var(--heading-line-height);
-        margin-bottom: .33em;
+        margin-bottom: .66em;
         margin-top: 0;
-        text-align: center;
+        text-align: var(--heading-text-align);
       }
 
       span {
@@ -44,25 +45,23 @@ export class Heading extends LitElement {
         type: String,
         attribute: true
       },
+      textAlign: {
+        type: String
+      },
       size: {
-        type: String,
-        attribute: true
+        type: String
       },
       weight: {
-        type: String,
-        attribute: true
+        type: String
       },
       color: {
-        type: String,
-        attribute: true
+        type: String
       },
       spanColor: {
-        type: String,
-        attribute: true
+        type: String
       },
       element: {
-        type: String,
-        attribute: true
+        type: String
       }
     };
   }
@@ -70,7 +69,8 @@ export class Heading extends LitElement {
   constructor() {
     super();
     this.text = this.innerHTML;
-    this.size = 'Large';
+    this.textAlign = 'center';
+    this.size = 'Huge';
     this.weight = 'Bold';
     this.element = 'h3';
   }
@@ -83,12 +83,17 @@ export class Heading extends LitElement {
       if (this.data.Weight) {
         this.weight = this.data.Weight;
       }
+
+      if (this.data.TextAlign) {
+        this.textAlign = this.data.TextAlign;
+      }
     }
 
     const headingEl = document.createElement(this.element);
     headingEl.innerHTML = this.text;
     this.shadowRoot.appendChild(headingEl);
     this.shadowRoot.host.style.setProperty('--heading-size', 'var(--text-size-heading-' + this.size.toLowerCase() + ')');
+    this.shadowRoot.host.style.setProperty('--heading-text-align', this.textAlign.toLowerCase());
     this.shadowRoot.host.style.setProperty('--heading-line-height', 'var(--line-height-heading-' + this.size.toLowerCase() + ')');
     this.shadowRoot.host.style.setProperty('--heading-weight', 'var(--font-' + this.weight.toLowerCase() + 'er-weight)');
 

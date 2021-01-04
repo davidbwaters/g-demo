@@ -16,7 +16,7 @@ export class ScaleSection extends LitElement {
         align-content: center;
         background-color: var(--scale-section-bg-color);
         display: grid;
-        grid-template-columns: 80%;
+        grid-template-columns: 90%;
         grid-template-rows: 1fr;
         justify-content: center;
         min-height: 90vh;
@@ -36,7 +36,7 @@ export class ScaleSection extends LitElement {
         content: '';
         height: 100%;
         left: 0;
-        opacity: .9;
+        opacity: .85;
         position: absolute;
         top: 0;
         width: 100%;
@@ -54,10 +54,14 @@ export class ScaleSection extends LitElement {
       .c-scale-section__content {
         align-content: center;
         display: grid;
-
-        filter: url(#blur);
         justify-content: center;
-        row-gap: 3rem;
+        row-gap: 2rem;
+      }
+
+      .c-scale-section__heading {
+        margin-left: auto;
+        margin-right: auto;
+        width: 66%;
       }
 
       .c-scale-section__image {
@@ -67,18 +71,6 @@ export class ScaleSection extends LitElement {
         will-change: transform;
       }
 
-      ::slotted([slot=frame]) {
-        align-content: center;
-        display: grid;
-        margin: auto;
-        max-width: 1080x;
-        min-height: 100%;
-        padding-top: calc(var(--navbar-height) + 2rem);
-        padding-bottom: calc(var(--navbar-height + 2rem));
-        position: relative;
-        width: 80%;
-        z-index: 1;
-      }
 
       picture {
         margin-left: auto;
@@ -89,7 +81,6 @@ export class ScaleSection extends LitElement {
       img {
         width: 100%;
         height: auto;
-
       }
 
 
@@ -167,6 +158,8 @@ export class ScaleSection extends LitElement {
       'Size': this.data.HeadingSize
     };
     this._headingEl = document.createElement('c-heading');
+
+    this._headingEl.classList.add('c-scale-section__heading');
 
     this._headingEl.setAttribute('data', JSON.stringify(this._headingData));
 
@@ -260,7 +253,6 @@ export class ScaleSection extends LitElement {
   render() {
     return html`
       <div class="c-scale-section__content">
-
       </div>
     `;
   }

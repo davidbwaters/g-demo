@@ -2361,8 +2361,8 @@ small {
   --line-height-heading-small: 1.1;
   --line-height-heading-medium: 1.1;
   --line-height-heading-normal: 1.1;
-  --line-height-heading-large: 1.08;
-  --line-height-heading-huge: 1.08;
+  --line-height-heading-large: 1.1;
+  --line-height-heading-huge: 1.1;
   --text-size-title-tiny: .625rem;
   --text-size-title-normal: 1.2rem;
   --text-size-title-stylized: 1.2rem;
@@ -2789,7 +2789,7 @@ c-nav-menu {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: var(--font-heading-weight);
-  margin-bottom: 0.75em;
+  margin-bottom: 1.2em;
 }
 
 h1 {
