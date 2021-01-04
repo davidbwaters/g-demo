@@ -69,6 +69,15 @@ export class HomePage extends LitElement {
         filter: url('#blur');
       }
 
+      @media (min-width:45em) {
+
+        .c-hero-frame__image {
+          max-width: none;
+          width: 110%;
+        }
+
+      }
+
       .c-hero-frame__text {
         color: var(--color-subtle-dark-3);
       }
