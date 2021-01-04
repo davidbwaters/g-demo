@@ -81,10 +81,10 @@ export class TextBlock extends LitElement {
     this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-text' + this.size.toLowerCase() + ')');
 
     if (this.isFlush) {
-      this.shadowRoot.host.style.setProperty('--text-block-weight', '0rem');
+      this.shadowRoot.host.style.setProperty('--text-block-padding-y', '0rem');
       this.shadowRoot.host.style.setProperty('--text-block-width', '100%');
     } else {
-      this.shadowRoot.host.style.setProperty('--text-block-weight', '5rem');
+      this.shadowRoot.host.style.setProperty('--text-block-padding-y', '5rem');
       this.shadowRoot.host.style.setProperty('--text-block-width', '80%');
     }
 
@@ -97,11 +97,11 @@ export class TextBlock extends LitElement {
       this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg)');
     } else {
       this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-subtle-dark-3)');
-      this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg-lighter)');
+      this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg)');
     }
 
     if (this.backgroundColor === 'gray') {
-      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'var(--color-subtle-5)');
+      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'var(--color-subtle-light-5)');
     } else if (this.backgroundColor === 'transparent') {
       this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'transparent');
     } else {
@@ -109,9 +109,9 @@ export class TextBlock extends LitElement {
     }
 
     this.content = JSON.stringify(this.content);
-    console.log(JSON.stringify(this.content));
 
     if (this.content.slice(0, 1) === '[') {
+      console.log(JSON.stringify(this.content));
       this._content = JSON.parse(this.content);
       console.log('a' + this._content);
 
@@ -120,6 +120,7 @@ export class TextBlock extends LitElement {
         const paragraphEl = document.createElement('p');
         paragraphEl.innerHTML = content.Paragraph;
         console.log(paragraphEl);
+        contentEl.appendChild(paragraphEl);
       });
     } else {
       const paragraphEl = document.createElement('p');

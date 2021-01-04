@@ -32,7 +32,9 @@ export class ScaleSection extends LitElement {
       :host::before {
         background-image: var(--scale-section-bg-image);
         background-position: center center;
-        background-size: auto 100%;
+        background-size:
+            var(--scale-section-width)
+            var(--scale-section-height);
         content: '';
         height: 100%;
         left: 0;
@@ -41,14 +43,6 @@ export class ScaleSection extends LitElement {
         top: 0;
         width: 100%;
         z-index: -1;
-      }
-
-      @media (min-width:45em) {
-
-        :host::before {
-          background-size: var(--scale-section-size) auto;
-        }
-
       }
 
       .c-scale-section__content {
@@ -61,7 +55,15 @@ export class ScaleSection extends LitElement {
       .c-scale-section__heading {
         margin-left: auto;
         margin-right: auto;
-        width: 66%;
+        width: 80%;
+      }
+
+      @media (min-width:40em) {
+        .c-scale-section__heading {
+          margin-left: auto;
+          margin-right: auto;
+          width: 66%;
+        }
       }
 
       .c-scale-section__image {
@@ -195,6 +197,13 @@ export class ScaleSection extends LitElement {
     } else {
       this._startSize = this.startPercentage + '%';
       this._endSize = this.endPercentage + '%';
+      console.log('ss');
+
+      this._setSizes();
+
+      window.addEventListener('resize', () => {
+        this._setSizes();
+      });
       this.shadowRoot.host.style.setProperty('--scale-section-bg-image', 'url(' + this.url + this.image.url + ')');
 
       if (this.imageAsBackground === 'OnLightText') {
@@ -248,6 +257,21 @@ export class ScaleSection extends LitElement {
     });
 
     this._scrollInstance.start();
+  }
+
+  _setSizes() {
+    this._rect = this.getBoundingClientRect();
+    this._elRatio = this._rect.width / this._rect.height;
+    this._imgRatio = this.data.Image.width / this.data.Image.height;
+    console.log(this._imgRatio);
+
+    if (this._elRatio > this._imgRatio) {
+      this.shadowRoot.host.style.setProperty('--scale-section-width', 'var(--scale-section-size)');
+      this.shadowRoot.host.style.setProperty('--scale-section-height', 'auto');
+    } else {
+      this.shadowRoot.host.style.setProperty('--scale-section-width', 'auto');
+      this.shadowRoot.host.style.setProperty('--scale-section-height', 'var(--scale-section-size)');
+    }
   }
 
   render() {

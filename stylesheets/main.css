@@ -2351,9 +2351,9 @@ small {
   --font-heading-weight: bold;
   --text-size-tiny: .8rem;
   --text-size-small: 1rem;
-  --text-size-normal: 1.25rem;
-  --text-size-medium: 1.5rem;
-  --text-size-large: 1.75rem;
+  --text-size-normal: 1.5rem;
+  --text-size-medium: 1.75rem;
+  --text-size-large: 2rem;
   --text-size-heading-small: 1.75rem;
   --text-size-heading-medium: 2.5rem;
   --text-size-heading-large: 3rem;
@@ -2376,7 +2376,7 @@ small {
   --line-height-text-small: 1.2;
   --line-height-text-normal: 1.2;
   --line-height-text-medium: 1.18;
-  --line-height-text-large: 1.15;
+  --line-height-text-large: 1.18;
   --color-bg: white;
   --color-fg: hsla(220, 5%, 15%,1);
   --color-fg-lighter: hsla(220, 5%, 60%,1);

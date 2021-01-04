@@ -13,6 +13,7 @@ export class NavMenu extends LitElement {
         box-sizing: border-box;
         color: white;
         display: grid;
+        font-size: var(--text-size-small);
         grid-column-gap: 1rem;
         grid-template-columns: min-content min-content;
         grid-template-rows: 1rem;
@@ -42,12 +43,16 @@ export class NavMenu extends LitElement {
         text-decoration: none;
       }
 
+      ::slotted(*) {
+
+      }
+
     `;
   }
 
   firstUpdated() {
     this.routes = routes;
-    this.menuEl = this.shadowRoot.querySelector('.c-c-nav-menu__links');
+    this.menuEl = this.shadowRoot.querySelector('.c-nav-menu__links');
 
     this._addRouterLinks();
   }
@@ -61,7 +66,7 @@ export class NavMenu extends LitElement {
 
         if (!this.routerLinkWrapperEl) {
           const wrapperEl = document.createElement('div');
-          wrapperEl.classList.add('c-c-nav-menu__c-router-links');
+          wrapperEl.classList.add('c-nav-menu__c-router-links');
           wrapperEl.dataset.routerLinks = '';
           this.menuEl.appendChild(wrapperEl);
           this.routerLinkWrapperEl = wrapperEl;
@@ -77,12 +82,11 @@ export class NavMenu extends LitElement {
 
         <slot name="branding"></slot>
 
-        <nav class="c-c-nav-menu__links">
+        <nav class="c-nav-menu__links">
           <div
-            class="c-c-nav-menu__anchor-links"
+            class="c-nav-menu__anchor-links"
           >
             <slot name="link"></slot>
-
           </div>
         </nav>
     `;

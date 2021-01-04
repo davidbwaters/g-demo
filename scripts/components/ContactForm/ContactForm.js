@@ -20,26 +20,13 @@ export class Heading extends LitElement {
       h6 {
         color: var(--heading-color);
         display: block;
-        font-size: calc(var(--heading-size) * .75);
+        font-size: var(--heading-size);
         font-weight: var(--heading-weight);
         letter-spacing: -.015em;
         line-height: var(--heading-line-height);
         margin-bottom: .66em;
         margin-top: 0;
         text-align: var(--heading-text-align);
-      }
-
-      @media (min-width:45em) {
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-          font-size: var(--heading-size);
-        }
-
       }
 
       span {

@@ -11,8 +11,8 @@ export class FadeTransition extends LitElement {
         background-color: white;
         display: grid;
         height: var(--fade-transition-height);
-        padding-bottom: 12vw;
-        padding-top: 12vw;
+        padding-bottom: 6rem;
+        padding-top: 6rem;
         position: relative;
         width: 100%;
       }
@@ -21,7 +21,6 @@ export class FadeTransition extends LitElement {
         height: auto;
         left: 0;
         position: absolute;
-        top: 12vw;
         transition: opacity .25s;
         width: 100%;
         will-change: opacity;
@@ -61,7 +60,7 @@ export class FadeTransition extends LitElement {
       image.setAttribute('src', this.url + item.Frame.url);
       image.setAttribute('alt', item.Frame.caption);
       image.style.opacity = 'var(--fade-transition-' + count + ')';
-      this.shadowRoot.appendChild(image);
+      this.innerEl.appendChild(image);
       count++;
     });
 

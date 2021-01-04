@@ -23,11 +23,26 @@ export class HomePage extends LitElement {
     return css`
       :host {
         display: block;
-        font-size: 2rem;
-        line-height: 1.2;
+        font-size: calc(var(--text-size-large) * .66);
+        line-height: var(--line-height-text-large);
         min-height: 100%;
         position: relative;
         width: 100%;
+      }
+
+      @media (min-width:45em) {
+
+        font-size: calc(var(--text-size-large) * .8);
+
+      }
+
+
+      @media (min-width:60em) {
+
+        :host {
+          font-size: var(--text-size-large);
+        }
+
       }
 
       .c-hero-frame {
@@ -84,6 +99,8 @@ export class HomePage extends LitElement {
 
       .c-hero-frame__image {
         filter: url('#blur');
+        margin-left: auto;
+        margin-right: auto;
         opacity: var(--hero-image-opacity);
         transition: opacity .5s;
         width: 80%;
@@ -109,16 +126,23 @@ export class HomePage extends LitElement {
         padding-top: 6rem;
       }
 
-      @media (min-width:45em) {
+      @media (min-width:40em) {
 
         .c-hero-frame__text {
           font-weight: var(--font-bolder-weight);
           padding-bottom: 8rem;
-          padding-left: 5%;
-          padding-right: 5%;
+          padding-left: 10%;
+          padding-right: 10%;
           padding-top: 8rem;
         }
 
+      }
+
+      @media (min-width:60em) {
+        .c-hero-frame__text {
+          padding-left: 5%;
+          padding-right: 5%;
+        }
       }
 
       .c-exterior-section {
@@ -127,10 +151,9 @@ export class HomePage extends LitElement {
         display: grid;
         grid-template-columns: 90%;
         justify-content: center;
-        padding-bottom: 6rem;
-        padding-top: 6rem;
+        padding-bottom: 8rem;
+        padding-top: 8rem;
         row-gap: 1rem;
-        text-align: center;
       }
 
       .c-exterior-section__text {
@@ -315,7 +338,10 @@ export class HomePage extends LitElement {
           alt=${url + this.data.ExteriorImage.caption}
         />
         <div class="c-exterior-section__content">
-
+          <c-text-block
+            data=${JSON.stringify(this.data.ExteriorText)}
+          >
+          </c-text-block>
         </div>
       </div>
 
