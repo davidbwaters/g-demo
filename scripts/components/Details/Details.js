@@ -8,47 +8,48 @@ export class Details extends LitElement {
       :host {
         align-content: center;
         background-color: var(--color-subtle-light-6);
-        column-gap: 4rem;
+        column-gap: 1rem;
         display: grid;
-        font-size: calc(var(--text-size-normal) * .75);
+        font-size: calc(var(--text-size-normal) * 1);
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         justify-content: center;
-        padding-bottom: 4rem;
-        padding-top: 4rem;
-        row-gap: 4rem;
+        line-height: var(--line-height-title-normal-light);
+        row-gap: 2rem;
       }
 
       @media (min-width:60em) {
 
         :host {
-          font-size: var(--text-size-normal);
+          font-size: var(--text-size-small);
+          row-gap: 1rem;
         }
 
       }
 
       .c-details__item {
+        align-content: flex-start;
         align-items: center;
         border-bottom: solid 0px var(--color-subtle-light-5);
         display: grid;
-        row-gap: 1.5rem;
+        row-gap: 1.25rem;
         text-align: center;
       }
 
       .c-details__item-image {
         background-color: white;
-        border: solid 3px var(--color-subtle-light-5);
+        border: solid 2px var(--color-subtle-light-5);
         border-radius: 10rem;
         margin-left: auto;
         margin-right: auto;
         height: auto;
-        width: 8rem;
+        width: 6rem;
       }
 
       @media (min-width:60em) {
 
         .c-details__item-image {
-          width: 10rem;
+          width: 6rem;
         }
 
       }

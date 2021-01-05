@@ -28,7 +28,7 @@ export class NavMenu extends LitElement {
         z-index: 1;
       }
 
-      @media (min-width:45em) {
+      @media (min-width:40em) {
         :host {
           padding-left: 1.25rem;
           padding-right: 1.25rem;

@@ -51,6 +51,14 @@ export class RevealSection extends LitElement {
         top: 100vh;
       }
 
+      @media (min-width:40em) {
+
+        .c-reveal-section__content-lower {
+          grid-template-columns: 80%;
+        }
+
+      }
+
       .c-reveal-section__content-lower::before {
         background-image:
           var(--reveal-section-lower-bg-image);
@@ -88,6 +96,7 @@ export class RevealSection extends LitElement {
       }
 
       .c-reveal-section__text {
+        max-width: 60rem;
         opacity: var(--reveal-section-text-opacity);
         transition: opacity 1s ease-in;
         will-change: opacity;

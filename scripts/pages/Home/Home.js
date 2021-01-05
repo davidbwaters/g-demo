@@ -52,21 +52,36 @@ export class HomePage extends LitElement {
         justify-content: center;
         margin-left: auto;
         margin-right: auto;
-        padding-top: calc(6rem + 3rem);
-        row-gap: 0rem;
+        padding-top: calc(4rem + 3rem);
+        padding-bottom: 4rem;
+        row-gap: 4rem;
         text-align: left;
+
         width: 100%;
+        will-change: opacity;
       }
 
-      @media (min-width:45em) {
+      @media (min-width:40em) {
 
         .c-hero-frame__content {
           align-content: center;
           display: grid;
           grid-template-rows: min-content min-content;
+          padding-bottom: 6rem;
           padding-left: 0;
           padding-right: 0;
+          padding-top: calc(5rem + 3rem);
+          row-gap: 0rem;
           width: 100%;
+        }
+
+      }
+
+      @media (min-width:60em) {
+
+        .c-hero-frame__content {
+          padding-bottom: 8rem;
+          row-gap: 0rem;
         }
 
       }
@@ -74,12 +89,15 @@ export class HomePage extends LitElement {
       .c-hero-frame__branding {
         margin-left: auto;
         margin-right: auto;
-        max-width: 35rem;
-        padding-left: 10%;
-        padding-right: 10%;
+        opacity: var(--loader-fade-in-opacity);
+        padding-left: 0%;
+        padding-right: 15%;
+        transition:
+          opacity var(--loader-fade-in-transition);
+        will-change: opacity;
       }
 
-      @media (min-width:45em) {
+      @media (min-width:40em) {
 
         .c-hero-frame__branding {
           max-width: none;
@@ -101,7 +119,7 @@ export class HomePage extends LitElement {
         will-change: opacity;
       }
 
-      @media (min-width:45em) {
+      @media (min-width:40em) {
 
         .c-hero-frame__image {
           margin-top: -2rem;
@@ -116,10 +134,8 @@ export class HomePage extends LitElement {
         margin-left: auto;
         margin-right: auto;
         max-width: 60rem;
-        padding-bottom: 6rem;
         padding-left: 5%;
         padding-right: 5%;
-        padding-top: 6rem;
         text-align: center;
       }
 
@@ -127,24 +143,35 @@ export class HomePage extends LitElement {
 
         .c-hero-frame__text {
           font-weight: var(--font-bolder-weight);
-          padding-bottom: 8rem;
-          padding-left: 15%;
-          padding-right: 15%;
-          padding-top: 8rem;
+          padding-left: 10%;
+          padding-right: 10%;
+          padding-top: 3rem;
         }
 
       }
 
       @media (min-width:60em) {
         .c-hero-frame__text {
-          padding-left: 5%;
-          padding-right: 5%;
+          padding-left: 10%;
+          padding-right: 10%;
         }
+      }
+
+      .c-hero-frame__text c-text-block {
+        margin-bottom: .5rem;
+      }
+
+      @media (min-width:40em) {
+
+        .c-hero-frame__text c-text-block {
+          margin-bottom: .75rem;
+        }
+
       }
 
       .c-exterior-section {
         align-content: center;
-        background-color: var(--color-subtle-light-6);
+        background-color: var(--color-subtle-light-5);
         display: grid;
         grid-template-columns: 80%;
         justify-content: center;
@@ -153,23 +180,48 @@ export class HomePage extends LitElement {
         row-gap: 1rem;
       }
 
+      @media (min-width:60em) {
+
+        .c-exterior-section__content {
+
+        }
+      }
+
       .c-exterior-section__content {
-        align-content: center;
+        align-items: start;
+        column-gap: 4rem;
         display: grid;
+        grid-template-columns: 1fr;
         justify-content: center;
         margin-left: auto;
         margin-right: auto;
+        max-width: 60rem;
         padding-top: 4rem;
-        row-gap: 2rem;
+        row-gap: 4rem;
+      }
+
+      @media (min-width:40em) {
+
+        .c-exterior-section__content {
+        }
+
+      }
+
+      @media (min-width:60em) {
+
+        .c-exterior-section__content {
+          align-items: start;
+          column-gap: 2rem;
+          display: grid;
+          grid-template-columns: 3fr 2fr;
+        }
+
       }
 
       .c-exterior-section__text {
+        margin-bottom:
         margin-left: auto;
         margin-right: auto;
-      }
-
-      .c-exterior-section__details {
-
       }
 
       .c-filters {
@@ -294,7 +346,6 @@ export class HomePage extends LitElement {
               content=${this.data.HeroText}
               backgroundColor='transparent'
               isFlush=true
-              class="u-margin-bottom-2"
             >
             </c-text-block>
             <div class="u-text-title">
@@ -317,7 +368,7 @@ export class HomePage extends LitElement {
       <c-scale-section
         data=${JSON.stringify(this.data.ScaleSection1)}
         small=true
-        textAlign=left
+        headingTextAlign=left
       >
       </c-scale-section>
       <c-text-block

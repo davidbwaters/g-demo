@@ -52,7 +52,7 @@ export class FadeTransition extends LitElement {
     this.url = 'https://admin.guntherwerks.info';
     let count = 1;
     const firstFrame = this.data[0].Frame;
-    this.shadowRoot.host.style.setProperty('--fade-transition-height', 100 * firstFrame.height / firstFrame.width + 24 + 'vw');
+    this.shadowRoot.host.style.setProperty('--fade-transition-height', 100 * firstFrame.height / firstFrame.width + 12 + 'vw');
     this.data.forEach(item => {
       this.shadowRoot.host.style.setProperty('--fade-transition-' + count, 0.1);
       const image = document.createElement('img');

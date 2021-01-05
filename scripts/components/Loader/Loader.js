@@ -99,9 +99,13 @@ export class Loader extends LitElement {
   updated(changedProperties) {
     if (this.loaded === true) {
       this.shadowRoot.host.style.opacity = 0;
+      document.body.style.setProperty('--loader-fade-in-opacity', '0');
+      document.body.style.setProperty('--loader-fade-in-transition', '0');
       setTimeout(() => {
         document.body.style.position = '';
         this.shadowRoot.host.style.display = 'none';
+        document.body.style.setProperty('--loader-fade-in-transition', '1s');
+        document.body.style.setProperty('--loader-fade-in-opacity', '1');
       }, 500);
     }
   }

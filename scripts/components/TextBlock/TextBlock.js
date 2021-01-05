@@ -10,7 +10,7 @@ export class TextBlock extends LitElement {
         background-color: var(--text-block-bg-color);
         color: var(--text-block-color);
         display: grid;
-        font-size: var(--text-block-size);
+        font-size: calc(var(--text-block-size) * .85);
         font-weight: var(--text-block-weight);
         grid-template-columns: var(--text-block-width);
         justify-content: center;
@@ -19,16 +19,32 @@ export class TextBlock extends LitElement {
         padding-top: var(--text-block-padding-y);
       }
 
-      span {
-        color: var(--text-block-span-color);
+      @media (min-width:40em) {
+
+        :host {
+          font-size: calc(var(--text-block-size) * 1);
+        }
+
+      }
+
+      @media (min-width:60em) {
+
+        :host {
+          font-size: var(--text-block-size);
+        }
+
       }
 
       p {
-        max-width: 1080px;
+        max-width: 60rem;
         margin-bottom: 1em;
         margin-left: auto;
         margin-right: auto;
         margin-top: 0;
+      }
+
+      span {
+        color: var(--text-block-span-color);
       }
 
     `;
@@ -78,7 +94,7 @@ export class TextBlock extends LitElement {
       this.content = this.data.Content;
     }
 
-    this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-text' + this.size.toLowerCase() + ')');
+    this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-' + this.size.toLowerCase() + ')');
 
     if (this.isFlush) {
       this.shadowRoot.host.style.setProperty('--text-block-padding-y', '0rem');

@@ -119,6 +119,18 @@ export class AngleSection extends LitElement {
         }
       },
       inside: (instance, percentage, props) => {
+        if (percentage > 5) {
+          if (this._isScrolledLess !== true) {
+            this._isScrolledLess = true;
+            document.body.style.setProperty('--loader-fade-in-opacity', '.2');
+          }
+        } else {
+          if (this._isScrolledLess !== false) {
+            this._isScrolledLess = false;
+            document.body.style.setProperty('--loader-fade-in-opacity', '.99');
+          }
+        }
+
         if (percentage > 50) {
           if (this._isScrolled !== true) {
             this._isScrolled = true;
@@ -131,7 +143,7 @@ export class AngleSection extends LitElement {
           }
         }
 
-        if (percentage > 80) {
+        if (percentage > 50) {
           if (this._isScrolledMore !== true) {
             this._isScrolledMore = true;
             document.documentElement.style.setProperty('--hero-image-opacity', 0.1);

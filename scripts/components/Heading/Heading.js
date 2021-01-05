@@ -12,12 +12,7 @@ export class Heading extends LitElement {
         font-weight: var(--heading-weight);
       }
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
+      .c-heading__text {
         color: var(--heading-color);
         display: block;
         font-size: calc(var(--heading-size) * .75);
@@ -25,18 +20,24 @@ export class Heading extends LitElement {
         letter-spacing: -.015em;
         line-height: var(--heading-line-height);
         margin-bottom: .5em;
+        margin-left: auto;
+        margin-right: auto;
         margin-top: 0;
+        max-width: 60rem;
         text-align: var(--heading-text-align);
       }
 
-      @media (min-width:45em) {
+      @media (min-width:40em) {
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
+        .c-heading__text {
+          font-size: calc(var(--heading-size) * .85);
+        }
+
+      }
+
+      @media (min-width:60em) {
+
+        .c-heading__text {
           font-size: var(--heading-size);
         }
 
@@ -64,8 +65,11 @@ export class Heading extends LitElement {
       size: {
         type: String
       },
-      weight: {
-        type: String
+      isBold: {
+        type: Boolean
+      },
+      lighterColor: {
+        type: Boolean
       },
       color: {
         type: String
@@ -84,17 +88,23 @@ export class Heading extends LitElement {
     this.text = this.innerHTML;
     this.textAlign = 'center';
     this.size = 'Huge';
-    this.weight = 'Bold';
+    this.isBold = true;
+    this.lighterColor = false;
     this.element = 'h3';
+    this.weight = 'bold';
   }
 
   firstUpdated() {
     if (this.data) {
       this.text = this.data.Text;
       this.size = this.data.Size;
+      console.log(this.data.BoldFont);
 
-      if (this.data.Weight) {
-        this.weight = this.data.Weight;
+      if (this.data.BoldFont === 'true' || this.data.BoldFont === true) {
+        console.log('boldtrue');
+        this.weight = 'bold';
+      } else {
+        this.weight = 'light';
       }
 
       if (this.data.TextAlign) {
@@ -107,6 +117,7 @@ export class Heading extends LitElement {
     }
 
     const headingEl = document.createElement(this.element);
+    headingEl.classList.add('c-heading__text');
     headingEl.innerHTML = this.text;
     this.shadowRoot.appendChild(headingEl);
     this.shadowRoot.host.style.setProperty('--heading-size', 'var(--text-size-heading-' + this.size.toLowerCase() + ')');

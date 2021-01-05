@@ -9,7 +9,7 @@ export class HeadingSection extends LitElement {
         align-content: center;
         background-color: var(--heading-section-bg-color);
         display: grid;
-        grid-template-columns: 66%;
+        grid-template-columns: 80%;
         justify-content: center;
         padding-bottom: 6rem;
         padding-top: 8rem;

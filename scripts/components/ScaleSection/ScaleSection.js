@@ -16,6 +16,7 @@ export class ScaleSection extends LitElement {
         align-content: center;
         background-color: var(--scale-section-bg-color);
         display: grid;
+        grid-template-columns: 1fr;
         grid-template-rows: 1fr;
         justify-content: center;
         min-height: 90vh;
@@ -47,6 +48,7 @@ export class ScaleSection extends LitElement {
       .c-scale-section__content {
         align-content: center;
         display: grid;
+        grid-template-columns: 1fr;
         justify-content: center;
         row-gap: 2rem;
       }
@@ -59,6 +61,12 @@ export class ScaleSection extends LitElement {
       }
 
       @media (min-width:40em) {
+        .c-scale-section__heading {
+          width: 80%;
+        }
+      }
+
+      @media (min-width:60em) {
         .c-scale-section__heading {
           width: 80%;
         }
@@ -105,7 +113,10 @@ export class ScaleSection extends LitElement {
       headingText: {
         type: String
       },
-      headingWeight: {
+      headingTextAlign: {
+        type: String
+      },
+      headingBoldFont: {
         type: String
       },
       imageAsBackground: {
@@ -119,9 +130,6 @@ export class ScaleSection extends LitElement {
       },
       small: {
         type: Boolean
-      },
-      textAlign: {
-        type: String
       }
     };
   }
@@ -131,6 +139,7 @@ export class ScaleSection extends LitElement {
     this._headingData = {
       'Text': ''
     };
+    this.textAlign = 'center';
   }
 
   firstUpdated() {
@@ -145,10 +154,10 @@ export class ScaleSection extends LitElement {
       this.image = this.data.Image;
       this.headingText = this.data.HeadingText;
       this.headingSize = this.data.HeadingSize;
-      this.headingWeight = this.data.HeadingWeight;
+      this.headingBoldFont = this.data.HeadingBoldFont;
 
       if (this.data.TextAlign) {
-        this.textAlign = this.data.TextAlign;
+        this.textAlign = this.data.HeadingTextAlign;
       }
     }
 
@@ -166,10 +175,10 @@ export class ScaleSection extends LitElement {
 
     this.url = 'https://admin.guntherwerks.info';
     this._headingData = {
-      'Text': this.data.HeadingText,
-      'Size': this.data.HeadingSize,
-      'Weight': this.headingWeight,
-      'TextAlign': this.textAlign
+      'Text': this.headingText,
+      'Size': this.headingSize,
+      'BoldFont': this.headingBoldFont,
+      'TextAlign': this.headingTextAlign
     };
     this._headingEl = document.createElement('c-heading');
 
