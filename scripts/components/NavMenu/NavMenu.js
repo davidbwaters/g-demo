@@ -13,7 +13,7 @@ export class NavMenu extends LitElement {
         box-sizing: border-box;
         color: white;
         display: grid;
-        font-size: var(--text-size-small);
+        font-size: var(--text-size-normal);
         grid-column-gap: 1rem;
         grid-template-columns: min-content min-content;
         grid-template-rows: 1rem;

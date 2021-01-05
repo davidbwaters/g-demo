@@ -13,9 +13,11 @@ import { SlantTitle } from '../components/SlantTitle/SlantTitle.js';
 import { MotionBlur } from '../components/MotionBlur/MotionBlur.js';
 import { FadeTransition } from '../components/FadeTransition/FadeTransition.js';
 import { Loader } from '../components/Loader/Loader.js';
+import { Details } from '../components/Details/Details.js';
 import { Heading } from '../components/Heading/Heading.js';
 import { HeadingSection } from '../components/HeadingSection/HeadingSection.js';
 import { TextBlock } from '../components/TextBlock/TextBlock.js';
+import { RevealSection } from '../components/RevealSection/RevealSection.js';
 customElements.define('c-router-app', Router);
 customElements.define('c-router-link', RouterLink);
 customElements.define('c-home-page', HomePage);
@@ -30,6 +32,8 @@ customElements.define('c-text-block', TextBlock);
 customElements.define('c-scale-section', ScaleSection);
 customElements.define('c-fade-transition', FadeTransition);
 customElements.define('c-loader', Loader);
+customElements.define('c-details', Details);
+customElements.define('c-reveal-section', RevealSection);
 render(html`
     <c-router-app></c-router-app>
   `, document.body);

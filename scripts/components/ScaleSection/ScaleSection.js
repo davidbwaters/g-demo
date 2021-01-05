@@ -157,7 +157,8 @@ export class ScaleSection extends LitElement {
     this.url = 'https://admin.guntherwerks.info';
     this._headingData = {
       'Text': this.data.HeadingText,
-      'Size': this.data.HeadingSize
+      'Size': this.data.HeadingSize,
+      'Weight': this.data.HeadingWeight
     };
     this._headingEl = document.createElement('c-heading');
 
@@ -197,7 +198,6 @@ export class ScaleSection extends LitElement {
     } else {
       this._startSize = this.startPercentage + '%';
       this._endSize = this.endPercentage + '%';
-      console.log('ss');
 
       this._setSizes();
 
@@ -263,7 +263,6 @@ export class ScaleSection extends LitElement {
     this._rect = this.getBoundingClientRect();
     this._elRatio = this._rect.width / this._rect.height;
     this._imgRatio = this.data.Image.width / this.data.Image.height;
-    console.log(this._imgRatio);
 
     if (this._elRatio > this._imgRatio) {
       this.shadowRoot.host.style.setProperty('--scale-section-width', 'var(--scale-section-size)');

@@ -102,7 +102,7 @@ export class AngleSection extends LitElement {
     this._scrollInstance = basicScroll.create({
       elem: this._scrollEl,
       from: 'top-top',
-      to: 'middle-top',
+      to: 'bottom-top',
       direct: this,
       props: {
         '--angle-section-angle': {
@@ -134,7 +134,7 @@ export class AngleSection extends LitElement {
         if (percentage > 80) {
           if (this._isScrolledMore !== true) {
             this._isScrolledMore = true;
-            document.documentElement.style.setProperty('--hero-image-opacity', 0.2);
+            document.documentElement.style.setProperty('--hero-image-opacity', 0.1);
           }
         } else {
           if (this._isScrolledMore !== false) {

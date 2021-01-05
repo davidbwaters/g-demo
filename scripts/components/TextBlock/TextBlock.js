@@ -14,7 +14,7 @@ export class TextBlock extends LitElement {
         font-weight: var(--text-block-weight);
         grid-template-columns: var(--text-block-width);
         justify-content: center;
-        line-height: 1.2;
+        line-height: var(--line-height-text-normal);
         padding-bottom: var(--text-block-padding-y);
         padding-top: var(--text-block-padding-y);
       }
@@ -64,7 +64,7 @@ export class TextBlock extends LitElement {
   constructor() {
     super();
     this.size = 'Normal';
-    this.isBold = true;
+    this.isBold = false;
     this.isFlush = false;
   }
 
@@ -90,6 +90,8 @@ export class TextBlock extends LitElement {
 
     if (this.isBold) {
       this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-bolder-weight)');
+    } else {
+      this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-lighter-weight)');
     }
 
     if (this.lighterColor) {
@@ -111,15 +113,11 @@ export class TextBlock extends LitElement {
     this.content = JSON.stringify(this.content);
 
     if (this.content.slice(0, 1) === '[') {
-      console.log(JSON.stringify(this.content));
       this._content = JSON.parse(this.content);
-      console.log('a' + this._content);
 
       this._content.forEach(content => {
-        console.log(this);
         const paragraphEl = document.createElement('p');
         paragraphEl.innerHTML = content.Paragraph;
-        console.log(paragraphEl);
         contentEl.appendChild(paragraphEl);
       });
     } else {

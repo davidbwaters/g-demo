@@ -23,24 +23,18 @@ export class HomePage extends LitElement {
     return css`
       :host {
         display: block;
-        font-size: calc(var(--text-size-large) * .66);
-        line-height: var(--line-height-text-large);
+        font-size: calc(var(--text-size-normal) * .9);
+        line-height: var(--line-height-text-normal);
         min-height: 100%;
         position: relative;
         width: 100%;
       }
 
-      @media (min-width:45em) {
 
-        font-size: calc(var(--text-size-large) * .8);
-
-      }
-
-
-      @media (min-width:60em) {
+      @media (min-width:40em) {
 
         :host {
-          font-size: var(--text-size-large);
+          font-size: var(--text-size-normal);
         }
 
       }
@@ -59,7 +53,7 @@ export class HomePage extends LitElement {
         margin-left: auto;
         margin-right: auto;
         padding-top: calc(6rem + 3rem);
-        row-gap: 4rem;
+        row-gap: 0rem;
         text-align: left;
         width: 100%;
       }
@@ -110,20 +104,23 @@ export class HomePage extends LitElement {
       @media (min-width:45em) {
 
         .c-hero-frame__image {
+          margin-top: -2rem;
           max-width: none;
-          padding-left: 20%;
+          padding-left: 33%;
           width: 100%;
         }
 
       }
 
       .c-hero-frame__text {
-        background-color: var(--color-subtle-light-6);
-        color: var(--color-subtle-dark-3);
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 60rem;
         padding-bottom: 6rem;
         padding-left: 5%;
         padding-right: 5%;
         padding-top: 6rem;
+        text-align: center;
       }
 
       @media (min-width:40em) {
@@ -131,8 +128,8 @@ export class HomePage extends LitElement {
         .c-hero-frame__text {
           font-weight: var(--font-bolder-weight);
           padding-bottom: 8rem;
-          padding-left: 10%;
-          padding-right: 10%;
+          padding-left: 15%;
+          padding-right: 15%;
           padding-top: 8rem;
         }
 
@@ -149,17 +146,30 @@ export class HomePage extends LitElement {
         align-content: center;
         background-color: var(--color-subtle-light-6);
         display: grid;
-        grid-template-columns: 90%;
+        grid-template-columns: 80%;
         justify-content: center;
         padding-bottom: 8rem;
         padding-top: 8rem;
         row-gap: 1rem;
       }
 
+      .c-exterior-section__content {
+        align-content: center;
+        display: grid;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 4rem;
+        row-gap: 2rem;
+      }
+
       .c-exterior-section__text {
         margin-left: auto;
         margin-right: auto;
-        width: 66%;
+      }
+
+      .c-exterior-section__details {
+
       }
 
       .c-filters {
@@ -276,7 +286,8 @@ export class HomePage extends LitElement {
           >
             <c-heading
               text = ${this.data.HeroHeading}
-              textAlign = 'left'
+              textAlign = 'center'
+              weight = 'normal'
             >
             </c-heading>
             <c-text-block
@@ -295,18 +306,17 @@ export class HomePage extends LitElement {
         >
         </c-angle-section>
       </section>
+      <c-reveal-section
+        data=${JSON.stringify(this.data.RevealSection1)}
+      >
+      </c-reveal-section>
       <c-scale-section
         data=${JSON.stringify(this.data.ScaleSection1)}
-        backgroundColor = "gray"
-      >
-      </c-scale-section>
-      <c-scale-section
-        data=${JSON.stringify(this.data.ScaleSection2)}
         small=true
       >
       </c-scale-section>
       <c-scale-section
-        data=${JSON.stringify(this.data.ScaleSection3)}
+        data=${JSON.stringify(this.data.ScaleSection2)}
       >
       </c-scale-section>
       <c-text-block
@@ -324,7 +334,7 @@ export class HomePage extends LitElement {
       >
       </c-heading-section>
       <c-scale-section
-        data=${JSON.stringify(this.data.ScaleSection4)}
+        data=${JSON.stringify(this.data.ScaleSection3)}
       >
       </c-scale-section>
 
@@ -340,8 +350,14 @@ export class HomePage extends LitElement {
         <div class="c-exterior-section__content">
           <c-text-block
             data=${JSON.stringify(this.data.ExteriorText)}
+            isFlush=true
           >
           </c-text-block>
+          <c-details
+            data=${JSON.stringify(this.data.ExteriorDetails)}
+            class="c-exterior-section__details"
+          >
+          </c-details>
         </div>
       </div>
 

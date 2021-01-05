@@ -102,6 +102,10 @@ export class Heading extends LitElement {
       }
     }
 
+    if (this.weight.toLowerCase() === 'normal') {
+      this.weight = 'light';
+    }
+
     const headingEl = document.createElement(this.element);
     headingEl.innerHTML = this.text;
     this.shadowRoot.appendChild(headingEl);

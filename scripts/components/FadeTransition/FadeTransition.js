@@ -99,7 +99,6 @@ export class FadeTransition extends LitElement {
       });
       count++;
     });
-    console.log(this._frameConfigs);
   }
 
   _scrollSetup() {
