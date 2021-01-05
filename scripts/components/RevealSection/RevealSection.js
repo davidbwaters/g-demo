@@ -26,7 +26,7 @@ export class RevealSection extends LitElement {
       }
 
       .c-reveal-section__content-upper,
-      .c-reveal-section__content-lower {
+      .c-reveal-section__content-lower::before {
         background-size: cover;
         background-position: center center;
         height: 100vh;
@@ -42,13 +42,23 @@ export class RevealSection extends LitElement {
 
       .c-reveal-section__content-lower {
         align-content: center;
-        background-image:
-          var(--reveal-section-lower-bg-image);
+        background-color: var(--color-subtle-dark-1);
+        height: 100vh;
         display: grid;
         grid-template-columns: 90%;
         justify-content: center;
         position: relative;
         top: 100vh;
+      }
+
+      .c-reveal-section__content-lower::before {
+        background-image:
+          var(--reveal-section-lower-bg-image);
+        content: '';
+        left: 0;
+        opacity: .85;
+        position: absolute;
+        top: 0;
       }
 
       .c-reveal-section__bars {
@@ -63,7 +73,7 @@ export class RevealSection extends LitElement {
         height: 100vh;
         position: absolute;
         transform: scaleX(var(--reveal-section-bar-size));
-        width: 30%;
+        width: 15%;
         will-change: transform;
       }
 
@@ -118,7 +128,7 @@ export class RevealSection extends LitElement {
         }
       },
       outside: (instance, percentage, props) => {
-        if (percentage > 140) {
+        if (percentage > 110) {
           if (this.hasScrolled !== true) {
             this.hasScrolled = true;
             this.shadowRoot.host.style.setProperty('--reveal-section-text-opacity', 0.99);
@@ -151,7 +161,7 @@ export class RevealSection extends LitElement {
         >
           <c-heading
             color='white'
-            size='large'
+            size='huge'
             class="c-reveal-section__text"
           >
           </c-heading>

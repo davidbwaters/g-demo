@@ -24,7 +24,7 @@ export class Heading extends LitElement {
         font-weight: var(--heading-weight);
         letter-spacing: -.015em;
         line-height: var(--heading-line-height);
-        margin-bottom: .66em;
+        margin-bottom: .5em;
         margin-top: 0;
         text-align: var(--heading-text-align);
       }
@@ -43,7 +43,7 @@ export class Heading extends LitElement {
       }
 
       span {
-        color: var(--heading-color)-span;
+        color: var(--heading-span-color);
       }
     `;
   }

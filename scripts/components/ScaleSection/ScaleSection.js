@@ -16,7 +16,6 @@ export class ScaleSection extends LitElement {
         align-content: center;
         background-color: var(--scale-section-bg-color);
         display: grid;
-        grid-template-columns: 90%;
         grid-template-rows: 1fr;
         justify-content: center;
         min-height: 90vh;
@@ -55,20 +54,20 @@ export class ScaleSection extends LitElement {
       .c-scale-section__heading {
         margin-left: auto;
         margin-right: auto;
-        width: 80%;
+        max-width: 60rem;
+        width: 90%;
       }
 
       @media (min-width:40em) {
         .c-scale-section__heading {
-          margin-left: auto;
-          margin-right: auto;
-          width: 66%;
+          width: 80%;
         }
       }
 
       .c-scale-section__image {
         display: block;
         filter: url(/#blur);
+        max-width: 60rem;
         transform: scale(var(--scale-section-size));
         will-change: transform;
       }
@@ -106,6 +105,9 @@ export class ScaleSection extends LitElement {
       headingText: {
         type: String
       },
+      headingWeight: {
+        type: String
+      },
       imageAsBackground: {
         type: String
       },
@@ -117,6 +119,9 @@ export class ScaleSection extends LitElement {
       },
       small: {
         type: Boolean
+      },
+      textAlign: {
+        type: String
       }
     };
   }
@@ -140,12 +145,17 @@ export class ScaleSection extends LitElement {
       this.image = this.data.Image;
       this.headingText = this.data.HeadingText;
       this.headingSize = this.data.HeadingSize;
+      this.headingWeight = this.data.HeadingWeight;
+
+      if (this.data.TextAlign) {
+        this.textAlign = this.data.TextAlign;
+      }
     }
 
     if (this.small === true) {
-      this.shadowRoot.host.style.setProperty('--scale-section-image-width', '80%');
+      this.shadowRoot.host.style.setProperty('--scale-section-image-width', '70%');
     } else {
-      this.shadowRoot.host.style.setProperty('--scale-section-image-width', '100%');
+      this.shadowRoot.host.style.setProperty('--scale-section-image-width', '90%');
     }
 
     if (this.backgroundColor === 'gray') {
@@ -158,7 +168,8 @@ export class ScaleSection extends LitElement {
     this._headingData = {
       'Text': this.data.HeadingText,
       'Size': this.data.HeadingSize,
-      'Weight': this.data.HeadingWeight
+      'Weight': this.headingWeight,
+      'TextAlign': this.textAlign
     };
     this._headingEl = document.createElement('c-heading');
 

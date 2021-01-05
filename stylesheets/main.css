@@ -2369,13 +2369,16 @@ small {
   --line-height-heading-large: 1.1;
   --line-height-heading-huge: 1.1;
   --text-size-title-tiny: .625rem;
-  --text-size-title-normal: 1.2rem;
-  --text-size-title-stylized: 1.2rem;
+  --text-size-title-normal: 1.1rem;
+  --text-size-title-stylized: 1.1rem;
   --line-height-title-tiny: 1.2;
   --line-height-title-normal: 1.2;
   --line-height-title-stylized: 1;
+  --font-weight-title-tiny: bold;
+  --font-weight-title-normal: bold;
+  --font-weight-title-stylized: normal;
   --letter-spacing-title-tiny: .3em;
-  --letter-spacing-title-normal: 0em;
+  --letter-spacing-title-normal: .05em;
   --letter-spacing-title-stylized: .1em;
   --color-bg: white;
   --color-fg: hsla(220, 5%, 15%,1);
@@ -2841,18 +2844,31 @@ p {
 }
 
 .u-text-title {
-  font-family: var(--font-accent) !important;
-  font-size: 0.66rem !important;
-  font-weight: var(--font-accent-weight) !important;
-  line-height: 1.1 !important;
+  font-size: var(--text-size-title-normal) !important;
+  font-weight: var(--font-weight-title-normal) !important;
+  letter-spacing: var(--letter-spacing-title-normal) !important;
+  line-height: var(--line-height-title-normal) !important;
+}
+
+.u-text-title-tiny {
+  font-size: var(--text-size-title-tiny) !important;
+  font-weight: var(--font-weight-title-tiny) !important;
+  letter-spacing: var(--letter-spacing-title-tiny) !important;
+  line-height: var(--line-height-title-tiny) !important;
   text-transform: uppercase !important;
 }
 
-@media (min-width: 45em) {
-  .u-text-title {
-    font-size: 0.75rem !important;
-  }
+.u-text-title-stylized {
+  font-size: var(--text-size-title-stylized) !important;
+  font-weight: var(--font-weight-title-stylized) !important;
+  letter-spacing: var(--letter-spacing-title-stylized) !important;
+  line-height: var(--line-height-title-stylized) !important;
 }
+
+.u-text-uppercase {
+  text-transform: uppercase !important;
+}
+
 /* Wrapper Full */
 .u-wrapper-full {
   height: 100%;

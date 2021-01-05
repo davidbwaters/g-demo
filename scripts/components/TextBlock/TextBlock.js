@@ -25,7 +25,7 @@ export class TextBlock extends LitElement {
 
       p {
         max-width: 1080px;
-        margin-bottom: 0;
+        margin-bottom: 1em;
         margin-left: auto;
         margin-right: auto;
         margin-top: 0;

@@ -294,8 +294,12 @@ export class HomePage extends LitElement {
               content=${this.data.HeroText}
               backgroundColor='transparent'
               isFlush=true
+              class="u-margin-bottom-2"
             >
             </c-text-block>
+            <div class="u-text-title">
+              ${this.data.HeroSubHeading}
+            </div>
           </div>
 
 
@@ -313,15 +317,11 @@ export class HomePage extends LitElement {
       <c-scale-section
         data=${JSON.stringify(this.data.ScaleSection1)}
         small=true
-      >
-      </c-scale-section>
-      <c-scale-section
-        data=${JSON.stringify(this.data.ScaleSection2)}
+        textAlign=left
       >
       </c-scale-section>
       <c-text-block
         data=${JSON.stringify(this.data.TextBlock1)}
-        backgroundColor = "gray"
       >
       </c-text-block>
       <c-fade-transition
@@ -330,14 +330,13 @@ export class HomePage extends LitElement {
       </c-fade-transition>
       <c-heading-section
         data=${JSON.stringify(this.data.HeadingSection1)}
-        backgroundColor="gray"
       >
       </c-heading-section>
+
       <c-scale-section
-        data=${JSON.stringify(this.data.ScaleSection3)}
+        data=${JSON.stringify(this.data.ScaleSection2)}
       >
       </c-scale-section>
-
       <div class="c-exterior-section">
         <c-heading
           data=${JSON.stringify(this.data.ExteriorHeading)}
