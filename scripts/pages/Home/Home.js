@@ -337,9 +337,9 @@ export class HomePage extends LitElement {
             class="c-hero-frame__text"
           >
             <c-heading
-              text = ${this.data.HeroHeading}
-              textAlign = 'center'
-              weight = 'normal'
+              text=${this.data.HeroHeading}
+              textAlign='center'
+              weight=normal'
             >
             </c-heading>
             <c-text-block
@@ -400,6 +400,7 @@ export class HomePage extends LitElement {
         <div class="c-exterior-section__content">
           <c-text-block
             data=${JSON.stringify(this.data.ExteriorText)}
+            backgroundColor="transparent"
             isFlush=true
           >
           </c-text-block>
@@ -409,8 +410,12 @@ export class HomePage extends LitElement {
           >
           </c-details>
         </div>
-      </div>
 
+      </div>
+      <c-contact-form
+          data=${JSON.stringify(this.data.ContactForm)}
+        >
+      </c-contact-form>
 
       <svg
         xmlns="http://www.w3.org/2000/svg"

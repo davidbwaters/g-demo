@@ -7,7 +7,6 @@ export class Details extends LitElement {
     return css`
       :host {
         align-content: center;
-        background-color: var(--color-subtle-light-6);
         column-gap: 1rem;
         display: grid;
         font-size: calc(var(--text-size-normal) * 1);

@@ -52,12 +52,10 @@ export class Heading extends LitElement {
   static get properties() {
     return {
       data: {
-        type: Object,
-        attribue: true
+        type: Object
       },
       text: {
-        type: String,
-        attribute: true
+        type: String
       },
       textAlign: {
         type: String
@@ -85,7 +83,6 @@ export class Heading extends LitElement {
 
   constructor() {
     super();
-    this.text = this.innerHTML;
     this.textAlign = 'center';
     this.size = 'Huge';
     this.isBold = true;
@@ -98,10 +95,8 @@ export class Heading extends LitElement {
     if (this.data) {
       this.text = this.data.Text;
       this.size = this.data.Size;
-      console.log(this.data.BoldFont);
 
       if (this.data.BoldFont === 'true' || this.data.BoldFont === true) {
-        console.log('boldtrue');
         this.weight = 'bold';
       } else {
         this.weight = 'light';
@@ -110,6 +105,10 @@ export class Heading extends LitElement {
       if (this.data.TextAlign) {
         this.textAlign = this.data.TextAlign;
       }
+    }
+
+    if (this.text === 'undefined') {
+      this.text = this.innerHTML;
     }
 
     if (this.weight.toLowerCase() === 'normal') {
