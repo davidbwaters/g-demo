@@ -26,6 +26,8 @@ export class NavMenu extends LitElement {
         top: 0;
         width: 100%;
         z-index: 1;
+
+        --nav-menu-column-gap: 1rem;
       }
 
       @media (min-width:40em) {
@@ -35,12 +37,35 @@ export class NavMenu extends LitElement {
         }
       }
 
+      .c-nav-menu__links {
+        color: var(--color-subtle-light-4);
+        column-gap: var(--nav-menu-column-gap);
+        display: grid;
+        font-size: .8rem;
+        font-weight: var(--font-lighter-weight);
+        letter-spacing: .05em;
+        transition: color .25s;
+      }
+
+      .c-nav-menu__router-links,
+      .c-nav-menu__anchor-links {
+        column-gap: var(--nav-menu-column-gap);
+        display: grid;
+        grid-auto-flow: column;
+      }
+
+      c-router-link.is-active {
+        color: var(--color-subtle-light-6);
+      }
+
       a,
       a:visited {
         color: inherit;
-        font-family: var(--font-main);
-        font-weight: bold;
         text-decoration: none;
+      }
+
+      a:hover {
+        color: var(--color-subtle-light-5);
       }
 
       ::slotted(*) {
@@ -50,29 +75,54 @@ export class NavMenu extends LitElement {
     `;
   }
 
+  static get properties() {
+    return {
+      active: {
+        type: String,
+        reflect: true
+      }
+    };
+  }
+
   firstUpdated() {
     this.routes = routes;
     this.menuEl = this.shadowRoot.querySelector('.c-nav-menu__links');
 
     this._addRouterLinks();
+
+    this.routerLinkEls = this.shadowRoot.querySelectorAll('c-router-link');
   }
 
   _addRouterLinks() {
     this.routes.map(route => {
       if (route.navTitle && route.navLink) {
         const linkEl = document.createElement('c-router-link');
-        linkEl.setAttribute('route', route.navLink);
+        linkEl.setAttribute('href', route.navLink);
         linkEl.innerText = route.navTitle;
 
         if (!this.routerLinkWrapperEl) {
           const wrapperEl = document.createElement('div');
-          wrapperEl.classList.add('c-nav-menu__c-router-links');
+          wrapperEl.classList.add('c-nav-menu__router-links');
           wrapperEl.dataset.routerLinks = '';
           this.menuEl.appendChild(wrapperEl);
           this.routerLinkWrapperEl = wrapperEl;
         }
 
         this.routerLinkWrapperEl.appendChild(linkEl);
+      }
+    });
+  }
+
+  updated() {
+    this.routerLinkEls.forEach(el => {
+      if (el.href === this.active) {
+        if (!el.classList.contains('is-active')) {
+          el.classList.add('is-active');
+        }
+      } else {
+        if (el.classList.contains('is-active')) {
+          el.classList.remove('is-active');
+        }
       }
     });
   }
@@ -86,7 +136,6 @@ export class NavMenu extends LitElement {
           <div
             class="c-nav-menu__anchor-links"
           >
-            <slot name="link"></slot>
           </div>
         </nav>
     `;

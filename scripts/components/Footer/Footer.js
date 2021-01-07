@@ -1,15 +1,18 @@
 /*
- *  Scripts - Pages - Contact
+ *  Scripts - Components - Footer
  */
-import { LitElement, css, html } from '../../../modules/lit-element.js';
-export class ContactPage extends LitElement {
+import { LitElement, html, css } from '../../../modules/lit-element.js';
+export class Footer extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
-        height: 100%;
-        padding-top: var(--navbar-height);
-        width: 100%;
+        align-content: center;
+        background-color: var(--heading-section-bg-color);
+        display: grid;
+        grid-template-columns: 80%;
+        justify-content: center;
+        padding-bottom: 6rem;
+        padding-top: 8rem;
       }
     `;
   }
@@ -19,9 +22,8 @@ export class ContactPage extends LitElement {
       data: {
         type: Object
       },
-      loaded: {
-        type: Boolean,
-        reflect: true
+      backgroundColor: {
+        type: String
       }
     };
   }
@@ -32,33 +34,10 @@ export class ContactPage extends LitElement {
   }
 
   firstUpdated() {
-    this.url = 'https://admin.guntherwerks.info';
-
-    this._addStylesheet();
-
-    this._handleLoad = this._handleLoad.bind(this);
-
-    this._loadedCheck();
-
-    this.updateComplete.then(() => {
-      this._handleLoad();
-    });
-  }
-
-  _loadedCheck() {
-    this.loaded = true;
-  }
-
-  _handleLoad() {
-    if (this.loaded === true) {
-      this._transitionIn();
-
-      let load = new CustomEvent('routeLoad');
-      this.dispatchEvent(load);
+    if (this.backgroundColor === 'gray') {
+      this.shadowRoot.host.style.setProperty('--heading-section-bg-color', 'var(--color-subtle-light-5)');
     } else {
-      setTimeout(() => {
-        this._handleLoad();
-      }, 50);
+      this.shadowRoot.host.style.setProperty('--heading-section-bg-color', 'white');
     }
   }
 
@@ -80,10 +59,8 @@ export class ContactPage extends LitElement {
     this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], sheet];
   }
 
-  _transitionIn() {}
-
   async _getData() {
-    const response = await fetch(this.url + '/contact').then(res => res.json()).catch(err => console.error(err));
+    const response = await fetch(this.url + '/footer').then(res => res.json()).catch(err => console.error(err));
     return {
       statusCode: 200,
       body: response
@@ -100,9 +77,13 @@ export class ContactPage extends LitElement {
   }
 
   render() {
-    return html` <div>
-      <h1>This is Contact Page</h1>
-    </div>`;
+    return html`
+
+      <div
+        class="c-footer__content"
+      >
+
+    `;
   }
 
 }

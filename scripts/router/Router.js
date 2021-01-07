@@ -1,7 +1,7 @@
 /*
  *  Scripts - Router - Main
  */
-import { LitElement, html, css } from '../../modules/lit-element.js';
+import { LitElement, css } from '../../modules/lit-element.js';
 import { router } from '../../modules/lit-element-router.js';
 import { RouterOutlet } from './Outlet.js';
 import routes from '../config/routes.js';
@@ -17,77 +17,11 @@ export class Router extends router(LitElement) {
         z-index: 1;
       }
 
-      .c-logo-responsive {
-        align-content: center;
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 100%;
-        min-width: 2.5rem;
-        position: relative;
-      }
-
-      .c-logo-responsive::after {
-        background-image: var(--logo-small-dark);
-        background-repeat: no-repeat;
-        content: '';
-        display: block;
-        padding-bottom: calc(
-          100% * var(--logo-small-height) / var(--logo-small-width)
-        );
-        width: 100%;
-      }
-
-      @media (min-width:45em) {
-
-        .c-logo-responsive {
-          min-width: 4em;
-        }
-
-        .c-logo-responsive::after {
-          background-image: var(--logo-medium-dark);
-          padding-bottom: calc(
-            100% *
-            var(--logo-medium-height) / var(--logo-medium-width)
-          );
-        }
-
-      }
-
-      .c-logo-responsive--light::after {
-        background-image: var(--logo-small-light);
-      }
-
-      @media (min-width:45em) {
-
-        .c-logo-responsive--light::after {
-          background-image: var(--logo-medium-light);
-        }
-
-      }
-
-      .c-logo-responsive a {
-        height: 100%;
-        position: absolute;
-        width: 100%;
-      }
     `;
   }
 
-  static get properties() {
-    return routes;
-  }
-
   static get routes() {
-    return [{
-      name: 'home',
-      pattern: '*',
-      data: {
-        title: 'Home'
-      }
-    }, {
-      name: 'contact',
-      pattern: 'contact'
-    }];
+    return routes;
   }
 
   constructor() {
@@ -95,6 +29,7 @@ export class Router extends router(LitElement) {
     this.route = '';
     this.params = {};
     this.query = {};
+    this._handleLoad = this._handleLoad.bind(this);
   }
 
   router(route, params, query, data) {
@@ -107,54 +42,133 @@ export class Router extends router(LitElement) {
   connectedCallback() {
     super.connectedCallback();
 
+    this._addStylesheet();
+
+    this._getLinks();
+
+    this._setActiveRouteEl();
+
     this._addOutlet();
+
+    this.loaderEl.enable();
   }
 
-  _addOutlet() {
-    const links = routes.map(route => {
-      let link;
+  _addStylesheet() {
+    const docStyles = document.styleSheets[0];
+    const sheet = new CSSStyleSheet();
+    const rulesObjs = [...docStyles.rules];
+    let rules = [];
+    rulesObjs.forEach(rule => {
+      if (rule.type === 1) {
+        rules = rules.concat(rule.cssText);
+      }
+    });
+    rulesObjs.forEach(rule => {
+      if (rule.type === 1) {
+        sheet.insertRule(rule.cssText);
+      }
+    });
+    this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], sheet];
+  }
 
+  _getLinks() {
+    this.routeEls = routes.map(route => {
       if (route.component) {
         const el = document.createElement(route.component);
         el.setAttribute('route', route.name);
-
-        if (route.name === this.route) {
-          el.setAttribute('active', true);
-        }
-
-        link = el;
-      }
-
-      if (link) {
-        return link;
+        return el;
       }
     });
+  }
 
-    if (links.length) {
-      const navEl = document.createElement('c-nav-menu');
-      const linkEl = document.createElement('c-router-link');
-      const outletEl = document.createElement('c-router-outlet');
-      const loaderEl = document.createElement('c-loader');
-      linkEl.classList.add('c-logo-responsive');
-      linkEl.classList.add('c-logo-responsive--light');
-      linkEl.setAttribute('slot', 'branding');
-      outletEl.setAttribute('active-route', this.route);
-      navEl.appendChild(linkEl);
-      this.shadowRoot.appendChild(navEl);
-      this.shadowRoot.appendChild(outletEl);
-      this.shadowRoot.appendChild(loaderEl);
-      links.forEach(link => {
-        const isActive = link.getAttribute('active') === 'true';
+  _setActiveRouteEl() {
+    this.routeEls.forEach(el => {
+      const name = el.getAttribute('route');
 
-        if (isActive) {
-          link.addEventListener('load', () => {
-            loaderEl.setAttribute('loaded', true);
-          });
+      if (name === this.route) {
+        el.setAttribute('active', true);
+        this.activeRouteEl = el;
+      } else {
+        if (el.hasAttribute('active')) {
+          el.removeAttribute('active');
         }
+      }
+    });
+  }
 
-        outletEl.appendChild(link);
+  _addBranding() {
+    const linkEl = document.createElement('c-router-link');
+    linkEl.classList.add('c-logo-responsive');
+    linkEl.classList.add('c-logo-responsive--light');
+    linkEl.setAttribute('slot', 'branding');
+    linkEl.setAttribute('href', '/');
+    this.navEl.appendChild(linkEl);
+  }
+
+  _addOutlet() {
+    console.log(this.routeEls);
+
+    if (this.routeEls.length) {
+      this.navEl = document.createElement('c-nav-menu');
+
+      this._addBranding();
+
+      this.outletEl = document.createElement('c-router-outlet');
+      this.outletEl.setAttribute('active-route', this.route);
+      this.routeEls.forEach(el => {
+        this.outletEl.appendChild(el);
       });
+      this.footerEl = document.createElement('c-footer');
+      this.loaderEl = document.createElement('c-loader');
+      this.shadowRoot.appendChild(this.navEl);
+      this.shadowRoot.appendChild(this.outletEl);
+      this.shadowRoot.appendChild(this.footerEl);
+      this.shadowRoot.appendChild(this.loaderEl);
     }
+  }
+
+  _handleLoad(e) {
+    console.log('router loading ' + e);
+    console.log(this);
+    this.loaderEl.disable();
+    this.activeRouteEl.style.opacity = '1';
+    this.activeRouteEl.style.transition = 'opacity .5s';
+    this.outletEl.setAttribute('active-route', this.route);
+  }
+
+  _resize() {
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  updated() {
+    console.log('router-updated');
+
+    if (this.activeRouteEl) {
+      this.activeRouteEl.removeEventListener('routeLoad', this._handleLoad);
+    }
+
+    this._setActiveRouteEl();
+
+    this.activeRouteEl.style.opacity = '0';
+    this.activeRouteEl.style.transition = 'opacity .5s';
+
+    if (this.activeRouteEl.loaded !== true) {
+      this.activeRouteEl.addEventListener('routeLoad', this._handleLoad);
+    } else {
+      requestAnimationFrame(() => {
+        this.activeRouteEl.style.opacity = '1';
+      });
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          this.activeRouteEl._transitionIn();
+        });
+      }, 500);
+    }
+
+    this.outletEl.setAttribute('active-route', this.route);
+    this.navEl.setAttribute('active', '/' + this.route);
+
+    this._resize();
   }
 
 }

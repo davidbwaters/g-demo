@@ -12,6 +12,12 @@ export class Heading extends LitElement {
         font-weight: var(--heading-weight);
       }
 
+      *::selection {
+        background-color: var(--color-fg);
+        color: var(--color-bg);
+        -webkit-text-stroke-color: var(--color-bg);
+      }
+
       .c-heading__text {
         color: var(--heading-color);
         display: block;

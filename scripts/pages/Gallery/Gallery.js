@@ -1,8 +1,8 @@
 /*
- *  Scripts - Pages - Contact
+ *  Scripts - Pages - Gallery
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
-export class ContactPage extends LitElement {
+export class GalleryPage extends LitElement {
   static get styles() {
     return css`
       :host {
@@ -33,36 +33,31 @@ export class ContactPage extends LitElement {
 
   firstUpdated() {
     this.url = 'https://admin.guntherwerks.info';
-
-    this._addStylesheet();
-
-    this._handleLoad = this._handleLoad.bind(this);
-
-    this._loadedCheck();
-
+    this.addStylesheet();
+    this.handleLoad = this.handleLoad.bind(this);
+    this.loadedCheck();
     this.updateComplete.then(() => {
-      this._handleLoad();
+      this.handleLoad();
     });
   }
 
-  _loadedCheck() {
+  loadedCheck() {
     this.loaded = true;
   }
 
-  _handleLoad() {
+  handleLoad() {
     if (this.loaded === true) {
-      this._transitionIn();
-
+      this.transitionIn();
       let load = new CustomEvent('routeLoad');
       this.dispatchEvent(load);
     } else {
       setTimeout(() => {
-        this._handleLoad();
+        this.handleLoad();
       }, 50);
     }
   }
 
-  _addStylesheet() {
+  addStylesheet() {
     const docStyles = document.styleSheets[0];
     const sheet = new CSSStyleSheet();
     const rulesObjs = [...docStyles.rules];
@@ -80,10 +75,10 @@ export class ContactPage extends LitElement {
     this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], sheet];
   }
 
-  _transitionIn() {}
+  transitionIn() {}
 
   async _getData() {
-    const response = await fetch(this.url + '/contact').then(res => res.json()).catch(err => console.error(err));
+    const response = await fetch(this.url + '/galleries').then(res => res.json()).catch(err => console.error(err));
     return {
       statusCode: 200,
       body: response

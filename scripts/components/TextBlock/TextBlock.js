@@ -35,6 +35,12 @@ export class TextBlock extends LitElement {
 
       }
 
+      *::selection {
+        background-color: var(--color-fg);
+        color: var(--color-bg);
+        -webkit-text-stroke-color: var(--color-bg);
+      }
+
       p {
         max-width: 60rem;
         margin-bottom: 1em;

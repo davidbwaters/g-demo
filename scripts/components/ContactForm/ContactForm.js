@@ -149,6 +149,13 @@ export class ContactForm extends LitElement {
         outline: none;
       }
 
+      .c-contact-form__submit[disabled],
+      .c-contact-form__submit[disabled]:hover {
+        background-blend-mode: normal;
+        cursor: not-allowed;
+        opacity: .5;
+      }
+
       .c-contact-form__success {
         font-size: 2rem;
         opacity: 0;
@@ -199,9 +206,9 @@ export class ContactForm extends LitElement {
     this.url = 'https://admin.guntherwerks.info/inquiries';
     this._formWrapperEl = this.shadowRoot.querySelector('.c-contact-form__form-wrapper');
     this._textAreaEl = this.shadowRoot.querySelector('textarea');
+    this._submitEl = this.shadowRoot.querySelector('[type="submit"]');
+    this._isValid = {};
     this.shadowRoot.addEventListener('input', e => {
-      console.log(this);
-
       if (e.target === this._textAreaEl) {
         this._autoExpand(this._textAreaEl, '--contact-form-message-height');
       }
@@ -209,14 +216,38 @@ export class ContactForm extends LitElement {
       if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'textarea') {
         this._filledCheck(e.target);
       }
+
+      if (this._isValid['Name'] && this._isValid['Email'] && this._isValid['Message']) {
+        this._submitEl.disabled = false;
+      } else {
+        this._submitEl.disabled = true;
+      }
     });
   }
 
   _filledCheck(target) {
+    const name = target.getAttribute('name');
+    const isEmail = name === 'Email';
+
     if (target.value.length > 0) {
       target.parentElement.querySelector('label').style.transform = 'var(--contact-form-field-transform)';
+
+      if (!isEmail) {
+        this._isValid[name] = true;
+      } else {
+        this._validateEmail(target);
+      }
     } else {
       target.parentElement.querySelector('label').style.transform = '';
+      this._isValid[name] = false;
+    }
+  }
+
+  _validateEmail(target) {
+    const input = target.value;
+
+    if (input && /(^\w.*@\w+\.\w)/.test(input)) {
+      this._isValid['Email'] = true;
     }
   }
 
@@ -346,14 +377,13 @@ export class ContactForm extends LitElement {
             </label>
           </div>
 
-
           <input
             type="submit"
             value="Submit"
+            disabled=true
             id="submit"
             class="c-contact-form__submit"
           >
-
         </form>
         <div class="c-contact-form__success">
           Success! Message sent.

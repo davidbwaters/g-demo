@@ -3,21 +3,6 @@
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
 import { motionBlur } from '../../utils/motionBlur.js';
-const url = 'https://admin.guntherwerks.info';
-
-async function getData() {
-  const response = await fetch(url + '/home').then(res => res.json()).catch(err => console.error(err));
-  return {
-    statusCode: 200,
-    body: response
-  };
-}
-
-async function load() {
-  await this.requestUpdate();
-  console.log('...loaded');
-}
-
 export class HomePage extends LitElement {
   static get styles() {
     return css`
@@ -37,6 +22,12 @@ export class HomePage extends LitElement {
           font-size: var(--text-size-normal);
         }
 
+      }
+
+      *::selection {
+        background-color: var(--color-fg);
+        color: var(--color-bg);
+        -webkit-text-stroke-color: var(--color-bg);
       }
 
       .c-hero-frame {
@@ -91,7 +82,7 @@ export class HomePage extends LitElement {
         margin-right: auto;
         opacity: var(--loader-fade-in-opacity);
         padding-left: 0%;
-        padding-right: 15%;
+        padding-right: 0%;
         transition:
           opacity var(--loader-fade-in-transition);
         will-change: opacity;
@@ -164,7 +155,7 @@ export class HomePage extends LitElement {
       @media (min-width:40em) {
 
         .c-hero-frame__text c-text-block {
-          margin-bottom: .75rem;
+          margin-bottom: .5rem;
         }
 
       }
@@ -180,12 +171,6 @@ export class HomePage extends LitElement {
         row-gap: 1rem;
       }
 
-      @media (min-width:60em) {
-
-        .c-exterior-section__content {
-
-        }
-      }
 
       .c-exterior-section__content {
         align-items: start;
@@ -200,18 +185,11 @@ export class HomePage extends LitElement {
         row-gap: 4rem;
       }
 
-      @media (min-width:40em) {
-
-        .c-exterior-section__content {
-        }
-
-      }
-
       @media (min-width:60em) {
 
         .c-exterior-section__content {
           align-items: start;
-          column-gap: 2rem;
+          column-gap: 3rem;
           display: grid;
           grid-template-columns: 3fr 2fr;
         }
@@ -219,7 +197,6 @@ export class HomePage extends LitElement {
       }
 
       .c-exterior-section__text {
-        margin-bottom:
         margin-left: auto;
         margin-right: auto;
       }
@@ -253,14 +230,34 @@ export class HomePage extends LitElement {
     return {
       data: {
         type: Object
+      },
+      loaded: {
+        type: Boolean,
+        reflect: true
       }
     };
   }
 
+  constructor() {
+    super();
+    this.url = 'https://admin.guntherwerks.info';
+  }
+
   firstUpdated() {
-    this.shadowRoot.querySelector('.c-hero-frame__image').addEventListener('load', () => {
-      this._loadReady = true;
+    this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-home-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
+
+    this._addStylesheet();
+
+    this._handleLoad = this._handleLoad.bind(this);
+
+    this._loadedCheck();
+
+    this.updateComplete.then(() => {
+      this._handleLoad();
     });
+  }
+
+  _addStylesheet() {
     const docStyles = document.styleSheets[0];
     const sheet = new CSSStyleSheet();
     const rulesObjs = [...docStyles.rules];
@@ -272,45 +269,56 @@ export class HomePage extends LitElement {
     });
     rulesObjs.forEach(rule => {
       if (rule.type === 1) {
-        //console.log(rule.cssText)
         sheet.insertRule(rule.cssText);
       }
-    }); //console.log(sheet)
-
-    this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], sheet];
-
-    const handleLoad = () => {
-      if (this._loadReady === true) {
-        let load = new Event('load');
-        this.dispatchEvent(load);
-        setTimeout(() => {
-          this._blurAnimation();
-        }, 500);
-      } else {
-        setTimeout(() => {
-          handleLoad();
-        }, 50);
-      }
-    };
-
-    this.updateComplete.then(() => {
-      handleLoad();
-      console.log('complete');
     });
+    this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], sheet];
+  }
+
+  _loadedCheck() {
+    this.shadowRoot.querySelector('.c-hero-frame__image').addEventListener('load', () => {
+      this.loaded = true;
+    });
+  }
+
+  _handleLoad() {
+    if (this.loaded === true) {
+      this._transitionIn();
+
+      let load = new CustomEvent('routeLoad');
+      this.dispatchEvent(load);
+    } else {
+      setTimeout(() => {
+        this._handleLoad();
+      }, 50);
+    }
+  }
+
+  _transitionIn() {
+    this.blurFilter.setAttribute('stdDeviation', '10,0');
+    setTimeout(() => {
+      this._blurAnimation();
+    }, 500);
+  }
+
+  _blurAnimation() {
+    motionBlur(this.blurFilter);
+  }
+
+  async _getData() {
+    const response = await fetch(this.url + '/home').then(res => res.json()).catch(err => console.error(err));
+    return {
+      statusCode: 200,
+      body: response
+    };
   }
 
   async performUpdate() {
-    const data = await getData(data => {
+    const data = await this._getData(data => {
       this.data = data;
     });
     this.data = data.body;
-    console.log(this.data);
     super.performUpdate();
-  }
-
-  _blurAnimation(filter) {
-    const blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-home-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
-    motionBlur(blurFilter);
   }
 
   render() {
@@ -320,8 +328,8 @@ export class HomePage extends LitElement {
           <div class="c-hero-frame__branding">
             <img
               class="u-margin-bottom-5"
-              src="${url + this.data.HeroLogo.url}"
-              alt="${url + this.data.HeroLogo.caption}"
+              src="${this.url + this.data.HeroLogo.url}"
+              alt="${this.url + this.data.HeroLogo.caption}"
             />
             <c-slant-title
               data=${JSON.stringify(this.data.HeroSlantTitle)}
@@ -329,8 +337,8 @@ export class HomePage extends LitElement {
             </c-slant-title>
           </div>
           <img
-            src="${url + this.data.HeroImage.url}"
-            alt="${url + this.data.HeroImage.caption}"
+            src="${this.url + this.data.HeroImage.url}"
+            alt="${this.url + this.data.HeroImage.caption}"
             class="c-hero-frame__image"
           />
           <div
@@ -394,8 +402,8 @@ export class HomePage extends LitElement {
           class="c-exterior-section__text"
         ></c-heading>
         <img
-          src=${url + this.data.ExteriorImage.url}
-          alt=${url + this.data.ExteriorImage.caption}
+          src=${this.url + this.data.ExteriorImage.url}
+          alt=${this.url + this.data.ExteriorImage.caption}
         />
         <div class="c-exterior-section__content">
           <c-text-block

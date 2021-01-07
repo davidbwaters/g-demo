@@ -1,8 +1,8 @@
 /*
- *  Scripts - Pages - Contact
+ *  Scripts - Pages - Models
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
-export class ContactPage extends LitElement {
+export class VehiclesPage extends LitElement {
   static get styles() {
     return css`
       :host {

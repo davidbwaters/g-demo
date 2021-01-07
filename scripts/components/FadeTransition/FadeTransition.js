@@ -108,8 +108,6 @@ export class FadeTransition extends LitElement {
       to: 'middle-top',
       direct: this,
       inside: (instance, percentage, props) => {
-        console.log(percentage);
-
         this._frameConfigs.forEach(frame => {
           if (percentage > frame.start && percentage < frame.end) {
             this.shadowRoot.host.style.setProperty('--fade-transition-' + frame.count, 0.99);

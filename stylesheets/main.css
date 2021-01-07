@@ -2356,7 +2356,7 @@ small {
   --text-size-large: 2rem;
   --line-height-text-tiny: 1.6;
   --line-height-text-small: 1.6;
-  --line-height-text-normal: 1.8;
+  --line-height-text-normal: 1.6;
   --line-height-text-medium: 1.6;
   --line-height-text-large: 1.4;
   --text-size-heading-small: 1.75rem;
@@ -2570,6 +2570,30 @@ small {
 }
 
 /*
+ *  Generic - Magic Mouse
+ */
+body #magicMouseCursor {
+  border: 1px solid #111;
+}
+
+body #magicPointer {
+  background: #111;
+}
+
+body #magicPointer.is-hover {
+  background: var(--color-gw-red);
+}
+
+body #magicPointer.pointer-blur {
+  border: 1px solid #111;
+  box-shadow: 0px 0px 15px -5px #111;
+}
+
+body #magicPointer.pointer-overlay {
+  box-shadow: 0px 0px 15px -5px #111;
+}
+
+/*
  *  Components - Logo
  */
 .c-logo-responsive {
@@ -2582,7 +2606,7 @@ small {
 }
 
 .c-logo-responsive::after {
-  background-image: var(--logo-small-dark);
+  background-image: var(--logo-small-light);
   background-repeat: no-repeat;
   content: "";
   display: block;
@@ -2596,7 +2620,7 @@ small {
   }
 
   .c-logo-responsive::after {
-    background-image: var(--logo-medium-dark);
+    background-image: var(--logo-medium-light);
     padding-bottom: calc( 100% * var(--logo-medium-height) / var(--logo-medium-width) );
   }
 }

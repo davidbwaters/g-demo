@@ -12,7 +12,7 @@ export class SlantTitle extends LitElement {
         font-size: 1rem;
         letter-spacing: .25em;
         padding-bottom: .25rem;
-        padding-left: 1rem;
+        padding-left: 0rem;
         padding-top: .25rem;
         padding-right: 1.25rem;
         position: relative;

@@ -87,26 +87,47 @@ export class Loader extends LitElement {
     return {
       loaded: {
         type: Boolean,
-        attribute: true
+        reflect: true
       }
     };
   }
 
-  firstUpdated() {
-    document.body.style.position = 'fixed';
+  constructor() {
+    super();
+    this.loaded = false;
   }
 
-  updated(changedProperties) {
+  firstUpdated() {
+    this.enable();
+  }
+
+  disable() {
+    this.shadowRoot.host.style.opacity = 0;
+    document.body.style.setProperty('--loader-fade-in-transition', '0');
+    document.body.style.setProperty('--loader-fade-in-opacity', '0');
+    setTimeout(() => {
+      document.body.style.position = '';
+      this.shadowRoot.host.style.display = 'none';
+      document.body.style.setProperty('--loader-fade-in-transition', '1s');
+      document.body.style.setProperty('--loader-fade-in-opacity', '1');
+    }, 500);
+  }
+
+  enable() {
+    document.body.style.setProperty('--loader-fade-in-transition', '.5s');
+    document.body.style.setProperty('--loader-fade-in-opacity', '0');
+    setTimeout(() => {
+      document.body.style.position = 'fixed';
+      this.shadowRoot.host.style.display = 'grid';
+      this.shadowRoot.host.style.opacity = 1;
+    }, 50);
+  }
+
+  updated() {
     if (this.loaded === true) {
-      this.shadowRoot.host.style.opacity = 0;
-      document.body.style.setProperty('--loader-fade-in-opacity', '0');
-      document.body.style.setProperty('--loader-fade-in-transition', '0');
-      setTimeout(() => {
-        document.body.style.position = '';
-        this.shadowRoot.host.style.display = 'none';
-        document.body.style.setProperty('--loader-fade-in-transition', '1s');
-        document.body.style.setProperty('--loader-fade-in-opacity', '1');
-      }, 500);
+      this.disable();
+    } else {
+      this.enable();
     }
   }
 
