@@ -11,7 +11,8 @@ export class Router extends router(LitElement) {
     return css`
       :host {
         display: block;
-        height: 100%;
+        height: auto;
+        padding-bottom: var(--footer-height);
         position: relative;
         width: 100%;
         z-index: 1;
@@ -55,20 +56,19 @@ export class Router extends router(LitElement) {
 
   _addStylesheet() {
     const docStyles = document.styleSheets[0];
-    const sheet = new CSSStyleSheet();
+    this.sheet = new CSSStyleSheet();
+    this.sheetMedia = new CSSStyleSheet();
     const rulesObjs = [...docStyles.rules];
-    let rules = [];
+    console.log(rulesObjs);
+    let count = 0;
     rulesObjs.forEach(rule => {
-      if (rule.type === 1) {
-        rules = rules.concat(rule.cssText);
+      if (rule.type === 4 || rule.type === 1) {
+        this.sheet.insertRule(rule.cssText, count);
+        count++;
       }
     });
-    rulesObjs.forEach(rule => {
-      if (rule.type === 1) {
-        sheet.insertRule(rule.cssText);
-      }
-    });
-    this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], sheet];
+    console.log(this.sheet);
+    this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], this.sheet, this.sheetMedia];
   }
 
   _getLinks() {

@@ -2354,11 +2354,16 @@ small {
   --text-size-normal: 1rem;
   --text-size-medium: 1.5rem;
   --text-size-large: 2rem;
-  --line-height-text-tiny: 1.6;
-  --line-height-text-small: 1.6;
-  --line-height-text-normal: 1.6;
-  --line-height-text-medium: 1.6;
+  --line-height-text-tiny: 1.4;
+  --line-height-text-small: 1.4;
+  --line-height-text-normal: 1.4;
+  --line-height-text-medium: 1.4;
   --line-height-text-large: 1.4;
+  --line-height-text-spaced-tiny: 2.1;
+  --line-height-text-spaced-small: 2.1;
+  --line-height-text-spaced-normal: 2.1;
+  --line-height-text-spaced-medium: 2.1;
+  --line-height-text-spaced-large: 2.1;
   --text-size-heading-small: 1.75rem;
   --text-size-heading-medium: 2.5rem;
   --text-size-heading-large: 3.5rem;
@@ -2369,9 +2374,9 @@ small {
   --line-height-heading-large: 1.1;
   --line-height-heading-huge: 1.1;
   --text-size-title-tiny: .625rem;
-  --text-size-title-normal: 1.1rem;
-  --text-size-title-normal-light: 1.1rem;
-  --text-size-title-stylized: 1.1rem;
+  --text-size-title-normal: .95rem;
+  --text-size-title-normal-light: .95rem;
+  --text-size-title-stylized: .95rem;
   --line-height-title-tiny: 1.2;
   --line-height-title-normal: 1.3;
   --line-height-title-normal-light: 1.3;
@@ -2381,8 +2386,8 @@ small {
   --font-weight-title-normal-light: normal;
   --font-weight-title-stylized: normal;
   --letter-spacing-title-tiny: .3em;
-  --letter-spacing-title-normal: .05em;
-  --letter-spacing-title-normal-light: .05em;
+  --letter-spacing-title-normal: .025em;
+  --letter-spacing-title-normal-light: .025em;
   --letter-spacing-title-stylized: .1em;
   --color-bg: white;
   --color-fg: hsla(220, 5%, 15%,1);
@@ -2421,18 +2426,18 @@ small {
    hsla(222,10%,75%,1) 0%,
    hsla(222,10%,75%,0) 100%
   );
-  --logo-large-light: url("/images/Branding/Logo - Light.svg");
-  --logo-large-dark: url("/images/Branding/Logo - Dark.svg");
-  --logo-medium-light: url("/images/Branding/Logo Initials - Light.svg");
-  --logo-medium-dark: url("/images/Branding/Logo Initials - Dark.svg");
   --logo-small-light: url("/images/Branding/Logo G - Light.svg");
   --logo-small-dark: url("/images/Branding/Logo G - Dark.svg");
-  --logo-large-width: 376;
-  --logo-large-height: 40;
-  --logo-medium-width: 194;
-  --logo-medium-height: 40;
+  --logo-medium-light: url("/images/Branding/Logo Initials - Light.svg");
+  --logo-medium-dark: url("/images/Branding/Logo Initials - Dark.svg");
+  --logo-large-light: url("/images/Branding/Logo - Light.svg");
+  --logo-large-dark: url("/images/Branding/Logo - Dark.svg");
   --logo-small-width: 74;
   --logo-small-height: 32;
+  --logo-medium-width: 194;
+  --logo-medium-height: 40;
+  --logo-large-width: 376;
+  --logo-large-height: 40;
   --transition-duration: .5s;
   --navbar-height: 3rem;
 }
@@ -2601,12 +2606,12 @@ body #magicPointer.pointer-overlay {
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 100%;
-  min-width: 2.5rem;
+  min-width: 2.2rem;
   position: relative;
 }
 
 .c-logo-responsive::after {
-  background-image: var(--logo-small-light);
+  background-image: var(--logo-small);
   background-repeat: no-repeat;
   content: "";
   display: block;
@@ -2614,21 +2619,20 @@ body #magicPointer.pointer-overlay {
   width: 100%;
 }
 
-@media (min-width: 45em) {
-  .c-logo-responsive {
-    min-width: 4em;
-  }
-
-  .c-logo-responsive::after {
-    background-image: var(--logo-medium-light);
-    padding-bottom: calc( 100% * var(--logo-medium-height) / var(--logo-medium-width) );
-  }
-}
 .c-logo-responsive--light::after {
   background-image: var(--logo-small-light);
 }
 
-@media (min-width: 45em) {
+@media (min-width: 40em) {
+  .c-logo-responsive {
+    min-width: 4rem;
+  }
+
+  .c-logo-responsive::after {
+    background-image: var(--logo-medium);
+    padding-bottom: calc( 100% * var(--logo-medium-height) / var(--logo-medium-width) );
+  }
+
   .c-logo-responsive--light::after {
     background-image: var(--logo-medium-light);
   }
@@ -2652,7 +2656,7 @@ body #magicPointer.pointer-overlay {
   padding-top: 1rem;
 }
 
-@media (min-width: 45em) {
+@media (min-width: 40em) {
   .c-media-grid {
     grid-template-columns: 1fr 1fr;
     padding-bottom: 1rem;
@@ -2661,7 +2665,7 @@ body #magicPointer.pointer-overlay {
     padding-top: 0.5rem;
   }
 }
-@media (min-width: 75em) {
+@media (min-width: 80em) {
   .c-media-grid {
     grid-template-columns: 1fr 1fr;
     padding-left: calc((100% - 70em) / 2);
@@ -2690,7 +2694,7 @@ body #magicPointer.pointer-overlay {
   padding-right: 2rem;
 }
 
-@media (min-width: 45em) {
+@media (min-width: 40em) {
   .c-media-grid__text-item-wide {
     font-size: 1.3rem;
     grid-column: 1/span 2;
@@ -2698,7 +2702,7 @@ body #magicPointer.pointer-overlay {
     padding-top: 3rem;
   }
 }
-@media (min-width: 55em) {
+@media (min-width: 60em) {
   .c-media-grid__text-item-wide {
     padding-left: calc(((100% - 50rem) / 2) + 2rem);
     padding-right: calc(((100% - 50rem) / 2) + 2rem);

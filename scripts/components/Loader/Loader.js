@@ -103,21 +103,23 @@ export class Loader extends LitElement {
 
   disable() {
     this.shadowRoot.host.style.opacity = 0;
-    document.body.style.setProperty('--loader-fade-in-transition', '0');
-    document.body.style.setProperty('--loader-fade-in-opacity', '0');
+    document.documentElement.style.setProperty('--loader-fade-in-transition', '0');
+    document.documentElement.style.setProperty('--loader-fade-in-opacity', '0');
     setTimeout(() => {
-      document.body.style.position = '';
+      document.documentElement.style.position = '';
+      document.documentElement.style.overflowY = '';
       this.shadowRoot.host.style.display = 'none';
-      document.body.style.setProperty('--loader-fade-in-transition', '1s');
-      document.body.style.setProperty('--loader-fade-in-opacity', '1');
+      document.documentElement.style.setProperty('--loader-fade-in-transition', '1s');
+      document.documentElement.style.setProperty('--loader-fade-in-opacity', '1');
     }, 500);
   }
 
   enable() {
-    document.body.style.setProperty('--loader-fade-in-transition', '.5s');
-    document.body.style.setProperty('--loader-fade-in-opacity', '0');
+    document.documentElement.style.position = 'fixed';
+    document.documentElement.style.overflowY = 'scroll';
+    document.documentElement.style.setProperty('--loader-fade-in-transition', '.5s');
+    document.documentElement.style.setProperty('--loader-fade-in-opacity', '0');
     setTimeout(() => {
-      document.body.style.position = 'fixed';
       this.shadowRoot.host.style.display = 'grid';
       this.shadowRoot.host.style.opacity = 1;
     }, 50);

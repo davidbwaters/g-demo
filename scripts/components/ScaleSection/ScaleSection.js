@@ -21,7 +21,7 @@ export class ScaleSection extends LitElement {
         justify-content: center;
         min-height: 90vh;
         overflow: hidden;
-        padding-bottom: 6rem;
+        padding-bottom: 4rem;
         padding-top: 6rem;
         position: relative;
         text-align: center;
@@ -136,9 +136,7 @@ export class ScaleSection extends LitElement {
 
   constructor() {
     super();
-    this._headingData = {
-      'Text': ''
-    };
+    this.url = 'https://admin.guntherwerks.info';
     this.textAlign = 'center';
   }
 
@@ -150,7 +148,6 @@ export class ScaleSection extends LitElement {
       this.endColor = this.data.EndColor;
       this.startPercentage = this.data.StartPercentage;
       this.endPercentage = this.data.EndPercentage;
-      this.imageAsBackground = this.data.ImageAsBackground;
       this.image = this.data.Image;
       this.headingText = this.data.HeadingText;
       this.headingSize = this.data.HeadingSize;
@@ -159,21 +156,48 @@ export class ScaleSection extends LitElement {
       if (this.data.TextAlign) {
         this.textAlign = this.data.HeadingTextAlign;
       }
+
+      if (this.data.ImageAsBackground) {
+        this.imageAsBackground = this.data.ImageAsBackground;
+      }
+
+      if (this.data.ImageBackground) {
+        this._noText = true;
+
+        if (this.data.ImageBackground === 'false') {
+          this.imageAsBackground = 'Disabled';
+        }
+      }
     }
 
-    if (this.small === true) {
-      this.shadowRoot.host.style.setProperty('--scale-section-image-width', '70%');
+    if (this._noText !== true) {
+      this._addHeading();
+    }
+
+    this._setWidth();
+
+    this._setBackgroundColor();
+
+    this._biggerSize = Math.max(this.startPercentage, this.endPercentage);
+    this._startIsBigger = this._biggerSize === this.startPercentage;
+    this._smallerSize = this._startIsBigger ? this.endPercentage : this.startPercentage;
+
+    if (this.imageAsBackground === 'Disabled') {
+      this._setImage();
     } else {
-      this.shadowRoot.host.style.setProperty('--scale-section-image-width', '90%');
+      this._setBackgroundImage();
     }
 
-    if (this.backgroundColor === 'gray') {
-      this.shadowRoot.host.style.setProperty('--scale-section-bg-color', 'var(--color-subtle-light-5)');
-    } else {
-      this.shadowRoot.host.style.setProperty('--scale-section-bg-color', 'white');
-    }
+    this._scrollSetup();
 
-    this.url = 'https://admin.guntherwerks.info';
+    setTimeout(() => {
+      this._scrollInstance.calculate();
+
+      this._scrollInstance.update();
+    }, 500);
+  }
+
+  _addHeading() {
     this._headingData = {
       'Text': this.headingText,
       'Size': this.headingSize,
@@ -187,59 +211,65 @@ export class ScaleSection extends LitElement {
     this._headingEl.setAttribute('data', JSON.stringify(this._headingData));
 
     this._contentEl.appendChild(this._headingEl);
+  }
 
-    const biggerSize = Math.max(this.startPercentage, this.endPercentage);
-    const startIsBigger = biggerSize === this.startPercentage;
-    const smallerSize = startIsBigger ? this.endPercentage : this.startPercentage;
-
-    if (this.imageAsBackground === 'Disabled') {
-      const sizeRatio = smallerSize / biggerSize;
-      this._startSize = startIsBigger ? 1 : 100 * sizeRatio / 100;
-      this._endSize = !startIsBigger ? 1 : 100 * sizeRatio / 100;
-      this._pictureEl = document.createElement('picture');
-
-      this._pictureEl.classList.add('c-scale-section__image');
-
-      this._contentEl.appendChild(this._pictureEl);
-
-      this._imageEl = document.createElement('img');
-      this._source1 = document.createElement('source');
-      this._source2 = document.createElement('source');
-
-      this._pictureEl.appendChild(this._source1);
-
-      this._pictureEl.appendChild(this._source2);
-
-      this._pictureEl.appendChild(this._imageEl);
-
-      this._contentEl.appendChild(this._pictureEl);
-
-      this._setAttributes();
+  _setWidth() {
+    if (this.small === true) {
+      this.shadowRoot.host.style.setProperty('--scale-section-image-width', '70%');
     } else {
-      this._startSize = this.startPercentage + '%';
-      this._endSize = this.endPercentage + '%';
-
-      this._setSizes();
-
-      window.addEventListener('resize', () => {
-        this._setSizes();
-      });
-      this.shadowRoot.host.style.setProperty('--scale-section-bg-image', 'url(' + this.url + this.image.url + ')');
-
-      if (this.imageAsBackground === 'OnLightText') {
-        this.shadowRoot.host.style.setProperty('--scale-section-bg-color', 'var(--color-subtle-dark-1)');
-
-        this._headingEl.setAttribute('color', 'white');
-      }
+      this.shadowRoot.host.style.setProperty('--scale-section-image-width', '90%');
     }
+  }
 
-    this._scrollSetup();
+  _setBackgroundColor() {
+    if (this.backgroundColor === 'gray') {
+      this.shadowRoot.host.style.setProperty('--scale-section-bg-color', 'var(--color-subtle-light-5)');
+    } else {
+      this.shadowRoot.host.style.setProperty('--scale-section-bg-color', 'white');
+    }
+  }
 
-    setTimeout(() => {
-      this._scrollInstance.calculate();
+  _setImage() {
+    const sizeRatio = this._smallerSize / this._biggerSize;
+    this._startSize = this._startIsBigger ? 1 : 100 * sizeRatio / 100;
+    this._endSize = !this._startIsBigger ? 1 : 100 * sizeRatio / 100;
+    this._pictureEl = document.createElement('picture');
 
-      this._scrollInstance.update();
-    }, 500);
+    this._pictureEl.classList.add('c-scale-section__image');
+
+    this._contentEl.appendChild(this._pictureEl);
+
+    this._imageEl = document.createElement('img');
+    this._source1 = document.createElement('source');
+    this._source2 = document.createElement('source');
+
+    this._pictureEl.appendChild(this._source1);
+
+    this._pictureEl.appendChild(this._source2);
+
+    this._pictureEl.appendChild(this._imageEl);
+
+    this._contentEl.appendChild(this._pictureEl);
+
+    this._setAttributes();
+  }
+
+  _setBackgroundImage() {
+    this._startSize = this.startPercentage + '%';
+    this._endSize = this.endPercentage + '%';
+
+    this._setSizes();
+
+    window.addEventListener('resize', () => {
+      this._setSizes();
+    });
+    this.shadowRoot.host.style.setProperty('--scale-section-bg-image', 'url(' + this.url + this.image.url + ')');
+
+    if (this.imageAsBackground === 'OnLightText') {
+      this.shadowRoot.host.style.setProperty('--scale-section-bg-color', 'var(--color-subtle-dark-1)');
+
+      this._headingEl.setAttribute('color', 'white');
+    }
   }
 
   _setAttributes() {

@@ -14,7 +14,7 @@ export class TextBlock extends LitElement {
         font-weight: var(--text-block-weight);
         grid-template-columns: var(--text-block-width);
         justify-content: center;
-        line-height: var(--line-height-text-normal);
+        line-height: var(--text-block-line-height);
         padding-bottom: var(--text-block-padding-y);
         padding-top: var(--text-block-padding-y);
       }
@@ -102,18 +102,12 @@ export class TextBlock extends LitElement {
 
     this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-' + this.size.toLowerCase() + ')');
 
-    if (this.isFlush) {
-      this.shadowRoot.host.style.setProperty('--text-block-padding-y', '0rem');
-      this.shadowRoot.host.style.setProperty('--text-block-width', '100%');
-    } else {
-      this.shadowRoot.host.style.setProperty('--text-block-padding-y', '5rem');
-      this.shadowRoot.host.style.setProperty('--text-block-width', '80%');
-    }
-
     if (this.isBold) {
       this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-bolder-weight)');
+      this.shadowRoot.host.style.setProperty('--text-block-line-height', 'var(--line-height-text-' + this.size.toLowerCase() + ')');
     } else {
       this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-lighter-weight)');
+      this.shadowRoot.host.style.setProperty('--text-block-line-height', 'var(--line-height-text-spaced-' + this.size.toLowerCase() + ')');
     }
 
     if (this.lighterColor) {
@@ -130,6 +124,14 @@ export class TextBlock extends LitElement {
       this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'transparent');
     } else {
       this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'white');
+    }
+
+    if (this.isFlush) {
+      this.shadowRoot.host.style.setProperty('--text-block-padding-y', '0rem');
+      this.shadowRoot.host.style.setProperty('--text-block-width', '100%');
+    } else {
+      this.shadowRoot.host.style.setProperty('--text-block-padding-y', '5rem');
+      this.shadowRoot.host.style.setProperty('--text-block-width', '80%');
     }
 
     this.content = JSON.stringify(this.content);

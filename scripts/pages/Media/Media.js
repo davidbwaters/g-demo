@@ -63,21 +63,8 @@ export class MediaPage extends LitElement {
   }
 
   _addStylesheet() {
-    const docStyles = document.styleSheets[0];
-    const sheet = new CSSStyleSheet();
-    const rulesObjs = [...docStyles.rules];
-    let rules = [];
-    rulesObjs.forEach(rule => {
-      if (rule.type === 1) {
-        rules = rules.concat(rule.cssText);
-      }
-    });
-    rulesObjs.forEach(rule => {
-      if (rule.type === 1) {
-        sheet.insertRule(rule.cssText);
-      }
-    });
-    this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], sheet];
+    const app = document.querySelector('c-router-app');
+    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
   }
 
   _transitionIn() {}

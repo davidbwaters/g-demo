@@ -7,9 +7,12 @@ export class RouterOutlet extends outlet(LitElement) {
   static get styles() {
     return css`
       :host {
+        background-color: white;
         display: block;
-        height: 100%;
+        margin-bottom: var(--footer-height);
+        position: relative;
         width: 100%;
+        z-index: 2;
       }
     `;
   }

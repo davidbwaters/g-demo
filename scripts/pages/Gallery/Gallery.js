@@ -57,23 +57,7 @@ export class GalleryPage extends LitElement {
     }
   }
 
-  addStylesheet() {
-    const docStyles = document.styleSheets[0];
-    const sheet = new CSSStyleSheet();
-    const rulesObjs = [...docStyles.rules];
-    let rules = [];
-    rulesObjs.forEach(rule => {
-      if (rule.type === 1) {
-        rules = rules.concat(rule.cssText);
-      }
-    });
-    rulesObjs.forEach(rule => {
-      if (rule.type === 1) {
-        sheet.insertRule(rule.cssText);
-      }
-    });
-    this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], sheet];
-  }
+  addStylesheet() {}
 
   transitionIn() {}
 
