@@ -32,7 +32,6 @@ export class GalleryPage extends LitElement {
   }
 
   firstUpdated() {
-    this.url = 'https://admin.guntherwerks.info';
     this.addStylesheet();
     this.handleLoad = this.handleLoad.bind(this);
     this.loadedCheck();
@@ -57,7 +56,10 @@ export class GalleryPage extends LitElement {
     }
   }
 
-  addStylesheet() {}
+  addStylesheet() {
+    const app = document.querySelector('c-router-app');
+    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
+  }
 
   transitionIn() {}
 
@@ -80,7 +82,7 @@ export class GalleryPage extends LitElement {
 
   render() {
     return html` <div>
-      <h1>This is Contact Page</h1>
+      <h1>Gallery</h1>
     </div>`;
   }
 

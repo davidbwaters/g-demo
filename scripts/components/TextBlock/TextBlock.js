@@ -62,10 +62,12 @@ export class TextBlock extends LitElement {
         type: Object
       },
       content: {
-        type: String,
-        attribute: true
+        type: String
       },
-      size: {
+      backgroundColor: {
+        type: String
+      },
+      color: {
         type: String
       },
       lighterColor: {
@@ -77,7 +79,7 @@ export class TextBlock extends LitElement {
       isFlush: {
         type: Boolean
       },
-      backgroundColor: {
+      size: {
         type: String
       }
     };
@@ -113,6 +115,9 @@ export class TextBlock extends LitElement {
     if (this.lighterColor) {
       this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-fg-lighter)');
       this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg)');
+    } else if (this.color === 'white') {
+      this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-subtle-light-5)');
+      this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-subtle-light-6)');
     } else {
       this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-subtle-dark-3)');
       this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg)');
@@ -122,6 +127,8 @@ export class TextBlock extends LitElement {
       this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'var(--color-subtle-light-5)');
     } else if (this.backgroundColor === 'transparent') {
       this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'transparent');
+    } else if (this.backgroundColor === 'white') {
+      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'white');
     } else {
       this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'white');
     }
@@ -141,7 +148,15 @@ export class TextBlock extends LitElement {
 
       this._content.forEach(content => {
         const paragraphEl = document.createElement('p');
-        paragraphEl.innerHTML = content.Paragraph;
+
+        if (content.Paragraph) {
+          paragraphEl.innerHTML = content.Paragraph;
+        }
+
+        if (content.Text) {
+          paragraphEl.innerHTML = content.Text;
+        }
+
         contentEl.appendChild(paragraphEl);
       });
     } else {

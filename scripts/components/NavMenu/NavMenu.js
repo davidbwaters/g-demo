@@ -37,7 +37,7 @@ export class NavMenu extends LitElement {
       }
 
       .c-nav-menu__links {
-        color: var(--color-subtle-light-4);
+        color: var(--color-subtle-light-3);
         column-gap: var(--nav-menu-column-gap);
         display: grid;
         font-size: .8rem;

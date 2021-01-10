@@ -24,8 +24,10 @@ export class AngleSection extends LitElement {
       .c-angle-section__background-geometry {
         background-color: var(--angle-section-color);
         height: 300vh;
-        position: fixed;
+        position: absolute;
         left: 50%;
+        opacity: var(--angle-section-opacity);
+        pointer-events: none;
         top: -100vh;
         transform:
           rotate(var(--angle-section-angle))
@@ -35,7 +37,6 @@ export class AngleSection extends LitElement {
         transition: background-color var(--transition-duration);
         width: 400vw;
         will-change: transform;
-        z-index: 0;
       }
 
     `;
@@ -96,6 +97,33 @@ export class AngleSection extends LitElement {
     this.shadowRoot.host.style.setProperty('--angle-section-angle', this.startOffsetY + 'vh');
 
     this._scrollSetup();
+
+    this._addObserver();
+
+    this._observer.observe(this);
+  }
+
+  _addObserver() {
+    let options = {
+      root: this,
+      rootMargin: '0px',
+      threshold: 1.0
+    };
+
+    let callback = entry => {
+      console.log(entry.target);
+      console.log(entry.isIntersecting);
+
+      if (entry.target === this) {
+        if (entry.isIntersecting) {
+          this.shadowRoot.host.style.setProperty('--footer-z-index', '9');
+        } else {
+          this.shadowRoot.host.style.setProperty('--footer-z-index', '0');
+        }
+      }
+    };
+
+    this._observer = new IntersectionObserver(callback, options);
   }
 
   _scrollSetup() {

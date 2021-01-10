@@ -131,6 +131,10 @@ export class Loader extends LitElement {
     } else {
       this.enable();
     }
+
+    setTimeout(() => {
+      this.disable();
+    }, 1000 * 6);
   }
 
   render() {

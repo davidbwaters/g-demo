@@ -32,8 +32,6 @@ export class ContactPage extends LitElement {
   }
 
   firstUpdated() {
-    this.url = 'https://admin.guntherwerks.info';
-
     this._addStylesheet();
 
     this._handleLoad = this._handleLoad.bind(this);
@@ -88,7 +86,7 @@ export class ContactPage extends LitElement {
 
   render() {
     return html` <div>
-      <h1>This is Contact Page</h1>
+      <h1>Contac</h1>
     </div>`;
   }
 

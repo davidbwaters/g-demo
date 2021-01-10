@@ -24,142 +24,6 @@ export class HomePage extends LitElement {
 
       }
 
-      *::selection {
-        background-color: var(--color-fg);
-        color: var(--color-bg);
-        -webkit-text-stroke-color: var(--color-bg);
-      }
-
-      .c-hero-frame {
-        position: relative;
-        overflow: hidden;
-      }
-
-      .c-hero-frame__content {
-        align-content: center;
-        display: grid;
-        grid-auto-flow: row;
-        height: 100%;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: calc(4rem + 3rem);
-        padding-bottom: 4rem;
-        row-gap: 4rem;
-        text-align: left;
-
-        width: 100%;
-        will-change: opacity;
-      }
-
-      @media (min-width:40em) {
-
-        .c-hero-frame__content {
-          align-content: center;
-          display: grid;
-          grid-template-rows: min-content min-content;
-          padding-bottom: 6rem;
-          padding-left: 0;
-          padding-right: 0;
-          padding-top: calc(5rem + 3rem);
-          row-gap: 0rem;
-          width: 100%;
-        }
-
-      }
-
-      @media (min-width:60em) {
-
-        .c-hero-frame__content {
-          padding-bottom: 8rem;
-          row-gap: 0rem;
-        }
-
-      }
-
-      .c-hero-frame__branding {
-        margin-left: auto;
-        margin-right: auto;
-        opacity: var(--loader-fade-in-opacity);
-        padding-left: 0%;
-        padding-right: 0%;
-        transition:
-          opacity var(--loader-fade-in-transition);
-        will-change: opacity;
-      }
-
-      @media (min-width:40em) {
-
-        .c-hero-frame__branding {
-          max-width: none;
-          padding-left: 5%;
-          padding-right: 55%;
-          text-align: right;
-          width: 100%;
-        }
-
-      }
-
-      .c-hero-frame__image {
-        filter: url('#blur');
-        margin-left: auto;
-        margin-right: auto;
-        opacity: var(--hero-image-opacity);
-        transition: opacity .5s;
-        width: 80%;
-        will-change: opacity;
-      }
-
-      @media (min-width:40em) {
-
-        .c-hero-frame__image {
-          margin-top: -2rem;
-          max-width: none;
-          padding-left: 33%;
-          width: 100%;
-        }
-
-      }
-
-      .c-hero-frame__text {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 60rem;
-        padding-left: 5%;
-        padding-right: 5%;
-        text-align: center;
-      }
-
-      @media (min-width:40em) {
-
-        .c-hero-frame__text {
-          font-weight: var(--font-bolder-weight);
-          padding-left: 10%;
-          padding-right: 10%;
-          padding-top: 3rem;
-        }
-
-      }
-
-      @media (min-width:60em) {
-        .c-hero-frame__text {
-          padding-left: 10%;
-          padding-right: 10%;
-        }
-      }
-
-      .c-hero-frame__text c-text-block {
-        margin-bottom: .5rem;
-      }
-
-      @media (min-width:40em) {
-
-        .c-hero-frame__text c-text-block {
-          margin-bottom: .5rem;
-        }
-
-      }
-
       .c-exterior-section {
         align-content: center;
         background-color: var(--color-subtle-light-5);
@@ -348,15 +212,14 @@ export class HomePage extends LitElement {
               ${this.data.HeroSubHeading}
             </div>
           </div>
-
-
         </div>
+
         <c-angle-section
           data=${JSON.stringify(this.data.HeroAngleBG)}
-
         >
         </c-angle-section>
       </section>
+
       <c-reveal-section
         data=${JSON.stringify(this.data.RevealSection1)}
       >

@@ -32,8 +32,6 @@ export class VehiclesPage extends LitElement {
   }
 
   firstUpdated() {
-    this.url = 'https://admin.guntherwerks.info';
-
     this._addStylesheet();
 
     this._handleLoad = this._handleLoad.bind(this);
@@ -46,11 +44,17 @@ export class VehiclesPage extends LitElement {
   }
 
   _loadedCheck() {
-    this.loaded = true;
+    this.shadowRoot.querySelector('.c-hero-frame__image').addEventListener('load', () => {
+      this.loaded = true;
+    });
   }
 
   _handleLoad() {
     if (this.loaded === true) {
+      window.requestAnimationFrame(() => {
+        window.dispatchEvent(new Event('resize'));
+      });
+
       this._transitionIn();
 
       let load = new CustomEvent('routeLoad');
@@ -70,7 +74,7 @@ export class VehiclesPage extends LitElement {
   _transitionIn() {}
 
   async _getData() {
-    const response = await fetch(this.url + '/contact').then(res => res.json()).catch(err => console.error(err));
+    const response = await fetch(this.url + '/vehicle').then(res => res.json()).catch(err => console.error(err));
     return {
       statusCode: 200,
       body: response
@@ -83,12 +87,69 @@ export class VehiclesPage extends LitElement {
     });
     this.data = data.body;
     console.log(this.data);
+    console.log(this.data.ScaleSections);
     super.performUpdate();
   }
 
   render() {
     return html` <div>
-      <h1>This is Contact Page</h1>
+
+      <section class="c-hero-frame">
+        <div class="c-hero-frame__content">
+          <div class="c-hero-frame__branding">
+            <img
+              class="u-margin-bottom-5"
+              src="${this.url + this.data.HeroLogo.url}"
+              alt="${this.url + this.data.HeroLogo.caption}"
+            />
+            <c-slant-title
+              data=${JSON.stringify(this.data.HeroSlantTitle)}
+            >
+            </c-slant-title>
+          </div>
+          <img
+            src="${this.url + this.data.HeroImage.url}"
+            alt="${this.url + this.data.HeroImage.caption}"
+            class="c-hero-frame__image"
+          />
+          <div
+            class="c-hero-frame__text"
+          >
+            <c-heading
+              text=${this.data.HeroHeading}
+              textAlign='center'
+              weight=normal'
+            >
+            </c-heading>
+            <c-text-block
+              content=${this.data.HeroText}
+              backgroundColor='transparent'
+              isFlush=true
+            >
+            </c-text-block>
+            <div class="u-text-title">
+              ${this.data.HeroSubHeading}
+            </div>
+          </div>
+        </div>
+
+        <c-angle-section
+          data=${JSON.stringify(this.data.HeroAngleBG)}
+
+        >
+        </c-angle-section>
+      </section>
+
+      ${this.data.ScaleSections.map(data => html`
+
+
+          <c-scale-section
+            data=${JSON.stringify(data)}
+          >
+          </c-scale-section>
+
+      `)}
+
     </div>`;
   }
 

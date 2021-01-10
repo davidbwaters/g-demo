@@ -13,6 +13,7 @@ export class Footer extends LitElement {
         padding-right: 10%;
         position: fixed;
         width: 100%;
+        z-index: var(--footer-z-index);
       }
 
       .c-footer__content {
@@ -108,7 +109,7 @@ export class Footer extends LitElement {
 
   _setHeight() {
     const size = this.getBoundingClientRect();
-    document.body.style.setProperty('--footer-height', size.height / 16 + 'rem');
+    document.documentElement.style.setProperty('--footer-height', size.height / 16 + 'rem');
   }
 
   _addStylesheet() {
@@ -140,9 +141,9 @@ export class Footer extends LitElement {
       this.data = data;
     });
     this.data = data.body;
-    this.socialData = socialData.body;
-    console.log(this.data);
-    console.log(this.socialData);
+    this.socialData = socialData.body; // console.log(this.data)
+    // console.log(this.socialData)
+
     super.performUpdate();
   }
 

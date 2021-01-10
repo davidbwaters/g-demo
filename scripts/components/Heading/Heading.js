@@ -63,10 +63,10 @@ export class Heading extends LitElement {
       text: {
         type: String
       },
-      textAlign: {
+      color: {
         type: String
       },
-      size: {
+      element: {
         type: String
       },
       isBold: {
@@ -75,13 +75,13 @@ export class Heading extends LitElement {
       lighterColor: {
         type: Boolean
       },
-      color: {
+      size: {
         type: String
       },
       spanColor: {
         type: String
       },
-      element: {
+      textAlign: {
         type: String
       }
     };
@@ -111,6 +111,10 @@ export class Heading extends LitElement {
       if (this.data.TextAlign) {
         this.textAlign = this.data.TextAlign;
       }
+
+      if (this.data.Color) {
+        this.color = this.data.Color.toLowerCase();
+      }
     }
 
     if (this.text === 'undefined') {
@@ -134,8 +138,8 @@ export class Heading extends LitElement {
       this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-fg-lighter)');
       this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-fg)');
     } else if (this.color === 'white') {
-      this.shadowRoot.host.style.setProperty('--heading-color', 'white');
-      this.shadowRoot.host.style.setProperty('--heading-span-color', 'white');
+      this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-subtle-light-5)');
+      this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-subtle-light-6)');
     } else {
       this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-fg)');
       this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-fg-lighter)');

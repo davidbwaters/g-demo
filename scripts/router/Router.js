@@ -59,7 +59,6 @@ export class Router extends router(LitElement) {
     this.sheet = new CSSStyleSheet();
     this.sheetMedia = new CSSStyleSheet();
     const rulesObjs = [...docStyles.rules];
-    console.log(rulesObjs);
     let count = 0;
     rulesObjs.forEach(rule => {
       if (rule.type === 4 || rule.type === 1) {
@@ -67,7 +66,6 @@ export class Router extends router(LitElement) {
         count++;
       }
     });
-    console.log(this.sheet);
     this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], this.sheet, this.sheetMedia];
   }
 
@@ -106,8 +104,6 @@ export class Router extends router(LitElement) {
   }
 
   _addOutlet() {
-    console.log(this.routeEls);
-
     if (this.routeEls.length) {
       this.navEl = document.createElement('c-nav-menu');
 
@@ -128,8 +124,7 @@ export class Router extends router(LitElement) {
   }
 
   _handleLoad(e) {
-    console.log('router loading ' + e);
-    console.log(this);
+    // console.log('router loading ' + e)
     this.loaderEl.disable();
     this.activeRouteEl.style.opacity = '1';
     this.activeRouteEl.style.transition = 'opacity .5s';
@@ -137,12 +132,13 @@ export class Router extends router(LitElement) {
   }
 
   _resize() {
-    window.dispatchEvent(new Event('resize'));
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new Event('resize'));
+    });
   }
 
   updated() {
-    console.log('router-updated');
-
+    // console.log('router-updated')
     if (this.activeRouteEl) {
       this.activeRouteEl.removeEventListener('routeLoad', this._handleLoad);
     }
@@ -169,6 +165,19 @@ export class Router extends router(LitElement) {
     this.navEl.setAttribute('active', '/' + this.route);
 
     this._resize();
+
+    setTimeout(() => {
+      this._resize();
+    }, 500);
+    setTimeout(() => {
+      this._resize();
+    }, 1000);
+    setTimeout(() => {
+      this._resize();
+    }, 1500);
+    setTimeout(() => {
+      this._resize();
+    }, 2000);
   }
 
 }

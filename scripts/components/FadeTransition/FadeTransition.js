@@ -11,8 +11,8 @@ export class FadeTransition extends LitElement {
         background-color: white;
         display: grid;
         height: var(--fade-transition-height);
-        padding-bottom: 6rem;
-        padding-top: 6rem;
+        padding-bottom: 4rem;
+        padding-top: 4rem;
         position: relative;
         width: 100%;
       }
@@ -47,12 +47,13 @@ export class FadeTransition extends LitElement {
   firstUpdated() {
     const length = this.data.length;
     this.innerEl = this.shadowRoot.querySelector('.c-fade-transition__inner');
-    this._framePercentage = 100 / length;
+    this._completePercentage = 100;
+    this._framePercentage = this._completePercentage / length;
     this._frameOffset = 0;
     this.url = 'https://admin.guntherwerks.info';
     let count = 1;
     const firstFrame = this.data[0].Frame;
-    this.shadowRoot.host.style.setProperty('--fade-transition-height', 100 * firstFrame.height / firstFrame.width + 12 + 'vw');
+    this.shadowRoot.host.style.setProperty('--fade-transition-height', 100 * firstFrame.height / firstFrame.width + 16 + 'vw');
     this.data.forEach(item => {
       this.shadowRoot.host.style.setProperty('--fade-transition-' + count, 0.1);
       const image = document.createElement('img');
@@ -79,6 +80,7 @@ export class FadeTransition extends LitElement {
 
   _setFrameConfigs() {
     let count = 1;
+    let length = this.data.length;
     this._frameConfigs = [];
     this.data.forEach(item => {
       let start = (count - 1) * this._framePercentage + this._frameOffset;
@@ -88,7 +90,7 @@ export class FadeTransition extends LitElement {
         start = 0;
       }
 
-      if (end > 100) {
+      if (end > 100 || count === length) {
         end = 100;
       }
 

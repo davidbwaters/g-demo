@@ -32,8 +32,6 @@ export class MediaPage extends LitElement {
   }
 
   firstUpdated() {
-    this.url = 'https://admin.guntherwerks.info';
-
     this._addStylesheet();
 
     this._handleLoad = this._handleLoad.bind(this);
@@ -81,14 +79,14 @@ export class MediaPage extends LitElement {
     const data = await this._getData(data => {
       this.data = data;
     });
-    this.data = data.body;
-    console.log(this.data);
+    this.data = data.body; // console.log(this.data)
+
     super.performUpdate();
   }
 
   render() {
     return html` <div>
-      <h1>This is Contact Page</h1>
+      <h1>Media</h1>
     </div>`;
   }
 
