@@ -24,6 +24,8 @@ export class Gallery extends LitElement {
 
       .c-gallery__item {
         cursor: var(--gallery-item__cursor);
+        margin-bottom: 3rem;
+        margin-top: 3rem;
         min-width: 0;
         scroll-snap-align: start;
         text-align: center;

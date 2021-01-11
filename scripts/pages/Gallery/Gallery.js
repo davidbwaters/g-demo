@@ -15,6 +15,18 @@ export class GalleryPage extends LitElement {
         width: 100%;
       }
 
+      .c-gallery__instructions {
+        color: var(--color-subtle-dark-4);
+        display: block;
+        font-size: var(--text-size-title-stylized);
+        font-weight: var(--font-weight-title-stylized);
+        letter-spacing: var(--letter-spacing-title-stylized);
+        line-height: var(--line-height-title-stylized);
+        margin-bottom: .25rem;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
     `;
   }
 
@@ -114,7 +126,7 @@ export class GalleryPage extends LitElement {
         >
         </c-gallery>
         <div
-          class="c-gallery__item-instructions"
+          class="c-gallery__instructions"
         >
           Scroll to Navigate or Click and Drag
         </div>
