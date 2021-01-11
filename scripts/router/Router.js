@@ -36,8 +36,7 @@ export class Router extends router(LitElement) {
   router(route, params, query, data) {
     this.route = route;
     this.params = params;
-    this.query = query;
-    console.log(route, params, query, data);
+    this.query = query; // console.log(route, params, query, data)
   }
 
   connectedCallback() {

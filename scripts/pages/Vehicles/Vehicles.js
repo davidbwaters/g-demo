@@ -2,6 +2,7 @@
  *  Scripts - Pages - Models
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
+import { motionBlur } from '../../utils/motionBlur.js';
 export class VehiclesPage extends LitElement {
   static get styles() {
     return css`
@@ -32,6 +33,8 @@ export class VehiclesPage extends LitElement {
   }
 
   firstUpdated() {
+    this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-vehicles-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
+
     this._addStylesheet();
 
     this._handleLoad = this._handleLoad.bind(this);
@@ -41,6 +44,11 @@ export class VehiclesPage extends LitElement {
     this.updateComplete.then(() => {
       this._handleLoad();
     });
+  }
+
+  _addStylesheet() {
+    const app = document.querySelector('c-router-app');
+    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
   }
 
   _loadedCheck() {
@@ -66,12 +74,16 @@ export class VehiclesPage extends LitElement {
     }
   }
 
-  _addStylesheet() {
-    const app = document.querySelector('c-router-app');
-    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
+  _transitionIn() {
+    this.blurFilter.setAttribute('stdDeviation', '10,0');
+    setTimeout(() => {
+      this._blurAnimation();
+    }, 500);
   }
 
-  _transitionIn() {}
+  _blurAnimation() {
+    motionBlur(this.blurFilter);
+  }
 
   async _getData() {
     const response = await fetch(this.url + '/vehicle').then(res => res.json()).catch(err => console.error(err));
@@ -86,21 +98,21 @@ export class VehiclesPage extends LitElement {
       this.data = data;
     });
     this.data = data.body;
-    console.log(this.data);
-    console.log(this.data.ScaleSections);
     super.performUpdate();
   }
 
   render() {
-    return html` <div>
+    return html`
 
-      <section class="c-hero-frame">
+      <section
+        class="c-hero-frame"
+      >
         <div class="c-hero-frame__content">
           <div class="c-hero-frame__branding">
             <img
               class="u-margin-bottom-5"
               src="${this.url + this.data.HeroLogo.url}"
-              alt="${this.url + this.data.HeroLogo.caption}"
+              alt="${this.url + this.data.HeroLogo.alternativeText}"
             />
             <c-slant-title
               data=${JSON.stringify(this.data.HeroSlantTitle)}
@@ -109,7 +121,7 @@ export class VehiclesPage extends LitElement {
           </div>
           <img
             src="${this.url + this.data.HeroImage.url}"
-            alt="${this.url + this.data.HeroImage.caption}"
+            alt="${this.url + this.data.HeroImage.alternativeText}"
             class="c-hero-frame__image"
           />
           <div
@@ -142,15 +154,71 @@ export class VehiclesPage extends LitElement {
 
       ${this.data.ScaleSections.map(data => html`
 
-
           <c-scale-section
             data=${JSON.stringify(data)}
           >
           </c-scale-section>
 
       `)}
+      <section
+        class="c-vehicles-lower"
+      >
+        <div
+          class="c-vehicles-lower__text"
+        >
+          <c-heading
+            text=${this.data.LowerSectionHeading}
+          >
+          </c-heading>
+          <c-text-block
+            content=${this.data.LowerSectionText}
+            isFlush=true
+          >
+          </c-text-block>
+        </div>
+      </section>
+      <section
+        class="c-spec-table"
+      >
+        <div
+          class="c-spec-table__image"
+        >
+        </div>
+        <div
+          class="c-spec-table__image"
+        >
+          <img
+            src=${this.url + this.data.TableSectionImage.url}
+            alt=${this.data.TableSectionImage.alternativeText}
+          >
+        </div>
+        <div
+          class="c-spec-table__content"
+        >
+          ${this.data.Table.map(data => html`
 
-    </div>`;
+            <span class="c-spec-table__field-name">
+              ${data.Field[0].Text}
+            </span>
+            <span class="c-spec-table__field-content">
+              ${data.Field[1].Text}
+            </span>
+
+          `)}
+        </div>
+      </section>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        class="c-filters"
+      >
+        <defs>
+          <filter id="blur">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10,0" />
+          </filter>
+        </defs>
+      </svg>
+    `;
   }
 
 }

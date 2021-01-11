@@ -560,11 +560,10 @@ export class ScaleSection extends LitElement {
 
     this._imageEl.setAttribute('src', this.url + this.image.formats.large.url);
 
-    this._imageEl.setAttribute('alt', this.image.caption);
+    this._imageEl.setAttribute('alt', this.image.alternativeText);
   }
 
   _setBackgroundImage() {
-    console.log(this._textBlockEl);
     this._startSize = this.startPercentage + '%';
     this._endSize = this.endPercentage + '%';
 

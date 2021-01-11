@@ -2,15 +2,19 @@
  *  Scripts - Pages - Gallery
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
+import { motionBlur } from '../../utils/motionBlur.js';
+import ScrollBooster from '../../../modules/scrollbooster.js';
 export class GalleryPage extends LitElement {
   static get styles() {
     return css`
       :host {
         display: block;
-        height: 100%;
+        min-height: 90vh;
+        overflow-x: hidden;
         padding-top: var(--navbar-height);
         width: 100%;
       }
+
     `;
   }
 
@@ -32,36 +36,55 @@ export class GalleryPage extends LitElement {
   }
 
   firstUpdated() {
-    this.addStylesheet();
-    this.handleLoad = this.handleLoad.bind(this);
-    this.loadedCheck();
+    this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-gallery-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
+
+    this._addStylesheet();
+
+    this._handleLoad = this._handleLoad.bind(this);
+
+    this._loadedCheck();
+
     this.updateComplete.then(() => {
-      this.handleLoad();
+      this._handleLoad();
     });
   }
 
-  loadedCheck() {
-    this.loaded = true;
-  }
-
-  handleLoad() {
-    if (this.loaded === true) {
-      this.transitionIn();
-      let load = new CustomEvent('routeLoad');
-      this.dispatchEvent(load);
-    } else {
-      setTimeout(() => {
-        this.handleLoad();
-      }, 50);
-    }
-  }
-
-  addStylesheet() {
+  _addStylesheet() {
     const app = document.querySelector('c-router-app');
     this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
   }
 
-  transitionIn() {}
+  _loadedCheck() {
+    this.loaded = true;
+  }
+
+  _handleLoad() {
+    if (this.loaded === true) {
+      window.requestAnimationFrame(() => {
+        window.dispatchEvent(new Event('resize'));
+      });
+
+      this._transitionIn();
+
+      let load = new CustomEvent('routeLoad');
+      this.dispatchEvent(load);
+    } else {
+      setTimeout(() => {
+        this._handleLoad();
+      }, 50);
+    }
+  }
+
+  _transitionIn() {
+    this.blurFilter.setAttribute('stdDeviation', '10,0');
+    setTimeout(() => {
+      this._blurAnimation();
+    }, 500);
+  }
+
+  _blurAnimation() {
+    motionBlur(this.blurFilter);
+  }
 
   async _getData() {
     const response = await fetch(this.url + '/galleries').then(res => res.json()).catch(err => console.error(err));
@@ -81,9 +104,35 @@ export class GalleryPage extends LitElement {
   }
 
   render() {
-    return html` <div>
-      <h1>Gallery</h1>
-    </div>`;
+    return html`
+
+      <section
+        class="c-gallery-item"
+      >
+        <c-gallery
+          data=${JSON.stringify(this.data)}
+        >
+        </c-gallery>
+        <div
+          class="c-gallery__item-instructions"
+        >
+          Scroll to Navigate or Click and Drag
+        </div>
+      </section>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        class="c-filters"
+      >
+        <defs>
+          <filter id="blur">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10,0" />
+          </filter>
+        </defs>
+      </svg>
+
+    `;
   }
 
 }

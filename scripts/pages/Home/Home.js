@@ -169,7 +169,6 @@ export class HomePage extends LitElement {
       this.data = data;
     });
     this.data = data.body;
-    console.log(this.data);
     super.performUpdate();
   }
 
@@ -181,7 +180,7 @@ export class HomePage extends LitElement {
             <img
               class="u-margin-bottom-5"
               src="${this.url + this.data.HeroLogo.url}"
-              alt="${this.url + this.data.HeroLogo.caption}"
+              alt="${this.url + this.data.HeroLogo.alternativeText}"
             />
             <c-slant-title
               data=${JSON.stringify(this.data.HeroSlantTitle)}
@@ -190,7 +189,7 @@ export class HomePage extends LitElement {
           </div>
           <img
             src="${this.url + this.data.HeroImage.url}"
-            alt="${this.url + this.data.HeroImage.caption}"
+            alt="${this.url + this.data.HeroImage.alternativeText}"
             class="c-hero-frame__image"
           />
           <div
@@ -254,7 +253,7 @@ export class HomePage extends LitElement {
         ></c-heading>
         <img
           src=${this.url + this.data.ExteriorImage.url}
-          alt=${this.url + this.data.ExteriorImage.caption}
+          alt=${this.url + this.data.ExteriorImage.alternativeText}
         />
         <div class="c-exterior-section__content">
           <c-text-block
@@ -269,7 +268,6 @@ export class HomePage extends LitElement {
           >
           </c-details>
         </div>
-
       </div>
       <c-contact-form
           data=${JSON.stringify(this.data.ContactForm)}

@@ -133,7 +133,9 @@ export class Loader extends LitElement {
     }
 
     setTimeout(() => {
-      this.disable();
+      if (this.loaded !== true) {
+        this.disable();
+      }
     }, 1000 * 6);
   }
 

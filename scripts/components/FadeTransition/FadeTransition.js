@@ -59,7 +59,7 @@ export class FadeTransition extends LitElement {
       const image = document.createElement('img');
       this['_frameImage' + count] = image;
       image.setAttribute('src', this.url + item.Frame.url);
-      image.setAttribute('alt', item.Frame.caption);
+      image.setAttribute('alt', item.Frame.alternativeText);
       image.style.opacity = 'var(--fade-transition-' + count + ')';
       this.innerEl.appendChild(image);
       count++;

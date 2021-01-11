@@ -30,10 +30,12 @@ export class NavMenu extends LitElement {
       }
 
       @media (min-width:40em) {
+
         :host {
           padding-left: 1.25rem;
           padding-right: 1.25rem;
         }
+
       }
 
       .c-nav-menu__links {
