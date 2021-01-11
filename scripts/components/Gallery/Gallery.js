@@ -65,7 +65,6 @@ export class Gallery extends LitElement {
 
       .c-gallery__item img {
         height: auto;
-        pointer-events: none;
         width: 100%;
       }
 
@@ -185,7 +184,7 @@ export class Gallery extends LitElement {
 
   _scrollSetup() {
     this._booster = new ScrollBooster({
-      viewport: this._galleryEl,
+      viewport: this,
       content: this._galleryEl,
       scrollMode: 'transform',
       direction: 'horizontal',
@@ -196,8 +195,7 @@ export class Gallery extends LitElement {
       },
       onPointerMove: (state, event) => {
         this._handlePointerMove(state, event);
-      },
-      onClick: state => {}
+      }
     });
   }
 
