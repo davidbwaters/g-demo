@@ -1,6 +1,7 @@
 /*
  *  Scripts - App
  */
+import '../../modules/construct-style-sheets-polyfill.js';
 import { html, render } from '../../modules/lit-html.js';
 import { Router } from '../router/Router.js';
 import { RouterLink } from '../router/Link.js';

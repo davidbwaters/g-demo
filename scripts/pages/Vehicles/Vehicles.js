@@ -3,16 +3,78 @@
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
 import { motionBlur } from '../../utils/motionBlur.js';
+import { imagesPreload, imagesPreloadedCheck, imagesPreloadedCheckWait } from '../../utils/imagesPreload.js';
+import { generic } from '../../styles/generic.js';
+import { heroFrame } from '../../styles/heroFrame.js';
 export class VehiclesPage extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        display: block;
-        height: 100%;
-        padding-top: var(--navbar-height);
-        width: 100%;
-      }
-    `;
+    return [generic, heroFrame, css`
+        :host {
+          display: block;
+          height: 100%;
+          padding-top: var(--navbar-height);
+          width: 100%;
+        }
+
+        .c-vehicles-lower {
+          background-color: var(--color-subtle-light-5);
+          display: grid;
+          padding-bottom: 6rem;
+          padding-top: 6rem;
+          row-gap: 2rem;
+          text-align: center;
+        }
+
+        .c-vehicles-lower__text {
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 60rem;
+          width: 80%;
+        }
+
+        .c-spec-table {
+          display: grid;
+          grid-gap: 2rem;
+          grid-template-columns: 80%;
+          padding-bottom: 4rem;
+          padding-top: 4rem;
+        }
+
+        @media(min-width: 40em) {
+
+          .c-spec-table {
+            grid-gap: 2rem;
+            grid-template-columns: 1fr 1fr;
+            padding-bottom: 6rem;
+            padding-top: 6rem;
+          }
+
+        }
+
+        .c-spec-table__content {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .c-spec-table__field-name {
+          color: var(--color-subtle-dark-1);
+          font-size: var(--text-size-title-tiny);
+          font-weight: var(--font-weight-title-tiny);
+          letter-spacing: var(--letter-spacing-title-tiny);
+          line-height: 1rem;
+          text-transform: uppercase;
+        }
+
+        .c-spec-table__field-content {
+          color: var(--color-subtle-dark-3);
+          font-size: .8rem;
+          font-weight: var(--font-weight-title-stylized);
+          letter-spacing: var(--letter-spacing-title-stylized);
+          line-height: 1rem;
+        }
+
+
+      `];
   }
 
   static get properties() {
@@ -34,30 +96,27 @@ export class VehiclesPage extends LitElement {
 
   firstUpdated() {
     this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-vehicles-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
-
-    this._addStylesheet();
-
-    this._handleLoad = this._handleLoad.bind(this);
-
-    this._loadedCheck();
-
+    this.handleLoad = this.handleLoad.bind(this);
     this.updateComplete.then(() => {
-      this._handleLoad();
+      this.handleLoad();
     });
   }
 
-  _addStylesheet() {
-    const app = document.querySelector('c-router-app');
-    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
-  }
-
-  _loadedCheck() {
-    this.shadowRoot.querySelector('.c-hero-frame__image').addEventListener('load', () => {
+  preload() {
+    if (!this.data) {
+      setTimeout(() => {
+        this.preload();
+      }, 200);
+    } else {
+      this.url = 'https://admin.guntherwerks.info';
+      let images = [this.url + this.data.HeroLogo.url, this.url + this.data.HeroImage.url];
+      let preloading = imagesPreload(images);
+      imagesPreloadedCheckWait(preloading, true);
       this.loaded = true;
-    });
+    }
   }
 
-  _handleLoad() {
+  handleLoad() {
     if (this.loaded === true) {
       window.requestAnimationFrame(() => {
         window.dispatchEvent(new Event('resize'));
@@ -69,8 +128,8 @@ export class VehiclesPage extends LitElement {
       this.dispatchEvent(load);
     } else {
       setTimeout(() => {
-        this._handleLoad();
-      }, 50);
+        this.handleLoad();
+      }, 200);
     }
   }
 
@@ -97,7 +156,9 @@ export class VehiclesPage extends LitElement {
     const data = await this._getData(data => {
       this.data = data;
     });
+    console.log(this.data);
     this.data = data.body;
+    this.LowerSectionImage = this.data.LowerSectionImage;
     super.performUpdate();
   }
 
@@ -168,22 +229,27 @@ export class VehiclesPage extends LitElement {
         >
           <c-heading
             text=${this.data.LowerSectionHeading}
+            size="huge"
           >
           </c-heading>
           <c-text-block
             content=${this.data.LowerSectionText}
             isFlush=true
+            size="medium"
+            backgroundColor="transparent"
           >
           </c-text-block>
         </div>
+        <img
+          class="c-vehicles-lower__image"
+          srcset=${this.url + this.LowerSectionImage.formats.large.url + ', ' + this.url + this.LowerSectionImage.url + ' 2x'}
+          src=${this.url + this.LowerSectionImage.url}
+          alt=${this.LowerSectionImage.alternativeText}
+        >
       </section>
       <section
         class="c-spec-table"
       >
-        <div
-          class="c-spec-table__image"
-        >
-        </div>
         <div
           class="c-spec-table__image"
         >
@@ -203,6 +269,30 @@ export class VehiclesPage extends LitElement {
             <span class="c-spec-table__field-content">
               ${data.Field[1].Text}
             </span>
+
+          `)}
+        </div>
+      </section>
+
+      <section
+        class="c-spec-section"
+      >
+        <c-heading>
+          text=${this.data.SpecSectionTitle}
+          class="c-speclist"
+        </c-heading>
+        <div
+          class="c-spec-table__content"
+        >
+          ${this.data.SpecsList.map(data => html`
+
+            <span class="c-speclist__title">
+              ${data.Title}
+            </span>
+
+            ${data.Item.map(item => html`
+              ${item.Text}
+            `)}
 
           `)}
         </div>

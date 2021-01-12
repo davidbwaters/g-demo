@@ -102,8 +102,7 @@ export class Gallery extends LitElement {
     window.addEventListener('resize', () => {
       this._setMaxScroll();
     });
-
-    this._scrollSetup();
+    this.scrollSetup();
   }
 
   _setGalleryData() {
@@ -124,14 +123,13 @@ export class Gallery extends LitElement {
         newAlbum.SectionID = item.id;
         this.galleryData.albums = this.galleryData.albums.concat(newAlbum);
       });
-    });
-    console.log(this.galleryData);
+    }); // console.log(this.galleryData)
   }
 
   _setMaxScroll() {
-    const els = this._galleryEl.querySelectorAll('.c-gallery__item');
+    const els = this._galleryEl.querySelectorAll('.c-gallery__item'); // console.log(this._galleryEl)
 
-    console.log(this._galleryEl);
+
     let client = this._galleryEl.clientWidth;
     let length = els.length;
     let item = els[0].scrollWidth;
@@ -167,23 +165,22 @@ export class Gallery extends LitElement {
     // console.log('np ' + newPosition)
     // console.log('max ' + this._gallerySizes.maxScroll)
 
-    this._booster.scrollTo({
+    this.booster.scrollTo({
       x: offset,
       y: state.position.y
     });
   }
 
-  _handlePointerMove(state, event) {
-    console.log(state);
-    console.log(event.buttons);
+  _handlePointerMove(state, event) {// console.log(state)
+    // console.log(event.buttons)
   }
 
   _checkGrabbed() {
     return this._galleryEl.classList.contains('is-grabbed');
   }
 
-  _scrollSetup() {
-    this._booster = new ScrollBooster({
+  scrollSetup() {
+    this.booster = new ScrollBooster({
       viewport: this,
       content: this._galleryEl,
       scrollMode: 'transform',
@@ -200,9 +197,9 @@ export class Gallery extends LitElement {
   }
 
   async performUpdate() {
-    this._setGalleryData();
+    this._setGalleryData(); // console.log(this.data)
 
-    console.log(this.data);
+
     super.performUpdate();
   }
 
@@ -218,7 +215,7 @@ export class Gallery extends LitElement {
               class="c-gallery__item-image"
               srcset=${this.url + i.Cover.formats.medium.url + ', ' + this.url + i.Cover.formats.large.url + ' 2x'}
               src=${this.url + i.Cover.formats.large.url}
-              alt=${this.url + i.Cover.alternativeText}
+              alt=${i.Cover.alternativeText}
             >
             <span
               class="c-gallery__item-title"

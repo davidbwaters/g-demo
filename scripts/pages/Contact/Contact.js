@@ -2,16 +2,17 @@
  *  Scripts - Pages - Contact
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
+import { generic } from '../../styles/generic.js';
 export class ContactPage extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        display: block;
-        height: 100%;
-        padding-top: var(--navbar-height);
-        width: 100%;
-      }
-    `;
+    return [generic, css`
+        :host {
+          display: block;
+          height: 100%;
+          padding-top: var(--navbar-height);
+          width: 100%;
+        }
+      `];
   }
 
   static get properties() {
@@ -29,25 +30,22 @@ export class ContactPage extends LitElement {
   constructor() {
     super();
     this.url = 'https://admin.guntherwerks.info';
+    this.handleLoad = this.handleLoad.bind(this);
   }
 
-  firstUpdated() {
-    this._addStylesheet();
+  firstUpdated() {}
 
-    this._handleLoad = this._handleLoad.bind(this);
-
-    this._loadedCheck();
-
-    this.updateComplete.then(() => {
-      this._handleLoad();
-    });
+  preload() {
+    if (!this.data) {
+      setTimeout(() => {
+        this.preload();
+      }, 200);
+    } else {
+      this.loaded = true;
+    }
   }
 
-  _loadedCheck() {
-    this.loaded = true;
-  }
-
-  _handleLoad() {
+  handleLoad() {
     if (this.loaded === true) {
       this._transitionIn();
 
@@ -55,14 +53,9 @@ export class ContactPage extends LitElement {
       this.dispatchEvent(load);
     } else {
       setTimeout(() => {
-        this._handleLoad();
+        this.handleLoad();
       }, 50);
     }
-  }
-
-  _addStylesheet() {
-    const app = document.querySelector('c-router-app');
-    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
   }
 
   _transitionIn() {}

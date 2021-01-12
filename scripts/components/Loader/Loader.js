@@ -7,7 +7,9 @@ export class Loader extends LitElement {
 
       :host {
         align-content: center;
-        background-color: #666;
+        background-color: var(
+          --color-subtle-dark-2
+        );
         display: grid;
         grid-template-columns: 60%;
         height: 100%;
@@ -27,9 +29,12 @@ export class Loader extends LitElement {
         background-size: cover;
         content: '';
         display: grid;
-        filter: url('/images/Filters.svg#blur');
+        filter: url(
+          '/images/Filters.svg#blur'
+        );
         height: 100%;
         left: -10vw;
+        opacity: .66;
         position: fixed;
         top: 0;
         width: 120vw;
@@ -133,8 +138,7 @@ export class Loader extends LitElement {
     }
 
     setTimeout(() => {
-      if (this.loaded !== true) {
-        this.disable();
+      if (this.loaded !== true) {//this.disable()
       }
     }, 1000 * 6);
   }

@@ -2,82 +2,83 @@
  *  Scripts - Components - Footer
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { generic } from '../../styles/generic.js';
 export class Footer extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        background-color: var(--color-subtle-dark-2);
-        bottom: 0;
-        color: white;
-        padding-left: 10%;
-        padding-right: 10%;
-        position: fixed;
-        width: 100%;
-        z-index: var(--footer-z-index);
-      }
-
-      .c-footer__content {
-        align-content: flex-start;
-        box-sizing: border-box;
-        color: var(--color-subtle-light-4);
-        column-gap: 2rem;
-        display: grid;
-        font-size: .8rem;
-        grid-auto-flow: column;
-        grid-auto-columns: min-content;
-        grid-template-rows: 1fr 1fr;
-        justify-content: space-between;
-        padding-bottom: 8rem;
-        padding-top: 3rem;
-        width: 100%;
-        align-content: center;
-      }
-
-      @media (min-width: 40em) {
-
-        .c-footer__content {
-          grid-template-rows: 1fr;
+    return [generic, css`
+        :host {
+          background-color: var(--color-subtle-dark-2);
+          bottom: 0;
+          color: white;
+          padding-left: 10%;
+          padding-right: 10%;
+          position: fixed;
+          width: 100%;
+          z-index: var(--footer-z-index);
         }
 
-      }
+        .c-footer__content {
+          align-content: flex-start;
+          box-sizing: border-box;
+          color: var(--color-subtle-light-4);
+          column-gap: 2rem;
+          display: grid;
+          font-size: .8rem;
+          grid-auto-flow: column;
+          grid-auto-columns: min-content;
+          grid-template-rows: 1fr 1fr;
+          justify-content: space-between;
+          padding-bottom: 8rem;
+          padding-top: 3rem;
+          width: 100%;
+          align-content: center;
+        }
 
-      .c-footer__column,
-      .c-footer__column-info {
-        align-content: flex-start;
-        display: grid;
-      }
+        @media (min-width: 40em) {
 
-      .c-footer__column {
-        row-gap: .5rem;
-      }
+          .c-footer__content {
+            grid-template-rows: 1fr;
+          }
 
-      .c-footer__column-info {
-        margin-top: -3px;
-        row-gap: 1.5rem;
-      }
+        }
 
-      .c-footer__title {
-        font-size: var(--text-size-title-tiny);
-        font-weight: var(--font-weight-title-tiny);
-        letter-spacing: var(--letter-spacing-title-tiny);
-        line-height: var(--line-height-title-tiny);
-        margin-bottom: .25rem;
-        text-transform: uppercase;
-      }
+        .c-footer__column,
+        .c-footer__column-info {
+          align-content: flex-start;
+          display: grid;
+        }
 
-      .c-footer__social-link {
-        margin-bottom: .5rem;
-        width: 1.5rem;
-      }
+        .c-footer__column {
+          row-gap: .5rem;
+        }
 
-      p {
-        margin-bottom: 0;
-      }
+        .c-footer__column-info {
+          margin-top: -3px;
+          row-gap: 1.5rem;
+        }
 
-      a {
-        color: var(--color-subtle-light-6);
-      }
-    `;
+        .c-footer__title {
+          font-size: var(--text-size-title-tiny);
+          font-weight: var(--font-weight-title-tiny);
+          letter-spacing: var(--letter-spacing-title-tiny);
+          line-height: var(--line-height-title-tiny);
+          margin-bottom: .25rem;
+          text-transform: uppercase;
+        }
+
+        .c-footer__social-link {
+          margin-bottom: .5rem;
+          width: 1.5rem;
+        }
+
+        p {
+          margin-bottom: 0;
+        }
+
+        a {
+          color: var(--color-subtle-light-6);
+        }
+      `];
   }
 
   static get properties() {
@@ -102,19 +103,12 @@ export class Footer extends LitElement {
   }
 
   firstUpdated() {
-    this._addStylesheet();
-
     this._setHeight();
   }
 
   _setHeight() {
     const size = this.getBoundingClientRect();
     document.documentElement.style.setProperty('--footer-height', size.height / 16 + 'rem');
-  }
-
-  _addStylesheet() {
-    const app = document.querySelector('c-router-app');
-    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
   }
 
   async _getData() {

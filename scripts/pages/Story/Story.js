@@ -2,16 +2,17 @@
  *  Scripts - Pages - Story
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
+import { generic } from '../../styles/generic.js';
 export class StoryPage extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        display: block;
-        height: 100%;
-        padding-top: var(--navbar-height);
-        width: 100%;
-      }
-    `;
+    return [generic, css`
+        :host {
+          display: block;
+          height: 100%;
+          padding-top: var(--navbar-height);
+          width: 100%;
+        }
+      `];
   }
 
   static get properties() {
@@ -32,37 +33,34 @@ export class StoryPage extends LitElement {
   }
 
   firstUpdated() {
-    this._addStylesheet();
-
-    this._handleLoad = this._handleLoad.bind(this);
-
-    this._loadedCheck();
-
-    this.updateComplete.then(() => {
-      this._handleLoad();
-    });
+    this.handleLoad = this.handleLoad.bind(this);
   }
 
-  _loadedCheck() {
-    this.loaded = true;
+  preload() {
+    if (!this.data) {
+      console.log(this.data);
+      setTimeout(() => {
+        this.preload();
+      }, 200);
+    } else {
+      this.loaded = true;
+    }
   }
 
-  _handleLoad() {
+  handleLoad() {
+    console.log('Handle load ...');
+
     if (this.loaded === true) {
       this._transitionIn();
 
       let load = new CustomEvent('routeLoad');
       this.dispatchEvent(load);
+      console.log('Route loaded ...');
     } else {
       setTimeout(() => {
-        this._handleLoad();
-      }, 50);
+        this.handleLoad();
+      }, 200);
     }
-  }
-
-  _addStylesheet() {
-    const app = document.querySelector('c-router-app');
-    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
   }
 
   _transitionIn() {}
@@ -79,8 +77,8 @@ export class StoryPage extends LitElement {
     const data = await this._getData(data => {
       this.data = data;
     });
-    this.data = data.body; // console.log(this.data)
-
+    this.data = data.body;
+    console.log(this.data);
     super.performUpdate();
   }
 

@@ -210,6 +210,7 @@ export class ScaleSection extends LitElement {
 
   firstUpdated() {
     this._contentEl = this.shadowRoot.querySelector('.c-scale-section__content');
+    this._imageEl = this.shadowRoot.querySelector('.c-scale-section-background');
 
     this._setInitialData();
 
@@ -308,6 +309,8 @@ export class ScaleSection extends LitElement {
       this.shadowRoot.host.style.setProperty('--scale-section-background-display', 'none');
       this.shadowRoot.host.style.setProperty('--scale-section-align', 'center');
       this.shadowRoot.host.style.setProperty('--scale-section-justify', 'center');
+      this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-top-mobile', '4rem');
+      this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-bottom-mobile', '4rem');
       this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-top', '6rem');
       this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-bottom', '6rem');
     } else {
@@ -569,7 +572,7 @@ export class ScaleSection extends LitElement {
 
     this._setBackgroundSizes();
 
-    this.shadowRoot.host.style.setProperty('--scale-section-background-image', 'url(' + this.url + this.image.url + ')');
+    this._imageEl.style.backgroundImage = 'url(' + this.url + this.image.url + ')';
 
     if (this.imageAsBackground === 'OnLightText') {
       this.shadowRoot.host.style.setProperty('--scale-section-background-color', 'var(--color-subtle-dark-1)');

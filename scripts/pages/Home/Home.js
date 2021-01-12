@@ -3,91 +3,93 @@
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
 import { motionBlur } from '../../utils/motionBlur.js';
+import { generic } from '../../styles/generic.js';
+import { heroFrame } from '../../styles/heroFrame.js';
 export class HomePage extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        display: block;
-        font-size: calc(var(--text-size-normal) * .9);
-        line-height: var(--line-height-text-normal);
-        min-height: 100%;
-        position: relative;
-        width: 100%;
-      }
-
-
-      @media (min-width:40em) {
-
+    return [heroFrame, generic, css`
         :host {
-          font-size: var(--text-size-normal);
+          display: block;
+          font-size: calc(var(--text-size-normal) * .9);
+          line-height: var(--line-height-text-normal);
+          min-height: 100%;
+          position: relative;
+          width: 100%;
         }
 
-      }
 
-      .c-exterior-section {
-        align-content: center;
-        background-color: var(--color-subtle-light-5);
-        display: grid;
-        grid-template-columns: 80%;
-        justify-content: center;
-        padding-bottom: 8rem;
-        padding-top: 8rem;
-        row-gap: 1rem;
-      }
+        @media (min-width:40em) {
 
+          :host {
+            font-size: var(--text-size-normal);
+          }
 
-      .c-exterior-section__content {
-        align-items: start;
-        column-gap: 4rem;
-        display: grid;
-        grid-template-columns: 1fr;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 60rem;
-        padding-top: 4rem;
-        row-gap: 4rem;
-      }
+        }
 
-      @media (min-width:60em) {
+        .c-exterior-section {
+          align-content: center;
+          background-color: var(--color-subtle-light-5);
+          display: grid;
+          grid-template-columns: 80%;
+          justify-content: center;
+          padding-bottom: 8rem;
+          padding-top: 8rem;
+          row-gap: 1rem;
+        }
+
 
         .c-exterior-section__content {
           align-items: start;
-          column-gap: 3rem;
+          column-gap: 4rem;
           display: grid;
-          grid-template-columns: 3fr 2fr;
+          grid-template-columns: 1fr;
+          justify-content: center;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 60rem;
+          padding-top: 4rem;
+          row-gap: 4rem;
         }
 
-      }
+        @media (min-width:60em) {
 
-      .c-exterior-section__text {
-        margin-left: auto;
-        margin-right: auto;
-      }
+          .c-exterior-section__content {
+            align-items: start;
+            column-gap: 3rem;
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+          }
 
-      .c-filters {
-        display: block;
-        height: 0;
-      }
+        }
 
-      @keyframes fade-in {
-        0% {
-          opacity: 0
+        .c-exterior-section__text {
+          margin-left: auto;
+          margin-right: auto;
         }
-        100% {
-          opacity: 1
-        }
-      }
 
-      @keyframes fade-out {
-        0% {
-          opacity: 1
+        .c-filters {
+          display: block;
+          height: 0;
         }
-        100% {
-          opacity: 0
+
+        @keyframes fade-in {
+          0% {
+            opacity: 0
+          }
+          100% {
+            opacity: 1
+          }
         }
-      }
-    `;
+
+        @keyframes fade-out {
+          0% {
+            opacity: 1
+          }
+          100% {
+            opacity: 0
+          }
+        }
+      `];
   }
 
   static get properties() {
@@ -105,34 +107,27 @@ export class HomePage extends LitElement {
   constructor() {
     super();
     this.url = 'https://admin.guntherwerks.info';
+    this.handleLoad = this.handleLoad.bind(this);
   }
 
   firstUpdated() {
     this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-home-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
-
-    this._addStylesheet();
-
-    this._handleLoad = this._handleLoad.bind(this);
-
-    this._loadedCheck();
-
-    this.updateComplete.then(() => {
-      this._handleLoad();
-    });
   }
 
-  _addStylesheet() {
-    const app = document.querySelector('c-router-app');
-    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
+  preload() {
+    if (!this.data) {
+      console.log('No data yet ...');
+      setTimeout(() => {
+        this.preload();
+      }, 400);
+    } else {
+      this.shadowRoot.querySelector('.c-hero-frame__image').addEventListener('load', () => {
+        this.loaded = true;
+      });
+    }
   }
 
-  _loadedCheck() {
-    this.shadowRoot.querySelector('.c-hero-frame__image').addEventListener('load', () => {
-      this.loaded = true;
-    });
-  }
-
-  _handleLoad() {
+  handleLoad() {
     if (this.loaded === true) {
       this._transitionIn();
 
@@ -140,8 +135,8 @@ export class HomePage extends LitElement {
       this.dispatchEvent(load);
     } else {
       setTimeout(() => {
-        this._handleLoad();
-      }, 50);
+        this.handleLoad();
+      }, 200);
     }
   }
 
@@ -178,7 +173,6 @@ export class HomePage extends LitElement {
         <div class="c-hero-frame__content">
           <div class="c-hero-frame__branding">
             <img
-              class="u-margin-bottom-5"
               src="${this.url + this.data.HeroLogo.url}"
               alt="${this.url + this.data.HeroLogo.alternativeText}"
             />

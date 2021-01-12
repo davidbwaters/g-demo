@@ -1,24 +1,25 @@
 /*
  *  Scripts - Router - Main
  */
-import { LitElement, css } from '../../modules/lit-element.js';
+import { LitElement, css, unsafeCSS } from '../../modules/lit-element.js';
 import { router } from '../../modules/lit-element-router.js';
 import { RouterOutlet } from './Outlet.js';
 import routes from '../config/routes.js';
+import { generic } from '../styles/generic.js';
+import { logoResponsive } from '../styles/logoResponsive.js';
 customElements.define('c-router-outlet', RouterOutlet);
 export class Router extends router(LitElement) {
   static get styles() {
-    return css`
-      :host {
-        display: block;
-        height: auto;
-        padding-bottom: var(--footer-height);
-        position: relative;
-        width: 100%;
-        z-index: 1;
-      }
-
-    `;
+    return [generic, logoResponsive, css`
+        :host {
+          display: block;
+          height: auto;
+          padding-bottom: var(--footer-height);
+          position: relative;
+          width: 100%;
+          z-index: 1;
+        }
+      `];
   }
 
   static get routes() {
@@ -30,7 +31,8 @@ export class Router extends router(LitElement) {
     this.route = '';
     this.params = {};
     this.query = {};
-    this._handleLoad = this._handleLoad.bind(this);
+    this.handleLoad = this.handleLoad.bind(this);
+    this._preloadRoute = this._preloadRoute.bind(this);
   }
 
   router(route, params, query, data) {
@@ -42,8 +44,6 @@ export class Router extends router(LitElement) {
   connectedCallback() {
     super.connectedCallback();
 
-    this._addStylesheet();
-
     this._getLinks();
 
     this._setActiveRouteEl();
@@ -51,21 +51,6 @@ export class Router extends router(LitElement) {
     this._addOutlet();
 
     this.loaderEl.enable();
-  }
-
-  _addStylesheet() {
-    const docStyles = document.styleSheets[0];
-    this.sheet = new CSSStyleSheet();
-    this.sheetMedia = new CSSStyleSheet();
-    const rulesObjs = [...docStyles.rules];
-    let count = 0;
-    rulesObjs.forEach(rule => {
-      if (rule.type === 4 || rule.type === 1) {
-        this.sheet.insertRule(rule.cssText, count);
-        count++;
-      }
-    });
-    this.shadowRoot.adoptedStyleSheets = [this.shadowRoot.adoptedStyleSheets[0], this.sheet, this.sheetMedia];
   }
 
   _getLinks() {
@@ -122,7 +107,13 @@ export class Router extends router(LitElement) {
     }
   }
 
-  _handleLoad(e) {
+  _resize() {
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new Event('resize'));
+    });
+  }
+
+  handleLoad(e) {
     // console.log('router loading ' + e)
     this.loaderEl.disable();
     this.activeRouteEl.style.opacity = '1';
@@ -130,25 +121,53 @@ export class Router extends router(LitElement) {
     this.outletEl.setAttribute('active-route', this.route);
   }
 
-  _resize() {
-    window.requestAnimationFrame(() => {
-      window.dispatchEvent(new Event('resize'));
+  _preloadRoute(e) {
+    console.log('preload ' + this._unloadedRouteEls[0]);
+    this._unloadedRouteEls[0].loaded = true;
+
+    this._unloadedRouteEls[0].removeEventListener('routeLoad', this._preloadRoute);
+
+    this._preloadRoutes();
+  }
+
+  _preloadRoutes() {
+    this._unloadedRouteEls = [];
+    this.routeEls.forEach(el => {
+      if (!el.loaded) {
+        this._unloadedRouteEls.concat(el);
+      }
     });
+
+    if (this._unloadedRouteEls.length) {
+      this._unloadedRouteEls[0].addEventListener('routeLoad', this._preloadRoute);
+
+      this._unloadedRouteEls[0].handleLoad();
+
+      this._unloadedRouteEls[0].preload();
+
+      console.log('Trying to preload' + this._unloadedRouteEls[0]);
+    }
   }
 
   updated() {
     // console.log('router-updated')
     if (this.activeRouteEl) {
-      this.activeRouteEl.removeEventListener('routeLoad', this._handleLoad);
+      this.activeRouteEl.removeEventListener('routeLoad', this.handleLoad);
     }
 
     this._setActiveRouteEl();
 
-    this.activeRouteEl.style.opacity = '0';
-    this.activeRouteEl.style.transition = 'opacity .5s';
+    window.requestAnimationFrame(() => {
+      this.activeRouteEl.style.opacity = '0';
+      this.activeRouteEl.style.transition = 'opacity .5s';
+    });
 
     if (this.activeRouteEl.loaded !== true) {
-      this.activeRouteEl.addEventListener('routeLoad', this._handleLoad);
+      console.log('Active route not loaded ...');
+      this.activeRouteEl.addEventListener('routeLoad', this.handleLoad);
+      console.log(this.activeRouteEl);
+      this.activeRouteEl.preload();
+      this.activeRouteEl.handleLoad();
     } else {
       requestAnimationFrame(() => {
         this.activeRouteEl.style.opacity = '1';
@@ -158,6 +177,8 @@ export class Router extends router(LitElement) {
           this.activeRouteEl._transitionIn();
         });
       }, 500);
+
+      this._preloadRoutes();
     }
 
     this.outletEl.setAttribute('active-route', this.route);

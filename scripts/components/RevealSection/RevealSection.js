@@ -1,84 +1,39 @@
 /*
  *  Scripts - Components - Reveal Section */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
-import * as basicScroll from '../../../modules/basicscroll.js'; // import animateweb from 'animate.web'
-
-import { lerp // invlerp,
-// clamp
-} from '../../utils/lerp.js';
-import { motionBlur } from '../../utils/motionBlur.js';
-import { getColor } from '../../utils/theme.js';
+import * as basicScroll from '../../../modules/basicscroll.js';
 export class RevealSection extends LitElement {
   static get styles() {
     return css`
 
-      :host {
-        display: grid;
-        min-height: 90vh;
+      :host,
+      .c-reveal-section__content {
+        overflow: hidden;
+        position: relative;
         width: 100%;
       }
-
 
       .c-reveal-section__content {
-        height: 300vh;
-        position: relative;
-        width: 100%;
-      }
-
-      .c-reveal-section__content-upper,
-      .c-reveal-section__content-lower::before {
+        background-attachment: fixed;
+        background-image: var(
+          --reveal-section-upper-bg-image
+        );
         background-size: cover;
-        background-position: center center;
-        height: 100vh;
-        width: 100%;
-      }
-
-      .c-reveal-section__content-upper {
-        background-image:
-          var(--reveal-section-upper-bg-image);
-        position: sticky;
-        top: 0;
-      }
-
-      .c-reveal-section__content-lower {
-        align-content: center;
-        background-color: var(--color-subtle-dark-1);
-        height: 100vh;
+        background-repeat: no-repeat;
+        background-position: bottom center;
         display: grid;
-        grid-template-columns: 90%;
-        justify-content: center;
-        position: relative;
-        top: 100vh;
-      }
-
-      @media (min-width:40em) {
-
-        .c-reveal-section__content-lower {
-          grid-template-columns: 80%;
-        }
-
-      }
-
-      .c-reveal-section__content-lower::before {
-        background-image:
-          var(--reveal-section-lower-bg-image);
-        content: '';
-        left: 0;
-        opacity: .85;
-        position: absolute;
-        top: 0;
+        grid-template-rows: 200vh 100vh;
       }
 
       .c-reveal-section__bars {
         height: 100%;
-
       }
 
       .c-reveal-section__bars::before,
       .c-reveal-section__bars::after {
         content: '';
         background-color: white;
-        height: 100vh;
+        height: 100%;
         position: absolute;
         transform: scaleX(var(--reveal-section-bar-size));
         width: 15%;
@@ -95,10 +50,39 @@ export class RevealSection extends LitElement {
         transform-origin: right center;
       }
 
+      .c-reveal-section__lower {
+        align-content: center;
+        background-color: var(--color-subtle-dark-1);
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 90%;
+        justify-content: center;
+        position: relative;
+      }
+
+
+      @media (min-width:40em) {
+
+        .c-reveal-section__lower {
+          grid-template-columns: 80%;
+        }
+
+      }
+
+      .c-reveal-section__lower-background {
+        background-position: bottom center;
+        background-size: cover;
+        content: '';
+        height: 100%;
+        opacity: .66;
+        position: absolute;
+        width: 100%;
+      }
+
       .c-reveal-section__text {
         max-width: 60rem;
         opacity: var(--reveal-section-text-opacity);
-        transition: opacity 1s ease-in;
+        transition: opacity .5s ease-in;
         will-change: opacity;
       }
     `;
@@ -115,29 +99,41 @@ export class RevealSection extends LitElement {
   firstUpdated() {
     this.url = 'https://admin.guntherwerks.info';
     this._contentEl = this.shadowRoot.querySelector('.c-reveal-section__content');
-    this.shadowRoot.host.style.setProperty('--reveal-section-upper-bg-image', 'url(' + this.url + this.data.UpperImage.url + ')');
-    this.shadowRoot.host.style.setProperty('--reveal-section-lower-bg-image', 'url(' + this.url + this.data.LowerImage.url + ')');
+    this._barsEl = this.shadowRoot.querySelector('.c-reveal-section__bars');
+    this._upperEl = this.shadowRoot.querySelector('.c-reveal-section__upper');
+    this._lowerEl = this.shadowRoot.querySelector('.c-reveal-section__lower');
+    this._lowerBackground = this.shadowRoot.querySelector('.c-reveal-section__lower-background');
+    this._contentEl.style.backgroundImage = 'url(' + this.url + this.data.UpperImage.url + ')';
+    this._lowerBackground.style.backgroundImage = 'url(' + this.url + this.data.LowerImage.url + ')';
     this.shadowRoot.querySelector('c-heading').text = this.data.RevealText;
 
     this._scrollSetup();
 
-    this._scrollInstance.start();
+    this._scrollInstanceBars.start();
+
+    this._scrollInstanceFade.start();
   }
 
   _scrollSetup() {
-    this._scrollInstance = basicScroll.create({
-      elem: this,
+    this._scrollInstanceBars = basicScroll.create({
+      elem: this._barsEl,
       from: 'top-top',
       to: 'middle-top',
-      direct: this,
+      direct: this._barsEl,
       props: {
         '--reveal-section-bar-size': {
           from: 1,
           to: 0
         }
-      },
-      outside: (instance, percentage, props) => {
-        if (percentage > 110) {
+      }
+    });
+    this._scrollInstanceFade = basicScroll.create({
+      elem: this._lowerEl,
+      from: 'top-bottom',
+      to: 'bottom-bottom',
+      direct: this._lowerEl,
+      inside: (instance, percentage, props) => {
+        if (percentage > 50) {
           if (this.hasScrolled !== true) {
             this.hasScrolled = true;
             this.shadowRoot.host.style.setProperty('--reveal-section-text-opacity', 0.99);
@@ -158,7 +154,7 @@ export class RevealSection extends LitElement {
         class="c-reveal-section__content"
       >
         <div
-          class="c-reveal-section__content-upper"
+          class="c-reveal-section__upper"
         >
           <div
             class="c-reveal-section__bars"
@@ -166,14 +162,21 @@ export class RevealSection extends LitElement {
           </div>
         </div>
         <div
-          class="c-reveal-section__content-lower"
+          class="c-reveal-section__lower"
         >
-          <c-heading
-            color='white'
-            size='huge'
+          <div
+            class="c-reveal-section__lower-background"
+          >
+          </div>
+          <div
             class="c-reveal-section__text"
           >
-          </c-heading>
+            <c-heading
+              color='white'
+              size='huge'
+            >
+            </c-heading>
+          </div>
         </div>
       </div>
     `;

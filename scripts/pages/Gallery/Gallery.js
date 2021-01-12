@@ -3,31 +3,31 @@
  */
 import { LitElement, css, html } from '../../../modules/lit-element.js';
 import { motionBlur } from '../../utils/motionBlur.js';
-import ScrollBooster from '../../../modules/scrollbooster.js';
+import { generic } from '../../styles/generic.js';
 export class GalleryPage extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        display: block;
-        min-height: 90vh;
-        overflow-x: hidden;
-        padding-top: var(--navbar-height);
-        width: 100%;
-      }
+    return [generic, css`
+        :host {
+          display: block;
+          min-height: 90vh;
+          overflow-x: hidden;
+          padding-top: var(--navbar-height);
+          width: 100%;
+        }
 
-      .c-gallery__instructions {
-        color: var(--color-subtle-dark-4);
-        display: block;
-        font-size: var(--text-size-title-stylized);
-        font-weight: var(--font-weight-title-stylized);
-        letter-spacing: var(--letter-spacing-title-stylized);
-        line-height: var(--line-height-title-stylized);
-        margin-bottom: .25rem;
-        text-align: center;
-        text-transform: uppercase;
-      }
+        .c-gallery__instructions {
+          color: var(--color-subtle-dark-4);
+          display: block;
+          font-size: var(--text-size-title-stylized);
+          font-weight: var(--font-weight-title-stylized);
+          letter-spacing: var(--letter-spacing-title-stylized);
+          line-height: var(--line-height-title-stylized);
+          margin-bottom: .25rem;
+          text-align: center;
+          text-transform: uppercase;
+        }
 
-    `;
+      `];
   }
 
   static get properties() {
@@ -45,32 +45,24 @@ export class GalleryPage extends LitElement {
   constructor() {
     super();
     this.url = 'https://admin.guntherwerks.info';
+    this.handleLoad = this.handleLoad.bind(this);
   }
 
   firstUpdated() {
     this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-gallery-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
-
-    this._addStylesheet();
-
-    this._handleLoad = this._handleLoad.bind(this);
-
-    this._loadedCheck();
-
-    this.updateComplete.then(() => {
-      this._handleLoad();
-    });
   }
 
-  _addStylesheet() {
-    const app = document.querySelector('c-router-app');
-    this.shadowRoot.adoptedStyleSheets = [app.sheet, app.sheetMedia, this.shadowRoot.adoptedStyleSheets[0]];
+  preload() {
+    if (!this.data) {
+      setTimeout(() => {
+        this.preload();
+      }, 200);
+    } else {
+      this.loaded = true;
+    }
   }
 
-  _loadedCheck() {
-    this.loaded = true;
-  }
-
-  _handleLoad() {
+  handleLoad() {
     if (this.loaded === true) {
       window.requestAnimationFrame(() => {
         window.dispatchEvent(new Event('resize'));
@@ -82,8 +74,8 @@ export class GalleryPage extends LitElement {
       this.dispatchEvent(load);
     } else {
       setTimeout(() => {
-        this._handleLoad();
-      }, 50);
+        this.handleLoad();
+      }, 400);
     }
   }
 
