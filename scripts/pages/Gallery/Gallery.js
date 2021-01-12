@@ -56,7 +56,7 @@ export class GalleryPage extends LitElement {
     if (!this.data) {
       setTimeout(() => {
         this.preload();
-      }, 200);
+      }, 500);
     } else {
       this.loaded = true;
     }

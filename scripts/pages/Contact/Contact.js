@@ -39,7 +39,7 @@ export class ContactPage extends LitElement {
     if (!this.data) {
       setTimeout(() => {
         this.preload();
-      }, 200);
+      }, 500);
     } else {
       this.loaded = true;
     }
@@ -54,7 +54,7 @@ export class ContactPage extends LitElement {
     } else {
       setTimeout(() => {
         this.handleLoad();
-      }, 50);
+      }, 500);
     }
   }
 

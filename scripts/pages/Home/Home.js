@@ -119,7 +119,7 @@ export class HomePage extends LitElement {
       console.log('No data yet ...');
       setTimeout(() => {
         this.preload();
-      }, 400);
+      }, 500);
     } else {
       this.shadowRoot.querySelector('.c-hero-frame__image').addEventListener('load', () => {
         this.loaded = true;

@@ -3,6 +3,7 @@
  */
 import '../../modules/construct-style-sheets-polyfill.js';
 import { html, render } from '../../modules/lit-html.js';
+import '../../modules/@appnest/masonry-layout.js';
 import { Router } from '../router/Router.js';
 import { RouterLink } from '../router/Link.js';
 import { NavMenu } from '../components/NavMenu/NavMenu.js';

@@ -9,7 +9,6 @@ export class StoryPage extends LitElement {
         :host {
           display: block;
           height: 100%;
-          padding-top: var(--navbar-height);
           width: 100%;
         }
       `];
@@ -41,7 +40,7 @@ export class StoryPage extends LitElement {
       console.log(this.data);
       setTimeout(() => {
         this.preload();
-      }, 200);
+      }, 500);
     } else {
       this.loaded = true;
     }
@@ -59,7 +58,7 @@ export class StoryPage extends LitElement {
     } else {
       setTimeout(() => {
         this.handleLoad();
-      }, 200);
+      }, 500);
     }
   }
 

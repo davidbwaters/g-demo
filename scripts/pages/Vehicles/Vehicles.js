@@ -33,6 +33,7 @@ export class VehiclesPage extends LitElement {
         }
 
         .c-spec-table {
+          background-color: var(--color-subtle-light-5);
           display: grid;
           grid-gap: 2rem;
           grid-template-columns: 80%;
@@ -73,6 +74,70 @@ export class VehiclesPage extends LitElement {
           line-height: 1rem;
         }
 
+        .c-speclist {
+          padding-bottom: 4rem;
+          padding-top: 4rem;
+        }
+
+        @media(min-width: 40em) {
+
+          .c-speclist {
+            padding-bottom: 6rem;
+            padding-top: 6rem;
+          }
+
+        }
+
+        .c-speclist__heading {
+          margin-bottom: 4rem;
+        }
+
+        @media(min-width: 40em) {
+
+          .c-speclist__heading {
+            margin-bottom: 6rem;
+          }
+
+        }
+
+        .c-speclist__content {
+          margin-left: auto;
+          margin-right: auto;
+          width: 90%;
+        }
+
+        @media(min-width: 40em) {
+
+          .c-speclist__content {
+            width: 80%;
+          }
+
+        }
+
+        .c-speclist__item {
+          margin-bottom: 2rem;
+        }
+
+        .c-speclist__item-title {
+          display: block;
+          color: var(--color-subtle-dark-1);
+          font-size: var(--text-size-title-normal);
+          font-weight: var(--font-weight-title-normal);
+          letter-spacing: var(--letter-spacing-title-normal);
+          line-height: var(--line-height-title-normal);
+          margin-bottom: .6rem;
+          text-transform: uppercase;
+        }
+
+        .c-speclist__item-text {
+          display: block;
+          color: var(--color-subtle-dark-3);
+          font-size: var(--text-size-title-normal-light);
+          font-weight: var(--font-weight-title-normal-light);
+          letter-spacing: var(--letter-spacing-title-normal-light);
+          line-height: var(--line-height-title-normal-light);
+          margin-bottom: .4rem;
+        }
 
       `];
   }
@@ -106,7 +171,7 @@ export class VehiclesPage extends LitElement {
     if (!this.data) {
       setTimeout(() => {
         this.preload();
-      }, 200);
+      }, 500);
     } else {
       this.url = 'https://admin.guntherwerks.info';
       let images = [this.url + this.data.HeroLogo.url, this.url + this.data.HeroImage.url];
@@ -129,7 +194,7 @@ export class VehiclesPage extends LitElement {
     } else {
       setTimeout(() => {
         this.handleLoad();
-      }, 200);
+      }, 500);
     }
   }
 
@@ -275,26 +340,39 @@ export class VehiclesPage extends LitElement {
       </section>
 
       <section
-        class="c-spec-section"
+        class="c-speclist"
       >
-        <c-heading>
+        <c-heading
           text=${this.data.SpecSectionTitle}
-          class="c-speclist"
+          size="medium"
+          class="c-speclist__heading"
+        >
         </c-heading>
         <div
-          class="c-spec-table__content"
+          class="c-speclist__content"
         >
-          ${this.data.SpecsList.map(data => html`
+          <masonry-layout>
+            ${this.data.SpecsList.map(data => html`
 
-            <span class="c-speclist__title">
-              ${data.Title}
-            </span>
+              <div
+                class="c-speclist__item"
+              >
+                <span class="c-speclist__item-title">
+                  ${data.Title}
+                </span>
 
-            ${data.Item.map(item => html`
-              ${item.Text}
+                ${data.Item.map(item => html`
+
+                  <span class="c-speclist__item-text">
+                    ${item.Text}
+                  </span>
+
+                `)}
+
+              </div>
+
             `)}
-
-          `)}
+          </masonry-layout>
         </div>
       </section>
       <svg
