@@ -12,7 +12,6 @@ export class VehiclesPage extends LitElement {
         :host {
           display: block;
           height: 100%;
-          padding-top: var(--navbar-height);
           width: 100%;
         }
 
@@ -220,8 +219,8 @@ export class VehiclesPage extends LitElement {
   async performUpdate() {
     const data = await this._getData(data => {
       this.data = data;
-    });
-    console.log(this.data);
+    }); //console.log(this.data)
+
     this.data = data.body;
     this.LowerSectionImage = this.data.LowerSectionImage;
     super.performUpdate();

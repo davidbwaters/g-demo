@@ -3,9 +3,10 @@
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
 import { generic } from '../../styles/generic.js';
+import { logoResponsive } from '../../styles/logoResponsive.js';
 export class Footer extends LitElement {
   static get styles() {
-    return [generic, css`
+    return [generic, logoResponsive, css`
         :host {
           background-color: var(--color-subtle-dark-2);
           bottom: 0;

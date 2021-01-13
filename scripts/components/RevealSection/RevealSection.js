@@ -8,6 +8,7 @@ export class RevealSection extends LitElement {
 
       :host,
       .c-reveal-section__content {
+        max-width: 100vw;
         overflow: hidden;
         position: relative;
         width: 100%;

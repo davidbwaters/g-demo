@@ -8,8 +8,20 @@ export class NavMenu extends LitElement {
     return css`
 
       :host {
-        align-items: center;
         background-color: var(--color-subtle-dark-2);
+        height: 3rem;
+        opacity: var(--navbar-opacity);
+        pointer-events: var(--navbar-pointer-events);
+        position: absolute;
+        top: 0;
+        transition: all .5s;
+        width: 100%;
+        will-change: opacity;
+        z-index: 9;
+      }
+
+      .c-nav-menu__inner {
+        align-items: center;
         box-sizing: border-box;
         color: white;
         display: grid;
@@ -17,25 +29,15 @@ export class NavMenu extends LitElement {
         grid-template-columns: min-content min-content;
         grid-template-rows: 1rem;
         justify-content: space-between;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 60rem;
         padding-bottom: 1rem;
         padding-left: 1rem;
         padding-right: 1rem;
         padding-top: 1rem;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        z-index: 9;
 
         --nav-menu-column-gap: 1rem;
-      }
-
-      @media (min-width:40em) {
-
-        :host {
-          padding-left: 1.25rem;
-          padding-right: 1.25rem;
-        }
-
       }
 
       .c-nav-menu__links {
@@ -127,7 +129,7 @@ export class NavMenu extends LitElement {
 
   render() {
     return html`
-
+      <div class="c-nav-menu__inner">
         <slot name="branding"></slot>
 
         <nav class="c-nav-menu__links">
@@ -136,6 +138,7 @@ export class NavMenu extends LitElement {
           >
           </div>
         </nav>
+      </div>
     `;
   }
 
