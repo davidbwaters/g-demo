@@ -24,7 +24,7 @@ export const logoResponsive = css`
     background-image: var(--logo-small-light);
   }
 
-  @media (min-width:40em) {
+  @media (min-width:20em) {
 
     .c-logo-responsive {
       min-width: 4rem;

@@ -94,7 +94,21 @@ export class GalleryPage extends LitElement {
           grid-template-columns: repeat(
             auto-fill, minmax(8rem, 1fr)
           );
+          padding: 1rem;
           justify-content: center;
+        }
+
+        @media(min-width:40rem) {
+
+          c-gallery-page__overlay-lower {
+            align-content: center;
+            display: grid;
+            grid-gap: 1rem;
+            grid-template-columns: repeat(
+              auto-fill, minmax(12rem, 1fr)
+            );
+          }
+
         }
 
         .c-gallery-page__overlay-lower img {

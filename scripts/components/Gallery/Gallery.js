@@ -26,13 +26,20 @@ export class Gallery extends LitElement {
           align-content: center;
           display: grid;
           grid-auto-flow: column;
-          grid-auto-columns: 40%;
+          grid-auto-columns: 100%;
           grid-template-rows: calc(
             100vh - (var(--navbar-height) * 2.5)
           );
           scroll-snap-type: x mandatory;
         }
 
+        @media(min-width: 40rem) {
+
+          .c-gallery__inner {
+            grid-auto-columns: 40%;
+          }
+
+        }
 
         .c-gallery__item {
           cursor: var(--gallery-item__cursor);
@@ -129,6 +136,16 @@ export class Gallery extends LitElement {
           line-height: var(--line-height-title-stylized);
         }
 
+
+        @media(min-width: 40rem) {
+
+          .c-gallery__instructions {
+            font-size: calc(
+              var(--text-size-title-stylized) * .8
+            )
+          }
+        }
+
         .c-gallery__arrows {
           column-gap: .75rem;
           display: grid;
@@ -206,7 +223,7 @@ export class Gallery extends LitElement {
 
         .c-gallery__grid-toggle,
         .c-gallery__grid-toggle:focus {
-          background-color: var(--button-normal-bg);
+          background-color: var(--color-subtle-dark-2);
           background-image: url(
             '/images/Icons/Grid Light.svg'
           );
@@ -289,11 +306,24 @@ export class Gallery extends LitElement {
         .c-gallery--grid-view.c-gallery__inner {
           grid-auto-flow: row;
           grid-template-columns: repeat(
-            auto-fill, minmax(20rem, 1fr)
+            auto-fill, minmax(12rem, 1fr)
           );
           grid-template-rows: repeat(
-            auto-fill, minmax(20rem, 1fr)
+            auto-fill, minmax(12rem, 1fr)
           );
+        }
+
+        @media(min-width:30rem) {
+
+          c-gallery--grid-view.c-gallery__inner {
+            grid-template-columns: repeat(
+              auto-fill, minmax(16rem, 1fr)
+            );
+            grid-template-rows: repeat(
+              auto-fill, minmax(16rem, 1fr)
+            );
+          }
+
         }
 
         .c-gallery--grid-view .c-gallery__item__inner{
@@ -302,8 +332,14 @@ export class Gallery extends LitElement {
           padding-bottom: 0;
         }
 
-        .c-gallery--grid-view .c-gallery__arrows {
-          display: none;
+        .c-gallery__arrows,
+        .c-gallery__instructions {
+          will-change: opacity;
+          transition: all .5s;
+        }
+        .has-grid-layout .c-gallery__arrows,
+        .has-grid-layout .c-gallery__instructions  {
+          opacity: 0;
         }
 
       `];
@@ -327,6 +363,7 @@ export class Gallery extends LitElement {
     this._galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this._slotEl = this.shadowRoot.querySelector('slot');
     this._innerEl = this.shadowRoot.querySelector('.c-gallery__inner');
+    this._layoutEl = this.shadowRoot.querySelector('[data-layout]');
 
     this._setMaxScroll();
 
@@ -358,14 +395,16 @@ export class Gallery extends LitElement {
   handleGridView(e) {
     e.target.classList.toggle('is-toggled');
 
+    this._innerEl.classList.toggle('c-gallery--grid-view');
+
+    this._layoutEl.classList.toggle('has-grid-layout');
+
     if (!this.gridView) {
       this.gridView = true;
       this.booster.destroy();
     } else {
       this.scrollSetup();
     }
-
-    this._innerEl.classList.toggle('c-gallery--grid-view');
   }
 
   _handleScroll(state, event) {
@@ -525,7 +564,10 @@ export class Gallery extends LitElement {
       <div
           class="c-gallery__lower"
       >
-        <div class="c-gallery__lower-inner">
+        <div
+          class="c-gallery__lower-inner"
+          data-layout
+        >
           <div
               class="c-gallery__instructions"
           >

@@ -11,6 +11,10 @@ export class StoryPage extends LitElement {
           height: 100%;
           width: 100%;
         }
+        section {
+          padding-bottom: 4rem;
+          padding-top: 4rem;
+        }
       `];
   }
 
@@ -83,6 +87,34 @@ export class StoryPage extends LitElement {
 
   render() {
     return html`
+      <section
+        class="
+          c-story__main-section
+        "
+      >
+        <h1
+          class="
+            c-story__main-heading
+          "
+        >
+          ${this.data.MainHeadingSmallPart}
+          <span>
+            ${this.data.MainHeadingLargePart}
+          </span>
+        </h1>
+        <div class="
+          c-story__main-image-wrapper"
+        >
+          <img
+            class="
+              c-story__main-image
+            "
+            src = ${this.url + this.data.MainImage.url}
+            alt=${this.data.MainImage.alternativeText}
+          >
+        </div>
+
+      </section>
 
     `;
   }

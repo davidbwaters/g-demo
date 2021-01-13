@@ -1,91 +1,88 @@
 /*
  *  Scripts - Components - Loader */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { generic } from '../../styles/generic.js';
 export class Loader extends LitElement {
   static get styles() {
-    return css`
-
-      :host {
-        align-content: center;
-        background-color: var(
-          --color-subtle-dark-2
-        );
-        display: grid;
-        grid-template-columns: 60%;
-        height: 100%;
-        justify-content: center;
-        left: 0;
-        overflow: hidden;
-        position: fixed;
-        top: 0;
-        transition: opacity .5s;
-        width: 100%;
-        z-index: 10;
-      }
-
-      :host::before {
-        background-image:
-          url('/images/Trace Legit White.svg'),
-          url('/images/Loader.jpg');
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: 60% auto, cover;
-        content: '';
-        display: grid;
-        height: 100%;
-        left: -10vw;
-        opacity: .66;
-        position: fixed;
-        top: 0;
-        width: 120vw;
-        z-index: -1;
-      }
-
-      .c-loader__content {
-        display: grid;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 12rem;
-        row-gap: 2rem;
-      }
-
-      .c-loader__content img{
-        margin-left: auto;
-        margin-right: auto;
-        width: 70%;
-      }
-
-      .c-loader__bar {
-        background-color: rgba(0,0,0,.8);
-        height: .25rem;
-        overflow: hidden;
-        width: 100%;
-      }
-
-      .c-loader__bar::after {
-        animation: load 1s infinite;
-        background-color: white;
-        content: '';
-        display: block;
-        height: 100%;
-        width: 20%;
-      }
-
-      .c-filters {
-        display: block;
-        height: 0;
-      }
-
-      @keyframes load {
-        0% {
-          transform: translateX(-100%);
+    return [generic, css`
+        :host {
+          align-content: center;
+          background-color: var(
+            --color-subtle-dark-2
+          );
+          display: grid;
+          grid-template-columns: 60%;
+          height: 100%;
+          justify-content: center;
+          left: 0;
+          overflow: hidden;
+          position: fixed;
+          top: 0;
+          transition: opacity .5s;
+          width: 100%;
+          z-index: 10;
         }
-        100% {
-          transform: translateX(500%);
-        }
-      }
 
-    `;
+        :host::before {
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          content: '';
+          display: grid;
+          height: 100%;
+          left: -10vw;
+          opacity: .66;
+          position: fixed;
+          top: 0;
+          width: 120vw;
+          z-index: -1;
+        }
+
+        .c-loader__content {
+          display: grid;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 12rem;
+          row-gap: 2rem;
+        }
+
+        .c-loader__content img{
+          margin-left: auto;
+          margin-right: auto;
+          width: 70%;
+        }
+
+        .c-loader__bar {
+          background-color: rgba(0,0,0,.8);
+          height: .25rem;
+          overflow: hidden;
+          width: 100%;
+        }
+
+        .c-loader__bar::after {
+          animation: load 1s infinite;
+          background-color: white;
+          content: '';
+          display: block;
+          height: 100%;
+          width: 20%;
+        }
+
+        .c-filters {
+          display: block;
+          height: 0;
+        }
+
+        @keyframes load {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(500%);
+          }
+        }
+
+      `];
   }
 
   static get properties() {

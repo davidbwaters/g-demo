@@ -29,6 +29,9 @@ export class Footer extends LitElement {
           grid-auto-columns: min-content;
           grid-template-rows: 1fr 1fr;
           justify-content: space-between;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 60rem;
           padding-bottom: 8rem;
           padding-top: 3rem;
           width: 100%;
