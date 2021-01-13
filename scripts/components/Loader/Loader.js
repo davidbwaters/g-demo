@@ -24,14 +24,14 @@ export class Loader extends LitElement {
       }
 
       :host::before {
-        background-image: url(/images/Loader.jpg);
+        background-image:
+          url('/images/Trace Legit White.svg'),
+          url('/images/Loader.jpg');
         background-position: center center;
-        background-size: cover;
+        background-repeat: no-repeat;
+        background-size: 60% auto, cover;
         content: '';
         display: grid;
-        filter: url(
-          '/images/Filters.svg#blur'
-        );
         height: 100%;
         left: -10vw;
         opacity: .66;

@@ -157,6 +157,12 @@ export class Router extends router(LitElement) {
 
     this._setActiveRouteEl();
 
+    if (this.route === 'gallery') {
+      this.footerEl.style.height = '0';
+    } else {
+      this.footerEl.style.height = '';
+    }
+
     window.requestAnimationFrame(() => {
       this.activeRouteEl.style.opacity = '0';
       this.activeRouteEl.style.transition = 'opacity .5s';

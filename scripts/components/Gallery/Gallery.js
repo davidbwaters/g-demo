@@ -14,7 +14,9 @@ export class Gallery extends LitElement {
         :host {
           display: block;
           max-width: 100vw;
-          min-height: 100%;
+          height: 100vh;
+          padding-bottom: calc(var(--navbar-height) * 1.5);
+          padding-top: var(--navbar-height);
           overflow-x: hidden;
           position: relative;
           width: 100%;
@@ -28,7 +30,6 @@ export class Gallery extends LitElement {
           grid-template-rows: calc(
             100vh - (var(--navbar-height) * 2.5)
           );
-          margin-top: var(--navbar-height);
           scroll-snap-type: x mandatory;
         }
 
@@ -42,10 +43,14 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__item__inner {
-          align-content: center;
+          align-items: center;
           background-color: white;
           display: grid;
-          row-gap: 1rem;
+          grid-template-rows:
+            1fr min-content min-content min-content;
+          padding-bottom: 8vh;
+          padding-top: 8vh;
+          row-gap: 0rem;
           justify-items: center;
         }
 
@@ -93,6 +98,7 @@ export class Gallery extends LitElement {
         .c-gallery__lower {
           align-items: center;
           background-color: var(--color-subtle-dark-2);
+          bottom: 0;
           box-sizing: border-box;
           color: var(--color-subtle-light-1);
           column-gap: 2rem;
@@ -100,15 +106,16 @@ export class Gallery extends LitElement {
           grid-template-columns: minmax(90%, 58rem);
           height: calc(var(--navbar-height) * 1.5);
           justify-content: center;
-          position: relative;
+          position: fixed;
           row-gap: 2rem;
+          width: 100%;
         }
 
         .c-gallery__lower-inner {
           display: grid;
           grid-auto-flow: column;
           justify-content: space-between;
-          max-width: 60rem;
+          max-width: 58rem;
           padding-bottom: 1rem;
           padding-left: 1rem;
           padding-right: 1rem;
@@ -133,9 +140,9 @@ export class Gallery extends LitElement {
         .c-gallery__arrows button:focus,
         .c-gallery__close-button,
         .c-gallery__close-button:focus {
+          background-color: var(--color-subtle-dark-2);
           background-position: center center;
           background-repeat: no-repeat;
-          background-size: 10px 10px;
           border: solid 1px var(--color-subtle-light-2);
           border-radius: 20rem;
           color: white;
@@ -149,8 +156,12 @@ export class Gallery extends LitElement {
 
         .c-gallery__arrows button,
         .c-gallery__arrows button:focus {
-          background-color: var(--color-subtle-dark-2);
           background-size: .75rem .75rem;
+          cursor: pointer;
+          height: 2.5rem;
+          outline: none;
+          width: 2.5rem;
+          will-change: filter;
         }
 
         .c-gallery__arrows button:hover {
@@ -181,9 +192,9 @@ export class Gallery extends LitElement {
           padding-right: 1.3rem;
           padding-top: 1.3rem;
           position: sticky;
-          left: 94%;
-          top: 1.5rem;
-          right: 1rem;
+          margin-left: auto;
+          margin-top: 1.5rem;
+          right: 1.5rem;
           z-index: 9;
         }
 
@@ -192,8 +203,42 @@ export class Gallery extends LitElement {
           filter: initial;
         }
 
+
+        .c-gallery__grid-toggle,
+        .c-gallery__grid-toggle:focus {
+          background-color: var(--button-normal-bg);
+          background-image: url(
+            '/images/Icons/Grid Light.svg'
+          );
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: 1rem;
+          border: solid 1px var(--color-subtle-light-2);
+          cursor: pointer;
+          height: 2.5rem;
+          outline: none;
+          transition: all .2s;
+          width: 2.5rem;
+          will-change: filter;
+        }
+
+        .c-gallery__grid-toggle:hover {
+          background-color: black;
+        }
+
+        .c-gallery__grid-toggle.is-toggled {
+          background-image: url(
+            '/images/Icons/Column Light.svg'
+          );
+        }
+
+        .c-gallery__grid-toggle:hover {
+          filter: invert();
+        }
+
         .c-gallery__item-button {
           background-color: var(--button-normal-bg);
+          border-radius: .2rem;
           color: var(--button-normal-fg);
           cursor: pointer;
           display: block;
@@ -236,15 +281,25 @@ export class Gallery extends LitElement {
         .is-active .c-gallery__close-button {
           display: block;
         }
+
         .c-gallery__pointer {
 
         }
 
-
-        .c-gallery--grid-view .c-gallery__inner {
-          grid-template-rows: repeat(
-            auto-fill, minmax(12rem, 1fr)
+        .c-gallery--grid-view.c-gallery__inner {
+          grid-auto-flow: row;
+          grid-template-columns: repeat(
+            auto-fill, minmax(20rem, 1fr)
           );
+          grid-template-rows: repeat(
+            auto-fill, minmax(20rem, 1fr)
+          );
+        }
+
+        .c-gallery--grid-view .c-gallery__item__inner{
+          row-gap: 0;
+          padding-top: 0;
+          padding-bottom: 0;
         }
 
         .c-gallery--grid-view .c-gallery__arrows {
@@ -300,7 +355,9 @@ export class Gallery extends LitElement {
     // console.log('w ' + items)
   }
 
-  _handleGridView() {
+  handleGridView(e) {
+    e.target.classList.toggle('is-toggled');
+
     if (!this.gridView) {
       this.gridView = true;
       this.booster.destroy();
@@ -392,7 +449,7 @@ export class Gallery extends LitElement {
 
     this._slotEl.removeAttribute('name', this.currentSlot);
 
-    this._slotEl.parentElement.classList.add('is-active');
+    this._slotEl.parentElement.classList.remove('is-active');
 
     document.body.style.setProperty('--navbar-opacity', 1);
     document.body.style.setProperty('--navbar-pointer-events', '');
@@ -487,6 +544,11 @@ export class Gallery extends LitElement {
             >
             </button>
           </div>
+          <button
+            @click=${this.handleGridView}
+            class="c-gallery__grid-toggle"
+          >
+          </button>
         </div>
       </div>
       <div
@@ -496,6 +558,7 @@ export class Gallery extends LitElement {
           class="c-gallery__close-button"
           @click=${this.handleClose}
         ></button>
+
         <slot></slot>
       </div>
     `;

@@ -99,15 +99,15 @@ export class Footer extends LitElement {
   constructor() {
     super();
     this.url = 'https://admin.guntherwerks.info';
-    this._setHeight = this._setHeight.bind(this);
-    window.addEventListener('resize', this._setHeight);
+    this.setHeight = this.setHeight.bind(this);
+    window.addEventListener('resize', this.setHeight);
   }
 
   firstUpdated() {
-    this._setHeight();
+    this.setHeight();
   }
 
-  _setHeight() {
+  setHeight() {
     const size = this.getBoundingClientRect();
     document.documentElement.style.setProperty('--footer-height', size.height / 16 + 'rem');
   }

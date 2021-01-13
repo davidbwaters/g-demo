@@ -24,11 +24,12 @@ export class GalleryPage extends LitElement {
           display: grid;
           align-content: center;
           justify-content: center;
-          padding-top: 2rem;
-          row-gap: 4rem;
+          padding-top: 0rem;
+          row-gap: 0rem;
         }
 
         .c-gallery-page__overlay-title {
+          margin-bottom: 1rem;
         }
 
 
@@ -89,26 +90,18 @@ export class GalleryPage extends LitElement {
         .c-gallery-page__overlay-lower {
           align-content: center;
           display: grid;
-          grid-gap: 2rem;
-          grid-template-columns: 1fr 1fr;
+          grid-gap: 1rem;
+          grid-template-columns: repeat(
+            auto-fill, minmax(8rem, 1fr)
+          );
           justify-content: center;
-          margin-left: auto;
-          margin-right: auto;
-          max-width: 40rem;
-          width: 90%;
-        }
-
-        @media(min-width:40rem) {
-
-          .c-gallery-page__overlay-lower {
-            width: 80%;
-          }
-
         }
 
         .c-gallery-page__overlay-lower img {
           cursor: pointer;
         }
+
+        .c-gallery-page__image-frame {}
 
       `];
   }
@@ -236,7 +229,7 @@ export class GalleryPage extends LitElement {
     }
   }
 
-  fullImage(e) {
+  handlehandleFullImage(e) {
     console.log(e.target);
   }
 
@@ -359,11 +352,16 @@ export class GalleryPage extends LitElement {
 
                   <img src=${this.url + p.formats.medium.url}
                     data-full=${this.url + p.url}
-                    @click=${this.fullImage}
+                    @click=${this.handlehandleFullImage}
                   >
 
                 `)}
 
+              </div>
+
+              <div
+                class="c-gallery-page__image-frame"
+              >
               </div>
 
             </div>
