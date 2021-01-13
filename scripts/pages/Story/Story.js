@@ -65,7 +65,7 @@ export class StoryPage extends LitElement {
   _transitionIn() {}
 
   async _getData() {
-    const response = await fetch(this.url + '/contact').then(res => res.json()).catch(err => console.error(err));
+    const response = await fetch(this.url + '/story').then(res => res.json()).catch(err => console.error(err));
     return {
       statusCode: 200,
       body: response

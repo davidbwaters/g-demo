@@ -15,7 +15,7 @@ export class Gallery extends LitElement {
           display: block;
           max-width: 100vw;
           min-height: 100%;
-          overflow: hidden;
+          overflow-x: hidden;
           position: relative;
           width: 100%;
         }
@@ -37,7 +37,6 @@ export class Gallery extends LitElement {
           cursor: var(--gallery-item__cursor);
           display: grid;
           min-width: 0;
-          padding: 2vw;
           scroll-snap-align: start;
           text-align: center;
         }
@@ -96,11 +95,24 @@ export class Gallery extends LitElement {
           background-color: var(--color-subtle-dark-2);
           box-sizing: border-box;
           color: var(--color-subtle-light-1);
+          column-gap: 2rem;
           display: grid;
           grid-template-columns: minmax(90%, 58rem);
           height: calc(var(--navbar-height) * 1.5);
           justify-content: center;
           position: relative;
+          row-gap: 2rem;
+        }
+
+        .c-gallery__lower-inner {
+          display: grid;
+          grid-auto-flow: column;
+          justify-content: space-between;
+          max-width: 60rem;
+          padding-bottom: 1rem;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          padding-top: 1rem;
         }
 
         .c-gallery__instructions {
@@ -111,12 +123,10 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__arrows {
-          column-gap: 1rem;
+          column-gap: .75rem;
           display: grid;
           grid-template-columns: auto auto;
           justify-content: center;
-          position: absolute;
-          width: 100%;
         }
 
         .c-gallery__arrows button,
@@ -148,6 +158,11 @@ export class Gallery extends LitElement {
           filter: invert();
         }
 
+        .c-gallery__arrows button[data-direction="right"] {
+          background-image: url(
+            '/images/Icons/Arrow Light Right.svg'
+          );
+        }
         .c-gallery__arrows button[data-direction="left"] {
           background-image: url(
             '/images/Icons/Arrow Light Left.svg'
@@ -161,13 +176,15 @@ export class Gallery extends LitElement {
           );
           background-size: 1rem;
           filter: invert();
-          padding-bottom: 1.2rem;
-          padding-left: 1.2rem;
-          padding-right: 1.2rem;
-          padding-top: 1.2rem;
-          position: absolute;
-          top: 1rem;
+          padding-bottom: 1.3rem;
+          padding-left: 1.3rem;
+          padding-right: 1.3rem;
+          padding-top: 1.3rem;
+          position: sticky;
+          left: 94%;
+          top: 1.5rem;
           right: 1rem;
+          z-index: 9;
         }
 
         .c-gallery__close-button:hover {
@@ -196,7 +213,6 @@ export class Gallery extends LitElement {
 
         .c-gallery__overlay {
           background-color: white;
-          min-height: 100vh;
           opacity: 0;
           pointer-events: none;
           position: absolute;
@@ -213,6 +229,13 @@ export class Gallery extends LitElement {
           transform: translateY(0vh);
         }
 
+        .c-gallery__close-button {
+          display: none;
+        }
+
+        .is-active .c-gallery__close-button {
+          display: block;
+        }
         .c-gallery__pointer {
 
         }
@@ -242,12 +265,13 @@ export class Gallery extends LitElement {
   constructor() {
     super();
     this.url = 'https://admin.guntherwerks.info';
+    this.gridView = false;
   }
 
   firstUpdated() {
     this._galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this._slotEl = this.shadowRoot.querySelector('slot');
-    this._dialogEl = this.querySelector;
+    this._innerEl = this.shadowRoot.querySelector('.c-gallery__inner');
 
     this._setMaxScroll();
 
@@ -271,9 +295,20 @@ export class Gallery extends LitElement {
       length,
       item,
       items,
-      maxScroll
+      maxScroll: maxScroll + 80
     }; // console.log('v ' + client)
     // console.log('w ' + items)
+  }
+
+  _handleGridView() {
+    if (!this.gridView) {
+      this.gridView = true;
+      this.booster.destroy();
+    } else {
+      this.scrollSetup();
+    }
+
+    this._innerEl.classList.toggle('c-gallery--grid-view');
   }
 
   _handleScroll(state, event) {
@@ -349,6 +384,7 @@ export class Gallery extends LitElement {
     this.booster.destroy();
     document.body.style.setProperty('--navbar-opacity', 0);
     document.body.style.setProperty('--navbar-pointer-events', 'none');
+    document.documentElement.style.overflow = 'hidden';
   }
 
   handleClose(e) {
@@ -360,6 +396,7 @@ export class Gallery extends LitElement {
 
     document.body.style.setProperty('--navbar-opacity', 1);
     document.body.style.setProperty('--navbar-pointer-events', '');
+    document.documentElement.style.overflow = '';
     this.currentSlot = '';
   }
 
@@ -431,23 +468,25 @@ export class Gallery extends LitElement {
       <div
           class="c-gallery__lower"
       >
-        <div
-            class="c-gallery__instructions"
-        >
-          Scroll to Navigate</br> or Click and Drag
-        </div>
-        <div
-          class="c-gallery__arrows"
-        >
-          <button
-            @click=${this._handleArrow}
-            data-direction="left"
-          ></button>
-          <button
-            @click=${this._handleArrow}
-            data-direction="right"
+        <div class="c-gallery__lower-inner">
+          <div
+              class="c-gallery__instructions"
           >
-          </button>
+            Scroll to Navigate</br> or Click and Drag
+          </div>
+          <div
+            class="c-gallery__arrows"
+          >
+            <button
+              @click=${this._handleArrow}
+              data-direction="left"
+            ></button>
+            <button
+              @click=${this._handleArrow}
+              data-direction="right"
+            >
+            </button>
+          </div>
         </div>
       </div>
       <div

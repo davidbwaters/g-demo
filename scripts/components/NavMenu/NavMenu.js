@@ -22,7 +22,6 @@ export class NavMenu extends LitElement {
 
       .c-nav-menu__inner {
         align-items: center;
-        box-sizing: border-box;
         color: white;
         display: grid;
         grid-column-gap: 1rem;

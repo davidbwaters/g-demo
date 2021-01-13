@@ -134,6 +134,10 @@ export class Heading extends LitElement {
     this.shadowRoot.host.style.setProperty('--heading-line-height', 'var(--line-height-heading-' + this.size.toLowerCase() + ')');
     this.shadowRoot.host.style.setProperty('--heading-weight', 'var(--font-' + this.weight.toLowerCase() + 'er-weight)');
 
+    if (this.text === null || this.text === 'null') {
+      headingEl.style.display = 'none';
+    }
+
     if (this.color === 'lighter') {
       this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-fg-lighter)');
       this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-fg)');

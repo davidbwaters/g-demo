@@ -20,6 +20,96 @@ export class GalleryPage extends LitElement {
           text-transform: uppercase;
         }
 
+        .c-gallery-page__overlay {
+          display: grid;
+          align-content: center;
+          justify-content: center;
+          padding-top: 2rem;
+          row-gap: 4rem;
+        }
+
+        .c-gallery-page__overlay-title {
+        }
+
+
+        @media(min-width:40rem) {
+
+          .c-gallery-page__overlay-title {
+          }
+
+        }
+
+        .c-gallery-page__overlay-feature-image {
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 60rem;
+          width: 90%;
+        }
+
+
+        @media(min-width:40rem) {
+
+          .c-gallery-page__overlay-feature-image {
+            width: 80%;
+          }
+
+        }
+
+        .c-gallery-page__overlay-block-1-text,
+        .c-gallery-page__overlay-block-2-text {
+          align-content: center;
+          display: grid;
+          justify-content: center;
+          padding-bottom: 2rem;
+          padding-left: 2rem;
+          padding-right: 2rem;
+          padding-top: 2rem;
+        }
+
+        .c-gallery-page__overlay-block-1,
+        .c-gallery-page__overlay-block-2 {
+          align-content: center;
+          display: grid;
+          grid-template-columns: 90%;
+          grid-template-rows: 1fr 1fr;
+          justify-content: center;
+        }
+
+        @media(min-width:40rem) {
+
+          .c-gallery-page__overlay-block-1,
+          .c-gallery-page__overlay-block-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+          }
+
+        }
+
+        .c-gallery-page__overlay-lower {
+          align-content: center;
+          display: grid;
+          grid-gap: 2rem;
+          grid-template-columns: 1fr 1fr;
+          justify-content: center;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 40rem;
+          width: 90%;
+        }
+
+        @media(min-width:40rem) {
+
+          .c-gallery-page__overlay-lower {
+            width: 80%;
+          }
+
+        }
+
+        .c-gallery-page__overlay-lower img {
+          cursor: pointer;
+        }
+
       `];
   }
 
@@ -146,6 +236,10 @@ export class GalleryPage extends LitElement {
     }
   }
 
+  fullImage(e) {
+    console.log(e.target);
+  }
+
   _transitionIn() {}
 
   async _getData() {
@@ -186,11 +280,94 @@ export class GalleryPage extends LitElement {
               class="c-gallery-page__overlay"
               slot=${i.Slot}
             >
+              <c-heading
+                text=${i.PageTitle}
+                class="c-gallery-page__overlay-title"
+                size="medium"
+              >
+              </c-heading>
               <img
                 src=${this.url + i.PageFeatureImage.url}
+                class="c-gallery-page__overlay-feature-image"
               >
 
+              <div
+                class="c-gallery-page__overlay-block-1"
+              >
+                <div
+                  class="c-gallery-page__overlay-block-1-text"
+                >
+                  <c-heading
+                    text=${i.PageBlock1Heading}
+                  >
+                  </c-heading>
+                  <c-text-block
+                    content=${i.PageBlock1Text}
+                    textAlign=left
+                    isFlush=true
+                  >
+                  </c-text-block>
+                </div>
+
+                <div
+                  class="c-gallery-page__overlay-block-1-image"
+                >
+                  <img
+                    src=${this.url + i.PageBlock1Image.url}
+                    alt=${i.PageBlock1Image.alternativeText}
+                  >
+                </div>
+              </div>
+
+
+              <div
+                class="c-gallery-page__overlay-block-2"
+              >
+
+                <div
+                  class="c-gallery-page__overlay-block-2-image"
+                >
+                  <img
+                    src=${this.url + i.PageBlock2Image.url}
+                    alt=${i.PageBlock2Image.alternativeText}
+                  >
+                </div>
+
+                <div
+                  class="c-gallery-page__overlay-block-2-text"
+                >
+                  <c-heading
+                    text=${i.PageBlock2Heading}
+                    size="medium"
+                    textAligne="left"
+                  >
+                  </c-heading>
+                  <c-text-block
+                    content=${i.PageBlock2Text}
+                    isFlush=true
+                  >
+                  </c-text-block>
+                </div>
+
+              </div>
+
+              <div
+                class="c-gallery-page__overlay-lower"
+              >
+
+                ${i.Content.map(p => html`
+
+                  <img src=${this.url + p.formats.medium.url}
+                    data-full=${this.url + p.url}
+                    @click=${this.fullImage}
+                  >
+
+                `)}
+
+              </div>
+
             </div>
+
 
           `)}
 
@@ -199,17 +376,6 @@ export class GalleryPage extends LitElement {
 
 
 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        class="c-filters"
-      >
-        <defs>
-          <filter id="blur">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10,0" />
-          </filter>
-        </defs>
-      </svg>
 
     `;
   }
