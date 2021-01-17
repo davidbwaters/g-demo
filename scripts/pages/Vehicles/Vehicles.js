@@ -1,14 +1,16 @@
 /*
- *  Scripts - Pages - Models
+ *  Scripts - Pages - Vehicles
  */
-import { LitElement, css, html } from '../../../modules/lit-element.js';
+import { css, html } from '../../../modules/lit-element.js';
+import { Page } from '../../bases/Page.js';
 import { motionBlur } from '../../utils/motionBlur.js';
-import { imagesPreload, imagesPreloadedCheck, imagesPreloadedCheckWait } from '../../utils/imagesPreload.js';
-import { generic } from '../../styles/generic.js';
-import { heroFrame } from '../../styles/heroFrame.js';
-export class VehiclesPage extends LitElement {
+import { initialize } from '../../styles/initialize.js';
+import { heroFrame } from '../../styles/components.hero-frames.js';
+import { objects } from '../../styles/objects.js';
+import { utilities } from '../../styles/utilities.js';
+export class VehiclesPage extends Page {
   static get styles() {
-    return [generic, heroFrame, css`
+    return [initialize, objects, heroFrame, utilities, css`
         :host {
           display: block;
           height: 100%;
@@ -148,94 +150,60 @@ export class VehiclesPage extends LitElement {
       },
       loaded: {
         type: Boolean,
-        reflect: true
+        attribute: false
       }
     };
   }
 
   constructor() {
     super();
-    this.url = 'https://admin.guntherwerks.info';
+    this.dataEndpoint = '/vehicle';
+    this.debug = true;
   }
 
   firstUpdated() {
     this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-vehicles-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
-    this.handleLoad = this.handleLoad.bind(this);
-    this.updateComplete.then(() => {
-      this.handleLoad();
-    });
   }
 
-  preload() {
-    if (!this.data) {
-      setTimeout(() => {
-        this.preload();
-      }, 500);
-    } else {
-      this.url = 'https://admin.guntherwerks.info';
-      let images = [this.url + this.data.HeroLogo.url, this.url + this.data.HeroImage.url];
-      let preloading = imagesPreload(images);
-      imagesPreloadedCheckWait(preloading, true);
-      this.loaded = true;
-    }
+  handlePreload() {
+    this.url = 'https://admin.guntherwerks.info';
+    let images = [this.url + this.data.HeroImage.url];
+    this.imagePreloader(images);
+    super.handlePreload();
   }
 
-  handleLoad() {
-    if (this.loaded === true) {
-      window.requestAnimationFrame(() => {
-        window.dispatchEvent(new Event('resize'));
-      });
-
-      this._transitionIn();
-
-      let load = new CustomEvent('routeLoad');
-      this.dispatchEvent(load);
-    } else {
-      setTimeout(() => {
-        this.handleLoad();
-      }, 500);
-    }
-  }
-
-  _transitionIn() {
+  transitionIn() {
     this.blurFilter.setAttribute('stdDeviation', '10,0');
     setTimeout(() => {
-      this._blurAnimation();
+      this.blurAnimationframes();
     }, 500);
   }
 
-  _blurAnimation() {
+  blurAnimationframes() {
     motionBlur(this.blurFilter);
-  }
-
-  async _getData() {
-    const response = await fetch(this.url + '/vehicle').then(res => res.json()).catch(err => console.error(err));
-    return {
-      statusCode: 200,
-      body: response
-    };
-  }
-
-  async performUpdate() {
-    const data = await this._getData(data => {
-      this.data = data;
-    }); //console.log(this.data)
-
-    this.data = data.body;
-    this.LowerSectionImage = this.data.LowerSectionImage;
-    super.performUpdate();
   }
 
   render() {
     return html`
 
-      <section
-        class="c-hero-frame"
-      >
-        <div class="c-hero-frame__content">
-          <div class="c-hero-frame__branding">
+    <section class="c-hero-frame">
+
+    <div class="
+        o-section-block
+        o-section-block--top
+      "
+    >
+        <div class="
+          o-media-block
+          o-media-block--top
+          o-media-block--spaced-mobile
+          o-media-block--split-flush-end
+        ">
+          <div class="
+            o-media-block__item
+          ">
             <img
-              class="u-margin-bottom-5"
+              class="c-hero-frame__branding"
               src="${this.url + this.data.HeroLogo.url}"
               alt="${this.url + this.data.HeroLogo.alternativeText}"
             />
@@ -244,38 +212,51 @@ export class VehiclesPage extends LitElement {
             >
             </c-slant-title>
           </div>
-          <img
-            src="${this.url + this.data.HeroImage.url}"
-            alt="${this.url + this.data.HeroImage.alternativeText}"
-            class="c-hero-frame__image"
-          />
-          <div
-            class="c-hero-frame__text"
-          >
-            <c-heading
-              text=${this.data.HeroHeading}
-              textAlign='center'
-              weight=normal'
-            >
-            </c-heading>
-            <c-text-block
-              content=${this.data.HeroText}
-              backgroundColor='transparent'
-              isFlush=true
-            >
-            </c-text-block>
-            <div class="u-text-title">
-              ${this.data.HeroSubHeading}
-            </div>
+          <div class="
+            o-media-block__item
+          ">
+            <img
+              src="${this.url + this.data.HeroImage.url}"
+              alt="${this.url + this.data.HeroImage.alternativeText}"
+              class="c-hero-frame__image"
+            />
           </div>
+
+
         </div>
 
-        <c-angle-section
-          data=${JSON.stringify(this.data.HeroAngleBG)}
-
+      <div class="
+        o-media-block
+        u-text-align-center
+      ">
+        <div
+          class="c-hero-frame__text"
         >
-        </c-angle-section>
-      </section>
+          <c-heading
+            text=${this.data.HeroHeading}
+            textAlign='center'
+            weight=normal'
+          >
+          </c-heading>
+          <c-text-block
+            content=${this.data.HeroText}
+            backgroundColor='transparent'
+            isFlush=true
+          >
+          </c-text-block>
+          <div class="u-text-title">
+            ${this.data.HeroSubHeading}
+          </div>
+        </div>
+      </div>
+
+      <c-angle-section
+        data=${JSON.stringify(this.data.HeroAngleBG)}
+      >
+      </c-angle-section>
+    </div>
+
+    </section>
 
       ${this.data.ScaleSections.map(data => html`
 
@@ -306,11 +287,12 @@ export class VehiclesPage extends LitElement {
         </div>
         <img
           class="c-vehicles-lower__image"
-          srcset=${this.url + this.LowerSectionImage.formats.large.url + ', ' + this.url + this.LowerSectionImage.url + ' 2x'}
-          src=${this.url + this.LowerSectionImage.url}
-          alt=${this.LowerSectionImage.alternativeText}
+          srcset=${this.url + this.data.LowerSectionImage.formats.large.url + ', ' + this.url + this.data.LowerSectionImage.url + ' 2x'}
+          src=${this.url + this.data.LowerSectionImage.url}
+          alt=${this.data.LowerSectionImage.alternativeText}
         >
       </section>
+
       <section
         class="c-spec-table"
       >

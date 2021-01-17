@@ -130,7 +130,9 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__instructions {
-          font-size: var(--text-size-title-stylized);
+          font-size: calc(
+            var(--text-size-title-stylized) * .8
+          );
           font-weight: var(--font-weight-title-stylized);
           letter-spacing: var(--letter-spacing-title-stylized);
           line-height: var(--line-height-title-stylized);
@@ -140,9 +142,8 @@ export class Gallery extends LitElement {
         @media(min-width: 40rem) {
 
           .c-gallery__instructions {
-            font-size: calc(
-              var(--text-size-title-stylized) * .8
-            )
+
+            font-size: var(--text-size-title-stylized);
           }
         }
 

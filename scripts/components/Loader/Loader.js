@@ -1,24 +1,27 @@
 /*
  *  Scripts - Components - Loader */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
-import { generic } from '../../styles/generic.js';
+import { initialize } from '../../styles/initialize.js';
 export class Loader extends LitElement {
   static get styles() {
-    return [generic, css`
+    return [initialize, css`
         :host {
           align-content: center;
           background-color: var(
             --color-subtle-dark-2
           );
-          display: grid;
+          display: var(--loader-display);
           grid-template-columns: 60%;
           height: 100%;
           justify-content: center;
           left: 0;
+          opacity: var(--loader-opacity);
           overflow: hidden;
           position: fixed;
           top: 0;
-          transition: opacity .5s;
+          transition-duration:
+            opacity
+            var(--loader-transition-duration);
           width: 100%;
           z-index: 10;
         }
@@ -49,7 +52,7 @@ export class Loader extends LitElement {
         .c-loader__content img{
           margin-left: auto;
           margin-right: auto;
-          width: 70%;
+          width: 60%;
         }
 
         .c-loader__bar {
@@ -87,8 +90,15 @@ export class Loader extends LitElement {
 
   static get properties() {
     return {
-      loaded: {
+      duration: {
+        type: Number
+      },
+      enabled: {
         type: Boolean,
+        reflect: true
+      },
+      progress: {
+        type: Number,
         reflect: true
       }
     };
@@ -96,48 +106,32 @@ export class Loader extends LitElement {
 
   constructor() {
     super();
-    this.loaded = false;
+    this.enabled = true;
+    this.duration = 1800;
   }
 
   firstUpdated() {
     this.enable();
+    document.documentElement.style.setProperty('--loader-duration', this.duration / 1000 + 's');
+    document.documentElement.dataset.loaderDuration = this.duration;
   }
 
   disable() {
-    this.shadowRoot.host.style.opacity = 0;
-    document.documentElement.style.setProperty('--loader-fade-in-transition', '0');
-    document.documentElement.style.setProperty('--loader-fade-in-opacity', '0');
+    this.enabled = false;
+    document.documentElement.style.setProperty('--loader-opacity', '0');
     setTimeout(() => {
       document.documentElement.style.position = '';
       document.documentElement.style.overflowY = '';
-      this.shadowRoot.host.style.display = 'none';
-      document.documentElement.style.setProperty('--loader-fade-in-transition', '1s');
-      document.documentElement.style.setProperty('--loader-fade-in-opacity', '1');
-    }, 500);
+      document.documentElement.style.setProperty('--loader-display', 'none');
+    }, this.duration);
   }
 
   enable() {
+    this.enabled = true;
+    document.documentElement.style.setProperty('--loader-display', 'grid');
+    document.documentElement.style.setProperty('--loader-opacity', '1');
     document.documentElement.style.position = 'fixed';
     document.documentElement.style.overflowY = 'scroll';
-    document.documentElement.style.setProperty('--loader-fade-in-transition', '.5s');
-    document.documentElement.style.setProperty('--loader-fade-in-opacity', '0');
-    setTimeout(() => {
-      this.shadowRoot.host.style.display = 'grid';
-      this.shadowRoot.host.style.opacity = 1;
-    }, 50);
-  }
-
-  updated() {
-    if (this.loaded === true) {
-      this.disable();
-    } else {
-      this.enable();
-    }
-
-    setTimeout(() => {
-      if (this.loaded !== true) {//this.disable()
-      }
-    }, 1000 * 6);
   }
 
   render() {

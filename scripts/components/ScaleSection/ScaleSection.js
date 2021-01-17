@@ -323,9 +323,9 @@ export class ScaleSection extends LitElement {
 
     if (this._noText !== true) {
       this._addHeading();
-    }
 
-    this._addTextBlock();
+      this._addTextBlock();
+    }
 
     if (this.imageAsBackground !== 'Disabled') {
       this._setBackgroundImage();
@@ -364,6 +364,10 @@ export class ScaleSection extends LitElement {
         this.shadowRoot.host.style.setProperty('var(--scale-section-width)', 'cover');
         this.shadowRoot.host.style.setProperty('var(--scale-section-height)', '');
       }
+    }
+
+    if (this._noText) {
+      this._contentEl.style.display = 'none';
     }
   }
 

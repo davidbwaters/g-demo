@@ -1,11 +1,11 @@
 /*
  *  Scripts - Components - Reveal Section */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
-import { generic } from '../../styles/generic.js';
+import { initialize } from '../../styles/initialize.js';
 import * as basicScroll from '../../../modules/basicscroll.js';
 export class RevealSection extends LitElement {
   static get styles() {
-    return [generic, css`
+    return [initialize, css`
 
         :host {
           display: block;
@@ -45,7 +45,6 @@ export class RevealSection extends LitElement {
           position: relative;
           z-index: -1;
         }
-
 
         .c-reveal-section__bars {
           display: grid;

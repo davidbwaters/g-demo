@@ -1,23 +1,17 @@
 /*
  *  Scripts - Pages - Gallery
  */
-import { LitElement, css, html } from '../../../modules/lit-element.js';
-import { imagesPreload, imagesPreloadedCheckWait } from '../../utils/imagesPreload.js';
-import { generic } from '../../styles/generic.js';
-export class GalleryPage extends LitElement {
+import { css, html } from '../../../modules/lit-element.js';
+import { Page } from '../../bases/Page.js';
+import { initialize } from '../../styles/initialize.js';
+export class GalleryPage extends Page {
   static get styles() {
-    return [generic, css`
+    return [initialize, css`
         :host {
           display: block;
           min-height: 100vh;
           overflow-x: hidden;
           width: 100%;
-        }
-
-        .c-gallery__instructions {
-          color: var(--color-subtle-dark-4);
-          display: block;
-          text-transform: uppercase;
         }
 
         .c-gallery-page__overlay {
@@ -126,6 +120,10 @@ export class GalleryPage extends LitElement {
         type: Object,
         attribute: false
       },
+      debug: {
+        type: Boolean,
+        attribute: false
+      },
       loaded: {
         type: Boolean,
         reflect: true
@@ -138,11 +136,11 @@ export class GalleryPage extends LitElement {
 
   constructor() {
     super();
-    this.url = 'https://admin.guntherwerks.info';
-    this.handleLoad = this.handleLoad.bind(this);
+    this.dataEndpoint = '/galleries';
     this.galleryData = {
       albums: []
     };
+    this.debug = true;
   }
 
   firstUpdated() {
@@ -174,17 +172,17 @@ export class GalleryPage extends LitElement {
     console.log(this.galleryData);
   }
 
-  preloadImages() {
+  async preloadImages() {
     this.albumCovers = [];
     this.pageImages = [];
     this.thumbnails = [];
     this.galleryData.albums.forEach(album => {
       if (album.Cover) {
-        this.albumCovers = this.albumCovers.concat(this.url + album.Cover.url);
+        this.albumCovers = this.albumCovers.concat(album.Cover.url);
       }
 
       if (album.PageFeatureImage && album.PageFeatureImage.url) {
-        this.pageImages = this.pageImages.concat(this.url + album.PageFeatureImage.url);
+        this.pageImages = this.pageImages.concat(album.PageFeatureImage.url);
       }
 
       album.Content.forEach(item => {
@@ -203,43 +201,16 @@ export class GalleryPage extends LitElement {
         }
 
         if (thumb) {
-          this.thumbnails = this.thumbnails.concat(this.url + thumb);
+          this.thumbnails = this.thumbnails.concat(thumb);
         }
       });
     });
-    this.albumCovers = imagesPreload(this.albumCovers);
-    imagesPreloadedCheckWait(this.albumCovers, true);
-    this.pageImages = imagesPreload(this.pageImages);
-    imagesPreloadedCheckWait(this.pageImages, true);
-    this.thumbnails = imagesPreload(this.thumbnails);
-    imagesPreloadedCheckWait(this.thumbnails, true);
-    console.log(this.albumCovers);
-  }
+    await this.imagePreloader(this.albumCovers);
+    await this.imagePreloader(this.pageImages);
+    await this.imagePreloader(this.thumbnails);
 
-  preload() {
-    if (!this.data) {
-      setTimeout(() => {
-        this.preload();
-      }, 500);
-    } else {
-      this.loaded = true;
-    }
-  }
-
-  handleLoad() {
-    if (this.loaded === true) {
-      window.requestAnimationFrame(() => {
-        window.dispatchEvent(new Event('resize'));
-      });
-
-      this._transitionIn();
-
-      let load = new CustomEvent('routeLoad');
-      this.dispatchEvent(load);
-    } else {
-      setTimeout(() => {
-        this.handleLoad();
-      }, 400);
+    if (this.debug) {
+      console.log(this.albumCovers);
     }
   }
 
@@ -247,27 +218,16 @@ export class GalleryPage extends LitElement {
     console.log(e.target);
   }
 
-  _transitionIn() {}
-
-  async _getData() {
-    const response = await fetch(this.url + '/galleries').then(res => res.json()).catch(err => console.error(err));
-    return {
-      statusCode: 200,
-      body: response
-    };
-  }
+  transitionIn() {}
 
   async performUpdate() {
-    const data = await this._getData(data => {
-      this.data = data;
-    });
-    this.data = data.body;
+    this.data = await this.getApiData(this.dataEndpoint);
 
     if (!this._galleryDataSet) {
       this._setGalleryData();
     }
 
-    console.log(this.data);
+    this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
   }
 
@@ -385,9 +345,6 @@ export class GalleryPage extends LitElement {
 
         </c-gallery>
       </section>
-
-
-
 
     `;
   }

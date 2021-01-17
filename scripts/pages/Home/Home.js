@@ -1,13 +1,15 @@
 /*
  *  Scripts - Pages - Home
  */
-import { LitElement, css, html } from '../../../modules/lit-element.js';
-import { motionBlur } from '../../utils/motionBlur.js';
-import { generic } from '../../styles/generic.js';
-import { heroFrame } from '../../styles/heroFrame.js';
-export class HomePage extends LitElement {
+import { Page } from '../../bases/Page.js';
+import { css, html } from '../../../modules/lit-element.js';
+import { initialize } from '../../styles/initialize.js';
+import { heroFrame } from '../../styles/components.hero-frames.js';
+import { objects } from '../../styles/objects.js';
+import { utilities } from '../../styles/utilities.js';
+export class HomePage extends Page {
   static get styles() {
-    return [heroFrame, generic, css`
+    return [initialize, objects, heroFrame, utilities, css`
         :host {
           display: block;
           font-size: calc(var(--text-size-normal) * .9);
@@ -16,7 +18,6 @@ export class HomePage extends LitElement {
           position: relative;
           width: 100%;
         }
-
 
         @media (min-width:40em) {
 
@@ -71,24 +72,6 @@ export class HomePage extends LitElement {
           display: block;
           height: 0;
         }
-
-        @keyframes fade-in {
-          0% {
-            opacity: 0
-          }
-          100% {
-            opacity: 1
-          }
-        }
-
-        @keyframes fade-out {
-          0% {
-            opacity: 1
-          }
-          100% {
-            opacity: 0
-          }
-        }
       `];
   }
 
@@ -99,118 +82,103 @@ export class HomePage extends LitElement {
       },
       loaded: {
         type: Boolean,
-        reflect: true
+        attribute: false
       }
     };
   }
 
   constructor() {
     super();
-    this.url = 'https://admin.guntherwerks.info';
-    this.handleLoad = this.handleLoad.bind(this);
+    console.log(this.url);
+    this.dataEndpoint = '/home';
+    this.debug = true;
   }
 
-  firstUpdated() {
-    this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-home-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
+  firstUpdated() {}
+
+  async handlePreload() {
+    console.log('running');
+    await this.imagePreloader([this.data.HeroImage.url]);
+    super.handlePreload();
   }
 
-  preload() {
-    if (!this.data) {
-      console.log('No data yet ...');
-      setTimeout(() => {
-        this.preload();
-      }, 500);
-    } else {
-      this.shadowRoot.querySelector('.c-hero-frame__image').addEventListener('load', () => {
-        this.loaded = true;
-      });
-    }
-  }
-
-  handleLoad() {
-    if (this.loaded === true) {
-      this._transitionIn();
-
-      let load = new CustomEvent('routeLoad');
-      this.dispatchEvent(load);
-    } else {
-      setTimeout(() => {
-        this.handleLoad();
-      }, 200);
-    }
-  }
-
-  _transitionIn() {
-    this.blurFilter.setAttribute('stdDeviation', '10,0');
-    setTimeout(() => {
-      this._blurAnimation();
-    }, 500);
-  }
-
-  _blurAnimation() {
-    motionBlur(this.blurFilter);
-  }
-
-  async _getData() {
-    const response = await fetch(this.url + '/home').then(res => res.json()).catch(err => console.error(err));
-    return {
-      statusCode: 200,
-      body: response
-    };
-  }
-
-  async performUpdate() {
-    const data = await this._getData(data => {
-      this.data = data;
-    });
-    this.data = data.body;
-    super.performUpdate();
+  transitionIn() {
+    super.transitionIn();
+    super.blurAnimation();
   }
 
   render() {
     return html`
       <section class="c-hero-frame">
-        <div class="c-hero-frame__content">
-          <div class="c-hero-frame__branding">
-            <img
-              src="${this.url + this.data.HeroLogo.url}"
-              alt="${this.url + this.data.HeroLogo.alternativeText}"
-            />
-            <c-slant-title
-              data=${JSON.stringify(this.data.HeroSlantTitle)}
+
+        <div class="
+            o-section-block
+            o-section-block--top
+          "
+        >
+            <div class="
+              o-media-block
+              o-media-block--top
+              o-media-block--spaced-mobile
+              o-media-block--split-flush-end
+            ">
+              <div class="
+                o-media-block__item
+              ">
+                <img
+                  class="c-hero-frame__branding"
+                  src="${this.url + this.data.HeroLogo.url}"
+                  alt="${this.url + this.data.HeroLogo.alternativeText}"
+                />
+                <c-slant-title
+                  data=${JSON.stringify(this.data.HeroSlantTitle)}
+                >
+                </c-slant-title>
+              </div>
+              <div class="
+                o-media-block__item
+              ">
+                <img
+                  src="${this.url + this.data.HeroImage.url}"
+                  alt="${this.url + this.data.HeroImage.alternativeText}"
+                  class="c-hero-frame__image"
+                />
+              </div>
+
+
+            </div>
+
+          <div class="
+            o-media-block
+            u-text-align-center
+          ">
+            <div
+              class="c-hero-frame__text"
             >
-            </c-slant-title>
-          </div>
-          <img
-            src="${this.url + this.data.HeroImage.url}"
-            alt="${this.url + this.data.HeroImage.alternativeText}"
-            class="c-hero-frame__image"
-          />
-          <div
-            class="c-hero-frame__text"
-          >
-            <c-heading
-              text=${this.data.HeroHeading}
-              textAlign='center'
-              weight=normal'
-            >
-            </c-heading>
-            <c-text-block
-              content=${this.data.HeroText}
-              backgroundColor='transparent'
-              isFlush=true
-            >
-            </c-text-block>
-            <div class="u-text-title">
-              ${this.data.HeroSubHeading}
+              <c-heading
+                text=${this.data.HeroHeading}
+                textAlign='center'
+                weight=normal'
+              >
+              </c-heading>
+              <c-text-block
+                content=${this.data.HeroText}
+                backgroundColor='transparent'
+                isFlush=true
+              >
+              </c-text-block>
+              <div class="u-text-title">
+                ${this.data.HeroSubHeading}
+              </div>
             </div>
           </div>
+
+          <c-angle-section
+            data=${JSON.stringify(this.data.HeroAngleBG)}
+          >
+          </c-angle-section>
         </div>
 
-        <c-angle-section
-          data=${JSON.stringify(this.data.HeroAngleBG)}
-        >
-        </c-angle-section>
       </section>
 
       <c-reveal-section
@@ -268,17 +236,6 @@ export class HomePage extends LitElement {
         >
       </c-contact-form>
 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        class="c-filters"
-      >
-        <defs>
-          <filter id="blur">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10,0" />
-          </filter>
-        </defs>
-      </svg>
     `;
   }
 

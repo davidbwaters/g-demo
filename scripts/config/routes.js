@@ -1,7 +1,7 @@
 /*
  *  Scripts - Config - Routes
  */
-export default [{
+export const routes = [{
   name: 'home',
   pattern: '',
   data: {

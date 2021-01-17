@@ -1,0 +1,229 @@
+@font-face {
+  font-family: "gw-icons";
+  src: url("gw-icons.eot");
+  src: url("gw-icons.woff2?c9f2r1") format("woff2"),
+      url("gw-icons.woff?c9f2r1") format("woff");
+  font-style: normal;
+  font-weight: 400;
+}
+
+.c-icon {
+  display: inline-block;
+  font-family: "gw-icons" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.c-icon__angle-down::before {
+  content: "\ea01";
+}
+.c-icon__angle-left::before {
+  content: "\ea02";
+}
+.c-icon__angle-right::before {
+  content: "\ea03";
+}
+.c-icon__angle-up::before {
+  content: "\ea04";
+}
+.c-icon__arrow-circle-down::before {
+  content: "\ea05";
+}
+.c-icon__arrow-circle-left::before {
+  content: "\ea06";
+}
+.c-icon__arrow-circle-right::before {
+  content: "\ea07";
+}
+.c-icon__arrow-circle-up::before {
+  content: "\ea08";
+}
+.c-icon__arrow-down::before {
+  content: "\ea09";
+}
+.c-icon__arrow-left::before {
+  content: "\ea0a";
+}
+.c-icon__arrow-right::before {
+  content: "\ea0b";
+}
+.c-icon__arrow-up::before {
+  content: "\ea0c";
+}
+.c-icon__arrows-alt-h::before {
+  content: "\ea0d";
+}
+.c-icon__arrows-alt-v::before {
+  content: "\ea0e";
+}
+.c-icon__at-solid::before {
+  content: "\ea0f";
+}
+.c-icon__ban-solid::before {
+  content: "\ea10";
+}
+.c-icon__chevron-circle-down::before {
+  content: "\ea11";
+}
+.c-icon__chevron-circle-left::before {
+  content: "\ea12";
+}
+.c-icon__chevron-circle-right::before {
+  content: "\ea13";
+}
+.c-icon__chevron-circle-up::before {
+  content: "\ea14";
+}
+.c-icon__chevron-down::before {
+  content: "\ea15";
+}
+.c-icon__chevron-left::before {
+  content: "\ea16";
+}
+.c-icon__chevron-right::before {
+  content: "\ea17";
+}
+.c-icon__chevron-up::before {
+  content: "\ea18";
+}
+.c-icon__circle::before {
+  content: "\ea19";
+}
+.c-icon__circle-notch::before {
+  content: "\ea1a";
+}
+.c-icon__cogs::before {
+  content: "\ea1b";
+}
+.c-icon__columns::before {
+  content: "\ea1c";
+}
+.c-icon__comment::before {
+  content: "\ea1d";
+}
+.c-icon__expand-arrows-alt::before {
+  content: "\ea1e";
+}
+.c-icon__external-link-square-alt-solid::before {
+  content: "\ea1f";
+}
+.c-icon__facebook::before {
+  content: "\ea20";
+}
+.c-icon__feather-solid::before {
+  content: "\ea21";
+}
+.c-icon__flickr::before {
+  content: "\ea22";
+}
+.c-icon__grid::before {
+  content: "\ea23";
+}
+.c-icon__grid-alt::before {
+  content: "\ea24";
+}
+.c-icon__grip-horizontal-solid::before {
+  content: "\ea25";
+}
+.c-icon__grip-vertical-solid::before {
+  content: "\ea26";
+}
+.c-icon__hand-paper::before {
+  content: "\ea27";
+}
+.c-icon__hand-paper-solid::before {
+  content: "\ea28";
+}
+.c-icon__hand-point-up::before {
+  content: "\ea29";
+}
+.c-icon__hand-point-up-solid::before {
+  content: "\ea2a";
+}
+.c-icon__hand-pointer::before {
+  content: "\ea2b";
+}
+.c-icon__hand-pointer-solid::before {
+  content: "\ea2c";
+}
+.c-icon__hand-rock::before {
+  content: "\ea2d";
+}
+.c-icon__hand-rock-solid::before {
+  content: "\ea2e";
+}
+.c-icon__hashtag-solid::before {
+  content: "\ea2f";
+}
+.c-icon__hourglass-solid::before {
+  content: "\ea30";
+}
+.c-icon__hourglass-start-solid::before {
+  content: "\ea31";
+}
+.c-icon__i-cursor-solid::before {
+  content: "\ea32";
+}
+.c-icon__info-circle-solid::before {
+  content: "\ea33";
+}
+.c-icon__instagram::before {
+  content: "\ea34";
+}
+.c-icon__link-solid::before {
+  content: "\ea35";
+}
+.c-icon__long-arrow-alt-down::before {
+  content: "\ea36";
+}
+.c-icon__long-arrow-alt-left::before {
+  content: "\ea37";
+}
+.c-icon__long-arrow-alt-right::before {
+  content: "\ea38";
+}
+.c-icon__long-arrow-alt-up::before {
+  content: "\ea39";
+}
+.c-icon__meh-blank::before {
+  content: "\ea3a";
+}
+.c-icon__minus-circle::before {
+  content: "\ea3b";
+}
+.c-icon__minus-square::before {
+  content: "\ea3c";
+}
+.c-icon__plus-circle::before {
+  content: "\ea3d";
+}
+.c-icon__plus-square::before {
+  content: "\ea3e";
+}
+.c-icon__ruler-combined::before {
+  content: "\ea3f";
+}
+.c-icon__star-of-life::before {
+  content: "\ea40";
+}
+.c-icon__surprise::before {
+  content: "\ea41";
+}
+.c-icon__user-solid::before {
+  content: "\ea42";
+}
+.c-icon__window-close::before {
+  content: "\ea43";
+}
+.c-icon__youtube::before {
+  content: "\ea44";
+}

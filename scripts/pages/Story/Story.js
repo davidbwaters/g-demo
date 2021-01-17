@@ -1,11 +1,12 @@
 /*
  *  Scripts - Pages - Story
  */
-import { LitElement, css, html } from '../../../modules/lit-element.js';
-import { generic } from '../../styles/generic.js';
-export class StoryPage extends LitElement {
+import { css, html } from '../../../modules/lit-element.js';
+import { Page } from '../../bases/Page.js';
+import { initialize } from '../../styles/initialize.js';
+export class StoryPage extends Page {
   static get styles() {
-    return [generic, css`
+    return [initialize, css`
         :host {
           display: block;
           height: 100%;
@@ -21,18 +22,18 @@ export class StoryPage extends LitElement {
   static get properties() {
     return {
       data: {
-        type: Object
+        type: Object,
+        attribute: false
       },
       loaded: {
-        type: Boolean,
-        reflect: true
+        type: Boolean
       }
     };
   }
 
   constructor() {
     super();
-    this.url = 'https://admin.guntherwerks.info';
+    this.dataEndpoint = '/story';
   }
 
   firstUpdated() {
@@ -54,8 +55,7 @@ export class StoryPage extends LitElement {
     console.log('Handle load ...');
 
     if (this.loaded === true) {
-      this._transitionIn();
-
+      this.transitionIn();
       let load = new CustomEvent('routeLoad');
       this.dispatchEvent(load);
       console.log('Route loaded ...');
@@ -66,27 +66,11 @@ export class StoryPage extends LitElement {
     }
   }
 
-  _transitionIn() {}
-
-  async _getData() {
-    const response = await fetch(this.url + '/story').then(res => res.json()).catch(err => console.error(err));
-    return {
-      statusCode: 200,
-      body: response
-    };
-  }
-
-  async performUpdate() {
-    const data = await this._getData(data => {
-      this.data = data;
-    });
-    this.data = data.body;
-    console.log(this.data);
-    super.performUpdate();
-  }
+  transitionIn() {}
 
   render() {
     return html`
+
     `;
   }
 

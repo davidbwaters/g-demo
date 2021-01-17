@@ -1,16 +1,16 @@
 /*
  *  Scripts - Router - Main
  */
-import { LitElement, css, unsafeCSS } from '../../modules/lit-element.js';
+import { LitElement, css } from '../../modules/lit-element.js';
 import { router } from '../../modules/lit-element-router.js';
 import { RouterOutlet } from './Outlet.js';
-import routes from '../config/routes.js';
-import { generic } from '../styles/generic.js';
-import { logoResponsive } from '../styles/logoResponsive.js';
+import { routes } from '../config/routes.js';
+import { initialize } from '../styles/initialize.js';
+import { logoResponsive } from '../styles/components.logo-responsive.js';
 customElements.define('c-router-outlet', RouterOutlet);
 export class Router extends router(LitElement) {
   static get styles() {
-    return [generic, logoResponsive, css`
+    return [initialize, logoResponsive, css`
         :host {
           display: block;
           height: auto;
@@ -19,7 +19,26 @@ export class Router extends router(LitElement) {
           width: 100%;
           z-index: 1;
         }
+
+        .c-page {
+          opacity: var(--page-opacity);
+          transition:
+            opacity var(--transition-duration) ease;
+        }
       `];
+  }
+
+  static get properties() {
+    return {
+      loaderActive: {
+        type: Boolean,
+        reflect: true
+      },
+      loadingActiveRoute: {
+        type: Boolean,
+        reflect: true
+      }
+    };
   }
 
   static get routes() {
@@ -31,14 +50,19 @@ export class Router extends router(LitElement) {
     this.route = '';
     this.params = {};
     this.query = {};
+    this.debug = true;
     this.handleLoad = this.handleLoad.bind(this);
-    this._preloadRoute = this._preloadRoute.bind(this);
+    this.handlePreload = this.handlePreload.bind(this);
   }
 
   router(route, params, query, data) {
     this.route = route;
     this.params = params;
-    this.query = query; // console.log(route, params, query, data)
+    this.query = query;
+
+    if (this.debug) {
+      console.log(route, params, query, data);
+    }
   }
 
   connectedCallback() {
@@ -46,11 +70,12 @@ export class Router extends router(LitElement) {
 
     this._getLinks();
 
-    this._setActiveRouteEl();
+    this.setActiveRouteEl();
 
     this._addOutlet();
 
     this.loaderEl.enable();
+    this.loaderEnabled = true;
   }
 
   _getLinks() {
@@ -63,16 +88,19 @@ export class Router extends router(LitElement) {
     });
   }
 
-  _setActiveRouteEl() {
+  setActiveRouteEl() {
     this.routeEls.forEach(el => {
       const name = el.getAttribute('route');
+      el.shadowRoot.host.style.setProperty('--page-opacity', '0');
 
       if (name === this.route) {
         el.setAttribute('active', true);
+        el.active = true;
         this.activeRouteEl = el;
       } else {
         if (el.hasAttribute('active')) {
           el.removeAttribute('active');
+          el.active = false;
         }
       }
     });
@@ -96,6 +124,7 @@ export class Router extends router(LitElement) {
       this.outletEl = document.createElement('c-router-outlet');
       this.outletEl.setAttribute('active-route', this.route);
       this.routeEls.forEach(el => {
+        el.classList.add('c-page');
         this.outletEl.appendChild(el);
       });
       this.footerEl = document.createElement('c-footer');
@@ -108,102 +137,129 @@ export class Router extends router(LitElement) {
   }
 
   _resize() {
-    window.requestAnimationFrame(() => {
-      window.dispatchEvent(new Event('resize'));
-    });
+    setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        window.dispatchEvent(new Event('resize'));
+      });
+    }, 500);
+    setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        window.dispatchEvent(new Event('resize'));
+      });
+    }, 1500);
+    setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        window.dispatchEvent(new Event('resize'));
+      });
+    }, 2500);
   }
 
-  handleLoad(e) {
-    // console.log('router loading ' + e)
-    this.loaderEl.disable();
-    this.activeRouteEl.style.opacity = '1';
-    this.activeRouteEl.style.transition = 'opacity .5s';
-    this.outletEl.setAttribute('active-route', this.route);
-  }
+  handlePreload(e) {
+    if (this.debug) {
+      console.log('preload ' + this._unloadedRouteEls[0]);
+    }
 
-  _preloadRoute(e) {
-    console.log('preload ' + this._unloadedRouteEls[0]);
     this._unloadedRouteEls[0].loaded = true;
 
-    this._unloadedRouteEls[0].removeEventListener('routeLoad', this._preloadRoute);
+    this._unloadedRouteEls[0].removeEventListener('preloaded', this.handlePreload);
 
-    this._preloadRoutes();
+    this.preloadRoutes();
   }
 
-  _preloadRoutes() {
+  preloadRoutes() {
     this._unloadedRouteEls = [];
     this.routeEls.forEach(el => {
       if (!el.loaded) {
         this._unloadedRouteEls.concat(el);
       }
-    });
+    }); // If there are routes that aren't loaded,
+    // preload one and listen for when it's done
 
     if (this._unloadedRouteEls.length) {
-      this._unloadedRouteEls[0].addEventListener('routeLoad', this._preloadRoute);
+      if (!this.loadingActiveRoute) {
+        this._unloadedRouteEls[0].addEventListener('preloaded', this.handlePreload);
 
-      this._unloadedRouteEls[0].handleLoad();
+        this._unloadedRouteEls[0].handlePreload();
 
-      this._unloadedRouteEls[0].preload();
-
-      console.log('Trying to preload' + this._unloadedRouteEls[0]);
+        if (this.debug) {
+          console.log('Trying to preload' + this._unloadedRouteEls[0]);
+        }
+      }
     }
   }
 
-  updated() {
-    // console.log('router-updated')
-    if (this.activeRouteEl) {
-      this.activeRouteEl.removeEventListener('routeLoad', this.handleLoad);
+  handleLoad(e) {
+    if (this.debug) {
+      console.log('Active route loaded ...');
     }
 
-    this._setActiveRouteEl();
+    if (this.loaderEnabled) {
+      this.loaderEl.disable();
+    }
+
+    if (this.loadingActiveRoute) {
+      this.loadingActiveRoute = false;
+      this.activeRouteEl.removeEventListener('preloaded', this.handleLoad);
+      this.preloadRoutes();
+    }
+
+    this.activeRouteEl.handleLoad();
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        this.activeRouteEl.handleLoad();
+        this.activeRouteEl.shadowRoot.host.style.setProperty('--page-opacity', '1');
+      });
+    }, this.loaderEl.duration);
+  }
+
+  updated() {
+    if (this.debug) {
+      console.log('Router updated ...');
+    } // Remove old load handler.
+
+
+    if (this.activeRouteEl) {
+      this.activeRouteEl.removeEventListener('routeLoad', this.handleLoad);
+    } // Set the active route element.
+
+
+    this.setActiveRouteEl(); // If the gallery is active, hide footer,
+    // if not make sure it's not hidden
 
     if (this.route === 'gallery') {
       this.footerEl.style.height = '0';
+      this._footerHidden = true;
     } else {
-      this.footerEl.style.height = '';
-    }
+      if (this._footerHidden) {
+        this.footerEl.style.height = '';
+      }
+    } // If the active route isn't loaded,
+    // enable the loader and add a listener
+    // to handle when it loads.
+    // If it is, handle loading it and preload
+    // other routes
 
-    window.requestAnimationFrame(() => {
-      this.activeRouteEl.style.opacity = '0';
-      this.activeRouteEl.style.transition = 'opacity .5s';
-    });
 
-    if (this.activeRouteEl.loaded !== true) {
-      console.log('Active route not loaded ...');
-      this.activeRouteEl.addEventListener('routeLoad', this.handleLoad);
-      console.log(this.activeRouteEl);
-      this.activeRouteEl.preload();
-      this.activeRouteEl.handleLoad();
+    if (!this.activeRouteEl.loaded) {
+      if (this.debug) {
+        console.log('Active route loading ...');
+      }
+
+      this.loaderEl.enable();
+      this.loaderEnabled = true;
+      this.loadingActiveRoute = true;
+      this.activeRouteEl.addEventListener('preloaded', this.handleLoad);
+      this.activeRouteEl.handlePreload();
     } else {
-      requestAnimationFrame(() => {
-        this.activeRouteEl.style.opacity = '1';
-      });
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          this.activeRouteEl._transitionIn();
-        });
-      }, 500);
+      this.handleLoad();
+      this.preloadRoutes();
+    } // Set attributes with active route
 
-      this._preloadRoutes();
-    }
 
     this.outletEl.setAttribute('active-route', this.route);
-    this.navEl.setAttribute('active', '/' + this.route);
+    this.navEl.setAttribute('active', '/' + this.route); // Fire resize event to workaround scroll issues
 
     this._resize();
-
-    setTimeout(() => {
-      this._resize();
-    }, 500);
-    setTimeout(() => {
-      this._resize();
-    }, 1000);
-    setTimeout(() => {
-      this._resize();
-    }, 1500);
-    setTimeout(() => {
-      this._resize();
-    }, 2000);
   }
 
 }

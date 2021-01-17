@@ -2,15 +2,16 @@
  *  Scripts - Components - Footer
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
-import { generic } from '../../styles/generic.js';
-import { logoResponsive } from '../../styles/logoResponsive.js';
+import { initialize } from '../../styles/initialize.js';
+import { logoResponsive } from '../../styles/components.logo-responsive.js';
 export class Footer extends LitElement {
   static get styles() {
-    return [generic, logoResponsive, css`
+    return [initialize, logoResponsive, css`
         :host {
           background-color: var(--color-subtle-dark-2);
           bottom: 0;
           color: white;
+          display: block;
           padding-left: 10%;
           padding-right: 10%;
           position: fixed;

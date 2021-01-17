@@ -1,11 +1,7 @@
 /*
  *  Scripts - Components - Angle Section */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
-import * as basicScroll from '../../../modules/basicscroll.js'; // import animateweb from 'animate.web'
-
-import { lerp // invlerp,
-// clamp
-} from '../../utils/lerp.js';
+import * as basicScroll from '../../../modules/basicscroll.js';
 import { getColor } from '../../utils/theme.js';
 export class AngleSection extends LitElement {
   static get styles() {
@@ -150,36 +146,48 @@ export class AngleSection extends LitElement {
         if (percentage > 5) {
           if (this._isScrolledLess !== true) {
             this._isScrolledLess = true;
-            document.body.style.setProperty('--loader-fade-in-opacity', '.2');
+            requestAnimationFrame(() => {
+              document.body.style.setProperty('--hero-frame-content-opacity', '.2');
+            });
           }
         } else {
           if (this._isScrolledLess !== false) {
             this._isScrolledLess = false;
-            document.body.style.setProperty('--loader-fade-in-opacity', '.99');
+            requestAnimationFrame(() => {
+              this.parentElement.style.setProperty('--hero-frame-content-opacity', '1');
+            });
           }
         }
 
         if (percentage > 50) {
           if (this._isScrolled !== true) {
             this._isScrolled = true;
-            this.shadowRoot.host.style.setProperty('--angle-section-color', this.endColor);
+            requestAnimationFrame(() => {
+              this.shadowRoot.host.style.setProperty('--angle-section-color', this.endColor);
+            });
           }
         } else {
           if (this._isScrolled !== false) {
             this._isScrolled = false;
-            this.shadowRoot.host.style.setProperty('--angle-section-color', this.startColor);
+            requestAnimationFrame(() => {
+              this.shadowRoot.host.style.setProperty('--angle-section-color', this.startColor);
+            });
           }
         }
 
         if (percentage > 50) {
           if (this._isScrolledMore !== true) {
             this._isScrolledMore = true;
-            document.documentElement.style.setProperty('--hero-image-opacity', 0.1);
+            requestAnimationFrame(() => {
+              this.parentElement.style.setProperty('--hero-image-opacity', 0.1);
+            });
           }
         } else {
           if (this._isScrolledMore !== false) {
             this._isScrolledMore = false;
-            document.documentElement.style.setProperty('--hero-image-opacity', 0.99);
+            requestAnimationFrame(() => {
+              this.parentElement.style.setProperty('--hero-image-opacity', 0.99);
+            });
           }
         }
       }

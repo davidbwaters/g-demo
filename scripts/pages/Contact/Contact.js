@@ -1,11 +1,12 @@
 /*
  *  Scripts - Pages - Contact
  */
-import { LitElement, css, html } from '../../../modules/lit-element.js';
-import { generic } from '../../styles/generic.js';
-export class ContactPage extends LitElement {
+import { css, html } from '../../../modules/lit-element.js';
+import { Page } from '../../bases/Page.js';
+import { initialize } from '../../styles/initialize.js';
+export class ContactPage extends Page {
   static get styles() {
-    return [generic, css`
+    return [initialize, css`
         :host {
           display: block;
           height: 100%;
@@ -18,7 +19,8 @@ export class ContactPage extends LitElement {
   static get properties() {
     return {
       data: {
-        type: Object
+        type: Object,
+        attribute: false
       },
       loaded: {
         type: Boolean,
@@ -29,57 +31,16 @@ export class ContactPage extends LitElement {
 
   constructor() {
     super();
-    this.url = 'https://admin.guntherwerks.info';
-    this.handleLoad = this.handleLoad.bind(this);
+    this.dataEndpoint = '/contact';
   }
 
   firstUpdated() {}
 
-  preload() {
-    if (!this.data) {
-      setTimeout(() => {
-        this.preload();
-      }, 500);
-    } else {
-      this.loaded = true;
-    }
-  }
-
-  handleLoad() {
-    if (this.loaded === true) {
-      this._transitionIn();
-
-      let load = new CustomEvent('routeLoad');
-      this.dispatchEvent(load);
-    } else {
-      setTimeout(() => {
-        this.handleLoad();
-      }, 500);
-    }
-  }
-
-  _transitionIn() {}
-
-  async _getData() {
-    const response = await fetch(this.url + '/contact').then(res => res.json()).catch(err => console.error(err));
-    return {
-      statusCode: 200,
-      body: response
-    };
-  }
-
-  async performUpdate() {
-    const data = await this._getData(data => {
-      this.data = data;
-    });
-    this.data = data.body;
-    console.log(this.data);
-    super.performUpdate();
-  }
+  transitionIn() {}
 
   render() {
     return html` <div>
-      <h1>Contac</h1>
+      <h1>Contact</h1>
     </div>`;
   }
 

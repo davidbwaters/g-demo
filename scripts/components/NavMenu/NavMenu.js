@@ -2,7 +2,7 @@
  *  Scripts - Components - Nav Menu
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
-import routes from '../../config/routes.js';
+import { routes } from '../../config/routes.js';
 export class NavMenu extends LitElement {
   static get styles() {
     return css`
