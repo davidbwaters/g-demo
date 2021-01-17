@@ -10,23 +10,11 @@ export const heroFrame = css`
   }
 
   .c-hero-frame__content {
-
     will-change: opacity;
   }
 
-  @media (min-width:40em) {
-
-    .c-hero-frame__content {
-    }
-
-  }
-
-  @media (min-width:60em) {
-
-  }
-
   .c-hero-frame__branding {
-    display: grid;
+    min-width: 16rem;
     transition:
       opacity var(--loader-fade-in-transition);
     will-change: opacity;
@@ -35,6 +23,7 @@ export const heroFrame = css`
   @media (min-width:40em) {
 
     .c-hero-frame__branding {
+      max-width: none;
     }
 
   }

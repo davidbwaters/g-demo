@@ -8,13 +8,15 @@ export class AngleSection extends LitElement {
     return css`
 
       :host {
-        position: absolute;
+        background-color: white;
+        display: block;
         height: 100%;
         left: 0;
         overflow: hidden;
+        position: absolute;
         top: 0;
         width: 100%;
-        z-index: -1;
+        z-index: -2;
       }
 
       .c-angle-section__background-geometry {

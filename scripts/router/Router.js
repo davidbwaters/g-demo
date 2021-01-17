@@ -24,6 +24,7 @@ export class Router extends router(LitElement) {
           opacity: var(--page-opacity);
           transition:
             opacity var(--transition-duration) ease;
+            will-chang: opacity;
         }
       `];
   }

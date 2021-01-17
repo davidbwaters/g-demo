@@ -116,40 +116,42 @@ export class HomePage extends Page {
             o-section-block--top
           "
         >
-            <div class="
-              o-media-block
-              o-media-block--top
-              o-media-block--spaced-mobile
-              o-media-block--split-flush-end
-            ">
-              <div class="
-                o-media-block__item
-              ">
-                <img
-                  class="c-hero-frame__branding"
-                  src="${this.url + this.data.HeroLogo.url}"
-                  alt="${this.url + this.data.HeroLogo.alternativeText}"
-                />
-                <c-slant-title
-                  data=${JSON.stringify(this.data.HeroSlantTitle)}
-                >
-                </c-slant-title>
-              </div>
-              <div class="
-                o-media-block__item
-              ">
-                <img
-                  src="${this.url + this.data.HeroImage.url}"
-                  alt="${this.url + this.data.HeroImage.alternativeText}"
-                  class="c-hero-frame__image"
-                />
-              </div>
-
-
-            </div>
-
           <div class="
             o-media-block
+            o-media-block--top
+            o-media-block--narrow
+            o-media-block--split-flush-end
+          ">
+            <div class="
+              o-media-block__item
+            ">
+              <img
+                class="c-hero-frame__branding"
+                src="${this.url + this.data.HeroLogo.url}"
+                alt="${this.url + this.data.HeroLogo.alternativeText}"
+              />
+              <c-slant-title
+                data=${JSON.stringify(this.data.HeroSlantTitle)}
+              >
+              </c-slant-title>
+              <div class="u-text-title-tiny">
+                ${this.data.HeroSubHeading}
+              </div>
+            </div>
+            <div class="
+              o-media-block__item
+            ">
+              <img
+                src="${this.url + this.data.HeroImage.url}"
+                alt="${this.url + this.data.HeroImage.alternativeText}"
+                class="c-hero-frame__image"
+              />
+            </div>
+          </div>
+
+          <div class="
+            o-block
+            o-block--narrow
             u-text-align-center
           ">
             <div
@@ -167,9 +169,7 @@ export class HomePage extends Page {
                 isFlush=true
               >
               </c-text-block>
-              <div class="u-text-title">
-                ${this.data.HeroSubHeading}
-              </div>
+
             </div>
           </div>
 

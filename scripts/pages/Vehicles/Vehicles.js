@@ -167,7 +167,7 @@ export class VehiclesPage extends Page {
 
   handlePreload() {
     this.url = 'https://admin.guntherwerks.info';
-    let images = [this.url + this.data.HeroImage.url];
+    let images = [this.data.HeroImage.url];
     this.imagePreloader(images);
     super.handlePreload();
   }

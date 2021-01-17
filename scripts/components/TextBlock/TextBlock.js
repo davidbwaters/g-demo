@@ -61,6 +61,9 @@ export class TextBlock extends LitElement {
       data: {
         type: Object
       },
+      debug: {
+        type: Boolean
+      },
       content: {
         type: String
       },
@@ -90,16 +93,17 @@ export class TextBlock extends LitElement {
     this.size = 'Normal';
     this.isBold = false;
     this.isFlush = false;
+    this.TextBlockData = this.data;
   }
 
   firstUpdated() {
     const contentEl = this.shadowRoot;
 
-    if (this.data) {
-      this.size = this.data.Size;
-      this.isBold = this.data.BoldFont;
-      this.lighterColor = this.data.LighterColor;
-      this.content = this.data.Content;
+    if (this.TextBlockData) {
+      this.size = this.TextBlockData.Size;
+      this.isBold = this.TextBlockData.BoldFont;
+      this.lighterColor = this.TextBlockData.LighterColor;
+      this.content = this.TextBlockData.Content;
     }
 
     this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-' + this.size.toLowerCase() + ')');
@@ -141,12 +145,19 @@ export class TextBlock extends LitElement {
       this.shadowRoot.host.style.setProperty('--text-block-width', '80%');
     }
 
-    this.content = JSON.stringify(this.content);
+    this.debug = true;
 
-    if (this.content.slice(0, 1) === '[') {
-      this._content = JSON.parse(this.content);
+    if (typeof this.content === 'string' && this.content.trim().slice(0, 1) === '[') {
+      this.content = JSON.parse(this.content);
+    }
 
-      this._content.forEach(content => {
+    if (typeof this.content === 'object') {
+      if (this.debug) {
+        console.log('Text block array');
+        console.log(this.content);
+      }
+
+      this.content.forEach(content => {
         const paragraphEl = document.createElement('p');
 
         if (content.Paragraph) {
@@ -160,8 +171,16 @@ export class TextBlock extends LitElement {
         contentEl.appendChild(paragraphEl);
       });
     } else {
+      this.debug = true;
+
+      if (this.debug) {
+        console.log('Text block not array');
+        console.log(this.content);
+        console.log(this.content.slice(0, 2));
+      }
+
       const paragraphEl = document.createElement('p');
-      paragraphEl.innerHTML = JSON.parse(this.content);
+      paragraphEl.innerHTML = this.content;
       contentEl.appendChild(paragraphEl);
     }
   }

@@ -107,7 +107,7 @@ export class Loader extends LitElement {
   constructor() {
     super();
     this.enabled = true;
-    this.duration = 1800;
+    this.duration = 800;
   }
 
   firstUpdated() {

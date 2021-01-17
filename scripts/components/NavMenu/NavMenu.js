@@ -40,7 +40,7 @@ export class NavMenu extends LitElement {
       }
 
       .c-nav-menu__links {
-        color: var(--color-subtle-light-3);
+        color: var(--color-subtle-light-2);
         column-gap: var(--nav-menu-column-gap);
         display: grid;
         font-size: .8rem;
@@ -56,8 +56,9 @@ export class NavMenu extends LitElement {
         grid-auto-flow: column;
       }
 
-      c-router-link.is-active {
+      c-router-link.is-active a {
         color: var(--color-subtle-light-6);
+        opacity: 1;
       }
 
       a,
@@ -67,7 +68,7 @@ export class NavMenu extends LitElement {
       }
 
       a:hover {
-        color: var(--color-subtle-light-5);
+        color: var(--color-subtle-light-4);
       }
 
 

@@ -319,11 +319,7 @@ export class ScaleSection extends LitElement {
 
     this._setBackgroundColor();
 
-    if (!this._noText && this._noHeading) {
-      this._addTextBlock();
-    }
-
-    if (!this._noHeading && !this._noHeading) {
+    if (this._noText !== true) {
       this._addHeading();
 
       this._addTextBlock();
@@ -429,7 +425,7 @@ export class ScaleSection extends LitElement {
         this._isFullSection = true;
 
         if (!this.data.Heading) {
-          this._noHeading = true;
+          this._noText = true;
         }
 
         let position = this.data.TextBlockPosition;
@@ -506,7 +502,7 @@ export class ScaleSection extends LitElement {
 
       this._textBlockEl.classList.add('c-scale-section__text-block');
 
-      this._textBlockEl.content = JSON.stringify(this.text);
+      this._textBlockEl.content = this.text;
       this._textBlockEl.color = this.color;
       this._textBlockEl.isBold = false;
       this._textBlockEl.isFlush = true;
