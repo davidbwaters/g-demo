@@ -54,6 +54,9 @@ export class StoryPage extends Page {
         type: Object,
         attribute: false
       },
+      debug: {
+        type: Boolean
+      },
       loaded: {
         type: Boolean
       },

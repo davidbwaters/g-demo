@@ -30,7 +30,7 @@ export class Loader extends LitElement {
           display: grid;
           margin-left: auto;
           margin-right: auto;
-          row-gap: 2rem;
+          row-gap: 3rem;
           width: 100%;
         }
 
@@ -49,7 +49,7 @@ export class Loader extends LitElement {
 
         .c-loader__bar {
           background-image:
-            url('/images/Trace Legit Solid.svg');
+            url('/images/Vector/Trace Legit Solid Dark.svg');
           height: 20vw;
           overflow: hidden;
           width: 60vw;
@@ -57,7 +57,7 @@ export class Loader extends LitElement {
 
         .c-loader__bar::after {
           background-image:
-            url('/images/Trace Legit Solid Bar.svg');
+            url('/images/Vector/Trace Legit Solid Subtle.svg');
           clip-path: polygon(
             0 0,
             var(--loader-progress) 0,
@@ -67,7 +67,7 @@ export class Loader extends LitElement {
           content: '';
           display: block;
           height: 100%;
-          opacity: .8;
+          opacity: 1;
           transition: all 1s ease;
           width: 100%;
           will-change: clip-path;
@@ -181,7 +181,7 @@ export class Loader extends LitElement {
           </div>
           <img
             class="c-loader__branding"
-            src='/images/Branding/Logo Initials - Light.svg'
+            src='/images/Branding/Logo Initials - Subtle Light.svg'
           >
         </div>
       </div>

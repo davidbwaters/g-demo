@@ -93,22 +93,18 @@ export class TextBlock extends LitElement {
     super();
     this.size = 'Normal';
     this.isBold = false;
-    this.isFlush = false; // this.debug = true
-  }
-
-  async performUpdate() {
-    this.textBlockData = this.data;
-    super.performUpdate();
+    this.isFlush = false;
+    this.debug = true;
   }
 
   firstUpdated() {
     const contentEl = this.shadowRoot;
 
-    if (this.textBlockData) {
-      this.size = this.textBlockData.Size;
-      this.isBold = this.textBlockData.BoldFont;
-      this.lighterColor = this.textBlockData.LighterColor;
-      this.content = this.textBlockData.Content;
+    if (this.data) {
+      this.size = this.data.Size;
+      this.isBold = this.data.BoldFont;
+      this.lighterColor = this.data.LighterColor;
+      this.content = this.data.Content;
     }
 
     this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-' + this.size.toLowerCase() + ')');
@@ -164,6 +160,11 @@ export class TextBlock extends LitElement {
       }
 
       this.content.forEach(content => {
+        if (this.debug) {
+          console.log('Text block array item');
+          console.log(content, Text);
+        }
+
         const paragraphEl = document.createElement('p');
 
         if (content.Paragraph) {
@@ -175,6 +176,7 @@ export class TextBlock extends LitElement {
         }
 
         contentEl.appendChild(paragraphEl);
+        console.log(paragraphEl);
       });
     } else {
       if (this.debug) {
