@@ -28,6 +28,10 @@ export class ContactPage extends Page {
       loaded: {
         type: Boolean,
         reflect: true
+      },
+      loadProgress: {
+        type: Number,
+        reflect: true
       }
     };
   }

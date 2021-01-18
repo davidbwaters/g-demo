@@ -7,4 +7,10 @@ export const initialize = css`
   img {
     max-width: 100%;
   }
+
+  *::selection {
+    background-color: var(--color-fg);
+    color: var(--color-bg);
+    -webkit-text-stroke-color: var(--color-bg);
+  }
 `;

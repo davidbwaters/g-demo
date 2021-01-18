@@ -2,195 +2,155 @@
  *  Scripts - Components - Scale Section */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
 import * as basicScroll from '../../../modules/basicscroll.js';
+import { initialize } from '../../styles/initialize.js';
+import { objects } from '../../styles/objects.js';
+import { utilities } from '../../styles/utilities.js';
 export class ScaleSection extends LitElement {
   static get styles() {
-    return css`
-
-      :host {
-        align-content: var(--scale-section-align);
-        background-color: var(--scale-section-background-color);
-        column-gap: 4rem;
-        display: grid;
-        grid-template-columns: var(
-          --scale-section-columns-mobile
-        );
-        grid-template-rows:  var(
-          --scale-section-rows-mobile
-        );
-        justify-content: var(--scale-section-justify);
-        min-height: 90vh;
-        overflow: hidden;
-        position: relative;
-        row-gap:  var(--scale-section-gap-mobile);
-        text-align: var(--scale-section-text-align);
-        width: 100%;
-        will-change: background-size, transform;
-      }
-
-      @media (min-width:60em) {
-
+    return [initialize, objects, utilities, css`
         :host {
-          grid-template-columns: var(--scale-section-columns);
-          grid-template-rows:  var(--scale-section-rows);
-          row-gap: 2rem;
+          background-color: var(--scale-section-background-color);
+          display: block;
+          overflow: hidden;
+          position: relative;
+          text-align: var(--scale-section-text-align);
+          width: 100%;
+          will-change: background-size, transform;
         }
 
-      }
-
-      .c-scale-section-background {
-        background-image: var(--scale-section-background-image);
-        background-position: var(--scale-section-background-position);
-        background-size:
-            var(--scale-section-width)
-            var(--scale-section-height);
-        content: '';
-        display: var(--scale-section-background-display);
-        left: 0;
-        min-height: 40vw;
-        opacity: var(--scale-section-background-opacity);
-        width: 100%;
-        z-index: -1;
-      }
-
-      @media (min-width:60em) {
-
-        .c-scale-section-background {
-          height: 100%;
-          min-height: none;
-          position: absolute;
-          top: 0;
+        .c-scale-section__inner {
+          min-height: 50vh;
         }
 
-      }
-
-      .c-scale-section__content {
-        align-content: center;
-        display: grid;
-        grid-template-columns: 80%;
-        justify-content: center;
-        padding-bottom: var(
-          --scale-section-content-spacing-bottom-mobile
-        );
-        padding-top: var(
-          --scale-section-content-spacing-top-mobile
-        );
-        row-gap: var(--scale-section-content-gap-mobile);
-      }
-
-      @media (min-width:60em) {
-
-        .c-scale-section__content {
-          justify-content: var(--scale-section-content-justify);
-          max-width:  var(--scale-section-content-max);
-          padding-bottom: var(
-            --scale-section-content-spacing-bottom
-          );
-          padding-top: var(
-            --scale-section-content-spacing-top
-          );
-          row-gap: var(--scale-section-content-gap);
+        .c-scale-section__background {
+          background-image: var(--scale-section-background-image);
+          background-position: var(--scale-section-background-position);
+          background-size:
+              var(--scale-section-width)
+              var(--scale-section-height);
+          content: '';
+          display: var(--scale-section-background-display);
+          left: 0;
+          min-height: 40vw;
+          opacity: var(--scale-section-background-opacity);
+          width: 100%;
+          z-index: -1;
         }
 
-      }
+        @media (min-width:60em) {
 
-      .c-scale-section__image-wrapper {
-        justify-self: var(--scale-section-content-justify);
-        max-width: 40rem;
-      }
+          .c-scale-section__background {
+            height: 100%;
+            min-height: none;
+            position: absolute;
+            top: 0;
+          }
 
-      @media (min-width:60em) {
+        }
 
         .c-scale-section__image-wrapper {
-          align-self: center;
-          justify-self: auto;
-          max-width: none;
+          justify-self: var(--scale-section-content-justify);
+          max-width: 40rem;
         }
-
-      }
-
-      .c-scale-section__image {
-        display: block;
-        filter: url(/#blur);
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom: 3rem;
-        padding-top: 3rem;
-        transform: scale(var(--scale-section-size));
-        transform-origin: var(
-          --scale-section-transform-origin-mobile
-        );
-        will-change: transform;
-        width: var(--scale-section-image-width);
-      }
-
-      @media (min-width:60em) {
 
         .c-scale-section__image {
-          padding-bottom: 2rem;
-          padding-top: 2rem;
+          display: block;
+          filter: url(/#blur);
+          margin-left: auto;
+          margin-right: auto;
+          transform: scale(var(--scale-section-size));
           transform-origin: var(
-            --scale-section-transform-origin
+            --scale-section-transform-origin-mobile
           );
+          will-change: transform;
+          width: var(--scale-section-image-width);
         }
 
-      }
+        .c-scale-section__content {
+          align-content: var(--scale-section-align);
+          display: grid;
+          justify-content: var(--scale-section-justify);
+          padding-left: 10%;
+          padding-right: 10%;
+          row-gap: .5rem;
+        }
 
-      img {
-        width: 100%;
-        height: auto;
-      }
+        @media (min-width:60em) {
 
-    `;
+          .c-scale-section__content {
+            padding-left: 0;
+            padding-right: 0;
+          }
+
+        }
+
+        .c-scale-section__content c-heading {
+          color: var(--scale-section-heading-color);
+          display: var(--scale-section-heading-display);
+        }
+
+        .c-scale-section__content c-text-block {
+          color: var(--scale-section-text-color);
+          display: var(--scale-section-text-display);
+        }
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+
+      `];
   }
 
   static get properties() {
     return {
       data: {
+        type: Object,
+        reflect: true
+      },
+      StartPercentage: {
+        type: String
+      },
+      EndPercentage: {
+        type: String
+      },
+      BackgroundColor: {
+        type: String
+      },
+      BackgroundImageMoreOpaque: {
+        type: String
+      },
+      HeadingBoldFont: {
+        type: String
+      },
+      HeadingColor: {
+        type: String
+      },
+      HeadingSize: {
+        type: String
+      },
+      HeadingText: {
+        type: String
+      },
+      Image: {
         type: Object
       },
-      startPercentage: {
+      ImageAsBackground: {
         type: String
       },
-      endPercentage: {
-        type: String
-      },
-      backgroundColor: {
-        type: String
-      },
-      backgroundImageMoreOpaque: {
-        type: String
-      },
-      headingBoldFont: {
-        type: String
-      },
-      headingColor: {
-        type: String
-      },
-      headingSize: {
-        type: String
-      },
-      headingText: {
-        type: String
-      },
-      image: {
-        type: Object
-      },
-      imageAsBackground: {
-        type: String
-      },
-      imageSpacing: {
+      ImageSpacing: {
         type: Boolean
       },
-      small: {
+      Small: {
         type: Boolean
       },
-      text: {
+      Text: {
         type: String
       },
-      textAfterImage: {
+      TextAfterImage: {
         type: Boolean
       },
-      textAlign: {
+      TextAlign: {
         type: String
       }
     };
@@ -199,53 +159,38 @@ export class ScaleSection extends LitElement {
   constructor() {
     super();
     this.url = 'https://admin.guntherwerks.info';
-    this.headingSize = 'large';
-    this.headingBoldFont = true;
-    this.imageSpacing = true;
-    this.textAfterImage = false;
-    this._fullSection = {};
+    this.BackgroundColor = 'white';
+    this.HeadingSize = 'large';
+    this.HeadingBoldFont = true;
+    this.ImageSpacing = true;
+    this.TextAfterImage = false;
+    this.TextDisplay = 'grid';
+    this.TextAlign = 'center';
+    this.FullSection = {};
+  }
+
+  async performUpdate() {
+    this.setInitialData();
+    super.performUpdate();
   }
 
   firstUpdated() {
     this._contentEl = this.shadowRoot.querySelector('.c-scale-section__content');
-    this._imageEl = this.shadowRoot.querySelector('.c-scale-section-background');
-
-    this._setInitialData();
+    this._imageEl = this.shadowRoot.querySelector('.c-scale-section__background');
 
     if (this._isFullSection) {
-      this.headingBoldFont = true;
-      this.headingSize = 'medium';
-      this.textAlign = 'left';
-      this.shadowRoot.host.style.setProperty('--scale-section-content-gap', '0rem');
-      this.shadowRoot.host.style.setProperty('--scale-section-content-max', '40rem');
+      this.HeadingBoldFont = true;
+      this.HeadingSize = 'medium';
+      this.TextAlign = 'left';
 
-      if (this.imageAsBackground !== 'Disabled') {
-        this.shadowRoot.host.style.setProperty('--scale-section-columns', '50%');
-        this.shadowRoot.host.style.setProperty('--scale-section-rows', '90%');
-        this.shadowRoot.host.style.setProperty('--scale-section-align', this._fullSection.textY);
-        this.shadowRoot.host.style.setProperty('--scale-section-background-position', this._fullSection.imgX + ' ' + this._fullSection.imgY);
-        this.shadowRoot.host.style.setProperty('--scale-section-justify', this._fullSection.textX);
-        this.shadowRoot.host.style.setProperty('--scale-section-rows-mobile', '1fr 1fr');
-        this.shadowRoot.host.style.setProperty('--scale-section-content-gap-mobile', '0');
-        this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-top', '4rem');
-        this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-bottom', '4rem');
-        this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-top-mobile', '3rem');
-        this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-bottom-mobile', '3rem');
-      } else {
-        this.shadowRoot.host.style.setProperty('--scale-section-background-position', 'center center');
-        this.shadowRoot.host.style.setProperty('--scale-section-columns', '50% 50%');
-
-        if (!this.textAfterImage) {
-          this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-top-mobile', '4rem');
-        } else {
-          this.shadowRoot.host.style.setProperty('--scale-section-content-spacing-bottom-mobile', '4rem');
-        }
+      if (this.ImageAsBackground !== 'Disabled') {
+        this.shadowRoot.host.style.setProperty('--scale-section-align', this.FullSection.TextY);
+        this.shadowRoot.host.style.setProperty('--scale-section-background-position', this.FullSection.ImgX + ' ' + this.FullSection.ImgY);
+        this.shadowRoot.host.style.setProperty('--scale-section-justify', this.FullSection.TextX);
       }
 
-      if (!this.imageSpacing) {
-        this.shadowRoot.host.style.setProperty('--scale-section-image-width', '100%');
-
-        if (!this.textAfterImage) {
+      if (!this.ImageSpacing) {
+        if (!this.TextAfterImage) {
           this.shadowRoot.host.style.setProperty('--scale-section-transform-origin', 'center right');
           this.shadowRoot.host.style.setProperty('--scale-section-transform-origin-mobile', 'center right');
         } else {
@@ -253,7 +198,7 @@ export class ScaleSection extends LitElement {
           this.shadowRoot.host.style.setProperty('--scale-section-transform-origin-mobile', 'center left');
         }
       } else {
-        if (!this.textAfterImage) {
+        if (!this.TextAfterImage) {
           this.shadowRoot.host.style.setProperty('--scale-section-transform-origin', 'center left');
           this.shadowRoot.host.style.setProperty('--scale-section-transform-origin-mobile', 'center center');
         } else {
@@ -264,19 +209,12 @@ export class ScaleSection extends LitElement {
     } else {
       this.shadowRoot.host.style.setProperty('--scale-section-content-max', 'none');
       this.shadowRoot.host.style.setProperty('--scale-section-background-position', 'center center');
-
-      if (this.small === true) {
-        this.shadowRoot.host.style.setProperty('--scale-section-image-width', '70%');
-      }
-
-      this.shadowRoot.host.style.setProperty('--scale-section-content-gap', '2rem');
-      this.shadowRoot.host.style.setProperty('--scale-section-columns', '80%');
     }
 
-    if (this._isFullSection && this.imageAsBackground === 'Disabled') {
+    if (this._isFullSection && this.ImageAsBackground === 'Disabled') {
       this.shadowRoot.host.style.setProperty('--scale-section-content-justify', 'end');
 
-      if (!this.textAfterImage) {
+      if (!this.TextAfterImage) {
         this.shadowRoot.host.style.setProperty('--scale-section-content-justify', 'end');
       } else {
         this.shadowRoot.host.style.setProperty('--scale-section-content-justify', 'start');
@@ -285,25 +223,11 @@ export class ScaleSection extends LitElement {
       this.shadowRoot.host.style.setProperty('--scale-section-content-justify', 'center');
     }
 
-    if (this.imageAsBackground === 'OnLightText') {
-      this.color = 'white';
-
-      if (this.backgroundImageMoreOpaque) {
-        this.shadowRoot.host.style.setProperty('--scale-section-background-opacity', '.4');
-      } else {
-        this.shadowRoot.host.style.setProperty('--scale-section-background-opacity', '.8');
-      }
-    } else {
-      if (this.backgroundImageMoreOpaque) {
-        this.shadowRoot.host.style.setProperty('--scale-section-background-opacity', '.6');
-      } else {
-        this.shadowRoot.host.style.setProperty('--scale-section-background-opacity', '.9');
-      }
-
-      this.color = 'dark';
+    if (this.ImageAsBackground === 'OnLightText') {
+      this.Color = 'white';
     }
 
-    if (this.imageAsBackground === 'Disabled') {
+    if (this.ImageAsBackground === 'Disabled') {
       this.shadowRoot.host.style.setProperty('--scale-section-background-display', 'none');
       this.shadowRoot.host.style.setProperty('--scale-section-align', 'center');
       this.shadowRoot.host.style.setProperty('--scale-section-justify', 'center');
@@ -315,114 +239,131 @@ export class ScaleSection extends LitElement {
       this.shadowRoot.host.style.setProperty('--scale-section-background-display', 'block');
     }
 
-    this._setSizesRelative();
+    this.setSizesRelative();
+    this.setBackgroundColor();
 
-    this._setBackgroundColor();
-
-    if (!this._noText && this._noHeading) {
-      this._addTextBlock();
-    }
-
-    if (!this._noHeading && !this._noHeading) {
-      this._addHeading();
-
-      this._addTextBlock();
-    }
-
-    if (this.imageAsBackground !== 'Disabled') {
-      this._setBackgroundImage();
-
+    if (this.ImageAsBackground !== 'Disabled') {
+      this.setBackgroundImage();
+      this.setBackgroundSizes();
       window.addEventListener('resize', () => {
-        this._setBackgroundSizes();
+        this.setBackgroundSizes();
       });
     } else {
-      this._setImage();
-
-      if (this.textAfterImage) {
-        this.shadowRoot.insertBefore(this._pictureWrapperEl, this._contentEl);
-      } else {
-        this.shadowRoot.appendChild(this._pictureWrapperEl);
-      }
+      this.setImageSizes();
     }
 
-    if (!this._noText) {
-      this._contentEl.appendChild(this._headingEl);
-
-      if (this._isFullSection) {
-        this._contentEl.appendChild(this._textBlockEl);
-      }
-    }
-
-    if (this.startPercentage !== this.endPercentage) {
-      this._scrollSetup();
-
-      setTimeout(() => {
-        this._scrollInstance.calculate();
-
-        this._scrollInstance.update();
-      }, 500);
+    if (this.BackgroundImageMoreOpaque) {
+      this.shadowRoot.host.style.setProperty('--scale-section-background-opacity', '.4');
     } else {
-      if (this.imageAsBackground) {
+      this.shadowRoot.host.style.setProperty('--scale-section-background-opacity', '.8');
+    }
+
+    if (this.ImageAsBackground === 'OnLightText') {
+      this.shadowRoot.host.style.setProperty('--scale-section-background-color', 'var(--color-subtle-dark-1)');
+      this.shadowRoot.host.style.setProperty('--scale-section-heading-color', 'var(--color-subtle-light-4)');
+      this.shadowRoot.host.style.setProperty('--scale-section-text-color', 'var(--color-subtle-light-5)');
+    } else {
+      this.shadowRoot.host.style.setProperty('--scale-section-heading-color', 'var(--color-subtle-dark-1)');
+      this.shadowRoot.host.style.setProperty('--scale-section-text-color', 'var(--color-subtle-dark-2)');
+    }
+
+    if (this.StartPercentage === this.EndPercentage) {
+      if (this.ImageAsBackground) {
         this.shadowRoot.host.style.setProperty('var(--scale-section-width)', 'cover');
         this.shadowRoot.host.style.setProperty('var(--scale-section-height)', '');
       }
     }
 
-    if (this._noText) {
-      this._contentEl.style.display = 'none';
+    this.shadowRoot.host.style.setProperty('--scale-section-text-align', this.TextAlign);
+
+    if (this.HeadingText === undefined) {
+      this.shadowRoot.host.style.setProperty('--scale-section-heading-display', 'none');
+    } else {
+      this.shadowRoot.host.style.setProperty('--scale-section-heading-display', 'block');
+    }
+
+    if (this.Text === undefined) {
+      this.shadowRoot.host.style.setProperty('--scale-section-text-display', 'none');
+    } else {
+      this.shadowRoot.host.style.setProperty('--scale-section-text-display', 'grid');
+    }
+
+    if (this.StartPercentage !== this.EndPercentage) {
+      this.scrollSetup();
+      setTimeout(() => {
+        this._scrollInstance.calculate();
+
+        this._scrollInstance.update();
+      }, 500);
     }
   }
 
-  _setInitialData() {
+  async startScroll() {
+    if (!this.firstUpdateComplete) {
+      await this.updateComplete;
+      this.firstUpdateComplete = true;
+    }
+
+    if (this.clientHeight !== 0) {}
+  }
+
+  setInitialData() {
     if (this.data) {
-      this.image = this.data.Image;
-      this.startPercentage = this.data.StartPercentage;
-      this.endPercentage = this.data.EndPercentage;
+      this.id = this.data.id;
+      this.Image = this.data.Image;
+      this.StartPercentage = this.data.StartPercentage;
+      this.EndPercentage = this.data.EndPercentage;
 
       if (this.data.BackgroundImageMoreOpaque) {
-        this.backgroundImageMoreOpaque = true;
+        this.BackgroundImageMoreOpaque = this.data.BackgroundImageMoreOpaque;
       }
 
       if (this.data.GrayBackground === true) {
-        this.backgroundColor = 'gray';
+        this.BackgroundColor = 'var(--color-subtle-light-5)';
       }
 
       if (this.data.Heading) {
-        this.headingText = this.data.Heading;
+        this.HeadingText = this.data.Heading;
       }
 
       if (this.data.HeadingBoldFont) {
-        this.headingBoldFont = this.data.HeadingBoldFont;
+        this.HeadingBoldFont = this.data.HeadingBoldFont;
       }
 
       if (this.data.HeadingSize) {
-        this.headingSize = this.data.HeadingSize;
+        this.HeadingSize = this.data.HeadingSize;
       }
 
       if (this.data.HeadingText) {
-        this.headingText = this.data.HeadingText;
+        this.HeadingText = this.data.HeadingText;
       }
 
       if (this.data.ImageBackground) {
+        this.ImageBackground = true;
         this._noText = true;
+        this.TextDisplay = 'none';
 
         if (this.data.ImageBackground === false || this.data.ImageBackground === 'false') {
-          this.imageAsBackground = 'Disabled';
+          this.ImageAsBackground = 'Disabled';
         }
       }
 
       if (this.data.ImageAsBackground) {
-        this.imageAsBackground = this.data.ImageAsBackground;
+        this.ImageAsBackground = this.data.ImageAsBackground;
+
+        if (this.ImageAsBackground === 'OnLightText') {
+          this.BackgroundColor = 'var(--color-subtle-dark-1)';
+        }
       } else {
-        this.imageAsBackground = 'Disabled';
+        this.ImageAsBackground = 'Disabled';
       }
 
       if (this.data.Text) {
-        this.text = this.data.Text;
+        this.Text = this.data.Text;
       }
 
       if (this.data.TextAlign) {
-        this.textAlign = this.data.HeadingTextAlign;
+        this.TextAlign = this.data.HeadingTextAlign;
       }
 
       if (this.data.TextBlockPosition) {
@@ -437,21 +378,24 @@ export class ScaleSection extends LitElement {
         let posY = position.PositionVertical;
 
         if (posX === 'Right') {
-          this.textAfterImage = true;
-          this._fullSection.textX = 'end';
+          this.TextAfterImage = true;
+          this.FullSection.TextX = 'end';
         } else if (posX === 'Center') {
-          this._fullSection.textX = 'center';
+          this.FullSection.TextX = 'center';
         } else {
-          this._fullSection.textX = 'start';
+          this.FullSection.TextX = 'start';
         }
 
         if (posY === 'Middle') {
-          this._fullSection.textY = 'center';
+          this.FullSection.TextY = 'center';
         } else if (posY === 'Bottom') {
-          this._fullSection.textY = 'end';
+          this.FullSection.TextY = 'end';
         } else {
-          this._fullSection.textY = 'start';
+          this.FullSection.TextY = 'start';
         }
+      } else {
+        this.FullSection.TextX = 'center';
+        this.FullSection.TextY = 'center';
       }
 
       if (this.data.BackgroundPosition) {
@@ -460,137 +404,79 @@ export class ScaleSection extends LitElement {
         let posY = position.PositionVertical;
 
         if (posX === 'Right') {
-          this.textAfterImage = true;
-          this._fullSection.imgX = 'right';
+          this.TextAfterImage = true;
+          this.FullSection.ImgX = 'right';
         } else if (posX === 'Center') {
-          this._fullSection.imgX = 'center';
+          this.FullSection.ImgX = 'center';
         } else {
-          this._fullSection.imgX = 'left';
+          this.FullSection.ImgX = 'left';
         }
 
         if (posY === 'Middle') {
-          this._fullSection.imgY = 'center';
+          this.FullSection.ImgY = 'center';
         } else if (posY === 'Bottom') {
-          this._fullSection.imgY = 'bottom';
+          this.FullSection.ImgY = 'bottom';
         } else {
-          this._fullSection.imgY = 'top';
+          this.FullSection.ImgY = 'top';
         }
       }
 
       if (this.data.RemoveImageSpacing === true || this.data.RemoveImageSpacing === 'true') {
-        this.imageSpacing = false;
+        this.ImageSpacing = false;
       }
     }
   }
 
-  _addHeading() {
-    this._headingData = {
-      'Text': this.headingText,
-      'Size': this.headingSize,
-      'Color': this.color,
-      'BoldFont': this.headingBoldFont,
-      'TextAlign': this.textAlign
+  addHeading() {
+    this.headingData = {
+      'Text': this.HeadingText,
+      'Size': this.HeadingSize,
+      'Color': this.Color,
+      'BoldFont': this.HeadingBoldFont,
+      'TextAlign': this.TextAlign
     };
-    this._headingEl = document.createElement('c-heading');
 
-    this._headingEl.classList.add('c-scale-section__heading');
-
-    this._headingEl.setAttribute('data', JSON.stringify(this._headingData));
-
-    this._contentEl.appendChild(this._headingEl);
+    this._contentEl.appendChild(this._textBlockEl);
   }
 
-  _addTextBlock() {
+  addTextBlock() {
     if (this._isFullSection) {
       this._textBlockEl = document.createElement('c-text-block');
 
       this._textBlockEl.classList.add('c-scale-section__text-block');
 
-      this._textBlockEl.content = JSON.stringify(this.text);
-      this._textBlockEl.color = this.color;
-      this._textBlockEl.isBold = false;
-      this._textBlockEl.isFlush = true;
-      this._textBlockEl.textAlign = this.textAlign;
-      this._textBlockEl.backgroundColor = 'transparent';
-
       this._contentEl.appendChild(this._textBlockEl);
     }
   }
 
-  _setSizesRelative() {
-    this._biggerSize = Math.max(this.startPercentage, this.endPercentage);
-    this._startIsBigger = this._biggerSize === this.startPercentage;
-    this._smallerSize = this._startIsBigger ? this.endPercentage : this.startPercentage;
+  setSizesRelative() {
+    this._biggerSize = Math.max(this.data.StartPercentage, this.EndPercentage);
+    this._startIsBigger = this._biggerSize === this.StartPercentage;
+    this._smallerSize = this._startIsBigger ? this.EndPercentage : this.StartPercentage;
   }
 
-  _setBackgroundColor() {
-    if (this.backgroundColor === 'gray') {
-      this.shadowRoot.host.style.setProperty('--scale-section-background-color', 'var(--color-subtle-light-5)');
-    } else {
-      this.shadowRoot.host.style.setProperty('--scale-section-background-color', 'white');
-    }
+  setBackgroundColor() {
+    this.shadowRoot.host.style.setProperty('--scale-section-background-color', this.BackgroundColor);
   }
 
-  _setImage() {
+  setImageSizes() {
     const sizeRatio = this._smallerSize / this._biggerSize;
     this._startSize = this._startIsBigger ? 1 : 100 * sizeRatio / 100;
     this._endSize = !this._startIsBigger ? 1 : 100 * sizeRatio / 100;
-    this._pictureEl = document.createElement('picture');
-
-    this._pictureEl.classList.add('c-scale-section__image');
-
-    this._imageEl = document.createElement('img');
-    this._source1 = document.createElement('source');
-    this._source2 = document.createElement('source');
-
-    this._pictureEl.appendChild(this._source1);
-
-    this._pictureEl.appendChild(this._source2);
-
-    this._pictureEl.appendChild(this._imageEl);
-
-    this._pictureWrapperEl = document.createElement('div');
-
-    this._pictureWrapperEl.classList.add('c-scale-section__image-wrapper');
-
-    this._pictureWrapperEl.appendChild(this._pictureEl);
-
-    this._setImageAttributes();
   }
 
-  _setImageAttributes() {
-    this._source1.setAttribute('media', '(min-width:700px)');
-
-    this._source1.setAttribute('srcset', this.url + this.image.formats.large.url);
-
-    this._source2.setAttribute('media', '(min-width:0px)');
-
-    this._source2.setAttribute('srcset', this.url + this.image.formats.medium.url);
-
-    this._imageEl.setAttribute('src', this.url + this.image.formats.large.url);
-
-    this._imageEl.setAttribute('alt', this.image.alternativeText);
+  setBackgroundImage() {
+    this._startSize = this.StartPercentage + '%';
+    this._endSize = this.EndPercentage + '%';
+    this._imageEl.style.backgroundImage = 'url(' + this.url + this.Image.url + ')';
   }
 
-  _setBackgroundImage() {
-    this._startSize = this.startPercentage + '%';
-    this._endSize = this.endPercentage + '%';
-
-    this._setBackgroundSizes();
-
-    this._imageEl.style.backgroundImage = 'url(' + this.url + this.image.url + ')';
-
-    if (this.imageAsBackground === 'OnLightText') {
-      this.shadowRoot.host.style.setProperty('--scale-section-background-color', 'var(--color-subtle-dark-1)');
-    }
-  }
-
-  _setBackgroundSizes() {
-    if (this.startPercentage !== this.endPercentage) {
-      this._backgroundEl = this.shadowRoot.querySelector('.c-scale-section-background');
+  setBackgroundSizes() {
+    if (this.StartPercentage !== this.EndPercentage) {
+      this._backgroundEl = this.shadowRoot.querySelector('.c-scale-section__background');
       this._rect = this._backgroundEl.getBoundingClientRect();
       this._elRatio = this._rect.width / this._rect.height;
-      this._imageRatio = this.data.Image.width / this.data.Image.height;
+      this._imageRatio = this.Image.width / this.Image.height;
 
       if (this._elRatio > this._imageRatio) {
         this.shadowRoot.host.style.setProperty('--scale-section-width', 'var(--scale-section-size)');
@@ -605,11 +491,11 @@ export class ScaleSection extends LitElement {
     }
   }
 
-  _scrollSetup() {
+  scrollSetup() {
     this._scrollInstance = basicScroll.create({
       elem: this,
       from: 'top-bottom',
-      to: 'middle-top',
+      to: 'bottom-top',
       direct: this,
       props: {
         '--scale-section-size': {
@@ -618,21 +504,229 @@ export class ScaleSection extends LitElement {
           timing: 'sineInOut'
         }
       }
-    });
+    }); // this._scrollInstance.start()
 
-    this._scrollInstance.start();
+    this.scrollInstances = [this._scrollInstance];
   }
 
   render() {
     return html`
-      <div
-        class="c-scale-section-background"
-      >
-      </div>
-      <div
-        class="c-scale-section__content"
-      >
-      </div>
+
+      ${this.ImageBackground ? html`
+          <div
+            class="c-scale-section__background"
+          >
+          </div>
+          ` : this.ImageAsBackground !== 'Disabled' ? html`
+            <div
+              class="c-scale-section__background"
+            >
+            </div>
+            <div class="
+              o-section-block
+              c-scale-section__inner
+            ">
+              <div class="
+                o-block
+                o-block--half
+                c-scale-section__content
+              ">
+
+                <div
+                  class=""
+                >
+                  <c-heading
+                    text=${this.HeadingText}
+                    textAlign="left"
+                    size="medium"
+                    color="inherit"
+                  >
+                  </c-heading>
+                  <c-text-block
+                    content=${JSON.stringify(this.Text)}
+                    isFlush="true"
+                    backgroundColor="transparent"
+                    color="inherit"
+                  >
+                  </c-text-block>
+                </div>
+              </div>
+            </div>
+          ` : this.TextAfterImage && this._isFullSection ? html`
+          <div class="
+            o-section-block
+            c-scale-section__inner
+          ">
+            <div
+              class="
+                o-media-block
+                o-media-block--split-flush-start
+              "
+            >
+              <div
+                class="
+                  c-scale-section__image-wrapper
+                "
+              >
+                <img
+                  srcset=${this.url + this.Image.formats.medium.url + ', ' + this.url + this.Image.formats.large.url + ' 2x'}
+                  src=${this.url + this.Image.formats.large.url}
+                  class="
+                    c-scale-section__image
+                  "
+                >
+              </div>
+              <div
+                class="c-scale-section__content"
+              >
+                <c-heading
+                  text=${this.HeadingText}
+                  textAlign="left"
+                  size="medium"
+                  color="inherit"
+                >
+                </c-heading>
+                <c-text-block
+                  content=${JSON.stringify(this.Text)}
+                  isFlush="true"
+                  backgroundColor="transparent"
+                  color="inherit"
+                >
+                </c-text-block>
+              </div>
+            </div>
+          </div>
+        ` : !this.TextAfterImage && this._isFullSection ? html`
+          <div class="
+            o-section-block
+            c-scale-section__inner
+          ">
+            <div
+              class="
+                o-media-block
+                o-media-block--split-flush-end
+              "
+            >
+              <div
+                class="c-scale-section__content"
+              >
+                <c-heading
+                  text=${this.HeadingText}
+                  textAlign="left"
+                  size="medium"
+                  color="inherit"
+                >
+                </c-heading>
+                <c-text-block
+                  content=${JSON.stringify(this.Text)}
+                  backgroundColor="transparent"
+                  color="inherit"
+                  isFlush="true"
+                >
+                </c-text-block>
+              </div>
+              <div
+                class="
+                  c-scale-section__image-wrapper
+                "
+              >
+                <img
+                  srcset=${this.url + this.Image.formats.medium.url + ', ' + this.url + this.Image.formats.large.url + ' 2x'}
+                  src=${this.url + this.Image.formats.large.url}
+                  class="
+                    c-scale-section__image
+                  "
+                >
+              </div>
+            </div>
+          </div>
+        ` : !this._isFullSection ? html`
+          <div class="
+            o-section-block
+            c-scale-section__inner
+          ">
+            <div
+              class="
+                o-media-block
+              "
+            >
+              <div
+                class="c-scale-section__content"
+              >
+                <c-heading
+                  text=${this.HeadingText}
+                  textAlign="left"
+                  size="large"
+                >
+                </c-heading>
+                <c-text-block
+                  content=${JSON.stringify(this.Text)}
+                  isFlush="true"
+                  backgroundColor="transparent"
+                  color="inherit"
+                >
+                </c-text-block>
+              </div>
+              <div
+                class="
+                  c-scale-section__image-wrapper
+                "
+              >
+                <img
+                  srcset=${this.url + this.Image.formats.medium.url + ', ' + this.url + this.Image.formats.large.url + ' 2x'}
+                  src=${this.url + this.Image.formats.large.url}
+                  class="
+                    c-scale-section__image
+                  "
+                >
+              </div>
+            </div>
+          </div>
+        ` : html`
+          <div class="
+            o-section-block
+            c-scale-section__inner
+          ">
+            <div
+              class="
+                o-media-block
+                o-media-block--split-flush-end
+              "
+            >
+              <div
+                class="c-scale-section__content"
+              >
+                <c-heading
+                  text=${this.HeadingText}
+                  textAlign="left"
+                  size="medium"
+                  color="inherit"
+                >
+                </c-heading>
+                <c-text-block
+                  content=${JSON.stringify(this.Text)}
+                  isFlush="true"
+                  backgroundColor="transparent"
+                    color="inherit"
+                >
+                </c-text-block>
+              </div>
+              <div
+                class="
+                  c-scale-section__image-wrapper
+                "
+              >
+                <img
+                  srcset=${this.url + this.Image.formats.medium.url + ', ' + this.url + this.Image.formats.large.url + ' 2x'}
+                  src=${this.url + this.Image.formats.large.url}
+                  class="
+                    c-scale-section__image
+                  "
+                >
+              </div>
+            </div>
+          </div>
+        `}
     `;
   }
 

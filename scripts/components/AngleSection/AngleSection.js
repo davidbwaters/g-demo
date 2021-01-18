@@ -193,9 +193,9 @@ export class AngleSection extends LitElement {
           }
         }
       }
-    });
+    }); // this._scrollInstance.start()
 
-    this._scrollInstance.start();
+    this.scrollInstances = [this._scrollInstance];
   }
 
   render() {

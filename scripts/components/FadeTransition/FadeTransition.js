@@ -67,15 +67,10 @@ export class FadeTransition extends LitElement {
 
     this._setFrameConfigs();
 
-    this._scrollSetup();
+    this._scrollSetup(); // this._scrollInstance.start()
 
-    this._instance.start();
 
-    setTimeout(() => {
-      this._instance.calculate();
-
-      this._instance.update();
-    }, 500);
+    this.scrollInstances = [this._scrollInstance];
   }
 
   _setFrameConfigs() {
@@ -104,7 +99,7 @@ export class FadeTransition extends LitElement {
   }
 
   _scrollSetup() {
-    this._instance = basicScroll.create({
+    this._scrollInstance = basicScroll.create({
       elem: this.innerEl,
       from: 'top-bottom',
       to: 'middle-top',

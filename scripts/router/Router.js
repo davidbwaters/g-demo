@@ -24,7 +24,7 @@ export class Router extends router(LitElement) {
           opacity: var(--page-opacity);
           transition:
             opacity var(--transition-duration) ease;
-            will-chang: opacity;
+            will-change: opacity;
         }
       `];
   }
@@ -160,6 +160,8 @@ export class Router extends router(LitElement) {
       console.log('preload ' + this._unloadedRouteEls[0]);
     }
 
+    this._unloadedRouteEls[0].setAttribute('loaded', '');
+
     this._unloadedRouteEls[0].loaded = true;
 
     this._unloadedRouteEls[0].removeEventListener('preloaded', this.handlePreload);
@@ -170,8 +172,8 @@ export class Router extends router(LitElement) {
   preloadRoutes() {
     this._unloadedRouteEls = [];
     this.routeEls.forEach(el => {
-      if (!el.loaded) {
-        this._unloadedRouteEls.concat(el);
+      if (!el.hasAttribute('loaded')) {
+        this._unloadedRouteEls = this._unloadedRouteEls.concat(el);
       }
     }); // If there are routes that aren't loaded,
     // preload one and listen for when it's done
@@ -183,7 +185,7 @@ export class Router extends router(LitElement) {
         this._unloadedRouteEls[0].handlePreload();
 
         if (this.debug) {
-          console.log('Trying to preload' + this._unloadedRouteEls[0]);
+          console.log('Trying to preload ' + this._unloadedRouteEls[0].tagName.toLowerCase());
         }
       }
     }
@@ -194,33 +196,34 @@ export class Router extends router(LitElement) {
       console.log('Active route loaded ...');
     }
 
-    if (this.loaderEnabled) {
-      this.loaderEl.disable();
-    }
-
     if (this.loadingActiveRoute) {
       this.loadingActiveRoute = false;
       this.activeRouteEl.removeEventListener('preloaded', this.handleLoad);
       this.preloadRoutes();
     }
 
-    this.activeRouteEl.handleLoad();
     setTimeout(() => {
+      if (this.loaderEnabled) {
+        this.loaderEl.disable();
+      }
+
       requestAnimationFrame(() => {
         this.activeRouteEl.handleLoad();
         this.activeRouteEl.shadowRoot.host.style.setProperty('--page-opacity', '1');
       });
+      this.activeRouteEl.onActivate();
+      this.activeRouteEl.handleLoad();
     }, this.loaderEl.duration);
   }
 
   updated() {
     if (this.debug) {
       console.log('Router updated ...');
-    } // Remove old load handler.
+    } // Deactivate current route.
 
 
-    if (this.activeRouteEl) {
-      this.activeRouteEl.removeEventListener('routeLoad', this.handleLoad);
+    if (this.activeRouteEl !== this.route) {
+      this.activeRouteEl.onDeactivate();
     } // Set the active route element.
 
 

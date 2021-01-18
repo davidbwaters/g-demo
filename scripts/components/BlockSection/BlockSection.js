@@ -25,6 +25,16 @@ export class BlockSection extends LitElement {
 
         }
 
+        .c-block-section__text c-heading {
+          display: var(
+            --block-section-heading-display
+          );
+        }
+
+        .c-block-section-heading {
+
+        }
+
         img {
 
         }
@@ -60,6 +70,12 @@ export class BlockSection extends LitElement {
     } else {
       this.shadowRoot.host.style.setProperty('--block-section-columns', '1fr 1fr');
     }
+
+    if (this.data.Heading === null) {
+      this.shadowRoot.host.style.setProperty('--block-section-heading-display', 'none');
+    } else {
+      this.shadowRoot.host.style.setProperty('--block-section-heading-display', 'block');
+    }
   }
 
   render() {
@@ -69,23 +85,26 @@ export class BlockSection extends LitElement {
             class="
               o-media-block
               o-media-block--split-flush-end
+              c-block-section__inner
             "
           >
             <div
               class="
                 o-media-block__item
+                c-block-section__text
               "
             >
               <c-heading
                 text="
                   ${this.data.Heading}
                 "
+                textAlign="left"
               >
               </c-heading>
               <c-text-block
                 content=${JSON.stringify(this.data.Paragraphs)}
-                isFlush=true
                 backgroundColor="transparent"
+                isFlush=true
               >
               </c-text-block>
             </div>
@@ -100,26 +119,29 @@ export class BlockSection extends LitElement {
               >
             </div>
           </div>
-        ` : this.data.Layout === 'TextCenter' ? html`
+        ` : this.data.Layout === 'Centered' ? html`
           <div
             class="
-              o-media-block
-              o-media-block--split
+              o-block
+              c-block-section__inner
             "
           >
             <div
               class="
                 o-media-block__item
+                c-block-section__text
               "
             >
               <c-heading
                 text="
                   ${this.data.Heading}
                 "
+                textAlign="left"
               >
               </c-heading>
               <c-text-block
                 content=${JSON.stringify(this.data.Paragraphs)}
+                backgroundColor="transparent"
                 isFlush=true
               >
               </c-text-block>
@@ -140,25 +162,9 @@ export class BlockSection extends LitElement {
             class="
               o-media-block
               o-media-block--split-flush-start
+              c-block-section__inner
             "
           >
-            <div
-              class="
-                o-media-block__item
-              "
-            >
-              <c-heading
-                text="
-                  ${this.data.Heading}
-                "
-              >
-              </c-heading>
-              <c-text-block
-                content=${JSON.stringify(this.data.Paragraphs)}
-                isFlush=true
-              >
-              </c-text-block>
-            </div>
             <div
               class="
                 o-media-block__item
@@ -169,6 +175,27 @@ export class BlockSection extends LitElement {
                 src=${this.url + this.data.Image.url}
               >
             </div>
+            <div
+              class="
+                o-media-block__item
+                c-block-section__text
+              "
+            >
+              <c-heading
+                text="
+                  ${this.data.Heading}
+                "
+                textAlign="left"
+              >
+              </c-heading>
+              <c-text-block
+                content=${JSON.stringify(this.data.Paragraphs)}
+                backgroundColor="transparent"
+                isFlush=true
+              >
+              </c-text-block>
+            </div>
+
           </div>
           `}
 

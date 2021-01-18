@@ -13,7 +13,11 @@ export const heroFrame = css`
     will-change: opacity;
   }
 
-  .c-hero-frame__branding {
+  .c-hero-frame__branding,
+  .c-hero-frame c-slant-title,
+  .c-hero-frame .u-text-title-tiny {
+    margin-left: 10%;
+    margin-right: 10%;
     min-width: 16rem;
     transition:
       opacity var(--loader-fade-in-transition);
@@ -22,7 +26,10 @@ export const heroFrame = css`
 
   @media (min-width:40em) {
 
-    .c-hero-frame__branding {
+    .c-hero-frame__branding,
+    .c-hero-frame c-slant-title {
+      margin-left: 0%;
+      margin-right: 0%;
       max-width: none;
     }
 
@@ -30,15 +37,17 @@ export const heroFrame = css`
 
   .c-hero-frame__image {
     filter: url('#blurFilter');
+    margin-left: 10%;
     opacity: var(--hero-image-opacity);
     transition: opacity .5s;
     will-change: opacity;
+    width: 90%;
   }
 
   @media (min-width:40em) {
 
     .c-hero-frame__image {
-      margin-left: -20%;
+      margin-left: -40%;
       margin-top: 6rem;
       max-width: none;
       width: 140%;

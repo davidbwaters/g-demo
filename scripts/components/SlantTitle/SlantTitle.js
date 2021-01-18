@@ -9,8 +9,8 @@ export class SlantTitle extends LitElement {
       :host {
         color: var(--slant-title-text-color);
         display: inline-block;
-        font-size: .8rem;
-        letter-spacing: .25em;
+        font-size: var(--text-size-title-stylized);
+        letter-spacing: var(--letter-spacing-title-stylized);
         padding-bottom: .25rem;
         padding-left: 0rem;
         padding-top: .25rem;

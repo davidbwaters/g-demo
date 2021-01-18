@@ -131,6 +131,10 @@ export class GalleryPage extends Page {
         type: Boolean,
         reflect: true
       },
+      loadProgress: {
+        type: Number,
+        reflect: true
+      },
       galleryData: {
         type: Object
       }
@@ -147,7 +151,7 @@ export class GalleryPage extends Page {
   }
 
   firstUpdated() {
-    this.preloadImages();
+    // this.preloadImages()
     this.galleryEl = this.shadowRoot.querySelector('c-gallery');
   }
 
@@ -175,7 +179,7 @@ export class GalleryPage extends Page {
     console.log(this.galleryData);
   }
 
-  async preloadImages() {
+  async preload() {
     this.albumCovers = [];
     this.pageImages = [];
     this.thumbnails = [];
@@ -209,6 +213,9 @@ export class GalleryPage extends Page {
       });
     });
     await this.imagePreloader(this.albumCovers);
+  }
+
+  async preloadImages() {
     await this.imagePreloader(this.pageImages);
     await this.imagePreloader(this.thumbnails);
 
@@ -217,7 +224,7 @@ export class GalleryPage extends Page {
     }
   }
 
-  handlehandleFullImage(e) {
+  handleFullImage(e) {
     console.log(e.target);
   }
 
@@ -329,7 +336,7 @@ export class GalleryPage extends Page {
 
                   <img src=${this.url + p.formats.medium.url}
                     data-full=${this.url + p.url}
-                    @click=${this.handlehandleFullImage}
+                    @click=${this.handleFullImage}
                   >
 
                 `)}

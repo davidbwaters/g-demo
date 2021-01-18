@@ -11,21 +11,12 @@ export const objects = css`
     column-gap: 0rem;
     display: grid;
     grid-template-columns: 90%;
-    justify-content: start;
+    justify-content: center;
     row-gap: 3rem;
   }
+
   .o-media-block--narrow {
-    grid-template-columns: 60%;
-  }
-
-  @media(min-width: 40em) {
-
-    .o-media-block {
-      column-gap: 0rem;
-      grid-template-columns: minmax(calc(80% - 2rem), 58rem);
-      column-gap: 0rem;
-    }
-
+    grid-template-columns: 80%;
   }
 
   .o-media-block__item {
@@ -34,6 +25,16 @@ export const objects = css`
     grid-auto-flow: row;
     grid-template-columns: 1fr;
     justify-content: center;
+    row-gap: 1rem;
+  }
+
+  .o-media-block--content-spacing-flush
+    .o-media-block__item {
+    row-gap: 0rem;
+  }
+
+  .o-media-block--content-spacing-large
+    .o-media-block__item {
     row-gap: 2rem;
   }
 
@@ -43,8 +44,18 @@ export const objects = css`
 
     .o-media-block--split  {
       grid-template-columns:
-        minmax( calc(40% - 3rem), 28rem )
-        minmax( calc(40% - 3rem), 28rem );
+        calc(45% - 3rem)
+        calc(45% - 3rem);
+    }
+
+  }
+
+  @media(min-width: 70em) {
+
+    .o-media-block--split  {
+      grid-template-columns:
+        minmax( calc(40% - 3rem), 27rem )
+        minmax( calc(40% - 3rem), 27rem );
     }
 
   }
@@ -52,80 +63,91 @@ export const objects = css`
   .o-media-block--split,
   .o-media-block--split-flush-end,
   .o-media-block--split-flush-start {
-    grid-gap: 2rem;
+    column-gap: 2rem;
   }
 
-  .o-media-block--split-flush-end {
-    grid-template-columns: 1fr
-  }
-
-  .o-media-block--split-flush-end
-    .o-media-block__item:first-child {
-    grid-template-columns: 90%;
-  }
-
-  .o-media-block--split-flush-end.o-media-block--narrow
-    .o-media-block__item:first-child {
-    grid-template-columns: 80%;
+  .o-media-block--split-flush-end,
+  .o-media-block--split-flush-start {
+    grid-template-columns: 1fr;
   }
 
   @media(min-width: 40em) {
 
     .o-media-block--split-flush-end {
       grid-template-columns:
-        calc(40% - 4rem)
+        calc(45% - 3rem)
         50%;
       justify-content: end;
     }
 
   }
 
-  @media(min-width: 60em) {
+  @media(min-width: 70em) {
 
     .o-media-block--split-flush-end {
       grid-template-columns:
-        minmax( calc(40% - 2rem), 20rem )
+        minmax( calc(40% - 3rem), 27rem )
         50%;
     }
 
   }
 
-
   .o-media-block--split-flush-start {
     grid-template-columns: 1fr
-  }
-
-  .o-media-block--split-flush-start
-    .o-media-block__item:last-child {
-    grid-template-columns: 90%;
-  }
-
-  .o-media-block--split-flush-start.o-media-block--narrow
-    .o-media-block__item:first-child {
-    grid-template-columns: 80%;
   }
 
   @media(min-width: 40em) {
 
     .o-media-block--split-flush-start {
       grid-template-columns:
-        calc(40% - 4rem)
-        50%;
+        50%
+        calc(45% - 3rem);
       justify-content: start;
     }
 
   }
 
-  @media(min-width: 60em) {
+  @media(min-width: 70em) {
 
-    .o-media-block--split-flush-end {
+    .o-media-block--split-flush-start {
       grid-template-columns:
-        minmax( calc(40% - 2rem), 20rem )
-        50%;
+        50%
+        minmax( calc(40% - 3rem), 20rem );
     }
 
   }
 
+  .o-media-block--split-flush-end
+    .o-media-block__item:first-child{
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  @media(min-width: 40em) {
+
+    .o-media-block--split-flush-end
+    .o-media-block__item:first-child{
+      padding-left: 0%;
+      padding-right: 0%;
+    }
+
+  }
+
+  .o-media-block--split-flush-start
+    .o-media-block__item:last-child{
+      padding-left: 10%;
+      padding-right: 10%;
+  }
+
+  @media(min-width: 40em) {
+
+    .o-media-block--split-flush-start
+    .o-media-block__item:last-child{
+      padding-left: 0%;
+      padding-right: 0%;
+    }
+
+  }
 
   /* Blocks */
 
@@ -133,21 +155,51 @@ export const objects = css`
     align-content: start;
     column-gap: 0rem;
     display: grid;
-    grid-template-columns: minmax(90%, 58rem);
+    grid-template-columns: calc(90% - 2rem);
     justify-content: center;
-    row-gap: 3rem;
+    row-gap: 4rem;
+  }
+
+  @media(min-width: 40em) {
+
+    .o-block {
+      grid-template-columns: calc(70% - 2rem);
+    }
+
+  }
+
+  @media(min-width: 70em) {
+
+    .o-block {
+      grid-template-columns: minmax(80%, 58rem);
+    }
+
+  }
+
+  @media(min-width: 40em) {
+
+    .o-block--half {
+      grid-template-columns: calc(.5fr - 1rem);
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 58rem;
+      padding-left: 10%;
+      padding-right: 10%;
+      width: 100%;
+    }
+
+  }
+
+  @media(min-width: 70em) {
+
+    .o-block--half {
+      grid-template-columns: minmax(50%, 28rem);
+    }
+
   }
 
   .o-block--narrow {
     grid-template-columns: 80%;
-  }
-
-  @media(min-width: 60em) {
-
-    .o-block--narrow {
-      grid-template-columns: minmax(80%, 58rem);
-    }
-
   }
 
 
@@ -171,6 +223,7 @@ export const objects = css`
   .o-section-block {
     display: grid;
     grid-auto-flow: row;
+    grid-template-columns: 1fr;
     padding-top: 4rem;
     padding-bottom: 4rem;
     row-gap: 3rem;

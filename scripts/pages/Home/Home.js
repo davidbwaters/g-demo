@@ -83,6 +83,10 @@ export class HomePage extends Page {
       loaded: {
         type: Boolean,
         attribute: false
+      },
+      loadProgress: {
+        type: Number,
+        reflect: true
       }
     };
   }
@@ -91,15 +95,12 @@ export class HomePage extends Page {
     super();
     console.log(this.url);
     this.dataEndpoint = '/home';
-    this.debug = true;
   }
 
   firstUpdated() {}
 
-  async handlePreload() {
-    console.log('running');
-    await this.imagePreloader([this.data.HeroImage.url]);
-    super.handlePreload();
+  async preload() {
+    await this.imagePreloader([this.data.HeroImage.url, this.data.RevealSection1.UpperImage.url, this.data.RevealSection1.LowerImage.url]);
   }
 
   transitionIn() {
@@ -118,8 +119,8 @@ export class HomePage extends Page {
         >
           <div class="
             o-media-block
-            o-media-block--top
             o-media-block--narrow
+            o-media-block--content-spacing-large
             o-media-block--split-flush-end
           ">
             <div class="

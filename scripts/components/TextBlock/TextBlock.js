@@ -22,7 +22,7 @@ export class TextBlock extends LitElement {
       @media (min-width:40em) {
 
         :host {
-          font-size: calc(var(--text-block-size) * 1);
+          font-size: calc(var(--text-block-size) * .9);
         }
 
       }
@@ -47,6 +47,7 @@ export class TextBlock extends LitElement {
         margin-left: auto;
         margin-right: auto;
         margin-top: 0;
+        width: 100%;
       }
 
       span {
@@ -92,18 +93,22 @@ export class TextBlock extends LitElement {
     super();
     this.size = 'Normal';
     this.isBold = false;
-    this.isFlush = false;
-    this.TextBlockData = this.data;
+    this.isFlush = false; // this.debug = true
+  }
+
+  async performUpdate() {
+    this.textBlockData = this.data;
+    super.performUpdate();
   }
 
   firstUpdated() {
     const contentEl = this.shadowRoot;
 
-    if (this.TextBlockData) {
-      this.size = this.TextBlockData.Size;
-      this.isBold = this.TextBlockData.BoldFont;
-      this.lighterColor = this.TextBlockData.LighterColor;
-      this.content = this.TextBlockData.Content;
+    if (this.textBlockData) {
+      this.size = this.textBlockData.Size;
+      this.isBold = this.textBlockData.BoldFont;
+      this.lighterColor = this.textBlockData.LighterColor;
+      this.content = this.textBlockData.Content;
     }
 
     this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-' + this.size.toLowerCase() + ')');
@@ -122,6 +127,9 @@ export class TextBlock extends LitElement {
     } else if (this.color === 'white') {
       this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-subtle-light-5)');
       this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-subtle-light-6)');
+    } else if (this.color === 'inherit') {
+      this.shadowRoot.host.style.setProperty('--heading-color', 'inherit');
+      this.shadowRoot.host.style.setProperty('--heading-span-color', 'inherit');
     } else {
       this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-subtle-dark-3)');
       this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg)');
@@ -144,8 +152,6 @@ export class TextBlock extends LitElement {
       this.shadowRoot.host.style.setProperty('--text-block-padding-y', '5rem');
       this.shadowRoot.host.style.setProperty('--text-block-width', '80%');
     }
-
-    this.debug = true;
 
     if (typeof this.content === 'string' && this.content.trim().slice(0, 1) === '[') {
       this.content = JSON.parse(this.content);
@@ -171,8 +177,6 @@ export class TextBlock extends LitElement {
         contentEl.appendChild(paragraphEl);
       });
     } else {
-      this.debug = true;
-
       if (this.debug) {
         console.log('Text block not array');
         console.log(this.content);

@@ -116,11 +116,11 @@ export class RevealSection extends LitElement {
     this._lowerBackground.style.backgroundImage = 'url(' + this.url + this.revealData.LowerImage.url + ')';
     this.shadowRoot.querySelector('c-heading').text = this.revealData.RevealText;
 
-    this._scrollSetup();
+    this._scrollSetup(); // this._scrollInstanceBars.start()
+    // this._scrollInstanceFade.start()
 
-    this._scrollInstanceBars.start();
 
-    this._scrollInstanceFade.start();
+    this.scrollInstances = [this._scrollInstanceBars, this._scrollInstanceFade];
   }
 
   _scrollSetup() {

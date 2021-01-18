@@ -19,19 +19,20 @@ export class Component extends LitElement {
     });
     let percentage = 100 / images.length;
     let preloader = new ImagePreloader();
+    this.progress = 0;
 
-    if (this.loadProgress) {
-      this.loadProgress = 0;
+    preloader.onProgress = progress => {
+      console.log(this);
 
-      if (preloader.onProgress) {
-        preloader.onProgress(progress => {
-          this.loadProgress += percentage;
-          requestAnimationFrame(progress => {
-            document.querySelector('c-router-app').loaderEl.progress = progress;
-          });
+      if (this.hasAttribute('active')) {
+        this.progress += percentage / 4;
+        console.log(images);
+        console.log(this.progress);
+        requestAnimationFrame(progress => {
+          document.querySelector('c-router-app').loaderEl.progress += percentage / 4;
         });
       }
-    }
+    };
 
     await preloader.preload(...imagesAbsolute);
   }

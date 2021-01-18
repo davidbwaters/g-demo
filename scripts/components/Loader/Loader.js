@@ -26,49 +26,51 @@ export class Loader extends LitElement {
           z-index: 10;
         }
 
-        :host::before {
-          background-position: center center;
-          background-repeat: no-repeat;
-          background-size: cover;
-          content: '';
-          display: grid;
-          height: 100%;
-          left: -10vw;
-          opacity: .66;
-          position: fixed;
-          top: 0;
-          width: 120vw;
-          z-index: -1;
-        }
-
         .c-loader__content {
           display: grid;
           margin-left: auto;
           margin-right: auto;
-          max-width: 12rem;
           row-gap: 2rem;
-        }
-
-        .c-loader__content img{
-          margin-left: auto;
-          margin-right: auto;
-          width: 60%;
-        }
-
-        .c-loader__bar {
-          background-color: rgba(0,0,0,.8);
-          height: .25rem;
-          overflow: hidden;
           width: 100%;
         }
 
+        .c-loader__branding{
+          margin-left: auto;
+          margin-right: auto;
+          width: 8rem;
+        }
+
+        .c-loader__bar,
         .c-loader__bar::after {
-          animation: load 1s infinite;
-          background-color: white;
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: contain;
+        }
+
+        .c-loader__bar {
+          background-image:
+            url('/images/Trace Legit Solid.svg');
+          height: 20vw;
+          overflow: hidden;
+          width: 60vw;
+        }
+
+        .c-loader__bar::after {
+          background-image:
+            url('/images/Trace Legit Solid Bar.svg');
+          clip-path: polygon(
+            0 0,
+            var(--loader-progress) 0,
+            var(--loader-progress) 100%,
+            0% 100%
+          );
           content: '';
           display: block;
           height: 100%;
-          width: 20%;
+          opacity: .8;
+          transition: all 1s ease;
+          width: 100%;
+          will-change: clip-path;
         }
 
         .c-filters {
@@ -78,11 +80,20 @@ export class Loader extends LitElement {
 
         @keyframes load {
           0% {
-            transform: translateX(-100%);
+            clip-path: polygon(
+                0%   0%,
+                0%   0%,
+                0% 100%,
+                0% 100%
+            );
           }
           100% {
-            transform: translateX(500%);
-          }
+            clip-path: polygon(
+                0%   0%,
+              100%   0%,
+              100% 100%,
+                0% 100%
+            );          }
         }
 
       `];
@@ -107,23 +118,51 @@ export class Loader extends LitElement {
   constructor() {
     super();
     this.enabled = true;
-    this.duration = 800;
+    this.duration = 2000;
+    this.progress = 0;
   }
 
   firstUpdated() {
     this.enable();
     document.documentElement.style.setProperty('--loader-duration', this.duration / 1000 + 's');
     document.documentElement.dataset.loaderDuration = this.duration;
+    this.shadowRoot.host.style.setProperty('--loader-progress', 0);
   }
 
   disable() {
     this.enabled = false;
-    document.documentElement.style.setProperty('--loader-opacity', '0');
+    this.setComplete();
     setTimeout(() => {
-      document.documentElement.style.position = '';
-      document.documentElement.style.overflowY = '';
-      document.documentElement.style.setProperty('--loader-display', 'none');
-    }, this.duration);
+      requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--loader-opacity', '0');
+      });
+      requestAnimationFrame(() => {
+        document.documentElement.style.position = '';
+        document.documentElement.style.overflowY = '';
+        document.documentElement.style.setProperty('--loader-display', 'none');
+      });
+    }, 1800);
+  }
+
+  updated() {
+    if (this.progress < 75) {
+      this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
+    }
+
+    if (this.progress >= 75) {
+      this.setComplete();
+    }
+
+    console.log(this.progress);
+  }
+
+  setComplete() {
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        this.shadowRoot.host.style.setProperty('--loader-progress', 100 + '%');
+        this.progress = 100;
+      });
+    }, 200);
   }
 
   enable() {
@@ -138,9 +177,12 @@ export class Loader extends LitElement {
     return html`
       <div class="c-loader__inner">
         <div class="c-loader__content">
-          <img src='/images/Branding/Logo Initials - Light.svg' />
           <div class="c-loader__bar">
           </div>
+          <img
+            class="c-loader__branding"
+            src='/images/Branding/Logo Initials - Light.svg'
+          >
         </div>
       </div>
 

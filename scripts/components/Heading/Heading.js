@@ -144,6 +144,10 @@ export class Heading extends LitElement {
     } else if (this.color === 'white') {
       this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-subtle-light-5)');
       this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-subtle-light-6)');
+    } else if (this.color === 'inherit') {
+      console.log('heading ' + this.color);
+      this.shadowRoot.host.style.setProperty('--heading-color', 'inherit');
+      this.shadowRoot.host.style.setProperty('--heading-span-color', 'inherit');
     } else {
       this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-fg)');
       this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-fg-lighter)');

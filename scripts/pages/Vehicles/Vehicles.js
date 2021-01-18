@@ -151,6 +151,10 @@ export class VehiclesPage extends Page {
       loaded: {
         type: Boolean,
         attribute: false
+      },
+      loadProgress: {
+        type: Number,
+        reflect: true
       }
     };
   }
@@ -165,11 +169,9 @@ export class VehiclesPage extends Page {
     this.blurFilter = document.querySelector('c-router-app').shadowRoot.querySelector('c-router-outlet').querySelector('c-vehicles-page').shadowRoot.querySelector('#blur').querySelector('feGaussianBlur');
   }
 
-  handlePreload() {
-    this.url = 'https://admin.guntherwerks.info';
+  async preload() {
     let images = [this.data.HeroImage.url];
     this.imagePreloader(images);
-    super.handlePreload();
   }
 
   transitionIn() {
@@ -195,7 +197,7 @@ export class VehiclesPage extends Page {
     >
         <div class="
           o-media-block
-          o-media-block--top
+          o-media-block--narrow
           o-media-block--spaced-mobile
           o-media-block--split-flush-end
         ">
@@ -211,6 +213,9 @@ export class VehiclesPage extends Page {
               data=${JSON.stringify(this.data.HeroSlantTitle)}
             >
             </c-slant-title>
+            <div class="u-text-title-tiny">
+              ${this.data.HeroSubHeading}
+            </div>
           </div>
           <div class="
             o-media-block__item
@@ -244,9 +249,6 @@ export class VehiclesPage extends Page {
             isFlush=true
           >
           </c-text-block>
-          <div class="u-text-title">
-            ${this.data.HeroSubHeading}
-          </div>
         </div>
       </div>
 

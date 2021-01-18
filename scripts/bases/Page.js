@@ -9,7 +9,6 @@ import { motionBlur } from '../utils/motionBlur.js';
 export class Page extends Component {
   constructor() {
     super();
-    this.loadProgress = true;
     this.handleLoad = this.handleLoad.bind(this);
     this.handlePreload = this.handlePreload.bind(this);
     this.addEventListener('dataLoad', this.handleDataLoad);
@@ -68,6 +67,55 @@ export class Page extends Component {
     }
 
     super.performUpdate();
+  }
+
+  onActivate() {
+    if (this.debug) {
+      console.log('Activating route ...');
+    }
+
+    this.basicScrolls = [...this.shadowRoot.querySelectorAll('c-scale-section'), ...this.shadowRoot.querySelectorAll('c-fade-transition'), ...this.shadowRoot.querySelectorAll('c-angle-section'), ...this.shadowRoot.querySelectorAll('c-reveal-section')];
+    this.boosters = [...this.shadowRoot.querySelectorAll('c-gallery')];
+
+    if (this.basicScrolls && this.basicScrolls.length) {
+      this.basicScrolls.forEach(el => {
+        if (el.scrollInstances && el.scrollInstances.length) {
+          el.scrollInstances.forEach(i => {
+            i.start();
+          });
+        }
+      });
+    }
+
+    if (this.boosters && this.boosters.length) {
+      this.boosters.forEach(el => {
+        el.scrollSetup();
+      });
+    }
+  }
+
+  onDeactivate() {
+    if (this.debug) {
+      console.log('Deactivating route ...');
+    }
+
+    if (this.basicScrolls && this.basicScrolls.length) {
+      this.basicScrolls.forEach(el => {
+        if (el.scrollInstances && el.scrollInstances.length) {
+          el.scrollInstances.forEach(i => {
+            i.stop();
+          });
+        }
+      });
+    }
+
+    if (this.boosters && this.boosters.length) {
+      this.boosters.forEach(el => {
+        if (el.booster) {
+          el.booster.destroy();
+        }
+      });
+    }
   }
 
   blurAnimation() {

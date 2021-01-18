@@ -22,6 +22,7 @@ export class NavMenu extends LitElement {
 
       .c-nav-menu__inner {
         align-items: center;
+        box-sizing: border-box;
         color: white;
         display: grid;
         grid-column-gap: 1rem;
@@ -43,9 +44,9 @@ export class NavMenu extends LitElement {
         color: var(--color-subtle-light-2);
         column-gap: var(--nav-menu-column-gap);
         display: grid;
-        font-size: .8rem;
-        font-weight: var(--font-lighter-weight);
-        letter-spacing: .05em;
+        font-size: var(--text-size-title-normal-light);
+        font-weight: var(--font-weight-title-normal-light);
+        letter-spacing: var(--letter-spacing-title-normal-light);
         transition: color .25s;
       }
 

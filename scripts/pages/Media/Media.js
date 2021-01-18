@@ -27,6 +27,10 @@ export class MediaPage extends Page {
       },
       loaded: {
         type: Boolean
+      },
+      loadProgress: {
+        type: Number,
+        reflect: true
       }
     };
   }
@@ -45,18 +49,6 @@ export class MediaPage extends Page {
       }, 500);
     } else {
       this.loaded = true;
-    }
-  }
-
-  handleLoad() {
-    if (this.loaded === true) {
-      this.transitionIn();
-      let load = new CustomEvent('routeLoad');
-      this.dispatchEvent(load);
-    } else {
-      setTimeout(() => {
-        this.handleLoad();
-      }, 500);
     }
   }
 
