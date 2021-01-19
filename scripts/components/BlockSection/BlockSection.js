@@ -99,6 +99,7 @@ export class BlockSection extends LitElement {
                   ${this.data.Heading}
                 "
                 textAlign="left"
+                size="medium"
               >
               </c-heading>
               <c-text-block
@@ -123,6 +124,7 @@ export class BlockSection extends LitElement {
           <div
             class="
               o-block
+              o-block--narrow
               c-block-section__inner
             "
           >
@@ -137,6 +139,7 @@ export class BlockSection extends LitElement {
                   ${this.data.Heading}
                 "
                 textAlign="left"
+                size="medium"
               >
               </c-heading>
               <c-text-block
@@ -150,6 +153,7 @@ export class BlockSection extends LitElement {
               class="
                 o-media-block__item
                 c-block-section__image
+                u-padding-horizontal-10-percent
               "
             >
               <img
@@ -186,6 +190,7 @@ export class BlockSection extends LitElement {
                   ${this.data.Heading}
                 "
                 textAlign="left"
+                size="medium"
               >
               </c-heading>
               <c-text-block

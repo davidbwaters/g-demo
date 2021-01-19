@@ -132,4 +132,27 @@ export const utilities = css`
     text-transform: uppercase !important;
   }
 
+
+  .u-text-color-subtle {
+    color: var(--color-fg-subtle);
+  }
+
+  .u-text-color-light {
+    color: var(--color-fg-light);
+  }
+
+  .u-text-color-white {
+    color: var(--color-fg-white);
+  }
+
+
+  .u-background-cover-center {
+    background-position: center center;
+    background-size: cover;
+  }
+
+  .u-padding-horizontal-10-percent {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
 `;

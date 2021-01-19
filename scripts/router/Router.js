@@ -249,6 +249,7 @@ export class Router extends router(LitElement) {
         console.log('Active route loading ...');
       }
 
+      this.loaderEl.progress = 0;
       this.loaderEl.enable();
       this.loaderEnabled = true;
       this.loadingActiveRoute = true;

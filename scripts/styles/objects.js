@@ -163,7 +163,7 @@ export const objects = css`
   @media(min-width: 40em) {
 
     .o-block {
-      grid-template-columns: calc(70% - 2rem);
+      grid-template-columns: calc(90% - 2rem);
     }
 
   }
@@ -171,7 +171,15 @@ export const objects = css`
   @media(min-width: 70em) {
 
     .o-block {
-      grid-template-columns: minmax(80%, 58rem);
+      grid-template-columns: minmax(90%, 58rem);
+    }
+
+  }
+
+  @media(min-width: 40em) {
+
+    .o-block--narrow {
+      grid-template-columns: calc(70% - 2rem);
     }
 
   }
@@ -244,7 +252,6 @@ export const objects = css`
       var(--navbar-height) + 4rem
     );
 
-
   }
 
   @media(min-width: 40em) {
@@ -257,4 +264,10 @@ export const objects = css`
 
   }
 
+  .o-section-block--flush-top {
+    padding-top: 0rem;
+  }
+  .o-section-block--flush-bottom {
+    padding-bottom: 0rem;
+  }
 `;

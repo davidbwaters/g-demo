@@ -94,7 +94,6 @@ export class TextBlock extends LitElement {
     this.size = 'Normal';
     this.isBold = false;
     this.isFlush = false;
-    this.debug = true;
   }
 
   firstUpdated() {
@@ -118,7 +117,7 @@ export class TextBlock extends LitElement {
     }
 
     if (this.lighterColor) {
-      this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-fg-lighter)');
+      this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-fg-subtle)');
       this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg)');
     } else if (this.color === 'white') {
       this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-subtle-light-5)');

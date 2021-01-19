@@ -45,6 +45,23 @@ export class StoryPage extends Page {
           font-size: var(--text-size-heading-huge);
           line-height: var(--line-height-heading-huge)
         }
+
+        .c-story__upper {
+          background-color: black;
+          color: var(--color-subtle-light-1);
+        }
+
+        .c-story__lower {
+          background-attachment: fixed;
+          background-color: var(--color-subtle-light-6);
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+
+        .c-story__bottom {
+          background-color: white;
+        }
       `];
   }
 
@@ -83,6 +100,7 @@ export class StoryPage extends Page {
 
   render() {
     return html`
+
       <section
         class="
           c-story__main
@@ -105,14 +123,26 @@ export class StoryPage extends Page {
     </section>
     <section
       class="
-        c-story__upper-section
-        o-section-block
+        c-story__upper
       "
     >
-      <c-text-block
-        data=${JSON.stringify(this.data.UpperDarkBackgroundText)}
+      <img
+        src=${this.url + this.data.UpperDarkBackground.url}
       >
-      </c-text-block>
+      <div class="
+        o-section-block
+        o-section-block--flush-top
+      ">
+        <div class="o-block o-block--half">
+          <c-text-block
+            content=${JSON.stringify(this.data.UpperDarkBackgroundText)}
+            backgroundColor="transparent"
+            color="inherit"
+            isFlush=true
+          >
+          </c-text-block>
+        </div>
+      </div>
     </section>
     <c-block-section
       data=${JSON.stringify(this.data.BlockSections[0])}
@@ -135,6 +165,44 @@ export class StoryPage extends Page {
       data=${JSON.stringify(this.data.BlockSections[4])}
     >
     </c-block-section>
+    <section
+      class="
+        c-story__lower
+      "
+      style=${'background-image: url(' + this.url + this.data.LowerTextSubtleBackground[0].url + ');'}
+    >
+    <section class="c-story__bottom">
+      <div class="
+        o-section-block
+      ">
+        <div class="o-block">
+          <c-heading
+            text=${this.data.BottomHeading}
+            size="medium"
+            isFlush="true"
+          >
+          </c-heading>
+        </div>
+      </div>
+      <c-drive-in
+        image=${this.url + this.data.BottomImage.url}
+      >
+        <div slot="block-1">
+          <c-text-block
+            content=${JSON.stringify(this.data.BottomText1)}
+            isFlush="true"
+          >
+          </c-text-block>
+        </div>
+        <div slot="block-2">
+          <c-text-block
+            content=${JSON.stringify(this.data.BottomText2)}
+            isFlush="true"
+          >
+          </c-text-block>
+        </div>
+      </c-drive-in>
+    </section>
     `;
   }
 

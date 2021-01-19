@@ -74,7 +74,7 @@ export class Page extends Component {
       console.log('Activating route ...');
     }
 
-    this.basicScrolls = [...this.shadowRoot.querySelectorAll('c-scale-section'), ...this.shadowRoot.querySelectorAll('c-fade-transition'), ...this.shadowRoot.querySelectorAll('c-angle-section'), ...this.shadowRoot.querySelectorAll('c-reveal-section')];
+    this.basicScrolls = [...this.shadowRoot.querySelectorAll('c-scale-section'), ...this.shadowRoot.querySelectorAll('c-fade-transition'), ...this.shadowRoot.querySelectorAll('c-angle-section'), ...this.shadowRoot.querySelectorAll('c-reveal-section'), ...this.shadowRoot.querySelectorAll('c-drive-in')];
     this.boosters = [...this.shadowRoot.querySelectorAll('c-gallery')];
 
     if (this.basicScrolls && this.basicScrolls.length) {

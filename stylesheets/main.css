@@ -2391,7 +2391,8 @@ small {
   --letter-spacing-title-stylized: .15em;
   --color-bg: white;
   --color-fg: hsla(220, 5%, 15%,1);
-  --color-fg-lighter: hsla(220, 5%, 60%,1);
+  --color-fg-subtle: hsla(220, 5%, 45%,1);
+  --color-fg-light: hsla(220, 25%, 90%,1);
   --color-fg-white: white;
   --color-opaque: rgba(0,0,0,.2);
   --color-opaque-heavy: rgba(0,0,0,.22);

@@ -118,7 +118,7 @@ export class Loader extends LitElement {
   constructor() {
     super();
     this.enabled = true;
-    this.duration = 2000;
+    this.duration = 1000;
     this.progress = 0;
   }
 
@@ -141,7 +141,14 @@ export class Loader extends LitElement {
         document.documentElement.style.overflowY = '';
         document.documentElement.style.setProperty('--loader-display', 'none');
       });
-    }, 1800);
+    }, 1200);
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.style.position = '';
+        document.documentElement.style.overflowY = '';
+        document.documentElement.style.setProperty('--loader-display', 'none');
+      });
+    }, 2400);
   }
 
   updated() {
