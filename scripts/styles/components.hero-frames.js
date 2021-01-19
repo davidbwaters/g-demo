@@ -27,7 +27,8 @@ export const heroFrame = css`
   @media (min-width:40em) {
 
     .c-hero-frame__branding,
-    .c-hero-frame c-slant-title {
+    .c-hero-frame c-slant-title,
+    .c-hero-frame .u-text-title-tiny  {
       margin-left: 0%;
       margin-right: 0%;
       max-width: none;
