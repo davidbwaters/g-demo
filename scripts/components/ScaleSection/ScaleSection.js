@@ -278,6 +278,10 @@ export class ScaleSection extends LitElement {
     if (this.data.Layout === 'ImageLeft') {
       this.shadowRoot.host.style.setProperty('--scale-section-transform-origin', 'center left');
     }
+
+    if (this.Component === 'background' && this.data.Heading === null && !this.data.Text.length) {
+      this.shadowRoot.querySelector('.o-section-block').style.display = 'none';
+    }
   }
 
   setStyleProperties() {
@@ -725,6 +729,8 @@ export class ScaleSection extends LitElement {
                 </c-text-block>
               </div>
             </div>
+          ` : this.Component === 'background' && this.data.Heading === null && !this.data.Text.length ? html`
+
           ` : this.Component === 'background' ? html`
             <div class="o-block o-block--narrow c-scale-section__content">
               <div>
