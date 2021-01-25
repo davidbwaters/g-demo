@@ -8,7 +8,7 @@ export class NavMenu extends LitElement {
     return css`
 
       :host {
-        background-color: var(--color-subtle-dark-2);
+        background-color: var(--color-bg-inverse);
         height: 3rem;
         opacity: var(--navbar-opacity);
         pointer-events: var(--navbar-pointer-events);
@@ -41,10 +41,10 @@ export class NavMenu extends LitElement {
       }
 
       .c-nav-menu__links {
-        color: var(--color-subtle-light-2);
+        color: var(--color-fg-inverse-subtle);
         column-gap: var(--nav-menu-column-gap);
         display: grid;
-        font-size: var(--text-size-title-normal-light);
+        font-size: .75rem;
         font-weight: var(--font-weight-title-normal-light);
         letter-spacing: var(--letter-spacing-title-normal-light);
         transition: color .25s;
@@ -58,7 +58,7 @@ export class NavMenu extends LitElement {
       }
 
       c-router-link.is-active a {
-        color: var(--color-subtle-light-6);
+        color: var(--color-fg-inverse-contrast);
         opacity: 1;
       }
 
@@ -69,7 +69,7 @@ export class NavMenu extends LitElement {
       }
 
       a:hover {
-        color: var(--color-subtle-light-4);
+        color: var(--color-fg-inverse);
       }
 
 

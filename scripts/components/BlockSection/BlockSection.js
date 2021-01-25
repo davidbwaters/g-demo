@@ -2,6 +2,7 @@
  *  Scripts - Components - Block Section
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { remote } from '../../config/remote.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
 import { utilities } from '../../styles/utilities.js';
@@ -54,12 +55,12 @@ export class BlockSection extends LitElement {
 
   constructor() {
     super();
-    this.url = 'https://admin.guntherwerks.info';
+    this.url = remote.url;
   }
 
   firstUpdated() {
     if (this.backgroundColor === 'gray' || this.data.GrayBackground) {
-      this.shadowRoot.host.style.setProperty('--block-section-bg-color', 'var(--color-subtle-light-5)');
+      this.shadowRoot.host.style.setProperty('--block-section-bg-color', 'var(--color-bg-subtle)');
     } else {
       this.shadowRoot.host.style.setProperty('--block-section-bg-color', 'white');
     }

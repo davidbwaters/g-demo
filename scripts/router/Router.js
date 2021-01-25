@@ -50,8 +50,8 @@ export class Router extends router(LitElement) {
     super();
     this.route = '';
     this.params = {};
-    this.query = {};
-    this.debug = true;
+    this.query = {}; //this.debug = true
+
     this.handleLoad = this.handleLoad.bind(this);
     this.handlePreload = this.handlePreload.bind(this);
   }

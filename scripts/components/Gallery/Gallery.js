@@ -7,26 +7,33 @@ import { LitElement, css, html } from '../../../modules/lit-element.js'; //impor
 //} from '../../utils/imagesPreload'
 
 import ScrollBooster from '../../../modules/scrollbooster.js';
+import { remote } from '../../config/remote.js';
+import { buttons } from '../../styles/components.buttons.js';
 export class Gallery extends LitElement {
   static get styles() {
-    return [css`
-
+    return [buttons, css`
         :host {
           display: block;
           max-width: 100vw;
           height: 100vh;
-          padding-bottom: calc(var(--navbar-height) * 1.5);
-          padding-top: var(--navbar-height);
-          overflow-x: hidden;
+          overflow: hidden;
           position: relative;
           width: 100%;
+        }
+
+        .c-gallery__wrapper {
+          height: calc(100vh - (var(--navbar-height) * 2.5));
+          overflow-x: hidden;
+          overflow-y: auto;
+          padding-bottom: calc(var(--navbar-height) * 1.5);
+          padding-top: var(--navbar-height);
         }
 
         .c-gallery__inner {
           align-content: center;
           display: grid;
           grid-auto-flow: column;
-          grid-auto-columns: 100%;
+          grid-auto-columns: 66%;
           grid-template-rows: calc(
             100vh - (var(--navbar-height) * 2.5)
           );
@@ -104,18 +111,23 @@ export class Gallery extends LitElement {
 
         .c-gallery__lower {
           align-items: center;
-          background-color: var(--color-subtle-dark-2);
+          background-color: var(--color-bg-inverse);
           bottom: 0;
           box-sizing: border-box;
-          color: var(--color-subtle-light-1);
+          color: var(--color-fg-inverse-subtle);
           column-gap: 2rem;
           display: grid;
           grid-template-columns: minmax(90%, 58rem);
           height: calc(var(--navbar-height) * 1.5);
           justify-content: center;
+          pointer-events: none;
           position: fixed;
           row-gap: 2rem;
           width: 100%;
+        }
+
+        .c-gallery__lower button {
+          pointer-events: initial;
         }
 
         .c-gallery__lower-inner {
@@ -123,10 +135,6 @@ export class Gallery extends LitElement {
           grid-auto-flow: column;
           justify-content: space-between;
           max-width: 58rem;
-          padding-bottom: 1rem;
-          padding-left: 1rem;
-          padding-right: 1rem;
-          padding-top: 1rem;
         }
 
         .c-gallery__instructions {
@@ -136,6 +144,8 @@ export class Gallery extends LitElement {
           font-weight: var(--font-weight-title-stylized);
           letter-spacing: var(--letter-spacing-title-stylized);
           line-height: var(--line-height-title-stylized);
+          padding-left: 1rem;
+          padding-top: 1rem;
         }
 
 
@@ -148,67 +158,13 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__arrows {
-          column-gap: .75rem;
+          column-gap: 0rem;
           display: grid;
           grid-template-columns: auto auto;
           justify-content: center;
         }
 
-        .c-gallery__arrows button,
-        .c-gallery__arrows button:focus,
-        .c-gallery__close-button,
-        .c-gallery__close-button:focus {
-          background-color: var(--color-subtle-dark-2);
-          background-position: center center;
-          background-repeat: no-repeat;
-          border: solid 1px var(--color-subtle-light-2);
-          border-radius: 20rem;
-          color: white;
-          cursor: pointer;
-          height: 2.5rem;
-          outline: none;
-          transition: all .25s ease;
-          width: 2.5rem;
-          will-change: filter;
-        }
-
-        .c-gallery__arrows button,
-        .c-gallery__arrows button:focus {
-          background-size: .75rem .75rem;
-          cursor: pointer;
-          height: 2.5rem;
-          outline: none;
-          width: 2.5rem;
-          will-change: filter;
-        }
-
-        .c-gallery__arrows button:hover {
-          background-color: black;
-          filter: invert();
-        }
-
-        .c-gallery__arrows button[data-direction="right"] {
-          background-image: url(
-            '/images/Icons/Arrow Light Right.svg'
-          );
-        }
-        .c-gallery__arrows button[data-direction="left"] {
-          background-image: url(
-            '/images/Icons/Arrow Light Left.svg'
-          );
-        }
-
         .c-gallery__close-button {
-          background-color: black;
-          background-image: url(
-            '/images/Icons/X Light.svg'
-          );
-          background-size: 1rem;
-          filter: invert();
-          padding-bottom: 1.3rem;
-          padding-left: 1.3rem;
-          padding-right: 1.3rem;
-          padding-top: 1.3rem;
           position: sticky;
           margin-left: auto;
           margin-top: 1.5rem;
@@ -221,62 +177,12 @@ export class Gallery extends LitElement {
           filter: initial;
         }
 
-
-        .c-gallery__grid-toggle,
-        .c-gallery__grid-toggle:focus {
-          background-color: var(--color-subtle-dark-2);
-          background-image: url(
-            '/images/Icons/Grid Light.svg'
-          );
-          background-position: center center;
-          background-repeat: no-repeat;
-          background-size: 1rem;
-          border: solid 1px var(--color-subtle-light-2);
-          cursor: pointer;
-          height: 2.5rem;
-          outline: none;
-          transition: all .2s;
-          width: 2.5rem;
-          will-change: filter;
-        }
-
-        .c-gallery__grid-toggle:hover {
-          background-color: black;
-        }
-
-        .c-gallery__grid-toggle.is-toggled {
-          background-image: url(
-            '/images/Icons/Column Light.svg'
-          );
-        }
-
-        .c-gallery__grid-toggle:hover {
-          filter: invert();
-        }
-
-        .c-gallery__item-button {
-          background-color: var(--button-normal-bg);
-          border-radius: .2rem;
-          color: var(--button-normal-fg);
-          cursor: pointer;
-          display: block;
-          font-size: var(--text-size-title-stylized);
-          font-weight: var(--font-weight-title-stylized);
-          letter-spacing: var(--letter-spacing-title-stylized);
-          line-height: var(--line-height-title-stylized);
-          margin-bottom: 1rem;
-          margin-left: 1rem;
-          margin-right: 1rem;
-          margin-top: 1rem;
-          padding-bottom: .5rem;
-          padding-left: 1rem;
-          padding-right: 1rem;
-          padding-top: .5rem;
-        }
-
         .c-gallery__overlay {
           background-color: white;
+          display: grid;
+          height: 100%;
           opacity: 0;
+          overflow-y: scroll;
           pointer-events: none;
           position: absolute;
           top: 0;
@@ -300,9 +206,6 @@ export class Gallery extends LitElement {
           display: block;
         }
 
-        .c-gallery__pointer {
-
-        }
 
         .c-gallery--grid-view.c-gallery__inner {
           grid-auto-flow: row;
@@ -356,15 +259,17 @@ export class Gallery extends LitElement {
 
   constructor() {
     super();
-    this.url = 'https://admin.guntherwerks.info';
+    this.url = remote.url;
     this.gridView = false;
   }
 
   firstUpdated() {
     this._galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
+    this._closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
     this._slotEl = this.shadowRoot.querySelector('slot');
     this._innerEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this._layoutEl = this.shadowRoot.querySelector('[data-layout]');
+    this._gridIconEl = this.shadowRoot.querySelector('[data-grid-button]').querySelector('c-icon');
 
     this._setMaxScroll();
 
@@ -403,8 +308,14 @@ export class Gallery extends LitElement {
     if (!this.gridView) {
       this.gridView = true;
       this.booster.destroy();
+      console.log(this._gridIconEl);
+
+      this._gridIconEl.setAttribute('icon', 'columns');
     } else {
+      this.gridView = false;
       this.scrollSetup();
+
+      this._gridIconEl.setAttribute('icon', 'grid');
     }
   }
 
@@ -522,87 +433,98 @@ export class Gallery extends LitElement {
   render() {
     return html`
 
-      <div class="c-gallery__inner">
+      <button
+          @click=${this.handleClose}
+          class="c-button c-button--icon c-gallery__close-button"
+        >
+          <c-icon icon="window-close"></c-icon>
+      </button>
+      <div class="c-gallery__wrapper">
+        <div class="c-gallery__inner">
 
-        ${this.data.map(i => html`
+          ${this.data.map(i => html`
 
-          <div class="c-gallery__item">
-            <div class="c-gallery__item__inner">
-              <img
-                class="c-gallery__item-image"
-                srcset=${this.url + i.Cover.formats.medium.url + ', ' + this.url + i.Cover.formats.large.url + ' 2x'}
-                src=${this.url + i.Cover.formats.large.url}
-                alt=${i.Cover.alternativeText}
-                data-slot=${i.Slot}
-                @click=${this.handleClick}
-              >
-              <span
-                class="c-gallery__item-title"
-              >
-                ${i.Title}
-              </span>
-              <span
-                class="c-gallery__item-subtitle"
-              >
-                ${i.Section}
-              </span>
-              <a
-                class="
-                  c-gallery__item-button
-                "
-                data-slot = ${i.Slot}
-                @click=${this.handleClick}
-              >
-                Expand
-              </a>
+            <div class="c-gallery__item">
+              <div class="c-gallery__item__inner">
+                <img
+                  class="c-gallery__item-image"
+                  srcset=${this.url + i.Cover.formats.medium.url + ', ' + this.url + i.Cover.formats.large.url + ' 2x'}
+                  src=${this.url + i.Cover.formats.large.url}
+                  alt=${i.Cover.alternativeText}
+                  data-slot=${i.id}
+                >
+                <span
+                  class="c-gallery__item-title"
+                >
+                  ${i.Name}
+                </span>
+                <span
+                  class="c-gallery__item-subtitle"
+                >
+                  ${i.Category}
+                </span>
+                <a
+                  class="
+                    c-button
+                  "
+                  data-slot = ${i.id}
+                  @click=${this.handleClick}
+                >
+                  Show More
+                </a>
+              </div>
             </div>
-          </div>
 
-        `)}
+          `)}
 
-      </div>
+        </div>
 
-      <div
-          class="c-gallery__lower"
-      >
         <div
-          class="c-gallery__lower-inner"
-          data-layout
+            class="c-gallery__lower"
         >
           <div
-              class="c-gallery__instructions"
+            class="c-gallery__lower-inner"
+            data-layout
           >
-            Scroll to Navigate</br> or Click and Drag
-          </div>
-          <div
-            class="c-gallery__arrows"
-          >
-            <button
-              @click=${this._handleArrow}
-              data-direction="left"
-            ></button>
-            <button
-              @click=${this._handleArrow}
-              data-direction="right"
+            <div
+                class="c-gallery__instructions"
             >
+              Scroll to Navigate</br> or Click and Drag
+            </div>
+            <div
+              class="c-gallery__arrows"
+            >
+              <button
+                @click=${this._handleArrow}
+                data-direction="left"
+                class="c-button c-button--icon"
+              >
+                <c-icon icon="angle-left"></c-icon>
+              </button>
+              <button
+                @click=${this._handleArrow}
+                data-direction="right"
+                class="c-button c-button--icon"
+              >
+                <c-icon icon="angle-right"></c-icon>
+              </button>
+            </div>
+            <button
+              @click=${this.handleGridView}
+              class="c-button c-button--icon"
+              data-grid-button
+            >
+              <c-icon icon="grid"></c-icon>
             </button>
           </div>
-          <button
-            @click=${this.handleGridView}
-            class="c-gallery__grid-toggle"
-          >
-          </button>
         </div>
-      </div>
-      <div
-        class="c-gallery__overlay"
-      >
-        <button
-          class="c-gallery__close-button"
-          @click=${this.handleClose}
-        ></button>
 
-        <slot></slot>
+        <div
+          class="c-gallery__overlay"
+        >
+
+          <slot></slot>
+        </div>
       </div>
     `;
   }

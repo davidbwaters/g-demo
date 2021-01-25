@@ -13,9 +13,7 @@ export const heroFrame = css`
     will-change: opacity;
   }
 
-  .c-hero-frame__branding,
-  .c-hero-frame c-slant-title,
-  .c-hero-frame .u-text-title-tiny {
+  .c-hero-frame__branding {
     margin-left: 10%;
     margin-right: 10%;
     min-width: 16rem;
@@ -26,9 +24,7 @@ export const heroFrame = css`
 
   @media (min-width:40em) {
 
-    .c-hero-frame__branding,
-    .c-hero-frame c-slant-title,
-    .c-hero-frame .u-text-title-tiny  {
+    .c-hero-frame__branding {
       margin-left: 0%;
       margin-right: 0%;
       max-width: none;
@@ -48,10 +44,10 @@ export const heroFrame = css`
   @media (min-width:40em) {
 
     .c-hero-frame__image {
-      margin-left: -40%;
-      margin-top: 6rem;
+      margin-left: -20%;
+      margin-top: 2rem;
       max-width: none;
-      width: 140%;
+      width: 120%;
     }
 
   }

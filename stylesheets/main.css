@@ -1,7 +1,8 @@
 /*
  *  Stylesheets - Main
  */
-@import "../fonts/fonts.css";
+@import "./chocolat.css";
+@import url("https://use.typekit.net/ukl2sjs.css");
 @import "../icons/icons.css";
 /*
  *  Generic - Initialize
@@ -2343,10 +2344,12 @@ small {
   --spacing-unit: .25rem;
   --spacing-responsive-x: calc(.25rem + 1vw);
   --spacing-responsive-y: calc(.25rem + 1vh);
-  --font-main: "Nimbus Sans L";
+  --font-main: neue-haas-grotesk-text;
   --font-main-weight: normal;
   --font-bolder-weight: bold;
+  --font-medium-weight: 600;
   --font-lighter-weight: normal;
+  --font-light-weight: light;
   --font-heading: var(--font-main);
   --font-heading-weight: normal;
   --text-size-tiny: .64rem;
@@ -2354,27 +2357,27 @@ small {
   --text-size-normal: 1rem;
   --text-size-medium: 1.25rem;
   --text-size-large: 1.55rem;
-  --line-height-text-tiny: 1.4;
-  --line-height-text-small: 1.4;
-  --line-height-text-normal: 1.4;
-  --line-height-text-medium: 1.4;
-  --line-height-text-large: 1.4;
+  --line-height-text-tiny: 1.6;
+  --line-height-text-small: 1.6;
+  --line-height-text-normal: 1.6;
+  --line-height-text-medium: 1.6;
+  --line-height-text-large: 1.6;
   --line-height-text-spaced-tiny: 1.8;
   --line-height-text-spaced-small: 1.8;
   --line-height-text-spaced-normal: 1.8;
   --line-height-text-spaced-medium: 1.8;
   --line-height-text-spaced-large: 1.8;
-  --text-size-heading-small: 1.4rem;
-  --text-size-heading-medium: 2rem;
-  --text-size-heading-large: 2.8rem;
-  --text-size-heading-huge: 4rem;
-  --line-height-heading-small: 1.1;
-  --line-height-heading-medium: 1.1;
-  --line-height-heading-normal: 1.1;
-  --line-height-heading-large: 1.1;
-  --line-height-heading-huge: 1.1;
+  --text-size-heading-small: 2rem;
+  --text-size-heading-medium: 2.4rem;
+  --text-size-heading-large: 3rem;
+  --text-size-heading-huge: 3.8rem;
+  --line-height-heading-small: 1.2;
+  --line-height-heading-medium: 1.2;
+  --line-height-heading-large: 1.2;
+  --line-height-heading-huge: 1.2;
+  --letter-spacing-heading: -.01em;
   --text-size-title-tiny: .64rem;
-  --text-size-title-normal: .8rem;
+  --text-size-title-normal: .75rem;
   --text-size-title-normal-light: .85rem;
   --text-size-title-stylized: .8rem;
   --line-height-title-tiny: 1.2;
@@ -2389,11 +2392,20 @@ small {
   --letter-spacing-title-normal: .05em;
   --letter-spacing-title-normal-light: .025em;
   --letter-spacing-title-stylized: .15em;
-  --color-bg: white;
-  --color-fg: hsla(220, 5%, 15%,1);
-  --color-fg-subtle: hsla(220, 5%, 45%,1);
-  --color-fg-light: hsla(220, 25%, 90%,1);
-  --color-fg-white: white;
+  --color-fg: var(--color-subtle-dark-1);
+  --color-fg-contrast: black;
+  --color-fg-subtle: var(--color-subtle-dark-3);
+  --color-fg-faint: var(--color-subtle-dark-5);
+  --color-fg-inverse: var(--color-subtle-light-1);
+  --color-fg-inverse-contrast: white;
+  --color-fg-inverse-subtle: var(--color-subtle-light-3);
+  --color-fg-inverse-faint: var(--color-subtle-dark-5);
+  --color-bg: var(--color-subtle-light-1);
+  --color-bg-contrast: white;
+  --color-bg-subtle: var(--color-subtle-light-2);
+  --color-bg-inverse: var(--color-subtle-dark-2);
+  --color-bg-inverse-contrast: black;
+  --color-bg-inverse-subtle: var(--color-subtle-dark-3);
   --color-opaque: rgba(0,0,0,.2);
   --color-opaque-heavy: rgba(0,0,0,.22);
   --color-opaque-alternate: rgba(255,255,255,.175);
@@ -2411,16 +2423,22 @@ small {
   --color-subtle-dark-4:hsla(220, 5%, 60%,1);
   --color-subtle-dark-5:hsla(220, 5%, 75%,1);
   --color-subtle-dark-6:hsla(220, 5%, 90%,1);
-  --color-subtle-light-1:hsla(220, 10%, 75%,1);
-  --color-subtle-light-2:hsla(220, 15%, 80%,1);
-  --color-subtle-light-3:hsla(220, 20%, 85%,1);
-  --color-subtle-light-4:hsla(220, 25%, 90%,1);
-  --color-subtle-light-5:hsla(220, 30%, 95%,1);
-  --color-subtle-light-6:hsla( 0, 0%,100%,1);
+  --color-subtle-light-1:hsla( 0, 0%,100%,1);
+  --color-subtle-light-2:hsla(220, 30%, 95%,1);
+  --color-subtle-light-3:hsla(220, 25%, 90%,1);
+  --color-subtle-light-4:hsla(220, 20%, 85%,1);
+  --color-subtle-light-5:hsla(220, 15%, 80%,1);
+  --color-subtle-light-6:hsla(220, 10%, 75%,1);
   --color-gradient-main-1: hsla(222,10%,75%,1);
   --color-gradient-main-2: hsla(218,31%,95%,1);
-  --button-normal-bg: var(--color-gw-gray);
-  --button-normal-fg: white;
+  --color-info: var(--color-gw-blue);
+  --color-success: var(--color-gw-green);
+  --color-warn: var(--color-gw-yellow);
+  --color-error: var(--color-gw-red);
+  --button-normal-bg: var(--color-bg-inverse);
+  --button-normal-bg-hover: var(--color-bg);
+  --button-normal-fg: var(--color-fg-inverse-contrast);
+  --button-normal-fg-hover: var(--color-fg-contrast);
   --gradient-main: linear-gradient(
     0deg,
     var(--color-gradient-main-1) 0%,
@@ -2793,13 +2811,17 @@ img {
   height: auto;
 }
 
+img:not([alt]) {
+  filter: blur(0px);
+}
+
 /*
  *  Elements - Text
  */
 body {
   background-color: var(--color-bg);
   color: var(--color-fg);
-  font-family: var(--font-main);
+  font-family: var(--font-main), sans-serif;
   font-size: var(--text-size-normal);
   font-weight: var(--font-main-weight);
   line-height: var(--line-height-text-normal);
@@ -2857,81 +2879,3 @@ p {
 /*
  *  Utilites
  */
-/* Wrapper Full */
-.u-wrapper-full {
-  height: 100%;
-  width: 100%;
-}
-
-/* Positioning */
-.u-position-relative {
-  position: relative !important;
-}
-
-/* Max Dimensions */
-.u-max-width-30 {
-  max-width: 30rem !important;
-}
-
-.u-max-width-40 {
-  max-width: 40rem !important;
-}
-
-.u-max-width-50 {
-  max-width: 50rem !important;
-}
-
-.u-max-height-30 {
-  max-height: 30rem !important;
-}
-
-.u-max-height-40 {
-  max-height: 40rem !important;
-}
-
-.u-max-height-50 {
-  max-height: 50rem !important;
-}
-
-/* Cursor */
-.u-cursor-zoom-in {
-  cursor: zoom-in !important;
-}
-
-/* Blend Mode */
-.u-blend-mode-screen {
-  mix-blend-mode: screen !important;
-}
-
-.u-blend-mode-luminosity {
-  mix-blend-mode: luminosity !important;
-}
-
-/* Visibility */
-.u-transparent {
-  opacity: 0 !important;
-}
-
-.u-hidden {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-@media (max-width: 25em) {
-  .u-hidden\@small {
-    display: none !important;
-    visibility: hidden !important;
-  }
-}
-@media (max-width: 35em) {
-  .u-hidden\@mobile {
-    display: none !important;
-    visibility: hidden !important;
-  }
-}
-@media (max-width: 45em) {
-  .u-hidden\@tablet {
-    display: none !important;
-    visibility: hidden !important;
-  }
-}

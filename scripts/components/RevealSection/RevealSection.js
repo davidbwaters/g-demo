@@ -2,97 +2,97 @@
  *  Scripts - Components - Reveal Section */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
 import * as basicScroll from '../../../modules/basicscroll.js';
+import { objects } from '../../styles/objects.js';
+import { utilities } from '../../styles/utilities.js';
+import { remote } from '../../config/remote.js';
 export class RevealSection extends LitElement {
   static get styles() {
-    return css`
+    return [objects, utilities, css`
 
-      :host,
-      .c-reveal-section__content {
-        max-width: 100vw;
-        position: relative;
-        width: 100%;
-      }
-
-      .c-reveal-section__upper {
-
-        background-image: var(
-          --reveal-section-upper-bg-image
-        );
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: bottom center;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-        width: 100%;
-      }
-      .c-reveal-section__lower {
-        align-content: center;
-        background-color: var(--color-subtle-dark-1);
-        display: grid;
-        justify-content: center;
-        grid-template-columns: 90%;
-        height: 100vh;
-        justify-content: center;
-        margin-top: 50vh;
-        position: relative;
-
-        width:100%;
-      }
-
-
-      @media (min-width:40em) {
-
-        .c-reveal-section__lower {
-          grid-template-columns: 80%;
+        :host {
+          display: block;
+          max-width: 100vw;
+          position: relative;
+          width: 100%;
         }
 
-      }
+        .c-reveal-section__upper {
+          background-image: var(
+            --reveal-section-upper-bg-image
+          );
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: bottom center;
+          height: 100vh;
+          position: sticky;
+          top: 0;
+          width: 100%;
+        }
 
-      .c-reveal-section__bars {
-        height: 100%;
-      }
-
-      .c-reveal-section__bars::before,
-      .c-reveal-section__bars::after {
-        content: '';
-        background-color: white;
-        height: 100%;
-        position: absolute;
-        transform: scaleX(var(--reveal-section-bar-size));
-        width: 15%;
-        will-change: transform;
-      }
-
-      .c-reveal-section__bars::before {
-        left: 0;
-        transform-origin: left center;
-      }
-
-      .c-reveal-section__bars::after {
-        right: 0;
-        transform-origin: right center;
-      }
+        .c-reveal-section__lower {
+          align-content: center;
+          background-color: var(--color-bg-inverse-contrast);
+          display: grid;
+          justify-content: center;
+          grid-template-columns: 90%;
+          height: 100vh;
+          justify-content: center;
+          margin-top: 50vh;
+          position: relative;
+          text-align: center;
+          width:100%;
+        }
 
 
+        @media (min-width:40em) {
 
-      .c-reveal-section__lower-background {
-        background-position: bottom center;
-        background-size: cover;
-        content: '';
-        height: 100%;
-        opacity: .66;
-        position: absolute;
-        width: 100%;
-      }
+          .c-reveal-section__lower {
+            grid-template-columns: 80%;
+          }
 
-      .c-reveal-section__text {
-        max-width: 60rem;
-        opacity: var(--reveal-section-text-opacity);
-        transition: opacity .5s ease-in;
-        will-change: opacity;
-      }
-    `;
+        }
+
+        .c-reveal-section__bars {
+          height: 100%;
+        }
+
+        .c-reveal-section__bars::before,
+        .c-reveal-section__bars::after {
+          content: '';
+          background-color: white;
+          height: 100%;
+          position: absolute;
+          transform: scaleX(var(--reveal-section-bar-size));
+          width: 10rem;
+          will-change: transform;
+        }
+
+        .c-reveal-section__bars::before {
+          left: 0;
+          transform-origin: left center;
+        }
+
+        .c-reveal-section__bars::after {
+          right: 0;
+          transform-origin: right center;
+        }
+
+        .c-reveal-section__lower-background {
+          background-position: bottom center;
+          background-size: cover;
+          content: '';
+          height: 100%;
+          opacity: .66;
+          position: absolute;
+          width: 100%;
+        }
+
+        .c-reveal-section__text {
+          color: white;
+          position: relative;
+        }
+
+      `];
   }
 
   static get properties() {
@@ -104,17 +104,19 @@ export class RevealSection extends LitElement {
     };
   }
 
+  constructor() {
+    super();
+    this.url = remote.url;
+  }
+
   firstUpdated() {
-    this.revealData = this.data;
-    this.url = 'https://admin.guntherwerks.info';
     this._contentEl = this.shadowRoot.querySelector('.c-reveal-section__content');
     this._barsEl = this.shadowRoot.querySelector('.c-reveal-section__bars');
     this._upperEl = this.shadowRoot.querySelector('.c-reveal-section__upper');
     this._lowerEl = this.shadowRoot.querySelector('.c-reveal-section__lower');
     this._lowerBackground = this.shadowRoot.querySelector('.c-reveal-section__lower-background');
-    this._upperEl.style.backgroundImage = 'url(' + this.url + this.revealData.UpperImage.url + ')';
-    this._lowerBackground.style.backgroundImage = 'url(' + this.url + this.revealData.LowerImage.url + ')';
-    this.shadowRoot.querySelector('c-heading').text = this.revealData.RevealText;
+    this._upperEl.style.backgroundImage = 'url(' + this.url + this.data.UpperBackgroundImage.url + ')';
+    this._lowerBackground.style.backgroundImage = 'url(' + this.url + this.data.LowerBackgroundImage.url + ')';
 
     this._scrollSetup(); // this._scrollInstanceBars.start()
     // this._scrollInstanceFade.start()
@@ -160,31 +162,60 @@ export class RevealSection extends LitElement {
   render() {
     return html`
       <div
-        class="c-reveal-section__content"
+        class="c-reveal-section__upper"
       >
         <div
-          class="c-reveal-section__upper"
+          class="c-reveal-section__bars"
         >
-          <div
-            class="c-reveal-section__bars"
-          >
-          </div>
+        </div>
+      </div>
+      <div
+        class="c-reveal-section__lower"
+      >
+        <div
+          class="c-reveal-section__lower-background"
+        >
         </div>
         <div
-          class="c-reveal-section__lower"
+          class="c-reveal-section__text"
         >
-          <div
-            class="c-reveal-section__lower-background"
-          >
-          </div>
-          <div
-            class="c-reveal-section__text"
-          >
-            <c-heading
-              color='white'
-              size='huge'
-            >
-            </c-heading>
+          <div class="
+            o-section-block
+          ">
+            <div class="o-block">
+            ${this.data.Heading && this.data.Text.length ? html`
+                  <c-heading
+                    data=${JSON.stringify(this.data.Heading)}
+                    color='inherit'
+                  >
+                  </c-heading>
+                  <c-text-block
+                    text=${this.data.Text}
+                    textboldfont=${this.data.TextBoldFont}
+                    textsize=${this.data.TextSize}
+                    textlight=${this.data.TextLight}
+                    color='inherit'
+                  >
+                  </c-text-block>
+                ` : !this.data.Heading && this.data.Text.length ? html`
+                  <c-text-block
+                    text=${this.data.Text}
+                    textboldfont=${this.data.TextBoldFont}
+                    textsize=${this.data.TextSize}
+                    textlight=${this.data.TextLight}
+                    color='inherit'
+                  >
+                  </c-text-block>
+                ` : this.data.Heading && !this.data.Text.length ? html`
+                  <c-heading
+                    data=${JSON.stringify(this.data.Heading)}
+                    color='inherit'
+                  >
+                  </c-heading>
+                ` : html`
+                  <span></span>
+                `}
+            </div>
           </div>
         </div>
       </div>

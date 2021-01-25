@@ -133,18 +133,34 @@ export const utilities = css`
   }
 
 
+  /* Text Colors */
+
   .u-text-color-subtle {
     color: var(--color-fg-subtle);
   }
 
-  .u-text-color-light {
-    color: var(--color-fg-light);
+  .u-text-color-contrast {
+    color: var(--color-fg-contrast);
   }
 
-  .u-text-color-white {
-    color: var(--color-fg-white);
+  .u-text-color-subtle {
+    color: var(--color-fg-subtle);
   }
 
+  .u-text-color-inverse-subtle {
+    color: var(--color-fg-subtle);
+  }
+
+  .u-text-color-inverse-contrast {
+    color: var(--color-fg-contrast);
+  }
+
+  .u-text-color-inverse-subtle {
+    color: var(--color-fg-subtle);
+  }
+
+
+  /* Background */
 
   .u-background-cover-center {
     background-position: center center;
@@ -152,7 +168,82 @@ export const utilities = css`
   }
 
   .u-padding-horizontal-10-percent {
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 10% !important;
+    padding-right: 10% !important;
+  }
+
+
+  /* Cursor */
+
+  .u-cursor-zoom-in {
+    cursor: zoom-in !important;
+  }
+
+
+  /* Blend Mode */
+
+  .u-blend-mode-screen {
+    mix-blend-mode: screen !important;
+  }
+
+  .u-blend-mode-luminosity {
+    mix-blend-mode: luminosity !important;
+  }
+
+
+  /* Grid Align */
+
+  .u-justify-content-center {
+    justify-content: center;
+  }
+
+  /* Visibility */
+
+  .u-transparent {
+    opacity: 0 !important;
+  }
+
+  .u-hidden{
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  @media (max-width:25em) {
+
+    .u-hidden\@small {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+  }
+
+  @media (max-width:40em) {
+
+    .u-hidden\@mobile {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+  }
+
+  @media (max-width:70em) {
+
+    .u-hidden\@tablet {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+  }
+
+  @media (max-width:40em) {
+
+    .u-padding-top-flush\@mobile {
+      padding-top: 0 !important;
+    }
+
+    .u-padding-bottom-flush\@mobile {
+      padding-bottom: 0 !important;
+    }
+
   }
 `;

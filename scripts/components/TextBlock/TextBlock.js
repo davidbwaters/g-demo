@@ -6,23 +6,17 @@ export class TextBlock extends LitElement {
   static get styles() {
     return css`
       :host {
-        align-content: center;
-        background-color: var(--text-block-bg-color);
         color: var(--text-block-color);
-        display: grid;
-        font-size: calc(var(--text-block-size) * .85);
+        display: block;
+        font-size: calc(var(--text-block-size) * .8);
         font-weight: var(--text-block-weight);
-        grid-template-columns: var(--text-block-width);
-        justify-content: center;
         line-height: var(--text-block-line-height);
-        padding-bottom: var(--text-block-padding-y);
-        padding-top: var(--text-block-padding-y);
       }
 
       @media (min-width:40em) {
 
         :host {
-          font-size: calc(var(--text-block-size) * .9);
+          font-size: calc(var(--text-block-size) * .85);
         }
 
       }
@@ -30,7 +24,15 @@ export class TextBlock extends LitElement {
       @media (min-width:60em) {
 
         :host {
-          font-size: var(--text-block-size);
+          font-size:calc(var(--text-block-size) * .95);
+        }
+
+      }
+
+      @media (min-width:80em) {
+
+        :host {
+          font-size:calc(var(--text-block-size) * 1);
         }
 
       }
@@ -42,7 +44,6 @@ export class TextBlock extends LitElement {
       }
 
       p {
-        max-width: 60rem;
         margin-bottom: 1em;
         margin-left: auto;
         margin-right: auto;
@@ -65,25 +66,19 @@ export class TextBlock extends LitElement {
       debug: {
         type: Boolean
       },
-      content: {
+      Text: {
+        type: Array
+      },
+      Color: {
         type: String
       },
-      backgroundColor: {
-        type: String
-      },
-      color: {
-        type: String
-      },
-      lighterColor: {
+      ColorAlternate: {
         type: Boolean
       },
-      isBold: {
+      TextBold: {
         type: Boolean
       },
-      isFlush: {
-        type: Boolean
-      },
-      size: {
+      Size: {
         type: String
       }
     };
@@ -91,108 +86,66 @@ export class TextBlock extends LitElement {
 
   constructor() {
     super();
-    this.size = 'Normal';
-    this.isBold = false;
-    this.isFlush = false;
+    this.Size = 'Normal';
+    this.TextBold = false;
+    this.Text = []; //this.debug = true
   }
 
   firstUpdated() {
-    const contentEl = this.shadowRoot;
-
     if (this.data) {
-      this.size = this.data.Size;
-      this.isBold = this.data.BoldFont;
-      this.lighterColor = this.data.LighterColor;
-      this.content = this.data.Content;
+      if (this.data.Text) {
+        this.Text = this.data.Text;
+      }
+
+      if (this.data.TextBold) {
+        this.TextBold = this.data.TextBold;
+      }
+
+      if (this.data.TextSize) {
+        this.Size = this.data.TextSize;
+      }
     }
 
-    this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-' + this.size.toLowerCase() + ')');
+    this.shadowRoot.host.style.setProperty('--text-block-size', 'var(--text-size-' + this.Size.toLowerCase() + ')');
 
-    if (this.isBold) {
+    if (this.data.TextBoldFont) {
       this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-bolder-weight)');
-      this.shadowRoot.host.style.setProperty('--text-block-line-height', 'var(--line-height-text-' + this.size.toLowerCase() + ')');
+      this.shadowRoot.host.style.setProperty('--text-block-line-height', 'var(--line-height-text-' + this.Size.toLowerCase() + ')');
     } else {
       this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-lighter-weight)');
-      this.shadowRoot.host.style.setProperty('--text-block-line-height', 'var(--line-height-text-spaced-' + this.size.toLowerCase() + ')');
+      this.shadowRoot.host.style.setProperty('--text-block-line-height', 'var(--line-height-text-spaced-' + this.Size.toLowerCase() + ')');
     }
 
-    if (this.lighterColor) {
+    if (this.data.TextColorAlternate) {
       this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-fg-subtle)');
       this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg)');
-    } else if (this.color === 'white') {
-      this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-subtle-light-5)');
-      this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-subtle-light-6)');
-    } else if (this.color === 'inherit') {
-      this.shadowRoot.host.style.setProperty('--heading-color', 'inherit');
-      this.shadowRoot.host.style.setProperty('--heading-span-color', 'inherit');
+    } else if (this.Color === 'inverse') {
+      this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-fg-inverse)');
+      this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg-inverse-contrast)');
+    } else if (this.Color === 'inherit') {
+      this.shadowRoot.host.style.setProperty('--text-block-color', 'inherit');
+      this.shadowRoot.host.style.setProperty('--text-block-span-color', 'inherit');
     } else {
-      this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-subtle-dark-3)');
-      this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg)');
+      this.shadowRoot.host.style.setProperty('--text-block-color', 'var(--color-fg)');
+      this.shadowRoot.host.style.setProperty('--text-block-span-color', 'var(--color-fg-subtle)');
     }
+  }
 
-    if (this.backgroundColor === 'gray') {
-      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'var(--color-subtle-light-5)');
-    } else if (this.backgroundColor === 'transparent') {
-      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'transparent');
-    } else if (this.backgroundColor === 'white') {
-      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'white');
-    } else {
-      this.shadowRoot.host.style.setProperty('--text-block-bg-color', 'white');
-    }
-
-    if (this.isFlush) {
-      this.shadowRoot.host.style.setProperty('--text-block-padding-y', '0rem');
-      this.shadowRoot.host.style.setProperty('--text-block-width', '100%');
-    } else {
-      this.shadowRoot.host.style.setProperty('--text-block-padding-y', '5rem');
-      this.shadowRoot.host.style.setProperty('--text-block-width', '80%');
-    }
-
-    if (typeof this.content === 'string' && this.content.trim().slice(0, 1) === '[') {
-      this.content = JSON.parse(this.content);
-    }
-
-    if (typeof this.content === 'object') {
-      if (this.debug) {
-        console.log('Text block array');
-        console.log(this.content);
-      }
-
-      this.content.forEach(content => {
-        if (this.debug) {
-          console.log('Text block array item');
-          console.log(content, Text);
-        }
-
-        const paragraphEl = document.createElement('p');
-
-        if (content.Paragraph) {
-          paragraphEl.innerHTML = content.Paragraph;
-        }
-
-        if (content.Text) {
-          paragraphEl.innerHTML = content.Text;
-        }
-
-        contentEl.appendChild(paragraphEl);
-        console.log(paragraphEl);
-      });
-    } else {
-      if (this.debug) {
-        console.log('Text block not array');
-        console.log(this.content);
-        console.log(this.content.slice(0, 2));
-      }
-
-      const paragraphEl = document.createElement('p');
-      paragraphEl.innerHTML = this.content;
-      contentEl.appendChild(paragraphEl);
-    }
+  updated() {
+    const els = this.shadowRoot.querySelectorAll('p');
+    els.forEach(el => {
+      el.innerHTML = el.innerHTML.replaceAll('&lt;span&gt;', '<span>').replaceAll('&lt;/span&gt;', '</span>');
+      el.innerHTML = el.innerHTML.replaceAll('&lt;strong&gt;', '<strong>').replaceAll('&lt;/strong&gt;', '</strong>');
+    });
   }
 
   render() {
     return html`
-
+      ${this.Text.map(i => html`
+        <p>
+          ${i.Text}
+        </p>
+      `)}
     `;
   }
 

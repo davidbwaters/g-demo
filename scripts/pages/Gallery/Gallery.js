@@ -3,13 +3,13 @@
  */
 import { css, html } from '../../../modules/lit-element.js';
 import { Page } from '../../bases/Page.js';
+import Chocolat from '../../../modules/chocolat.js';
 import { initialize } from '../../styles/initialize.js';
-import { heroFrame } from '../../styles/components.hero-frames.js';
 import { objects } from '../../styles/objects.js';
 import { utilities } from '../../styles/utilities.js';
 export class GalleryPage extends Page {
   static get styles() {
-    return [initialize, objects, heroFrame, utilities, css`
+    return [initialize, objects, utilities, css`
         :host {
           display: block;
           min-height: 100vh;
@@ -21,67 +21,13 @@ export class GalleryPage extends Page {
           display: grid;
           align-content: center;
           justify-content: center;
-          padding-top: 0rem;
+          padding-top: 2rem;
           row-gap: 0rem;
         }
 
         .c-gallery-page__overlay-title {
           margin-bottom: 1rem;
-        }
-
-
-        @media(min-width:40rem) {
-
-          .c-gallery-page__overlay-title {
-          }
-
-        }
-
-        .c-gallery-page__overlay-feature-image {
-          margin-left: auto;
-          margin-right: auto;
-          max-width: 60rem;
-          width: 90%;
-        }
-
-
-        @media(min-width:40rem) {
-
-          .c-gallery-page__overlay-feature-image {
-            width: 80%;
-          }
-
-        }
-
-        .c-gallery-page__overlay-block-1-text,
-        .c-gallery-page__overlay-block-2-text {
-          align-content: center;
-          display: grid;
-          justify-content: center;
-          padding-bottom: 2rem;
-          padding-left: 2rem;
-          padding-right: 2rem;
-          padding-top: 2rem;
-        }
-
-        .c-gallery-page__overlay-block-1,
-        .c-gallery-page__overlay-block-2 {
-          align-content: center;
-          display: grid;
-          grid-template-columns: 90%;
-          grid-template-rows: 1fr 1fr;
-          justify-content: center;
-        }
-
-        @media(min-width:40rem) {
-
-          .c-gallery-page__overlay-block-1,
-          .c-gallery-page__overlay-block-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr;
-          }
-
+          text-align: center;
         }
 
         .c-gallery-page__overlay-lower {
@@ -91,7 +37,10 @@ export class GalleryPage extends Page {
           grid-template-columns: repeat(
             auto-fill, minmax(8rem, 1fr)
           );
-          padding: 1rem;
+          padding-bottom: 1rem;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          padding-top: 1rem;
           justify-content: center;
         }
 
@@ -112,7 +61,9 @@ export class GalleryPage extends Page {
           cursor: pointer;
         }
 
-        .c-gallery-page__image-frame {}
+        .c-gallery-page__image-frame {
+
+        }
 
       `];
   }
@@ -120,6 +71,10 @@ export class GalleryPage extends Page {
   static get properties() {
     return {
       data: {
+        type: Object,
+        attribute: false
+      },
+      pageData: {
         type: Object,
         attribute: false
       },
@@ -143,7 +98,8 @@ export class GalleryPage extends Page {
 
   constructor() {
     super();
-    this.dataEndpoint = '/galleries';
+    this.dataEndpoint = '/image-galleries';
+    this.pageEndpoint = '/albums';
     this.galleryData = {
       albums: []
     };
@@ -153,28 +109,12 @@ export class GalleryPage extends Page {
   firstUpdated() {
     // this.preloadImages()
     this.galleryEl = this.shadowRoot.querySelector('c-gallery');
+    Chocolat(this.shadowRoot.querySelectorAll('.chocolat-image'));
   }
 
   _setGalleryData() {
     let count = 1;
-    let sorted = [];
-    this.data.forEach(item => {
-      this.data.forEach(item => {
-        if (item.id === count) {
-          sorted = sorted.concat(item);
-          count++;
-        }
-      });
-    });
-    sorted.forEach(item => {
-      item.Album.forEach(album => {
-        let newAlbum = album;
-        newAlbum.Section = item.Title;
-        newAlbum.SectionID = item.id;
-        newAlbum.Slot = newAlbum.id;
-        this.galleryData.albums = this.galleryData.albums.concat(newAlbum);
-      });
-    });
+    let albums = [];
     this._galleryDataSet = true;
     console.log(this.galleryData);
   }
@@ -183,16 +123,16 @@ export class GalleryPage extends Page {
     this.albumCovers = [];
     this.pageImages = [];
     this.thumbnails = [];
-    this.galleryData.albums.forEach(album => {
+    this.data.forEach(album => {
       if (album.Cover) {
         this.albumCovers = this.albumCovers.concat(album.Cover.url);
       }
 
-      if (album.PageFeatureImage && album.PageFeatureImage.url) {
-        this.pageImages = this.pageImages.concat(album.PageFeatureImage.url);
+      if (album.HeaderImage && album.HeaderImage.url) {
+        this.pageImages = this.pageImages.concat(album.HeaderImage.url);
       }
 
-      album.Content.forEach(item => {
+      album.Images.forEach(item => {
         let thumb;
 
         if (item.formats.small) {
@@ -219,8 +159,7 @@ export class GalleryPage extends Page {
     await this.imagePreloader(this.pageImages);
     await this.imagePreloader(this.thumbnails);
 
-    if (this.debug) {
-      console.log(this.albumCovers);
+    if (this.debug) {//console.log(this.albumCovers)
     }
   }
 
@@ -232,6 +171,9 @@ export class GalleryPage extends Page {
 
   async performUpdate() {
     this.data = await this.getApiData(this.dataEndpoint);
+    this.pageData = await this.getApiData(this.pageEndpoint);
+    console.log(this.data);
+    console.log(this.pageData);
 
     if (!this._galleryDataSet) {
       this._setGalleryData();
@@ -241,102 +183,55 @@ export class GalleryPage extends Page {
     super.performUpdate();
   }
 
+  buildComponents() {}
+
   render() {
     return html`
-
+      <link rel="stylesheet" href="/stylesheets/chocolat.css">
       <section
-        class="c-gallery-page"
+        class="c-gallery-page__wrapper"
       >
         <c-gallery
-          data=${JSON.stringify(this.galleryData.albums)}
+          data=${JSON.stringify(this.data)}
         >
 
-          ${this.galleryData.albums.map(i => html`
+          ${this.data.map(i => html`
 
             <div
+              slot=${i.id}
               class="c-gallery-page__overlay"
-              slot=${i.Slot}
             >
-              <c-heading
-                text=${i.PageTitle}
+
+            <c-heading
+                data=${JSON.stringify({
+      Text: i.Name
+    })}
                 class="c-gallery-page__overlay-title"
                 size="medium"
               >
               </c-heading>
               <img
-                src=${this.url + i.PageFeatureImage.url}
+                src=${this.url + i.HeaderImage.url}
                 class="c-gallery-page__overlay-feature-image"
               >
 
               <div
-                class="c-gallery-page__overlay-block-1"
+                class="c-gallery-page__content"
               >
-                <div
-                  class="c-gallery-page__overlay-block-1-text"
-                >
-                  <c-heading
-                    text=${i.PageBlock1Heading}
-                  >
-                  </c-heading>
-                  <c-text-block
-                    content=${i.PageBlock1Text}
-                    textAlign=left
-                    isFlush=true
-                  >
-                  </c-text-block>
-                </div>
-
-                <div
-                  class="c-gallery-page__overlay-block-1-image"
-                >
-                  <img
-                    src=${this.url + i.PageBlock1Image.url}
-                    alt=${i.PageBlock1Image.alternativeText}
-                  >
-                </div>
+                ${this.buildComponent(i.Page)}
               </div>
 
-
-              <div
-                class="c-gallery-page__overlay-block-2"
-              >
-
-                <div
-                  class="c-gallery-page__overlay-block-2-image"
-                >
-                  <img
-                    src=${this.url + i.PageBlock2Image.url}
-                    alt=${i.PageBlock2Image.alternativeText}
-                  >
-                </div>
-
-                <div
-                  class="c-gallery-page__overlay-block-2-text"
-                >
-                  <c-heading
-                    text=${i.PageBlock2Heading}
-                    size="medium"
-                    textAligne="left"
-                  >
-                  </c-heading>
-                  <c-text-block
-                    content=${i.PageBlock2Text}
-                    isFlush=true
-                  >
-                  </c-text-block>
-                </div>
-
-              </div>
 
               <div
                 class="c-gallery-page__overlay-lower"
               >
 
-                ${i.Content.map(p => html`
+                ${i.Images.map(p => html`
 
-                  <img src=${this.url + p.formats.medium.url}
-                    data-full=${this.url + p.url}
-                    @click=${this.handleFullImage}
+                  <img
+                    src=${this.url + p.formats.medium.url}
+                    class="chocolat-image"
+                    href=${this.url + p.url}
                   >
 
                 `)}

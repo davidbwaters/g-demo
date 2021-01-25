@@ -2,6 +2,7 @@
   "imports": {
     "@appnest/masonry-layout": "./@appnest/masonry-layout.js",
     "basicscroll": "./basicscroll.js",
+    "chocolat": "./chocolat.js",
     "construct-style-sheets-polyfill": "./construct-style-sheets-polyfill.js",
     "image-preloader": "./image-preloader.js",
     "lit-element": "./lit-element.js",

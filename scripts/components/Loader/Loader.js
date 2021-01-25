@@ -5,12 +5,14 @@ import { initialize } from '../../styles/initialize.js';
 export class Loader extends LitElement {
   static get styles() {
     return [initialize, css`
+
         :host {
           align-content: center;
           background-color: var(
-            --color-subtle-dark-2
+            --color-bg-inverse
           );
           display: var(--loader-display);
+
           grid-template-columns: 60%;
           height: 100%;
           justify-content: center;
@@ -123,7 +125,7 @@ export class Loader extends LitElement {
   }
 
   firstUpdated() {
-    this.enable();
+    //this.enable()
     document.documentElement.style.setProperty('--loader-duration', this.duration / 1000 + 's');
     document.documentElement.dataset.loaderDuration = this.duration;
     this.shadowRoot.host.style.setProperty('--loader-progress', 0);

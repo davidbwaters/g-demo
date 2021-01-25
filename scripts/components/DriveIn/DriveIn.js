@@ -5,6 +5,7 @@ import * as basicScroll from '../../../modules/basicscroll.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
 import { utilities } from '../../styles/utilities.js';
+import { remote } from '../../config/remote.js';
 export class DriveIn extends LitElement {
   static get styles() {
     return [initialize, objects, utilities, css`
@@ -16,19 +17,20 @@ export class DriveIn extends LitElement {
 
       .c-drive-in__image-1-wrapper,
       .c-drive-in__image-2-wrapper {
+        position: relative;
         will-change: transform;
       }
 
       .c-drive-in__image-1-wrapper img {
         transform: translateX(
-          calc(0% + var(--drive-in-translate))
+          calc(20% + (var(--drive-in-translate)))
         );
         transform-origin: center right;
       }
 
       .c-drive-in__image-2-wrapper img {
         transform: translateX(
-          calc(-50% + var(--drive-in-translate))
+          calc(-80% + (var(--drive-in-translate)))
         );
         transform-origin: center left;
       }
@@ -39,10 +41,15 @@ export class DriveIn extends LitElement {
 
   static get properties() {
     return {
-      image: {
-        type: String
+      data: {
+        type: Object
       }
     };
+  }
+
+  constructor() {
+    super();
+    this.url = remote.url;
   }
 
   firstUpdated() {
@@ -58,7 +65,7 @@ export class DriveIn extends LitElement {
       props: {
         '--drive-in-translate': {
           from: 0 + '%',
-          to: 50 + '%'
+          to: 90 + '%'
         }
       }
     });
@@ -78,14 +85,26 @@ export class DriveIn extends LitElement {
           c-block-section__inner
         "
       >
-        <div class="o-media-block__item">
-          <slot name="block-1"></slot>
-        </div>
-        <div class="
+      <div class="o-media-block__item">
+        <c-heading
+          data=${JSON.stringify(this.data.Block1Heading)}
+        >
+        </c-heading>
+        <c-text-block
+            data=${JSON.stringify({
+      Text: this.data.Block1Text
+    })}
+          >
+          </c-text-block>
+      </div>
+      <div class="
           o-media-block__item
           c-drive-in__image-1-wrapper
         ">
-          <img src=${this.image}>
+          <img
+            src=${this.url + this.data.Image.url}
+            alt=${this.data.Image.alternativeText}
+          >
         </div>
       </div>
       <div
@@ -99,10 +118,22 @@ export class DriveIn extends LitElement {
           o-media-block__item
           c-drive-in__image-2-wrapper
         ">
-          <img src=${this.image}>
+          <img
+            src=${this.url + this.data.Image.url}
+            alt=${this.data.Image.alternativeText}
+          >
         </div>
         <div class="o-media-block__item">
-          <slot name="block-2"></slot>
+          <c-heading
+            data=${JSON.stringify(this.data.Block2Heading)}
+          >
+          </c-heading>
+          <c-text-block
+            data=${JSON.stringify({
+      Text: this.data.Block2Text
+    })}
+          >
+          </c-text-block>
         </div>
       </div>
     </div>

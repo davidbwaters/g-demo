@@ -1,87 +1,86 @@
 /*
  *  Scripts - Components - Heading
  */
-import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { LitElement, css } from '../../../modules/lit-element.js';
+import { initialize } from '../../styles/initialize.js';
 export class Heading extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        color: var(--heading-color);
-        display: block;
-        font-size: var(--heading-size);
-        font-weight: var(--heading-weight);
-      }
-
-      *::selection {
-        background-color: var(--color-fg);
-        color: var(--color-bg);
-        -webkit-text-stroke-color: var(--color-bg);
-      }
-
-      .c-heading__text {
-        color: var(--heading-color);
-        display: block;
-        font-size: calc(var(--heading-size) * .75);
-        font-weight: var(--heading-weight);
-        letter-spacing: -.015em;
-        line-height: var(--heading-line-height);
-        margin-bottom: .5em;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 0;
-        max-width: 60rem;
-        text-align: var(--heading-text-align);
-      }
-
-      @media (min-width:40em) {
-
-        .c-heading__text {
-          font-size: calc(var(--heading-size) * .85);
+    return [initialize, css`
+        :host {
+          display: block;
         }
 
-      }
-
-      @media (min-width:60em) {
-
         .c-heading__text {
-          font-size: var(--heading-size);
+          color: var(--heading-color);
+          display: var(--heading-display);
+          font-size: calc(var(--heading-size) * .65);
+          font-weight: var(--heading-weight);
+          letter-spacing: var(--letter-spacing-heading);
+          line-height: var(--heading-line-height);
+          margin-bottom: .5em;
+          margin-top: 0;
+          max-width: 60rem;
+          text-align: var(--heading-text-align);
         }
 
-      }
+        @media (min-width:40em) {
 
-      span {
-        color: var(--heading-span-color);
-      }
-    `;
+          :host {
+            font-size: calc(var(--heading-size) * .75);
+          }
+
+        }
+
+        @media (min-width:60em) {
+
+          :host {
+            font-size:calc(var(--heading-size) * .85);
+          }
+
+        }
+
+        @media (min-width:80em) {
+
+          :host {
+            font-size:calc(var(--heading-size) * 1);
+          }
+
+        }
+
+        .c-heading__text span {
+          color: var(--heading-span-color);
+        }
+      `];
   }
 
   static get properties() {
     return {
       data: {
-        type: Object
+        type: Object,
+        reflect: true
       },
-      text: {
-        type: String
-      },
-      color: {
-        type: String
-      },
-      element: {
-        type: String
-      },
-      isBold: {
+      BoldFont: {
         type: Boolean
       },
-      lighterColor: {
+      Color: {
+        type: String
+      },
+      ColorAlternate: {
         type: Boolean
       },
-      size: {
+      Element: {
         type: String
       },
-      spanColor: {
+      Size: {
         type: String
       },
-      textAlign: {
+      Text: {
+        type: String
+      },
+      TextAlign: {
+        type: String
+      },
+      Weight: {
         type: String
       }
     };
@@ -89,67 +88,76 @@ export class Heading extends LitElement {
 
   constructor() {
     super();
-    this.textAlign = 'center';
-    this.size = 'Huge';
-    this.isBold = true;
-    this.lighterColor = false;
-    this.element = 'h3';
-    this.weight = 'bold';
+    this.BoldFont = true;
+    this.ColorAlternate = false;
+    this.Element = 'h3';
+    this.Size = 'Large';
   }
 
   firstUpdated() {
-    if (this.data) {
-      this.text = this.data.Text;
-      this.size = this.data.Size;
+    this._setData();
 
-      if (this.data.BoldFont === 'true' || this.data.BoldFont === true) {
-        this.weight = 'bold';
-      } else {
-        this.weight = 'light';
-      }
+    this.headingEl = document.createElement(this.Element);
+    this.headingEl.classList.add('c-heading__text');
+    this.headingEl.innerHTML = this.Text;
+    this.shadowRoot.appendChild(this.headingEl);
 
-      if (this.data.TextAlign) {
-        this.textAlign = this.data.TextAlign;
-      }
-
-      if (this.data.Color) {
-        this.color = this.data.Color.toLowerCase();
-      }
+    if (this.data && this.data.BoldFont) {
+      this.Weight = 'bold';
+    } else {
+      this.Weight = 'light';
     }
 
-    if (this.text === 'undefined') {
-      this.text = this.innerHTML;
+    if (this.ColorAlternate) {
+      this.Color = 'alternate';
     }
 
-    if (this.weight.toLowerCase() === 'normal') {
-      this.weight = 'light';
+    this.shadowRoot.host.style.setProperty('--heading-size', 'var(--text-size-heading-' + this.Size.toLowerCase() + ')');
+    this.shadowRoot.host.style.setProperty('--heading-line-height', 'var(--line-height-heading-' + this.Size.toLowerCase() + ')');
+    this.shadowRoot.host.style.setProperty('--heading-weight', 'var(--font-' + this.Weight.toLowerCase() + 'er-weight)');
+
+    if (!this.Text) {
+      this.shadowRoot.host.style.setProperty('--heading-display', 'none');
+    } else {
+      this.shadowRoot.host.style.setProperty('--heading-display', 'block');
     }
 
-    const headingEl = document.createElement(this.element);
-    headingEl.classList.add('c-heading__text');
-    headingEl.innerHTML = this.text;
-    this.shadowRoot.appendChild(headingEl);
-    this.shadowRoot.host.style.setProperty('--heading-size', 'var(--text-size-heading-' + this.size.toLowerCase() + ')');
-    this.shadowRoot.host.style.setProperty('--heading-text-align', this.textAlign.toLowerCase());
-    this.shadowRoot.host.style.setProperty('--heading-line-height', 'var(--line-height-heading-' + this.size.toLowerCase() + ')');
-    this.shadowRoot.host.style.setProperty('--heading-weight', 'var(--font-' + this.weight.toLowerCase() + 'er-weight)');
-
-    if (this.text === null || this.text === 'null') {
-      headingEl.style.display = 'none';
-    }
-
-    if (this.color === 'lighter') {
+    if (this.Color === 'alternate') {
       this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-fg-subtle)');
       this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-fg)');
-    } else if (this.color === 'white') {
-      this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-subtle-light-5)');
-      this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-subtle-light-6)');
-    } else if (this.color === 'inherit') {
+    } else if (this.Color === 'inverse') {
+      this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-fg-inverse)');
+      this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-inverse-contrast)');
+    } else if (this.Color === 'inherit') {
       this.shadowRoot.host.style.setProperty('--heading-color', 'inherit');
       this.shadowRoot.host.style.setProperty('--heading-span-color', 'inherit');
     } else {
       this.shadowRoot.host.style.setProperty('--heading-color', 'var(--color-fg)');
       this.shadowRoot.host.style.setProperty('--heading-span-color', 'var(--color-fg-subtle)');
+    }
+  }
+
+  updated() {
+    const els = this.shadowRoot.querySelectorAll(this.Element);
+    els.forEach(el => {
+      el.innerHTML = el.innerHTML.replaceAll('&lt;span&gt;', '<span>').replaceAll('&lt;/span&gt;', '</span>');
+      el.innerHTML = el.innerHTML.replaceAll('&lt;strong&gt;', '<strong>').replaceAll('&lt;/strong&gt;', '</strong>');
+    });
+  }
+
+  _setData() {
+    if (this.data) {
+      if (this.data.ColorAlternate) {
+        this.ColorAlternate = this.data.ColorAlternate;
+      }
+
+      if (this.data.Size) {
+        this.Size = this.data.Size;
+      }
+
+      if (this.data.Text) {
+        this.Text = this.data.Text;
+      }
     }
   }
 

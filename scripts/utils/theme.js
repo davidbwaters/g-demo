@@ -20,7 +20,7 @@ export const getForegroundColor = color => {
   let textColor;
 
   if (colorValue === 'gray' || colorValue === 'blue' || colorValue === 'red' || colorValue === 'green' || colorValue === 'dark1' || colorValue === 'dark2' || colorValue === 'dark3' || colorValue === 'dark4') {
-    textColor = 'color-fg-white';
+    textColor = 'color-fg-inverse-contrast';
   } else {
     textColor = 'color-fg';
   }

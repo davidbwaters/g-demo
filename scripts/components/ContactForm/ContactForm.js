@@ -2,6 +2,7 @@
  *  Scripts - Components - Contact Form
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { remote } from '../../config/remote.js';
 export class ContactForm extends LitElement {
   static get styles() {
     return css`
@@ -16,8 +17,9 @@ export class ContactForm extends LitElement {
         padding-bottom: 6rem;
         padding-top: 6rem;
         row-gap: 2rem;
+        text-align: center;
 
-        --contact-form-field-transform: scale(.8) translateY(-2em);
+        --contact-form-field-transform: scale(.6) translateY(-2.2em);
       }
 
       @media (min-width:40em) {
@@ -59,18 +61,28 @@ export class ContactForm extends LitElement {
 
       .c-contact-form__form {
         display: grid;
+        text-align: left;
       }
 
       .c-contact-form__field {
         display: grid;
+        font-size: var(--text-size-medium);
         grid-template-columns: 1fr;
-        line-height: 1.5;
+        line-height: 1.6;
         margin-top: 2em;
         position: relative;
       }
 
+      .c-contact-form__field::after {
+        content: '';
+        height: 2px;
+        position: absolute;
+        width: 100%;
+        will-change: transform;
+      }
+
       .c-contact-form__field label {
-        color: var(--color-subtle-dark-4);
+        color: var(--color-fg-subtle);
         position: absolute;
         top: .5em;
         transition: all .5s;
@@ -80,7 +92,7 @@ export class ContactForm extends LitElement {
 
       .c-contact-form__field input,
       .c-contact-form__field textarea {
-        border-bottom: solid 1px var(--color-subtle-dark-4);
+        border-bottom: solid 1px var(--color-fg-faint);
         border-left: none;
         border-right: none;
         border-top: none;
@@ -93,7 +105,7 @@ export class ContactForm extends LitElement {
 
       .c-contact-form__field input:focus,
       .c-contact-form__field textarea:focus {
-        border-bottom: solid 1px var(--color-subtle-dark-3);
+        border-bottom: solid 1px var(--color-fg-contrast);
         outline: none;
       }
 
@@ -101,7 +113,7 @@ export class ContactForm extends LitElement {
       label,
       .c-contact-form__field textarea:focus +
       label {
-        color: var(--color-subtle-dark-5);
+        color: var(--color-fg-faint);
         transform:
           var(--contact-form-field-transform);
       }
@@ -157,19 +169,23 @@ export class ContactForm extends LitElement {
       }
 
       .c-contact-form__success {
-        font-size: 2rem;
+        font-size: var(--text-size-heading-small);
+        font-weight: var(--font-bolder-weight);
         opacity: 0;
+        font-weight: bold;
         pointer-events: none;
         position: absolute;
         text-align: center;
-        transition: all .25s;
-        top: 8rem;
+        transition: all 0.25s ease 0s;
+        transform: translateY(-100%);
+        top: 50%;
         width: 100%;
-        will-change: opacity;
+        will-change: transform, opacity;
       }
 
       .c-contact-form__form-wrapper.has-succeeded {
-        box-shadow: 0 0 0 2px var(--color-gw-green);
+        background-color: var(--color-success);
+        color: var(--color-fg-inverse);
       }
 
       .has-succeeded .c-contact-form__success {
@@ -197,16 +213,23 @@ export class ContactForm extends LitElement {
     };
   }
 
+  constructor() {
+    super();
+    this.endpoint = remote.formEndpoint;
+    this.url = remote.url;
+  }
+
   firstUpdated() {
     if (this.data) {
       this.heading = this.data.Heading;
       this.text = this.data.Text;
     }
 
-    this.url = 'https://admin.guntherwerks.info/inquiries';
     this._formWrapperEl = this.shadowRoot.querySelector('.c-contact-form__form-wrapper');
-    this._textAreaEl = this.shadowRoot.querySelector('textarea');
-    this._submitEl = this.shadowRoot.querySelector('[type="submit"]');
+    this._formEl = this.shadowRoot.querySelector('.c-contact-form__form');
+    console.log(this._formEl);
+    this._textAreaEl = this.shadowRoot.querySelector('.c-contact-form__message');
+    this._submitEl = this.shadowRoot.querySelector('.c-contact-form__submit');
     this._isValid = {};
     this.shadowRoot.addEventListener('input', e => {
       if (e.target === this._textAreaEl) {
@@ -287,9 +310,27 @@ export class ContactForm extends LitElement {
     return response.json();
   }
 
+  async handleSubmitClick(event) {
+    if (!event.target.disabled) {
+      this._formEl.submit();
+    }
+  }
+
+  handleFocus(event) {
+    event.preventDefault();
+
+    this._formEl.classList.toggle('is-focused');
+  }
+
+  handleBlur(event) {
+    event.preventDefault();
+
+    this._formEl.classList.toggle('is-focused');
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
-    const form = event.currentTarget;
+    const form = this._formEl;
     const url = form.action;
 
     try {
@@ -311,22 +352,23 @@ export class ContactForm extends LitElement {
 
   render() {
     return html`
-      <c-heading
-        class="c-contact-form__heading"
-        text=${this.data.Heading}
-      >
-      </c-heading>
-      <c-text-block
-        content=${this.data.Text}
-        isFlush=true
-      >
-      </c-text-block>
+      ${!this.FormOnly ? html`
+          <c-heading
+            class="c-contact-form__heading"
+            data=${JSON.stringify(this.data.Heading)}
+          >
+          </c-heading>
+          <c-text-block
+            data=${JSON.stringify(this.data)}
+          >
+          </c-text-block>
+        ` : html` `}
 
       <div class="c-contact-form__form-wrapper">
 
         <form
           class="c-contact-form__form"
-          action=${this.url}
+          action=${this.url + this.endpoint}
           id="contact-form"
           @submit=${this.handleSubmit}
         >
@@ -351,10 +393,14 @@ export class ContactForm extends LitElement {
               type="email"
               name="Email"
               id="email"
+              @focus=${this.handleFocus}
+              @blur=${this.handleBlur}
             >
             <label
               for="email"
               class="c-contact-form__email-label"
+              @focus=${this.handleFocus}
+              @blur=${this.handleBlur}
             >
               Email
             </label>
@@ -368,6 +414,8 @@ export class ContactForm extends LitElement {
               name="Message"
               id="message"
               rows="1"
+              @focus=${this.handleFocus}
+              @blur=${this.handleBlur}
             ></textarea>
             <label
               for="message"
@@ -377,13 +425,20 @@ export class ContactForm extends LitElement {
             </label>
           </div>
 
-          <input
-            type="submit"
-            value="Submit"
+
+          <button
+            @click=${this._handleSubmitClick}
             disabled=true
             id="submit"
-            class="c-contact-form__submit"
+            class="
+              c-contact-form__submit
+              c-button
+              c-button--icon
+              c-button--ghost
+            "
           >
+            <c-icon icon="angle-right"></c-icon>
+          </button>
         </form>
         <div class="c-contact-form__success">
           Success! Message sent.

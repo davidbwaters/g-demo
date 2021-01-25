@@ -19,13 +19,21 @@ export const objects = css`
     grid-template-columns: 80%;
   }
 
+  @media(min-width: 70em) {
+
+    .o-media-block--narrow  {
+      grid-template-columns: 48rem;
+    }
+
+  }
+
   .o-media-block__item {
     align-content: start;
     display: grid;
     grid-auto-flow: row;
     grid-template-columns: 1fr;
     justify-content: center;
-    row-gap: 1rem;
+    row-gap: .5rem;
   }
 
   .o-media-block--content-spacing-flush
@@ -40,12 +48,16 @@ export const objects = css`
 
   /* Variants */
 
+  .o-media-block--split  {
+    column-gap: 4rem;
+  }
+
   @media(min-width: 40em) {
 
     .o-media-block--split  {
       grid-template-columns:
-        calc(45% - 3rem)
-        calc(45% - 3rem);
+        calc(45% - 4rem)
+        calc(45% - 4rem);
     }
 
   }
@@ -53,29 +65,23 @@ export const objects = css`
   @media(min-width: 70em) {
 
     .o-media-block--split  {
-      grid-template-columns:
-        minmax( calc(40% - 3rem), 27rem )
-        minmax( calc(40% - 3rem), 27rem );
+      grid-template-columns: 27rem 27rem;
     }
 
   }
 
-  .o-media-block--split,
   .o-media-block--split-flush-end,
   .o-media-block--split-flush-start {
     column-gap: 2rem;
-  }
-
-  .o-media-block--split-flush-end,
-  .o-media-block--split-flush-start {
     grid-template-columns: 1fr;
   }
 
   @media(min-width: 40em) {
 
     .o-media-block--split-flush-end {
+      column-gap: 3rem;
       grid-template-columns:
-        calc(45% - 3rem)
+        calc(45% - 4rem)
         50%;
       justify-content: end;
     }
@@ -86,8 +92,8 @@ export const objects = css`
 
     .o-media-block--split-flush-end {
       grid-template-columns:
-        minmax( calc(40% - 3rem), 27rem )
-        50%;
+      26rem
+      50%;
     }
 
   }
@@ -99,9 +105,10 @@ export const objects = css`
   @media(min-width: 40em) {
 
     .o-media-block--split-flush-start {
+      column-gap: 3rem;
       grid-template-columns:
         50%
-        calc(45% - 3rem);
+        calc(45% - 3.5rem);
       justify-content: start;
     }
 
@@ -112,7 +119,7 @@ export const objects = css`
     .o-media-block--split-flush-start {
       grid-template-columns:
         50%
-        minmax( calc(40% - 3rem), 20rem );
+        26rem;
     }
 
   }
@@ -152,62 +159,42 @@ export const objects = css`
   /* Blocks */
 
   .o-block {
-    align-content: start;
+    align-content: center;
     column-gap: 0rem;
     display: grid;
-    grid-template-columns: calc(90% - 2rem);
-    justify-content: center;
+    grid-template-columns:  1fr;
+    max-width: calc(90% - 2rem);
     row-gap: 4rem;
-  }
-
-  @media(min-width: 40em) {
-
-    .o-block {
-      grid-template-columns: calc(90% - 2rem);
-    }
-
-  }
-
-  @media(min-width: 70em) {
-
-    .o-block {
-      grid-template-columns: minmax(90%, 58rem);
-    }
-
-  }
-
-  @media(min-width: 40em) {
-
-    .o-block--narrow {
-      grid-template-columns: calc(70% - 2rem);
-    }
-
-  }
-
-  @media(min-width: 40em) {
-
-    .o-block--half {
-      grid-template-columns: calc(.5fr - 1rem);
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 58rem;
-      padding-left: 10%;
-      padding-right: 10%;
-      width: 100%;
-    }
-
-  }
-
-  @media(min-width: 70em) {
-
-    .o-block--half {
-      grid-template-columns: minmax(50%, 28rem);
-    }
-
+    width: 100%;
   }
 
   .o-block--narrow {
     grid-template-columns: 80%;
+  }
+
+
+  @media(min-width: 70em) {
+
+    .o-block--narrow  {
+      grid-template-columns: 58rem;
+    }
+
+  }
+
+  .o-block--half {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  @media(min-width: 40em) {
+
+    .o-block--half {
+      grid-template-columns: 50%;
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+    }
+
   }
 
 
@@ -232,6 +219,7 @@ export const objects = css`
     display: grid;
     grid-auto-flow: row;
     grid-template-columns: 1fr;
+    justify-items: center;
     padding-top: 4rem;
     padding-bottom: 4rem;
     row-gap: 3rem;

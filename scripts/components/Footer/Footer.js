@@ -1,14 +1,15 @@
 /*
- *  Scripts - Components - Footer
+ *  Scripts - Components - Icon
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
 import { initialize } from '../../styles/initialize.js';
 import { logoResponsive } from '../../styles/components.logo-responsive.js';
+import { remote } from '../../config/remote.js';
 export class Footer extends LitElement {
   static get styles() {
     return [initialize, logoResponsive, css`
         :host {
-          background-color: var(--color-subtle-dark-2);
+          background-color: var(--color-bg-inverse);
           bottom: 0;
           color: white;
           display: block;
@@ -22,7 +23,7 @@ export class Footer extends LitElement {
         .c-footer__content {
           align-content: flex-start;
           box-sizing: border-box;
-          color: var(--color-subtle-light-4);
+          color: var(--color-fg-inverse);
           column-gap: 2rem;
           display: grid;
           font-size: .8rem;
@@ -81,7 +82,7 @@ export class Footer extends LitElement {
         }
 
         a {
-          color: var(--color-subtle-light-6);
+          color: var(--color-fg-inverse-contrast);
         }
       `];
   }
@@ -102,7 +103,7 @@ export class Footer extends LitElement {
 
   constructor() {
     super();
-    this.url = 'https://admin.guntherwerks.info';
+    this.url = remote.url;
     this.setHeight = this.setHeight.bind(this);
     window.addEventListener('resize', this.setHeight);
   }

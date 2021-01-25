@@ -1,18 +1,20 @@
 /*
- *  Scripts - Components - Angle Section */
+ *  Scripts - Components - Fade Transition */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
 import * as basicScroll from '../../../modules/basicscroll.js'; // import animateweb from 'animate.web'
 
+import { remote } from '../../config/remote.js';
 export class FadeTransition extends LitElement {
   static get styles() {
     return css`
 
       :host {
         background-color: white;
+        box-sizing: content-box !important;
         display: grid;
-        height: var(--fade-transition-height);
-        padding-bottom: 0rem;
-        padding-top: 0rem;
+
+        padding-bottom: 4rem;
+        padding-top: 4rem;
         position: relative;
         width: 100%;
       }
@@ -28,7 +30,7 @@ export class FadeTransition extends LitElement {
 
       .c-fade-transition__inner {
         display: block;
-        height: 100%;
+        height: var(--fade-transition-height);
         width: 100%;
       }
 
@@ -38,28 +40,33 @@ export class FadeTransition extends LitElement {
   static get properties() {
     return {
       data: {
-        type: Array,
+        type: Object,
         attribue: true
       }
     };
   }
 
+  constructor() {
+    super();
+    this.url = remote.url;
+  }
+
   firstUpdated() {
-    const length = this.data.length;
+    const length = this.data.Frame.length;
     this.innerEl = this.shadowRoot.querySelector('.c-fade-transition__inner');
     this._completePercentage = 100;
     this._framePercentage = this._completePercentage / length;
     this._frameOffset = 0;
-    this.url = 'https://admin.guntherwerks.info';
     let count = 1;
-    const firstFrame = this.data[0].Frame;
-    this.shadowRoot.host.style.setProperty('--fade-transition-height', 100 * firstFrame.height / firstFrame.width + 0 + 'vw');
-    this.data.forEach(item => {
+    const firstFrame = this.data.Frame[0];
+    const height = 100 * firstFrame.height / firstFrame.width + 'vw';
+    this.shadowRoot.host.style.setProperty('--fade-transition-height', height);
+    this.data.Frame.forEach(item => {
       this.shadowRoot.host.style.setProperty('--fade-transition-' + count, 0.1);
       const image = document.createElement('img');
       this['_frameImage' + count] = image;
-      image.setAttribute('src', this.url + item.Frame.url);
-      image.setAttribute('alt', item.Frame.alternativeText);
+      image.setAttribute('src', this.url + item.url);
+      image.setAttribute('alt', item.alternativeText);
       image.style.opacity = 'var(--fade-transition-' + count + ')';
       this.innerEl.appendChild(image);
       count++;
@@ -75,9 +82,9 @@ export class FadeTransition extends LitElement {
 
   _setFrameConfigs() {
     let count = 1;
-    let length = this.data.length;
+    let length = this.data.Frame.length;
     this._frameConfigs = [];
-    this.data.forEach(item => {
+    this.data.Frame.forEach(item => {
       let start = (count - 1) * this._framePercentage + this._frameOffset;
       let end = count * this._framePercentage + this._frameOffset;
 
@@ -100,7 +107,7 @@ export class FadeTransition extends LitElement {
 
   _scrollSetup() {
     this._scrollInstance = basicScroll.create({
-      elem: this.innerEl,
+      elem: this,
       from: 'top-bottom',
       to: 'middle-top',
       direct: this,

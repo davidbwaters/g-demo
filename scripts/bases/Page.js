@@ -3,17 +3,27 @@
  */
 
 /* Page base class */
-import { html, render } from '../../modules/lit-html.js';
 import { Component } from './Component.js';
 import { motionBlur } from '../utils/motionBlur.js';
+import { buildComponent } from '../utils/buildComponent.js';
+import { initialize } from '../styles/initialize.js';
+import { objects } from '../styles/objects.js';
+import { utilities } from '../styles/utilities.js';
 export class Page extends Component {
+  static get styles() {
+    return [initialize, objects, utilities];
+  }
+
   constructor() {
     super();
     this.handleLoad = this.handleLoad.bind(this);
     this.handlePreload = this.handlePreload.bind(this);
     this.addEventListener('dataLoad', this.handleDataLoad);
     this.addEventListener('preload', this.handlePreload);
-    this.debug = true;
+    this.buildComponent = buildComponent;
+    this.content = []; // this.debug = true
+
+    this.addBlurFilter();
   }
 
   handleDataLoad() {
@@ -69,12 +79,22 @@ export class Page extends Component {
     super.performUpdate();
   }
 
+  buildComponents() {
+    if (!this.contentBuilt) {
+      this.data.Content.forEach(i => {
+        this.content = this.content.concat(buildComponent(i, this.data, this.url));
+      });
+    }
+
+    this.contentBuilt = true;
+  }
+
   onActivate() {
     if (this.debug) {
       console.log('Activating route ...');
     }
 
-    this.basicScrolls = [...this.shadowRoot.querySelectorAll('c-scale-section'), ...this.shadowRoot.querySelectorAll('c-fade-transition'), ...this.shadowRoot.querySelectorAll('c-angle-section'), ...this.shadowRoot.querySelectorAll('c-reveal-section'), ...this.shadowRoot.querySelectorAll('c-drive-in')];
+    this.basicScrolls = [...this.shadowRoot.querySelectorAll('c-scale-section'), ...this.shadowRoot.querySelectorAll('c-fade-transition'), ...this.shadowRoot.querySelectorAll('c-hero-frame'), ...this.shadowRoot.querySelectorAll('c-reveal-section'), ...this.shadowRoot.querySelectorAll('c-drive-in')];
     this.boosters = [...this.shadowRoot.querySelectorAll('c-gallery')];
 
     if (this.basicScrolls && this.basicScrolls.length) {
@@ -118,7 +138,7 @@ export class Page extends Component {
     }
   }
 
-  blurAnimation() {
+  addBlurFilter() {
     const filterWrapper = document.createElement('div');
     filterWrapper.style.height = 0;
     filterWrapper.innerHTML = `
@@ -132,6 +152,9 @@ export class Page extends Component {
     `;
     this.shadowRoot.appendChild(filterWrapper);
     this.blurFilter = filterWrapper.querySelector('#blurFilterSuper');
+  }
+
+  blurAnimation() {
     setTimeout(() => {
       motionBlur(this.blurFilter);
     }, 100);
