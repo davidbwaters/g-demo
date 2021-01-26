@@ -43,7 +43,7 @@ export class ScaleSection extends LitElement {
 
         .c-scale-section__text {
           color: inherit;
-          display:  var(--scale-section-content-display);
+          display:  var(--scale-section-text-display);
           text-align: var(--scale-section-content-text-align);
         }
 
@@ -292,9 +292,9 @@ export class ScaleSection extends LitElement {
     }
 
     if (this.HasText) {
-      this.shadowRoot.host.style.setProperty('--scale-section-content-display', 'grid');
+      this.shadowRoot.host.style.setProperty('--scale-section-text-display', 'grid');
     } else {
-      this.shadowRoot.host.style.setProperty('--scale-section-content-display', 'none');
+      this.shadowRoot.host.style.setProperty('--scale-section-text-display', 'none');
     }
 
     if (this.data.TextSize) {
