@@ -5,6 +5,19 @@ import { LitElement, html, css } from '../../../modules/lit-element.js';
 export class Icon extends LitElement {
   static get styles() {
     return [css`
+
+        @font-face {
+          font-family: "gw-icons";
+          src: url("../icons/gw-icons.eot");
+          src: url("../icons/gw-icons.eot?ozg8tw#iefix") format("embedded-opentype"),
+              url("../icons/gw-icons.woff2?ozg8tw") format("woff2"),
+              url("../icons/gw-icons.woff?ozg8tw") format("woff"),
+              url("../icons/gw-icons.ttf?ozg8tw") format("truetype"),
+              url("../icons/gw-icons.svg?ozg8tw#gw-icons") format("svg");
+          font-style: normal;
+          font-weight: 400;
+        }
+
         [data-icon]::before {
           display: inline-block;
           font-family: "gw-icons" !important;
@@ -16,7 +29,7 @@ export class Icon extends LitElement {
           speak: none;
           text-transform: none !important;
           vertical-align: -.125em;
-          text-rendering: auto;
+          text-rendering: block;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
@@ -222,8 +235,14 @@ export class Icon extends LitElement {
         [data-icon="window-close"]::before {
           content: "\\ea43";
         }
-        [data-icon="youtube"]::before {
+        [data-icon="x"]::before {
           content: "\\ea44";
+        }
+        [data-icon="x-light"]::before {
+          content: "\\ea45";
+        }
+        [data-icon="youtube"]::before {
+          content: "\\ea46";
         }
 
       `];

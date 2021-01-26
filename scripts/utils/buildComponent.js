@@ -2,8 +2,9 @@
  *  Scripts - Utilities - Build Component
  */
 import { html } from '../../modules/lit-html.js';
-export function buildComponent(component, data, url) {
+export function buildComponent(component) {
   let output;
+  console.log(component);
 
   if (component.__component === 'section-block.angle-content') {
     output = html`

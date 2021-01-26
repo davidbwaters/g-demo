@@ -57,13 +57,6 @@ export class GalleryPage extends Page {
 
         }
 
-        .c-gallery-page__overlay-lower img {
-          cursor: pointer;
-        }
-
-        .c-gallery-page__image-frame {
-
-        }
 
       `];
   }
@@ -74,13 +67,16 @@ export class GalleryPage extends Page {
         type: Object,
         attribute: false
       },
-      pageData: {
+      contentData: {
         type: Object,
         attribute: false
       },
       debug: {
         type: Boolean,
         attribute: false
+      },
+      galleryItems: {
+        type: Array
       },
       loaded: {
         type: Boolean,
@@ -89,20 +85,14 @@ export class GalleryPage extends Page {
       loadProgress: {
         type: Number,
         reflect: true
-      },
-      galleryData: {
-        type: Object
       }
     };
   }
 
   constructor() {
     super();
-    this.dataEndpoint = '/image-galleries';
     this.pageEndpoint = '/albums';
-    this.galleryData = {
-      albums: []
-    };
+    this.dataEndpoint = '/image-galleries';
     this.debug = true;
   }
 
@@ -112,27 +102,33 @@ export class GalleryPage extends Page {
     Chocolat(this.shadowRoot.querySelectorAll('.chocolat-image'));
   }
 
-  _setGalleryData() {
-    let count = 1;
-    let albums = [];
-    this._galleryDataSet = true;
-    console.log(this.galleryData);
-  }
-
   async preload() {
     this.albumCovers = [];
     this.pageImages = [];
     this.thumbnails = [];
-    this.data.forEach(album => {
-      if (album.Cover) {
-        this.albumCovers = this.albumCovers.concat(album.Cover.url);
+    this.galleryItems = [];
+    this.pageData.Content.forEach(item => {
+      this.galleryItems = this.galleryItems.concat({
+        id: item.Gallery.id,
+        Cover: item.Gallery.Cover,
+        Title: item.Gallery.Name,
+        Subtitle: item.Category,
+        Images: item.Gallery.Images,
+        HeaderImage: item.Gallery.HeaderImage,
+        PageContent: this.contentData.filter(obj => {
+          return obj.id === item.Gallery.id;
+        })
+      });
+
+      if (item.Gallery.Cover) {
+        this.albumCovers = this.albumCovers.concat(item.Gallery.Cover.url);
       }
 
-      if (album.HeaderImage && album.HeaderImage.url) {
-        this.pageImages = this.pageImages.concat(album.HeaderImage.url);
+      if (item.Gallery.HeaderImage && item.Gallery.HeaderImage.url) {
+        this.pageImages = this.pageImages.concat(item.Gallery.HeaderImage.url);
       }
 
-      album.Images.forEach(item => {
+      item.Gallery.Images.forEach(item => {
         let thumb;
 
         if (item.formats.small) {
@@ -163,39 +159,29 @@ export class GalleryPage extends Page {
     }
   }
 
-  handleFullImage(e) {
-    console.log(e.target);
-  }
-
   transitionIn() {}
 
   async performUpdate() {
-    this.data = await this.getApiData(this.dataEndpoint);
     this.pageData = await this.getApiData(this.pageEndpoint);
-    console.log(this.data);
-    console.log(this.pageData);
-
-    if (!this._galleryDataSet) {
-      this._setGalleryData();
-    }
-
+    this.contentData = await this.getApiData(this.dataEndpoint);
     this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
+    console.log(this.pageData.Content);
+    console.log(this.contentData);
   }
 
   buildComponents() {}
 
   render() {
     return html`
-      <link rel="stylesheet" href="/stylesheets/chocolat.css">
       <section
         class="c-gallery-page__wrapper"
       >
         <c-gallery
-          data=${JSON.stringify(this.data)}
+          data=${JSON.stringify(this.galleryItems)}
         >
 
-          ${this.data.map(i => html`
+          ${this.galleryItems.map(i => html`
 
             <div
               slot=${i.id}
@@ -204,7 +190,7 @@ export class GalleryPage extends Page {
 
             <c-heading
                 data=${JSON.stringify({
-      Text: i.Name
+      Text: i.Title
     })}
                 class="c-gallery-page__overlay-title"
                 size="medium"
@@ -218,7 +204,7 @@ export class GalleryPage extends Page {
               <div
                 class="c-gallery-page__content"
               >
-                ${this.buildComponent(i.Page)}
+                ${this.buildComponent(i.PageContent)}
               </div>
 
 

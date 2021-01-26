@@ -13,8 +13,8 @@ export class Loader extends LitElement {
           );
           display: var(--loader-display);
 
-          grid-template-columns: 60%;
-          height: 100%;
+          grid-template-columns: 1fr;
+          height: 100vh;
           justify-content: center;
           left: 0;
           opacity: var(--loader-opacity);
@@ -44,29 +44,51 @@ export class Loader extends LitElement {
 
         .c-loader__bar,
         .c-loader__bar::after {
-          background-position: center center;
+          background-position:
+            center 30%,
+            center 55%;
           background-repeat: no-repeat;
-          background-size: contain;
+          background-size:
+            6rem auto,
+            70% auto;
+        }
+
+        @media(min-width: 60rem) {
+
+          .c-loader__bar,
+          .c-loader__bar::after {
+            background-position:
+              center 20%,
+              center 35%;
+            background-repeat: no-repeat;
+            background-size:
+              6rem auto,
+              30rem auto;
+          }
+
         }
 
         .c-loader__bar {
           background-image:
+            url('/images/Branding/Logo Initials - Subtle Light.svg'),
             url('/images/Vector/Trace Legit Solid Dark.svg');
-
-          height: 20vw;
+          height: 100vw;
           overflow: hidden;
-          width: 60vw;
+          width: 100vw;
         }
 
         .c-loader__bar::after {
-          background-image:
+          background-color: #E4E5E7;
+          /*background-image:
             url('/images/Vector/Trace Legit Solid Subtle.svg');
-          background-image:
-            url('/images/Vector/Trace Profile Image.jpg');
+          */
+            background-image:
+            url('/images/Branding/Logo Initials - Subtle Dark.svg'),
+            url('/images/Vector/Trace Profile Image Subtle.jpg');
           clip-path: polygon(
             0 0,
             var(--loader-progress) 0,
-            var(--loader-progress) 100%,
+            calc(var(--loader-progress) - 20%) 100%,
             0% 100%
           );
           content: '';
@@ -191,10 +213,6 @@ export class Loader extends LitElement {
         <div class="c-loader__content">
           <div class="c-loader__bar">
           </div>
-          <img
-            class="c-loader__branding"
-            src='/images/Branding/Logo Initials - Subtle Light.svg'
-          >
         </div>
       </div>
 

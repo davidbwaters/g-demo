@@ -11,10 +11,52 @@ export class MediaPage extends Page {
     return [initialize, objects, utilities, css`
         :host {
           display: block;
-          height: 100%;
-          padding-top: var(--navbar-height);
+          min-height: 100vh;
+          overflow-x: hidden;
           width: 100%;
         }
+
+        .c-gallery-page__overlay {
+          display: grid;
+          align-content: center;
+          justify-content: center;
+          padding-top: 2rem;
+          row-gap: 0rem;
+        }
+
+        .c-gallery-page__overlay-title {
+          margin-bottom: 1rem;
+          text-align: center;
+        }
+
+        .c-gallery-page__overlay-lower {
+          align-content: center;
+          display: grid;
+          grid-gap: 1rem;
+          grid-template-columns: repeat(
+            auto-fill, minmax(8rem, 1fr)
+          );
+          padding-bottom: 1rem;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          padding-top: 1rem;
+          justify-content: center;
+        }
+
+        @media(min-width:40rem) {
+
+          c-gallery-page__overlay-lower {
+            align-content: center;
+            display: grid;
+            grid-gap: 1rem;
+            grid-template-columns: repeat(
+              auto-fill, minmax(12rem, 1fr)
+            );
+          }
+
+        }
+
+
       `];
   }
 
@@ -24,9 +66,16 @@ export class MediaPage extends Page {
         type: Object,
         attribute: false
       },
+      contentData: {
+        type: Object,
+        attribute: false
+      },
       debug: {
         type: Boolean,
         attribute: false
+      },
+      galleryItems: {
+        type: Array
       },
       loaded: {
         type: Boolean,
@@ -35,119 +84,118 @@ export class MediaPage extends Page {
       loadProgress: {
         type: Number,
         reflect: true
-      },
-      galleryData: {
-        type: Object
       }
     };
   }
 
   constructor() {
     super();
-    this.dataEndpoint = '/image-galleries';
-    this.pageEndpoint = '/albums';
-    this.galleryData = {
-      albums: []
-    };
+    this.pageEndpoint = '/articles';
+    this.dataEndpoint = '/media-entries';
     this.debug = true;
   }
 
-  firstUpdated() {
-    // this.preloadImages()
-    this.galleryEl = this.shadowRoot.querySelector('c-gallery');
-  }
-
-  _setGalleryData() {
-    let count = 1;
-    let sorted = [];
-    this.data.forEach(item => {
-      this.data.forEach(item => {
-        if (item.id === count) {
-          sorted = sorted.concat(item);
-          count++;
-        }
-      });
-    });
-    sorted.forEach(item => {
-      item.Album.forEach(album => {
-        let newAlbum = album;
-        newAlbum.Section = item.Title;
-        newAlbum.SectionID = item.id;
-        newAlbum.Slot = newAlbum.id;
-        this.galleryData.albums = this.galleryData.albums.concat(newAlbum);
-      });
-    });
-    this._galleryDataSet = true;
-    console.log(this.galleryData);
-  }
+  firstUpdated() {}
 
   async preload() {
     this.albumCovers = [];
     this.pageImages = [];
     this.thumbnails = [];
-    this.galleryData.albums.forEach(album => {
-      if (album.Cover) {
-        this.albumCovers = this.albumCovers.concat(album.Cover.url);
-      }
-
-      if (album.PageFeatureImage && album.PageFeatureImage.url) {
-        this.pageImages = this.pageImages.concat(album.PageFeatureImage.url);
-      }
-
-      album.Content.forEach(item => {
-        let thumb;
-
-        if (item.formats.small) {
-          thumb = item.formats.small.url;
-        } else if (item.formats.thumbnail) {
-          thumb = item.formats.thumbnail.url;
-        } else if (item.formats.medium) {
-          thumb = item.formats.medium.url;
-        } else if (item.url) {
-          thumb = item.url;
-        } else {
-          console.log(item);
-        }
-
-        if (thumb) {
-          this.thumbnails = this.thumbnails.concat(thumb);
-        }
+    this.galleryItems = [];
+    this.pageData.Articles.forEach(item => {
+      this.galleryItems = this.galleryItems.concat({
+        id: item.Media.id,
+        Cover: item.Media.Cover,
+        Title: item.Media.Heading,
+        Subtitle: item.Subheading,
+        EntryContent: this.contentData.filter(obj => {
+          return obj.id === item.Media.id;
+        })
       });
+
+      if (item.Media.Cover) {
+        this.albumCovers = this.albumCovers.concat(item.Media.Cover.url);
+      }
     });
+    console.log(this.buildComponent);
     await this.imagePreloader(this.albumCovers);
   }
 
   async preloadImages() {
-    await this.imagePreloader(this.pageImages);
-    await this.imagePreloader(this.thumbnails);
-
-    if (this.debug) {
-      console.log(this.albumCovers);
+    if (this.debug) {//console.log(this.albumCovers)
     }
-  }
-
-  handleFullImage(e) {
-    console.log(e.target);
   }
 
   transitionIn() {}
 
   async performUpdate() {
-    this.data = await this.getApiData(this.dataEndpoint);
-    this.pageData = await this.getApiData(this.dataEndpoint);
-
-    if (!this._galleryDataSet) {
-      this._setGalleryData();
-    }
-
+    this.pageData = await this.getApiData(this.pageEndpoint);
+    this.contentData = await this.getApiData(this.dataEndpoint);
     this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
+    console.log(this.pageData.Articles);
+    console.log(this.contentData);
   }
 
   render() {
-    return html` <div>
-      <h1>Media</h1>
-    </div>`;
+    return html`
+      <section
+        class="c-gallery-page__wrapper"
+      >
+        <c-gallery
+          data=${JSON.stringify(this.galleryItems)}
+        >
+
+          ${this.galleryItems.map(i => html`
+
+            <div
+              slot=${i.id}
+              class="c-gallery-page__overlay"
+            >
+
+            ${this.buildComponent(i.EntryContent)}
+            <c-heading
+                data=${JSON.stringify({
+      Text: i.Title
+    })}
+                class="c-gallery-page__overlay-title"
+                size="medium"
+              >
+              </c-heading>
+
+              <div
+                class="c-gallery-page__content"
+              >
+              </div>
+
+
+              <div
+                class="c-gallery-page__overlay-lower"
+              >
+                ${i.ExternalLink && i.ExternalLink.length ? html`
+                    <a
+                      class="c-button"
+                      href=${i.ExternalLink.URL}
+                    >
+                      ${i.ExternalLink.Text}
+                    </a>
+                  ` : html` `}
+              </div>
+
+              <div
+                class="c-gallery-page__image-frame"
+              >
+              </div>
+
+            </div>
+
+
+          `)}
+
+        </c-gallery>
+      </section>
+
+    `;
   }
 
 }

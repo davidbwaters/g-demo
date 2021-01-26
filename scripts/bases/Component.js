@@ -25,9 +25,9 @@ export class Component extends LitElement {
       console.log(this);
 
       if (this.hasAttribute('active')) {
-        this.progress += percentage / 4;
-        console.log(images);
-        console.log(this.progress);
+        this.progress += percentage / 4; // console.log(images)
+        // console.log(this.progress)
+
         requestAnimationFrame(progress => {
           document.querySelector('c-router-app').loaderEl.progress += percentage / 4;
         });

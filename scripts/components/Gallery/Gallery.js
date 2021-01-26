@@ -165,16 +165,16 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__close-button {
-          position: sticky;
-          margin-left: auto;
-          margin-top: 1.5rem;
+          display: none;
+          position: absolute;
+          top: 1rem;
           right: 1.5rem;
           z-index: 9;
         }
 
-        .c-gallery__close-button:hover {
-          background-color: black;
-          filter: initial;
+
+        .c-gallery__close-button.is-active {
+          display: block;
         }
 
         .c-gallery__overlay {
@@ -198,15 +198,6 @@ export class Gallery extends LitElement {
           transform: translateY(0vh);
         }
 
-        .c-gallery__close-button {
-          display: none;
-        }
-
-        .is-active .c-gallery__close-button {
-          display: block;
-        }
-
-
         .c-gallery--grid-view.c-gallery__inner {
           grid-auto-flow: row;
           grid-template-columns: repeat(
@@ -215,6 +206,9 @@ export class Gallery extends LitElement {
           grid-template-rows: repeat(
             auto-fill, minmax(12rem, 1fr)
           );
+          margin-bottom: 1rem;
+          row-gap: 1rem;
+          transform: none;
         }
 
         @media(min-width:30rem) {
@@ -264,6 +258,7 @@ export class Gallery extends LitElement {
   }
 
   firstUpdated() {
+    console.log(this.data);
     this._galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this._closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
     this._slotEl = this.shadowRoot.querySelector('slot');
@@ -389,6 +384,8 @@ export class Gallery extends LitElement {
 
     this._slotEl.parentElement.classList.add('is-active');
 
+    this._closeEl.classList.add('is-active');
+
     this.booster.destroy();
     document.body.style.setProperty('--navbar-opacity', 0);
     document.body.style.setProperty('--navbar-pointer-events', 'none');
@@ -401,6 +398,8 @@ export class Gallery extends LitElement {
     this._slotEl.removeAttribute('name', this.currentSlot);
 
     this._slotEl.parentElement.classList.remove('is-active');
+
+    this._closeEl.classList.remove('is-active');
 
     document.body.style.setProperty('--navbar-opacity', 1);
     document.body.style.setProperty('--navbar-pointer-events', '');
@@ -426,7 +425,6 @@ export class Gallery extends LitElement {
   }
 
   async performUpdate() {
-    console.log(this.data);
     super.performUpdate();
   }
 
@@ -437,7 +435,7 @@ export class Gallery extends LitElement {
           @click=${this.handleClose}
           class="c-button c-button--icon c-gallery__close-button"
         >
-          <c-icon icon="window-close"></c-icon>
+          <c-icon icon="x"></c-icon>
       </button>
       <div class="c-gallery__wrapper">
         <div class="c-gallery__inner">
@@ -448,20 +446,19 @@ export class Gallery extends LitElement {
               <div class="c-gallery__item__inner">
                 <img
                   class="c-gallery__item-image"
-                  srcset=${this.url + i.Cover.formats.medium.url + ', ' + this.url + i.Cover.formats.large.url + ' 2x'}
-                  src=${this.url + i.Cover.formats.large.url}
+                  src=${this.url + i.Cover.url}
                   alt=${i.Cover.alternativeText}
                   data-slot=${i.id}
                 >
                 <span
                   class="c-gallery__item-title"
                 >
-                  ${i.Name}
+                  ${i.Title}
                 </span>
                 <span
                   class="c-gallery__item-subtitle"
                 >
-                  ${i.Category}
+                  ${i.Subtitle}
                 </span>
                 <a
                   class="
