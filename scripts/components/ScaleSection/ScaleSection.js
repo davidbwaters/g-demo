@@ -263,12 +263,12 @@ export class ScaleSection extends LitElement {
       this.shadowRoot.host.style.setProperty('--scale-section-content-justify', 'center');
     }
 
-    if (txtY.toLowerCase() === 'top') {
-      this.shadowRoot.host.style.setProperty('--scale-section-content-align', 'start');
+    if (txtY.toLowerCase() === 'bottom') {
+      this.shadowRoot.host.style.setProperty('--scale-section-content-align', 'end');
     } else if (txtY.toLowerCase() === 'center') {
       this.shadowRoot.host.style.setProperty('--scale-section-content-align', 'center');
     } else {
-      this.shadowRoot.host.style.setProperty('--scale-section-content-align', 'end');
+      this.shadowRoot.host.style.setProperty('--scale-section-content-align', 'start');
     }
 
     if (this.data.Layout === 'ImageRight') {
@@ -713,7 +713,7 @@ export class ScaleSection extends LitElement {
               </div>
             </div>
           ` : this.Component === 'article' ? html`
-            <div class='o-block'>
+            <div class='o-block o-block--align-start'>
               <div class="c-scale-section__content">
                 <c-heading
                   data="

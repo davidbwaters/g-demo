@@ -46,7 +46,7 @@ export class GalleryPage extends Page {
 
         @media(min-width:40rem) {
 
-          c-gallery-page__overlay-lower {
+          .c-gallery-page__overlay-lower {
             align-content: center;
             display: grid;
             grid-gap: 1rem;
@@ -78,6 +78,9 @@ export class GalleryPage extends Page {
       galleryItems: {
         type: Array
       },
+      hideFooter: {
+        type: Boolean
+      },
       loaded: {
         type: Boolean,
         reflect: true
@@ -93,6 +96,7 @@ export class GalleryPage extends Page {
     super();
     this.pageEndpoint = '/albums';
     this.dataEndpoint = '/image-galleries';
+    this.hideFooter = true;
     this.debug = true;
   }
 
@@ -117,7 +121,7 @@ export class GalleryPage extends Page {
         HeaderImage: item.Gallery.HeaderImage,
         PageContent: this.contentData.filter(obj => {
           return obj.id === item.Gallery.id;
-        })
+        })[0].Page
       });
 
       if (item.Gallery.Cover) {
@@ -148,6 +152,7 @@ export class GalleryPage extends Page {
         }
       });
     });
+    console.log(this.galleryItems);
     await this.imagePreloader(this.albumCovers);
   }
 
@@ -204,7 +209,9 @@ export class GalleryPage extends Page {
               <div
                 class="c-gallery-page__content"
               >
-                ${this.buildComponent(i.PageContent)}
+                ${i.PageContent.map(j => {
+      return this.buildComponent(j);
+    })}
               </div>
 
 

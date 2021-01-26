@@ -168,6 +168,10 @@ export const objects = css`
     width: 100%;
   }
 
+  .o-block--align-start {
+    align-content: start;
+  }
+
   .o-block--narrow {
     grid-template-columns: 80%;
   }

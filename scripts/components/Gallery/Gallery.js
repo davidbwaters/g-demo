@@ -40,6 +40,12 @@ export class Gallery extends LitElement {
           scroll-snap-type: x mandatory;
         }
 
+        [data-articles] .c-gallery__inner {
+
+          padding-left: .5rem;
+
+        }
+
         @media(min-width: 40rem) {
 
           .c-gallery__inner {
@@ -56,6 +62,14 @@ export class Gallery extends LitElement {
           text-align: center;
         }
 
+
+        [data-articles] .c-gallery__item {
+
+          padding-left: .5rem;
+          padding-right: .5rem;
+
+        }
+
         .c-gallery__item__inner {
           align-items: center;
           background-color: white;
@@ -66,6 +80,12 @@ export class Gallery extends LitElement {
           padding-top: 8vh;
           row-gap: 0rem;
           justify-items: center;
+        }
+
+        [data-articles] .c-gallery__item__inner {
+          align-items: start;
+          grid-template-rows:
+            min-content 2fr 1fr min-content;
         }
 
         .c-gallery__item-title {
@@ -84,12 +104,34 @@ export class Gallery extends LitElement {
 
         .c-gallery__item-subtitle {
           display: block;
-          font-size: var(--text-size-title-tiny);
+          font-size: calc(
+            var(--text-size-title-tiny) * .9
+          );
           font-weight: var(--font-weight-title-tiny);
           letter-spacing: var(--letter-spacing-title-tiny);
           line-height: var(--line-height-title-tiny);
           margin-bottom: .25rem;
           text-transform: uppercase;
+        }
+
+        @media(min-width: 40rem) {
+
+          .c-gallery__item-subtitle {
+            font-size: calc(
+              var(--text-size-title-tiny) * 1
+            );
+          }
+
+        }
+
+        [data-articles] .c-gallery__item-subtitle {
+          display: block;
+          font-size: var(--text-size-title-stylized);
+          font-weight: var(--font-weight-title-stylized);
+          letter-spacing: var(--letter-spacing-title-stylized);
+          line-height: var(--line-height-title-stylized);
+          margin-bottom: 0rem;
+          text-transform: none;
         }
 
         .c-gallery__item:hover {
@@ -100,13 +142,20 @@ export class Gallery extends LitElement {
           cursor: grabbing;
         }
 
-        .c-gallery__item img {
-          height: auto;
+        .c-gallery__item-background-image {
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          height: 30vh;
+          margin-bottom: 2rem;
+          padding-left: 0rem;
+          padding-right: 0rem;
           width: 100%;
         }
 
-        .c-gallery__item img:hover {
-          cursor: pointer;
+        .c-gallery__item img {
+          height: auto;
+          width: 100%;
         }
 
         .c-gallery__lower {
@@ -117,7 +166,7 @@ export class Gallery extends LitElement {
           color: var(--color-fg-inverse-subtle);
           column-gap: 2rem;
           display: grid;
-          grid-template-columns: minmax(90%, 58rem);
+          grid-template-columns: 1fr;
           height: calc(var(--navbar-height) * 1.5);
           justify-content: center;
           pointer-events: none;
@@ -131,10 +180,18 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__lower-inner {
+          align-items: center;
+          box-sizing: border-box;
           display: grid;
+          grid-auto-columns: 1fr;
           grid-auto-flow: column;
           justify-content: space-between;
+          margin-left: auto;
+          margin-right: auto;
           max-width: 58rem;
+          padding-left: .5rem;
+          padding-right: .5rem;
+          width: 100%;
         }
 
         .c-gallery__instructions {
@@ -144,17 +201,18 @@ export class Gallery extends LitElement {
           font-weight: var(--font-weight-title-stylized);
           letter-spacing: var(--letter-spacing-title-stylized);
           line-height: var(--line-height-title-stylized);
-          padding-left: 1rem;
-          padding-top: 1rem;
+          padding-left: .5rem;
         }
 
 
         @media(min-width: 40rem) {
 
           .c-gallery__instructions {
-
-            font-size: var(--text-size-title-stylized);
+            font-size: calc(
+              var(--text-size-title-stylized) * .9
+            );
           }
+
         }
 
         .c-gallery__arrows {
@@ -162,6 +220,21 @@ export class Gallery extends LitElement {
           display: grid;
           grid-template-columns: auto auto;
           justify-content: center;
+        }
+
+
+        [data-articles] .c-gallery__arrows {
+          justify-content: end;
+          padding-right: .5rem;
+
+        }
+
+        [data-grid-button] {
+          justify-self: end;
+        }
+
+        [data-articles] [data-grid-button] {
+          display: none;
         }
 
         .c-gallery__close-button {
@@ -225,7 +298,7 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery--grid-view .c-gallery__item__inner{
-          row-gap: 0;
+          row-gap: .2rem;
           padding-top: 0;
           padding-bottom: 0;
         }
@@ -247,6 +320,9 @@ export class Gallery extends LitElement {
     return {
       data: {
         type: Object
+      },
+      type: {
+        type: String
       }
     };
   }
@@ -259,6 +335,7 @@ export class Gallery extends LitElement {
 
   firstUpdated() {
     console.log(this.data);
+    this._wrapperEl = this.shadowRoot.querySelector('.c-gallery__wrapper');
     this._galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this._closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
     this._slotEl = this.shadowRoot.querySelector('slot');
@@ -295,18 +372,25 @@ export class Gallery extends LitElement {
 
   handleGridView(e) {
     e.target.classList.toggle('is-toggled');
+    this._galleryEl.style.transform = 'translate(0,0)';
+    this.booster.scrollTo({
+      x: 0,
+      y: 0
+    });
 
-    this._innerEl.classList.toggle('c-gallery--grid-view');
+    this._galleryEl.classList.toggle('c-gallery--grid-view');
 
     this._layoutEl.classList.toggle('has-grid-layout');
 
     if (!this.gridView) {
       this.gridView = true;
+      this.shouldScroll = false;
       this.booster.destroy();
       console.log(this._gridIconEl);
 
       this._gridIconEl.setAttribute('icon', 'columns');
     } else {
+      this.shouldScroll = true;
       this.gridView = false;
       this.scrollSetup();
 
@@ -378,6 +462,8 @@ export class Gallery extends LitElement {
   }
 
   handleClick(e) {
+    this.booster.destroy();
+    this.shouldScroll = false;
     this.currentSlot = e.target.dataset.slot;
 
     this._slotEl.setAttribute('name', this.currentSlot);
@@ -386,7 +472,6 @@ export class Gallery extends LitElement {
 
     this._closeEl.classList.add('is-active');
 
-    this.booster.destroy();
     document.body.style.setProperty('--navbar-opacity', 0);
     document.body.style.setProperty('--navbar-pointer-events', 'none');
     document.documentElement.style.overflow = 'hidden';
@@ -420,8 +505,12 @@ export class Gallery extends LitElement {
       },
       onPointerMove: (state, event) => {
         this._handlePointerMove(state, event);
+      },
+      shouldScroll: (state, event) => {
+        return this.shouldScroll;
       }
     });
+    this.shouldScroll = true;
   }
 
   async performUpdate() {
@@ -437,92 +526,202 @@ export class Gallery extends LitElement {
         >
           <c-icon icon="x"></c-icon>
       </button>
-      <div class="c-gallery__wrapper">
-        <div class="c-gallery__inner">
 
-          ${this.data.map(i => html`
 
-            <div class="c-gallery__item">
-              <div class="c-gallery__item__inner">
-                <img
-                  class="c-gallery__item-image"
-                  src=${this.url + i.Cover.url}
-                  alt=${i.Cover.alternativeText}
-                  data-slot=${i.id}
+      ${this.type === 'articles' ? html`
+
+          <div class="c-gallery__wrapper" data-articles>
+            <div class="c-gallery__inner">
+
+              ${this.data.map(i => html`
+
+                <div class="c-gallery__item">
+                  <div class="c-gallery__item__inner">
+
+                    <div
+                      class="c-gallery__item-background-image"
+                      style=${'background-image: url(' + this.url + i.Cover.url + ');'}
+                    ></div>
+
+                    <c-heading
+                      data=${JSON.stringify({
+      Text: i.Title
+    })}
+                      class="
+                        c-gallery-page__overlay-title
+                        c-gallery__item-title
+                      "
+                      size="medium"
+                    >
+                      ${i.Title}
+
+                    </c-heading>
+                    <span
+                      class="c-gallery__item-subtitle"
+                    >
+                      ${i.Subtitle}
+                    </span>
+                    <a
+                      class="
+                        c-button
+                      "
+                      data-slot = ${i.id}
+                      @click=${this.handleClick}
+                    >
+                      Show More
+                    </a>
+                  </div>
+                </div>
+
+              `)}
+
+            </div>
+
+            <div
+                class="c-gallery__lower"
+            >
+              <div
+                class="c-gallery__lower-inner"
+                data-layout
+              >
+                <div
+                    class="c-gallery__instructions"
                 >
-                <span
-                  class="c-gallery__item-title"
+                  Scroll to Navigate</br> or Click and Drag
+                </div>
+                <div
+                  class="c-gallery__arrows"
                 >
-                  ${i.Title}
-                </span>
-                <span
-                  class="c-gallery__item-subtitle"
+                  <button
+                    @click=${this._handleArrow}
+                    data-direction="left"
+                    class="c-button c-button--icon"
+                  >
+                    <c-icon icon="angle-left"></c-icon>
+                  </button>
+                  <button
+                    @click=${this._handleArrow}
+                    data-direction="right"
+                    class="c-button c-button--icon"
+                  >
+                    <c-icon icon="angle-right"></c-icon>
+                  </button>
+                </div>
+                <button
+                  @click=${this.handleGridView}
+                  class="c-button c-button--icon"
+                  data-grid-button
                 >
-                  ${i.Subtitle}
-                </span>
-                <a
-                  class="
-                    c-button
-                  "
-                  data-slot = ${i.id}
-                  @click=${this.handleClick}
-                >
-                  Show More
-                </a>
+                  <c-icon icon="grid"></c-icon>
+                </button>
               </div>
             </div>
 
-          `)}
-
-        </div>
-
-        <div
-            class="c-gallery__lower"
-        >
-          <div
-            class="c-gallery__lower-inner"
-            data-layout
-          >
             <div
-                class="c-gallery__instructions"
+              class="c-gallery__overlay"
             >
-              Scroll to Navigate</br> or Click and Drag
+
+              <slot></slot>
             </div>
-            <div
-              class="c-gallery__arrows"
-            >
-              <button
-                @click=${this._handleArrow}
-                data-direction="left"
-                class="c-button c-button--icon"
-              >
-                <c-icon icon="angle-left"></c-icon>
-              </button>
-              <button
-                @click=${this._handleArrow}
-                data-direction="right"
-                class="c-button c-button--icon"
-              >
-                <c-icon icon="angle-right"></c-icon>
-              </button>
-            </div>
-            <button
-              @click=${this.handleGridView}
-              class="c-button c-button--icon"
-              data-grid-button
-            >
-              <c-icon icon="grid"></c-icon>
-            </button>
           </div>
-        </div>
+        ` : html`
+          <div class="c-gallery__wrapper">
+            <div class="c-gallery__inner">
 
-        <div
-          class="c-gallery__overlay"
-        >
+              ${this.data.map(i => html`
 
-          <slot></slot>
-        </div>
-      </div>
+                <div class="c-gallery__item">
+                  <div class="c-gallery__item__inner">
+
+                    <img
+                      class="c-gallery__item-image"
+                      src=${this.url + i.Cover.url}
+                      alt=${i.Cover.alternativeText}
+                      data-slot=${i.id}
+                    >
+
+                    <c-heading
+                      data=${JSON.stringify({
+      Text: i.Title
+    })}
+                      class="
+                        c-gallery-page__overlay-title
+                        c-gallery__item-title
+                      "
+                      size="medium"
+                    >
+                      ${i.Title}
+
+                    </c-heading>
+                    <span
+                      class="c-gallery__item-subtitle"
+                    >
+                      ${i.Subtitle}
+                    </span>
+                    <a
+                      class="
+                        c-button
+                      "
+                      data-slot = ${i.id}
+                      @click=${this.handleClick}
+                    >
+                      Show More
+                    </a>
+                  </div>
+                </div>
+
+              `)}
+
+            </div>
+
+            <div
+                class="c-gallery__lower"
+            >
+              <div
+                class="c-gallery__lower-inner"
+                data-layout
+              >
+                <div
+                    class="c-gallery__instructions"
+                >
+                  Scroll to Navigate</br> or Click and Drag
+                </div>
+                <div
+                  class="c-gallery__arrows"
+                >
+                  <button
+                    @click=${this._handleArrow}
+                    data-direction="left"
+                    class="c-button c-button--icon"
+                  >
+                    <c-icon icon="angle-left"></c-icon>
+                  </button>
+                  <button
+                    @click=${this._handleArrow}
+                    data-direction="right"
+                    class="c-button c-button--icon"
+                  >
+                    <c-icon icon="angle-right"></c-icon>
+                  </button>
+                </div>
+                <button
+                  @click=${this.handleGridView}
+                  class="c-button c-button--icon"
+                  data-grid-button
+                >
+                  <c-icon icon="grid"></c-icon>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="c-gallery__overlay"
+            >
+              <slot></slot>
+            </div>
+          </div>
+        `}
+
     `;
   }
 

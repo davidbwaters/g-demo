@@ -230,7 +230,7 @@ export class Router extends router(LitElement) {
     this.setActiveRouteEl(); // If the gallery is active, hide footer,
     // if not make sure it's not hidden
 
-    if (this.route === 'gallery') {
+    if (this.activeRouteEl.hideFooter) {
       this.footerEl.style.height = '0';
       this._footerHidden = true;
     } else {

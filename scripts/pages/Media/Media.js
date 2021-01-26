@@ -77,6 +77,9 @@ export class MediaPage extends Page {
       galleryItems: {
         type: Array
       },
+      hideFooter: {
+        type: Boolean
+      },
       loaded: {
         type: Boolean,
         reflect: true
@@ -92,6 +95,7 @@ export class MediaPage extends Page {
     super();
     this.pageEndpoint = '/articles';
     this.dataEndpoint = '/media-entries';
+    this.hideFooter = true;
     this.debug = true;
   }
 
@@ -107,10 +111,10 @@ export class MediaPage extends Page {
         id: item.Media.id,
         Cover: item.Media.Cover,
         Title: item.Media.Heading,
-        Subtitle: item.Subheading,
+        Subtitle: item.Media.Subheading,
         EntryContent: this.contentData.filter(obj => {
           return obj.id === item.Media.id;
-        })
+        })[0].EntryContent
       });
 
       if (item.Media.Cover) {
@@ -144,6 +148,7 @@ export class MediaPage extends Page {
       >
         <c-gallery
           data=${JSON.stringify(this.galleryItems)}
+          type='articles'
         >
 
           ${this.galleryItems.map(i => html`
@@ -152,9 +157,10 @@ export class MediaPage extends Page {
               slot=${i.id}
               class="c-gallery-page__overlay"
             >
+            ${console.log(i.EntryContent)}
 
             ${this.buildComponent(i.EntryContent)}
-            <c-heading
+              <c-heading
                 data=${JSON.stringify({
       Text: i.Title
     })}
@@ -168,6 +174,9 @@ export class MediaPage extends Page {
               >
               </div>
 
+                ${i.EntryContent.map(j => {
+      return this.buildComponent(j);
+    })}
 
               <div
                 class="c-gallery-page__overlay-lower"

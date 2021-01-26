@@ -14,6 +14,7 @@ export class Loader extends LitElement {
           display: var(--loader-display);
 
           grid-template-columns: 1fr;
+          grid-template-rows: 1fr;
           height: 100vh;
           justify-content: center;
           left: 0;
@@ -45,7 +46,7 @@ export class Loader extends LitElement {
         .c-loader__bar,
         .c-loader__bar::after {
           background-position:
-            center 30%,
+            center 25%,
             center 55%;
           background-repeat: no-repeat;
           background-size:
@@ -59,7 +60,7 @@ export class Loader extends LitElement {
           .c-loader__bar::after {
             background-position:
               center 20%,
-              center 35%;
+              center 40%;
             background-repeat: no-repeat;
             background-size:
               6rem auto,
@@ -72,7 +73,9 @@ export class Loader extends LitElement {
           background-image:
             url('/images/Branding/Logo Initials - Subtle Light.svg'),
             url('/images/Vector/Trace Legit Solid Dark.svg');
-          height: 100vw;
+          display: grid;
+          height: 100vh;
+          justify-content: center;
           overflow: hidden;
           width: 100vw;
         }
@@ -95,14 +98,25 @@ export class Loader extends LitElement {
           display: block;
           height: 100%;
           opacity: 1;
+          position: absolute;
           transition: all 1s ease;
           width: 100%;
           will-change: clip-path;
         }
 
+
         .c-filters {
           display: block;
           height: 0;
+        }
+
+        @keyframes rotate {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
 
         @keyframes load {
@@ -164,8 +178,10 @@ export class Loader extends LitElement {
         document.documentElement.style.setProperty('--loader-opacity', '0');
       });
       requestAnimationFrame(() => {
-        document.documentElement.style.position = '';
-        document.documentElement.style.overflowY = '';
+        if (document.documentElement.classList.contains('u-prevent-scroll')) {
+          document.documentElement.classList.remove('u-prevent-scroll');
+        }
+
         document.documentElement.style.setProperty('--loader-display', 'none');
       });
     }, 1200);
@@ -203,8 +219,7 @@ export class Loader extends LitElement {
     this.enabled = true;
     document.documentElement.style.setProperty('--loader-display', 'grid');
     document.documentElement.style.setProperty('--loader-opacity', '1');
-    document.documentElement.style.position = 'fixed';
-    document.documentElement.style.overflowY = 'scroll';
+    document.documentElement.classList.add('u-prevent-scroll');
   }
 
   render() {
@@ -212,6 +227,7 @@ export class Loader extends LitElement {
       <div class="c-loader__inner">
         <div class="c-loader__content">
           <div class="c-loader__bar">
+
           </div>
         </div>
       </div>

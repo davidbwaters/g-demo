@@ -3,15 +3,16 @@
  */
 import { css } from '../../modules/lit-element.js';
 export const buttons = css`
-  .c-button,
-  .c-button:focus,
-  .c-botton:active {
+
+  .c-button {
     background-color: var(--button-normal-bg);
     border: solid 1px var(--button-normal-fg);
     border-radius: .2rem;
     color: var(--button-normal-fg);
     cursor: pointer;
-    font-size: var(--text-size-title-stylized);
+    font-size: calc(
+      var(--text-size-title-stylized) * .9
+    );
     font-weight: var(--font-weight-title-stylized);
     letter-spacing: var(--letter-spacing-title-stylized);
     line-height: var(--line-height-title-stylized);
@@ -19,18 +20,22 @@ export const buttons = css`
     margin-left: .5rem;
     margin-right: .5rem;
     margin-top: .5rem;
-    padding-bottom: .4rem;
-    padding-left: .6rem;
-    padding-right: .6rem;
-    padding-top: .4rem;
+    padding-bottom: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-top: .5rem;
     outline: none;
     text-align: center;
     transition: all .33s;
   }
 
+
   @media(min-width:60em) {
 
     .c-button {
+      font-size: calc(
+        var(--text-size-title-stylized) * .9
+      );
       padding-bottom: .5rem;
       padding-left: 1rem;
       padding-right: 1rem;
@@ -39,15 +44,22 @@ export const buttons = css`
 
   }
 
+  .c-button,
+  .c-button:focus,
+  .c-botton:active {
+    background-color: var(--button-normal-bg);
+    border: solid 1px var(--button-normal-fg);
+    border-radius: .2rem;
+    color: var(--button-normal-fg);
+  }
+
   .c-button:hover {
     background-color: var(--button-normal-bg-hover);
     border-color: var(--button-normal-fg-hover);
     color: var(--button-normal-fg-hover);
   }
 
-  .c-button--icon,
-  .c-button--icon:focus,
-  .c-botton--icon:active  {
+  .c-button--icon {
     align-content: center;
     background-color: var(--button-normal-bg);
     color: var(--button-normal-fg);

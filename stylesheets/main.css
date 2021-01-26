@@ -2879,3 +2879,8 @@ p {
 /*
  *  Utilites
  */
+/* Prevent Scroll */
+.u-prevent-scroll {
+  overflow-y: scroll !important;
+  position: fixed !important;
+}

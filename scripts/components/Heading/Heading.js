@@ -102,10 +102,10 @@ export class Heading extends LitElement {
     this.headingEl.innerHTML = this.Text;
     this.shadowRoot.appendChild(this.headingEl);
 
-    if (this.data && this.data.BoldFont) {
-      this.Weight = 'bold';
-    } else {
+    if (this.data && !this.data.BoldFont === false) {
       this.Weight = 'light';
+    } else {
+      this.Weight = 'bold';
     }
 
     if (this.ColorAlternate) {
