@@ -152,7 +152,6 @@ export class GalleryPage extends Page {
         }
       });
     });
-    console.log(this.galleryItems);
     await this.imagePreloader(this.albumCovers);
   }
 
@@ -169,6 +168,9 @@ export class GalleryPage extends Page {
   async performUpdate() {
     this.pageData = await this.getApiData(this.pageEndpoint);
     this.contentData = await this.getApiData(this.dataEndpoint);
+    await this.preload();
+    console.log('pd');
+    console.log(this.galleryItems);
     this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
     console.log(this.pageData.Content);
@@ -193,7 +195,7 @@ export class GalleryPage extends Page {
               class="c-gallery-page__overlay"
             >
 
-            <c-heading
+              <c-heading
                 data=${JSON.stringify({
       Text: i.Title
     })}

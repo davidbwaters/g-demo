@@ -13,7 +13,8 @@ export class Heading extends LitElement {
         .c-heading__text {
           color: var(--heading-color);
           display: var(--heading-display);
-          font-size: calc(var(--heading-size) * .65);
+          font-family: var(--font-heading);
+          font-size: var(--heading-size);
           font-weight: var(--heading-weight);
           letter-spacing: var(--letter-spacing-heading);
           line-height: var(--heading-line-height);
@@ -21,30 +22,6 @@ export class Heading extends LitElement {
           margin-top: 0;
           max-width: 60rem;
           text-align: var(--heading-text-align);
-        }
-
-        @media (min-width:40em) {
-
-          :host {
-            font-size: calc(var(--heading-size) * .75);
-          }
-
-        }
-
-        @media (min-width:60em) {
-
-          :host {
-            font-size:calc(var(--heading-size) * .85);
-          }
-
-        }
-
-        @media (min-width:80em) {
-
-          :host {
-            font-size:calc(var(--heading-size) * 1);
-          }
-
         }
 
         .c-heading__text span {
@@ -102,7 +79,7 @@ export class Heading extends LitElement {
     this.headingEl.innerHTML = this.Text;
     this.shadowRoot.appendChild(this.headingEl);
 
-    if (this.data && !this.data.BoldFont === false) {
+    if (this.data && this.data.BoldFont === false) {
       this.Weight = 'light';
     } else {
       this.Weight = 'bold';

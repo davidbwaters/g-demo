@@ -9,6 +9,7 @@ export class RouterOutlet extends outlet(LitElement) {
       :host {
         background-color: white;
         display: block;
+        height: 100%;
         margin-bottom: 0;
         position: relative;
         width: 100%;

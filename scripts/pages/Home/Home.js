@@ -36,12 +36,12 @@ export class HomePage extends Page {
 
   transitionIn() {
     super.transitionIn();
-    super.blurAnimation();
+    this.shadowRoot.querySelector('c-hero-frame').blurAnimation();
   }
 
   async preload() {
     super.buildComponents();
-    await this.imagePreloader([this.data.Content[0].Image.URL, this.data.Content[1].UpperBackgroundImage.URL, this.data.Content[1].LowerBackgroundImage.URL]);
+    await this.imagePreloader([this.data.Content[0].Image.url, this.data.Content[1].UpperBackgroundImage.url, this.data.Content[1].LowerBackgroundImage.url]);
   }
 
   render() {

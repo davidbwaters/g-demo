@@ -90,16 +90,9 @@ export class Gallery extends LitElement {
 
         .c-gallery__item-title {
           display: block;
-          font-size: var(
-            --text-size-heading-small
-          );
           font-weight: var(
             --font-bolder-weight
           );
-          line-height: var(
-            --line-height-heading-small
-          );
-          margin-bottom: .75rem;
         }
 
         .c-gallery__item-subtitle {
@@ -112,16 +105,6 @@ export class Gallery extends LitElement {
           line-height: var(--line-height-title-tiny);
           margin-bottom: .25rem;
           text-transform: uppercase;
-        }
-
-        @media(min-width: 40rem) {
-
-          .c-gallery__item-subtitle {
-            font-size: calc(
-              var(--text-size-title-tiny) * 1
-            );
-          }
-
         }
 
         [data-articles] .c-gallery__item-subtitle {
@@ -240,8 +223,8 @@ export class Gallery extends LitElement {
         .c-gallery__close-button {
           display: none;
           position: absolute;
-          top: 1rem;
-          right: 1.5rem;
+          top: .75rem;
+          right: 1.25rem;
           z-index: 9;
         }
 
@@ -335,27 +318,24 @@ export class Gallery extends LitElement {
 
   firstUpdated() {
     console.log(this.data);
-    this._wrapperEl = this.shadowRoot.querySelector('.c-gallery__wrapper');
-    this._galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
-    this._closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
-    this._slotEl = this.shadowRoot.querySelector('slot');
+    this.wrapperEl = this.shadowRoot.querySelector('.c-gallery__wrapper');
+    this.galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
+    this.closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
+    this.slotEl = this.shadowRoot.querySelector('slot');
     this._innerEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this._layoutEl = this.shadowRoot.querySelector('[data-layout]');
     this._gridIconEl = this.shadowRoot.querySelector('[data-grid-button]').querySelector('c-icon');
-
-    this._setMaxScroll();
-
     window.addEventListener('resize', () => {
-      this._setMaxScroll();
+      this.setMaxScroll();
     });
+    this.setMaxScroll();
     this.scrollSetup();
   }
 
-  _setMaxScroll() {
-    const els = this._galleryEl.querySelectorAll('.c-gallery__item'); // console.log(this._galleryEl)
+  setMaxScroll() {
+    const els = this.galleryEl.querySelectorAll('.c-gallery__item'); // console.log(this.galleryEl)
 
-
-    let client = this._galleryEl.clientWidth;
+    let client = this.galleryEl.clientWidth;
     let length = els.length;
     let item = els[0].scrollWidth;
     let items = length * item;
@@ -370,15 +350,14 @@ export class Gallery extends LitElement {
     // console.log('w ' + items)
   }
 
-  handleGridView(e) {
+  toggleGridView(e) {
     e.target.classList.toggle('is-toggled');
-    this._galleryEl.style.transform = 'translate(0,0)';
+    this.galleryEl.style.transform = 'translate(0,0)';
     this.booster.scrollTo({
       x: 0,
       y: 0
     });
-
-    this._galleryEl.classList.toggle('c-gallery--grid-view');
+    this.galleryEl.classList.toggle('c-gallery--grid-view');
 
     this._layoutEl.classList.toggle('has-grid-layout');
 
@@ -398,7 +377,7 @@ export class Gallery extends LitElement {
     }
   }
 
-  _handleScroll(state, event) {
+  handleScroll(state, event) {
     event.preventDefault();
     let item = this._gallerySizes.item;
     let oldPosition = state.position.x;
@@ -457,60 +436,56 @@ export class Gallery extends LitElement {
     });
   }
 
-  _handlePointerMove(state, event) {// console.log(state)
+  handlePointerMove(state, event) {// console.log(state)
     // console.log(event.buttons)
   }
 
-  handleClick(e) {
-    this.booster.destroy();
-    this.shouldScroll = false;
-    this.currentSlot = e.target.dataset.slot;
-
-    this._slotEl.setAttribute('name', this.currentSlot);
-
-    this._slotEl.parentElement.classList.add('is-active');
-
-    this._closeEl.classList.add('is-active');
-
-    document.body.style.setProperty('--navbar-opacity', 0);
-    document.body.style.setProperty('--navbar-pointer-events', 'none');
-    document.documentElement.style.overflow = 'hidden';
-  }
-
-  handleClose(e) {
-    this.scrollSetup();
-
-    this._slotEl.removeAttribute('name', this.currentSlot);
-
-    this._slotEl.parentElement.classList.remove('is-active');
-
-    this._closeEl.classList.remove('is-active');
-
-    document.body.style.setProperty('--navbar-opacity', 1);
-    document.body.style.setProperty('--navbar-pointer-events', '');
-    document.documentElement.style.overflow = '';
-    this.currentSlot = '';
-  }
-
-  scrollSetup() {
+  scrollerStart() {
     this.booster = new ScrollBooster({
       viewport: this,
-      content: this._galleryEl,
+      content: this.galleryEl,
       scrollMode: 'transform',
       direction: 'horizontal',
       emulateScroll: true,
       preventDefaultOnEmulateScroll: true,
       onWheel: (state, event) => {
-        this._handleScroll(state, event);
+        this.handleScroll(state, event);
       },
       onPointerMove: (state, event) => {
-        this._handlePointerMove(state, event);
+        this.handlePointerMove(state, event);
       },
       shouldScroll: (state, event) => {
         return this.shouldScroll;
       }
     });
     this.shouldScroll = true;
+  }
+
+  scrollerStop() {
+    this.booster.destroy();
+    this.shouldScroll = false;
+  }
+
+  showOverlay(e) {
+    this.scrollerStop();
+    this.currentSlot = e.target.dataset.slot;
+    this.slotEl.setAttribute('name', this.currentSlot);
+    this.slotEl.parentElement.classList.add('is-active');
+    this.closeEl.classList.add('is-active');
+    document.documentElement.style.setProperty('--navbar-opacity', 0);
+    document.documentElement.style.setProperty('--navbar-pointer-events', 'none');
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  hideOverlay(e) {
+    this.scrollSetup();
+    this.slotEl.removeAttribute('name', this.currentSlot);
+    this.slotEl.parentElement.classList.remove('is-active');
+    this.closeEl.classList.remove('is-active');
+    document.body.style.setProperty('--navbar-opacity', 1);
+    document.body.style.setProperty('--navbar-pointer-events', '');
+    document.documentElement.style.overflow = '';
+    this.currentSlot = '';
   }
 
   async performUpdate() {
@@ -521,7 +496,7 @@ export class Gallery extends LitElement {
     return html`
 
       <button
-          @click=${this.handleClose}
+          @click=${this.hideOverlay}
           class="c-button c-button--icon c-gallery__close-button"
         >
           <c-icon icon="x"></c-icon>
@@ -547,11 +522,11 @@ export class Gallery extends LitElement {
                       data=${JSON.stringify({
       Text: i.Title
     })}
+                      size="small"
                       class="
                         c-gallery-page__overlay-title
                         c-gallery__item-title
                       "
-                      size="medium"
                     >
                       ${i.Title}
 
@@ -608,7 +583,7 @@ export class Gallery extends LitElement {
                   </button>
                 </div>
                 <button
-                  @click=${this.handleGridView}
+                  @click=${this.toggleGridView}
                   class="c-button c-button--icon"
                   data-grid-button
                 >
@@ -648,7 +623,7 @@ export class Gallery extends LitElement {
                         c-gallery-page__overlay-title
                         c-gallery__item-title
                       "
-                      size="medium"
+                      size="small"
                     >
                       ${i.Title}
 
@@ -705,7 +680,7 @@ export class Gallery extends LitElement {
                   </button>
                 </div>
                 <button
-                  @click=${this.handleGridView}
+                  @click=${this.toggleGridView}
                   class="c-button c-button--icon"
                   data-grid-button
                 >

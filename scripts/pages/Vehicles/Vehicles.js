@@ -41,7 +41,7 @@ export class VehiclesPage extends Page {
 
   transitionIn() {
     super.transitionIn();
-    super.blurAnimation();
+    this.shadowRoot.querySelector('c-hero-frame').blurAnimation();
   }
 
   async preload() {

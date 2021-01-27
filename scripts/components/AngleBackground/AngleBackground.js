@@ -94,9 +94,9 @@ export class AngleBackground extends LitElement {
     this.ColorStart = getColor(this.ColorStart);
     this.ColorEnd = getColor(this.ColorEnd);
     this.shadowRoot.host.style.setProperty('--angle-background-color', this.ColorStart);
-    this.shadowRoot.host.style.setProperty('--angle-background-angle', this.AngleStart + 'deg');
-    this.shadowRoot.host.style.setProperty('--angle-background-angle', this.OffsetXStart + 'vw');
-    this.shadowRoot.host.style.setProperty('--angle-background-angle', this.OffsetYStart + 'vh');
+    document.documentElement.style.setProperty('--angle-background-angle', this.AngleStart + 'deg');
+    document.documentElement.style.setProperty('--angle-background-angle', this.OffsetXStart + 'vw');
+    document.documentElement.style.setProperty('--angle-background-angle', this.OffsetYStart + 'vh');
 
     this._scrollSetup();
 
@@ -134,9 +134,8 @@ export class AngleBackground extends LitElement {
   _scrollSetup() {
     this._scrollInstance = basicScroll.create({
       elem: this,
-      from: 'top-top',
-      to: 'bottom-top',
-      direct: this,
+      from: '200px',
+      to: '1000px',
       props: {
         '--angle-background-angle': {
           from: this.AngleStart + 'deg',
@@ -149,55 +148,10 @@ export class AngleBackground extends LitElement {
         '--angle-background-offset-y': {
           from: this.OffsetYStart + 'vh',
           to: this.OffsetYEnd + 'vh'
-        }
-      },
-      inside: (instance, percentage, props) => {
-        if (percentage > 50) {
-          if (this._isScrolledLess !== true) {
-            this._isScrolledLess = true;
-            requestAnimationFrame(() => {
-              document.body.style.setProperty('--hero-frame-content-opacity', '.2');
-            });
-          }
-        } else {
-          if (this._isScrolledLess !== false) {
-            this._isScrolledLess = false;
-            requestAnimationFrame(() => {
-              this.parentElement.style.setProperty('--hero-frame-content-opacity', '1');
-            });
-          }
-        }
-
-        if (percentage > 50) {
-          if (this._isScrolled !== true) {
-            this._isScrolled = true;
-            requestAnimationFrame(() => {
-              this.shadowRoot.host.style.setProperty('--angle-background-color', this.ColorEnd);
-            });
-          }
-        } else {
-          if (this._isScrolled !== false) {
-            this._isScrolled = false;
-            requestAnimationFrame(() => {
-              this.shadowRoot.host.style.setProperty('--angle-background-color', this.ColorStart);
-            });
-          }
-        }
-
-        if (percentage > 50) {
-          if (this._isScrolledMore !== true) {
-            this._isScrolledMore = true;
-            requestAnimationFrame(() => {
-              this.parentElement.style.setProperty('--hero-image-opacity', 0.1);
-            });
-          }
-        } else {
-          if (this._isScrolledMore !== false) {
-            this._isScrolledMore = false;
-            requestAnimationFrame(() => {
-              this.parentElement.style.setProperty('--hero-image-opacity', 0.99);
-            });
-          }
+        },
+        '--hero-image-opacity': {
+          from: 0.99,
+          to: 0.1
         }
       }
     });

@@ -226,20 +226,6 @@ export class Footer extends LitElement {
           class="c-footer__column"
         >
 
-          ${this.socialData.Links.map(i => html`
-
-            <a
-              href=${i.URL}
-              alt=""
-              class="c-footer__social-link"
-            >
-              <img
-                src=${this.url + i.Icon.url}
-                alt=${i.Icon.alternativeText}
-              >
-            </a>
-          `)}
-
 
         </div>
 

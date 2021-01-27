@@ -20,12 +20,17 @@ export class MediaPage extends Page {
           display: grid;
           align-content: center;
           justify-content: center;
-          padding-top: 2rem;
+          padding-top: 0rem;
           row-gap: 0rem;
         }
 
         .c-gallery-page__overlay-title {
+          background-color: var(--color-bg-subtle);
           margin-bottom: 1rem;
+          padding-bottom: 2rem;
+          padding-left: 4rem;
+          padding-right: 4rem;
+          padding-top: 5rem;
           text-align: center;
         }
 
@@ -45,7 +50,7 @@ export class MediaPage extends Page {
 
         @media(min-width:40rem) {
 
-          c-gallery-page__overlay-lower {
+          .c-gallery-page__overlay-lower {
             align-content: center;
             display: grid;
             grid-gap: 1rem;
@@ -135,6 +140,7 @@ export class MediaPage extends Page {
   async performUpdate() {
     this.pageData = await this.getApiData(this.pageEndpoint);
     this.contentData = await this.getApiData(this.dataEndpoint);
+    await this.preload();
     this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
     console.log(this.pageData.Articles);

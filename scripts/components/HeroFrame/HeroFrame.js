@@ -1,12 +1,13 @@
 /*
  *  Scripts - Components - Hero Frame
  */
-import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { html, css } from '../../../modules/lit-element.js';
+import { Component } from '../../bases/Component.js';
 import { remote } from '../../config/remote.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
 import { utilities } from '../../styles/utilities.js';
-export class HeroFrame extends LitElement {
+export class HeroFrame extends Component {
   static get styles() {
     return [initialize, objects, utilities, css`
 
@@ -34,7 +35,7 @@ export class HeroFrame extends LitElement {
           margin-right: 10%;
           min-width: 16rem;
           transition:
-            opacity var(--loader-fade-in-transition);
+          opacity var(--loader-fade-in-transition);
           will-change: opacity;
         }
 
@@ -49,7 +50,7 @@ export class HeroFrame extends LitElement {
         }
 
         .c-hero-frame__image {
-          filter: url('#blurFilter');
+          filter: url('#blurFilterSuper');
           margin-left: 10%;
           opacity: var(--hero-image-opacity);
           transition: opacity .5s;
@@ -117,6 +118,7 @@ export class HeroFrame extends LitElement {
   }
 
   firstUpdated() {
+    super.addBlurFilter();
     this._scrollInstances = [{
       start: () => {
         this.scrollReady ? this._scrollInstance.start() : this.shouldStart = true;
@@ -127,6 +129,10 @@ export class HeroFrame extends LitElement {
     }];
     this.scrollEl = this.shadowRoot.querySelector('c-angle-background');
     this.scrollEl.addEventListener('scrollReady', this.handleScrollReady);
+  }
+
+  blurAnimation() {
+    super.blurAnimation();
   }
 
   handleScrollReady() {

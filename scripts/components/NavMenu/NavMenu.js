@@ -3,77 +3,78 @@
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
 import { routes } from '../../config/routes.js';
+import { initialize } from '../../styles/initialize.js';
 export class NavMenu extends LitElement {
   static get styles() {
-    return css`
+    return [initialize, css`
 
-      :host {
-        background-color: var(--color-bg-inverse);
-        height: 3rem;
-        opacity: var(--navbar-opacity);
-        pointer-events: var(--navbar-pointer-events);
-        position: absolute;
-        top: 0;
-        transition: all .5s;
-        width: 100%;
-        will-change: opacity;
-        z-index: 9;
-      }
+        :host {
+          background-color: var(--color-bg-inverse);
+          height: 3rem;
+          opacity: var(--navbar-opacity);
+          pointer-events: var(--navbar-pointer-events);
+          position: absolute;
+          top: 0;
+          transition: all .5s;
+          width: 100%;
+          will-change: opacity;
+          z-index: 9;
+        }
 
-      .c-nav-menu__inner {
-        align-items: center;
-        box-sizing: border-box;
-        color: white;
-        display: grid;
-        grid-column-gap: 1rem;
-        grid-template-columns: min-content min-content;
-        grid-template-rows: 1rem;
-        justify-content: space-between;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 60rem;
-        padding-bottom: 1rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        padding-top: 1rem;
+        .c-nav-menu__inner {
+          align-items: center;
+          box-sizing: border-box;
+          color: white;
+          display: grid;
+          grid-column-gap: 1rem;
+          grid-template-columns: min-content min-content;
+          grid-template-rows: 1rem;
+          justify-content: space-between;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 60rem;
+          padding-bottom: 1rem;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          padding-top: 1rem;
 
-        --nav-menu-column-gap: 1rem;
-      }
+          --nav-menu-column-gap: 1rem;
+        }
 
-      .c-nav-menu__links {
-        color: var(--color-fg-inverse-subtle);
-        column-gap: var(--nav-menu-column-gap);
-        display: grid;
-        font-size: .75rem;
-        font-weight: var(--font-weight-title-normal-light);
-        letter-spacing: var(--letter-spacing-title-normal-light);
-        transition: color .25s;
-      }
+        .c-nav-menu__links {
+          color: var(--color-fg-inverse-subtle);
+          column-gap: var(--nav-menu-column-gap);
+          display: grid;
+          font-size: var(--text-size-small);
+          font-weight: var(--font-weight-title-normal-light);
+          letter-spacing: var(--letter-spacing-title-normal-light);
+          transition: color .25s;
+        }
 
-      .c-nav-menu__router-links,
-      .c-nav-menu__anchor-links {
-        column-gap: var(--nav-menu-column-gap);
-        display: grid;
-        grid-auto-flow: column;
-      }
+        .c-nav-menu__router-links,
+        .c-nav-menu__anchor-links {
+          column-gap: var(--nav-menu-column-gap);
+          display: grid;
+          grid-auto-flow: column;
+        }
 
-      c-router-link.is-active a {
-        color: var(--color-fg-inverse-contrast);
-        opacity: 1;
-      }
+        c-router-link.is-active a {
+          color: var(--color-fg-inverse-contrast);
+          opacity: 1;
+        }
 
-      a,
-      a:visited {
-        color: inherit;
-        text-decoration: none;
-      }
+        a,
+        a:visited {
+          color: inherit;
+          text-decoration: none;
+        }
 
-      a:hover {
-        color: var(--color-fg-inverse);
-      }
+        a:hover {
+          color: var(--color-fg-inverse);
+        }
 
 
-    `;
+      `];
   }
 
   static get properties() {

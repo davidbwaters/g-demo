@@ -13,7 +13,7 @@ export class ScaleSection extends LitElement {
           background-color: var(--scale-section-background);
           color: var(--scale-section-color);
           display: grid;
-          min-height: 90vh;
+          min-height: var(--scale-section-min-height);
           overflow: hidden;
           position: relative;
           width: 100%;
@@ -36,13 +36,11 @@ export class ScaleSection extends LitElement {
         }
 
         .c-scale-section__heading {
-          color: inherit;
           display:  var(--scale-section-heading-display);
           text-align: var(--scale-section-content-text-align);
         }
 
         .c-scale-section__text {
-          color: inherit;
           display:  var(--scale-section-text-display);
           text-align: var(--scale-section-content-text-align);
         }
@@ -219,6 +217,12 @@ export class ScaleSection extends LitElement {
     } else {
       this.shadowRoot.host.style.setProperty('--scale-section-padding-left', '15%');
       this.shadowRoot.host.style.setProperty('--scale-section-padding-right', '15%');
+    }
+
+    if (this.Component === 'article') {
+      this.shadowRoot.host.style.setProperty('--scale-section-min-height', 'none');
+    } else {
+      this.shadowRoot.host.style.setProperty('--scale-section-min-height', '90vh');
     }
   }
 

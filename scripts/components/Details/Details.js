@@ -9,6 +9,11 @@ import { utilities } from '../../styles/utilities.js';
 export class Details extends LitElement {
   static get styles() {
     return [initialize, objects, utilities, css`
+
+      :host {
+        display: block;
+      }
+
       .c-details__items {
           align-content: center;
           column-gap: 1rem;

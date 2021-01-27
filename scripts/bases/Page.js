@@ -4,7 +4,6 @@
 
 /* Page base class */
 import { Component } from './Component.js';
-import { motionBlur } from '../utils/motionBlur.js';
 import { buildComponent } from '../utils/buildComponent.js';
 import { initialize } from '../styles/initialize.js';
 import { objects } from '../styles/objects.js';
@@ -22,8 +21,6 @@ export class Page extends Component {
     this.addEventListener('preload', this.handlePreload);
     this.buildComponent = buildComponent;
     this.content = []; // this.debug = true
-
-    this.addBlurFilter();
   }
 
   handleDataLoad() {
@@ -67,6 +64,10 @@ export class Page extends Component {
     });
   }
 
+  blurAnimation() {
+    super.blurAnimation();
+  }
+
   async performUpdate() {
     this.data = await this.getApiData(this.dataEndpoint);
     this.removeAttribute('data');
@@ -95,7 +96,7 @@ export class Page extends Component {
     }
 
     this.basicScrolls = [...this.shadowRoot.querySelectorAll('c-scale-section'), ...this.shadowRoot.querySelectorAll('c-fade-transition'), ...this.shadowRoot.querySelectorAll('c-hero-frame'), ...this.shadowRoot.querySelectorAll('c-reveal-section'), ...this.shadowRoot.querySelectorAll('c-drive-in')];
-    this.boosters = [...this.shadowRoot.querySelectorAll('c-gallery')];
+    this.galleries = [...this.shadowRoot.querySelectorAll('c-gallery')];
 
     if (this.basicScrolls && this.basicScrolls.length) {
       this.basicScrolls.forEach(el => {
@@ -107,17 +108,20 @@ export class Page extends Component {
       });
     }
 
-    if (this.boosters && this.boosters.length) {
-      this.boosters.forEach(el => {
-        el.scrollSetup();
+    if (this.galleries && this.galleries.length) {
+      this.galleries.forEach(el => {
+        el.scrollerStart();
       });
     }
   }
 
   onDeactivate() {
     if (this.debug) {
-      console.log('Deactivating route ...');
+      console.log('Activating route ...');
     }
+
+    this.basicScrolls = [...this.shadowRoot.querySelectorAll('c-scale-section'), ...this.shadowRoot.querySelectorAll('c-fade-transition'), ...this.shadowRoot.querySelectorAll('c-hero-frame'), ...this.shadowRoot.querySelectorAll('c-reveal-section'), ...this.shadowRoot.querySelectorAll('c-drive-in')];
+    this.galleries = [...this.shadowRoot.querySelectorAll('c-gallery')];
 
     if (this.basicScrolls && this.basicScrolls.length) {
       this.basicScrolls.forEach(el => {
@@ -129,35 +133,11 @@ export class Page extends Component {
       });
     }
 
-    if (this.boosters && this.boosters.length) {
-      this.boosters.forEach(el => {
-        if (el.booster) {
-          el.booster.destroy();
-        }
+    if (this.galleries && this.galleries.length) {
+      this.galleries.forEach(el => {
+        el.scrollerStop();
       });
     }
-  }
-
-  addBlurFilter() {
-    const filterWrapper = document.createElement('div');
-    filterWrapper.style.height = 0;
-    filterWrapper.innerHTML = `
-      <svg>
-        <defs>
-          <filter id="blurFilterSuper">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10,0" />
-          </filter>
-        </defs>
-      </svg>
-    `;
-    this.shadowRoot.appendChild(filterWrapper);
-    this.blurFilter = filterWrapper.querySelector('#blurFilterSuper');
-  }
-
-  blurAnimation() {
-    setTimeout(() => {
-      motionBlur(this.blurFilter);
-    }, 100);
   }
 
   transitionIn() {}

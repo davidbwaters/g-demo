@@ -46,12 +46,12 @@ export class Loader extends LitElement {
         .c-loader__bar,
         .c-loader__bar::after {
           background-position:
-            center 25%,
-            center 55%;
+            center 67%,
+            center 45%;
           background-repeat: no-repeat;
           background-size:
-            6rem auto,
-            70% auto;
+            auto 3%,
+            auto 25%;
         }
 
         @media(min-width: 60rem) {
@@ -59,12 +59,12 @@ export class Loader extends LitElement {
           .c-loader__bar,
           .c-loader__bar::after {
             background-position:
-              center 20%,
+              center 67.5%,
               center 40%;
             background-repeat: no-repeat;
             background-size:
-              6rem auto,
-              30rem auto;
+              auto 1.5rem,
+              auto 30%;
           }
 
         }
@@ -99,7 +99,7 @@ export class Loader extends LitElement {
           height: 100%;
           opacity: 1;
           position: absolute;
-          transition: all 1s ease;
+          transition: all 4s ease;
           width: 100%;
           will-change: clip-path;
         }
@@ -161,13 +161,16 @@ export class Loader extends LitElement {
     this.enabled = true;
     this.duration = 1000;
     this.progress = 0;
+    this.throttle = 500;
+    this.currentProgress = 0;
+    this.currentTime = 0;
   }
 
   firstUpdated() {
-    //this.enable()
+    this.enable();
     document.documentElement.style.setProperty('--loader-duration', this.duration / 1000 + 's');
     document.documentElement.dataset.loaderDuration = this.duration;
-    this.shadowRoot.host.style.setProperty('--loader-progress', 0);
+    this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
   }
 
   disable() {
@@ -191,19 +194,27 @@ export class Loader extends LitElement {
         document.documentElement.style.overflowY = '';
         document.documentElement.style.setProperty('--loader-display', 'none');
       });
+      this.dispatchEvent(new CustomEvent('loaderDisabled'));
     }, 2400);
   }
 
   updated() {
     if (this.progress < 75) {
-      this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
+      window.requestAnimationFrame(time => {
+        if (this.currentTime === 0) {
+          this.currentTime = time;
+        }
+
+        if (this.progress - this.currentProgress > 5 && time - this.currentTime > 200) {
+          this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
+          this.currentProgress = this.progress;
+        }
+      });
     }
 
-    if (this.progress >= 75) {
+    if (this.progress >= 80) {
       this.setComplete();
     }
-
-    console.log(this.progress);
   }
 
   setComplete() {

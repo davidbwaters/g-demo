@@ -13,7 +13,7 @@ export class Router extends router(LitElement) {
     return [initialize, logoResponsive, css`
         :host {
           display: block;
-          height: auto;
+          height: 100%;
           padding-bottom: var(--footer-height);
           position: relative;
           width: 100%;
@@ -21,10 +21,11 @@ export class Router extends router(LitElement) {
         }
 
         .c-page {
+          display: block;
           opacity: var(--page-opacity);
           transition:
             opacity var(--transition-duration) ease;
-            will-change: opacity;
+          will-change: opacity;
         }
       `];
   }
@@ -207,13 +208,15 @@ export class Router extends router(LitElement) {
         this.loaderEl.disable();
       }
 
-      requestAnimationFrame(() => {
-        this.activeRouteEl.handleLoad();
-        this.activeRouteEl.shadowRoot.host.style.setProperty('--page-opacity', '1');
+      let active = this.activeRouteEl;
+      this.loaderEl.addEventListener('loaderDisabled', () => {
+        requestAnimationFrame(() => {
+          active.shadowRoot.host.style.setProperty('--page-opacity', '1');
+          active.onActivate();
+          active.handleLoad();
+        });
       });
-      this.activeRouteEl.onActivate();
-      this.activeRouteEl.handleLoad();
-    }, this.loaderEl.duration);
+    }, this.loaderEl.duration * 0.1);
   }
 
   updated() {
@@ -236,6 +239,7 @@ export class Router extends router(LitElement) {
     } else {
       if (this._footerHidden) {
         this.footerEl.style.height = '';
+        this._footerHidden = false;
       }
     } // If the active route isn't loaded,
     // enable the loader and add a listener

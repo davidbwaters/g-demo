@@ -15,6 +15,10 @@ export const objects = css`
     row-gap: 3rem;
   }
 
+  .o-media-block--align-stretch {
+    align-content: stretch;
+  }
+
   .o-media-block--narrow {
     grid-template-columns: 80%;
   }
@@ -162,7 +166,8 @@ export const objects = css`
     align-content: center;
     column-gap: 0rem;
     display: grid;
-    grid-template-columns:  1fr;
+    grid-template-columns: 1fr;
+    justify-content: center;
     max-width: calc(90% - 2rem);
     row-gap: 4rem;
     width: 100%;
@@ -170,6 +175,14 @@ export const objects = css`
 
   .o-block--align-start {
     align-content: start;
+  }
+
+  .o-block--align-stretch {
+    align-content: stretch;
+  }
+
+  .o-block--justify-start {
+    justify-content: start;
   }
 
   .o-block--narrow {
