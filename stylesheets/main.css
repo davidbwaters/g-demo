@@ -2348,7 +2348,7 @@ small {
   --spacing-responsive-y: calc(.25rem + 1vh);
   --heading-spacing: .5em;
   --text-spacing: .5em;
-  --font-main: neue-haas-grotesk-display;
+  --font-main: neue-haas-grotesk-text;
   --font-main-weight: normal;
   --font-bolder-weight: bold;
   --font-medium-weight: 600;
@@ -2405,7 +2405,7 @@ small {
   --line-height-heading-medium: 1.2;
   --line-height-heading-large: 1.2;
   --line-height-heading-huge: 1.125;
-  --letter-spacing-heading: .01em;
+  --letter-spacing-heading: -.0025em;
   --text-size-title-tiny:
     var(--text-size-tiny);
   --text-size-title-normal:

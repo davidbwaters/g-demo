@@ -13,7 +13,6 @@ export class Router extends router(LitElement) {
     return [initialize, logoResponsive, css`
         :host {
           display: block;
-          height: 100%;
           padding-bottom: var(--footer-height);
           position: relative;
           width: 100%;

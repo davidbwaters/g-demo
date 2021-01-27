@@ -125,23 +125,11 @@ export class Footer extends LitElement {
     };
   }
 
-  async _getSocialData() {
-    const response = await fetch(this.url + '/social').then(res => res.json()).catch(err => console.error(err));
-    return {
-      statusCode: 200,
-      body: response
-    };
-  }
-
   async performUpdate() {
     const data = await this._getData(data => {
       this.data = data;
     });
-    const socialData = await this._getSocialData(data => {
-      this.data = data;
-    });
-    this.data = data.body;
-    this.socialData = socialData.body; // console.log(this.data)
+    this.data = data.body; // console.log(this.data)
     // console.log(this.socialData)
 
     super.performUpdate();
@@ -209,17 +197,6 @@ export class Footer extends LitElement {
             c-footer__column-info
           "
         >
-          ${this.data.InfoColumnContent.map(i => html`
-            ${i.__component === 'block.link' ? html`
-                  <a href=${i.URL} alt="">
-                    ${i.Text}
-                  </a>
-                ` : html`
-                  <p>
-                    ${i.Paragraph}
-                  </p>
-                `}
-          `)}
         </div>
 
         <div

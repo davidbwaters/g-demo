@@ -10,7 +10,7 @@ export class AngleBackground extends LitElement {
       :host {
         background-color: white;
         display: block;
-        height: 100vh;
+        height: 100%;
         position: absolute;
         top: 0px;
         width: 100%;
