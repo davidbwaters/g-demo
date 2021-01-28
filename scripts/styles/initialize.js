@@ -13,4 +13,12 @@ export const initialize = css`
     color: var(--color-bg);
     -webkit-text-stroke-color: var(--color-bg);
   }
+
+  a,
+  a:visited {
+    color: inherit;
+    font-family: var(--font-title);
+    font-weight: var(--font-medium-weight);
+    text-decoration: none;
+  }
 `;

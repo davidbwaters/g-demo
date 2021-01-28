@@ -80,9 +80,9 @@ export class Heading extends LitElement {
     this.shadowRoot.appendChild(this.headingEl);
 
     if (this.data && this.data.BoldFont === false) {
-      this.Weight = 'light';
+      this.Weight = 'var(--font-heading-weight)';
     } else {
-      this.Weight = 'bold';
+      this.Weight = 'var(--font-heading-bolder-weight)';
     }
 
     if (this.ColorAlternate) {
@@ -91,7 +91,7 @@ export class Heading extends LitElement {
 
     this.shadowRoot.host.style.setProperty('--heading-size', 'var(--text-size-heading-' + this.Size.toLowerCase() + ')');
     this.shadowRoot.host.style.setProperty('--heading-line-height', 'var(--line-height-heading-' + this.Size.toLowerCase() + ')');
-    this.shadowRoot.host.style.setProperty('--heading-weight', 'var(--font-' + this.Weight.toLowerCase() + 'er-weight)');
+    this.shadowRoot.host.style.setProperty('--heading-weight', this.Weight.toLowerCase());
 
     if (!this.Text) {
       this.shadowRoot.host.style.setProperty('--heading-display', 'none');

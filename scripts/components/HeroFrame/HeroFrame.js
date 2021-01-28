@@ -61,10 +61,10 @@ export class HeroFrame extends Component {
         @media (min-width:40em) {
 
           .c-hero-frame__image {
-            margin-left: -20%;
+            margin-left: -10%;
             margin-top: 2rem;
             max-width: none;
-            width: 120%;
+            width: 110%;
           }
 
         }
@@ -163,22 +163,37 @@ export class HeroFrame extends Component {
           o-media-block--content-spacing-large
           o-media-block--split-flush-end
         ">
-          <div class="
-            o-media-block__item
-          ">
-            <img
-              src="/images/Branding/Logo - Dark.svg"
-              alt="logo"
-            />
-            <c-slant-title
-              color=${this.data.ColorStart}
-              text="993 Remastery"
-            >
-            </c-slant-title>
-            <div class="u-text-title-tiny">
-              Hand Built by Gunther Werks
+
+          ${this.data.LargeText ? html`
+            <div class="
+              o-media-block__item
+              c-hero-frame__large-text
+            ">
+              <c-heading data=${JSON.stringify({
+      Text: this.data.LargeText.TextBlock,
+      Size: 'Medium'
+    })}>
+              </c-heading>
             </div>
-          </div>
+          ` : html`
+
+            <div class="
+              o-media-block__item
+            ">
+              <img
+                src="/images/Branding/Logo - Dark.svg"
+                alt="logo"
+              />
+              <c-slant-title
+                color=${this.data.ColorStart}
+                text="993 Remastery"
+              >
+              </c-slant-title>
+              <div class="u-text-title-tiny">
+                Hand Built by Gunther Werks
+              </div>
+            </div>
+          `}
           <div class="
             o-media-block__item
           ">

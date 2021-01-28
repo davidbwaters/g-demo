@@ -84,7 +84,6 @@ export const utilities = css`
     text-transform: uppercase !important;
   }
 
-
   @media (min-width:40em) {
 
     .u-text-title-tiny {
@@ -110,7 +109,6 @@ export const utilities = css`
     ) !important;
     line-height: var(--line-height-title-stylized) !important;
   }
-
 
   @media (min-width:40em) {
 
@@ -197,6 +195,74 @@ export const utilities = css`
     justify-content: center;
   }
 
+  .u-align-content-center {
+    align-content: center;
+  }
+
+  .u-justify-content-stretch {
+    justify-content: stretch;
+  }
+
+  .u-align-content-stretch {
+    align-content: stretch;
+  }
+
+  .u-justify-content-start {
+    justify-content: start;
+  }
+
+  .u-align-content-start {
+    align-content: start;
+  }
+
+  .u-justify-content-end {
+    justify-content: end;
+  }
+
+  .u-align-content-end {
+    align-content: end;
+  }
+
+  .u-justify-items-start {
+    justify-items: start;
+  }
+
+  .u-align-items-start {
+    align-items: start;
+  }
+
+  .u-justify-items-end {
+    justify-items: end;
+  }
+
+  .u-align-items-end {
+    align-items: end;
+  }
+
+
+  /* Grid Gap */
+
+  .u-row-gap-flush {
+    row-gap: 0 !important;
+  }
+
+  .u-column-gap-flush {
+    column-gap: 0 !important;
+  }
+
+  @media (max-width:40em) {
+
+    .u-row-gap-flush\\@mobile {
+      row-gap: 0 !important;
+    }
+
+    .u-column-gap-flush\\@mobile {
+      column-gap: 0 !important;
+    }
+
+  }
+
+
   /* Visibility */
 
   .u-transparent {
@@ -210,7 +276,7 @@ export const utilities = css`
 
   @media (max-width:25em) {
 
-    .u-hidden\@small {
+    .u-hidden\\@small {
       display: none !important;
       visibility: hidden !important;
     }
@@ -219,7 +285,7 @@ export const utilities = css`
 
   @media (max-width:40em) {
 
-    .u-hidden\@mobile {
+    .u-hidden\\@mobile {
       display: none !important;
       visibility: hidden !important;
     }
@@ -228,7 +294,7 @@ export const utilities = css`
 
   @media (max-width:70em) {
 
-    .u-hidden\@tablet {
+    .u-hidden\\@tablet {
       display: none !important;
       visibility: hidden !important;
     }
@@ -237,13 +303,14 @@ export const utilities = css`
 
   @media (max-width:40em) {
 
-    .u-padding-top-flush\@mobile {
+    .u-padding-top-flush\\@mobile {
       padding-top: 0 !important;
     }
 
-    .u-padding-bottom-flush\@mobile {
+    .u-padding-bottom-flush\\@mobile {
       padding-bottom: 0 !important;
     }
 
   }
+
 `;

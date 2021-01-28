@@ -136,6 +136,7 @@ export class TextBlock extends LitElement {
     els.forEach(el => {
       el.innerHTML = el.innerHTML.replaceAll('&lt;span&gt;', '<span>').replaceAll('&lt;/span&gt;', '</span>');
       el.innerHTML = el.innerHTML.replaceAll('&lt;strong&gt;', '<strong>').replaceAll('&lt;/strong&gt;', '</strong>');
+      el.innerHTML = el.innerHTML.replaceAll('&lt;br&gt;', '<br>');
     });
   }
 

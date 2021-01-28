@@ -162,6 +162,10 @@ export class Gallery extends LitElement {
           pointer-events: initial;
         }
 
+        .c-gallery__lower img {
+          cursor: pointer;
+        }
+
         .c-gallery__lower-inner {
           align-items: center;
           box-sizing: border-box;
@@ -205,7 +209,6 @@ export class Gallery extends LitElement {
           justify-content: center;
         }
 
-
         [data-articles] .c-gallery__arrows {
           justify-content: end;
           padding-right: .5rem;
@@ -237,6 +240,7 @@ export class Gallery extends LitElement {
           background-color: white;
           display: grid;
           height: 100%;
+          min-height: 100vh;
           opacity: 0;
           overflow-y: scroll;
           pointer-events: none;
@@ -314,6 +318,8 @@ export class Gallery extends LitElement {
     super();
     this.url = remote.url;
     this.gridView = false;
+    this.scrollerStop = this.scrollerStop.bind(this);
+    this.scrollerStart = this.scrollerStart.bind(this);
   }
 
   firstUpdated() {
@@ -329,7 +335,6 @@ export class Gallery extends LitElement {
       this.setMaxScroll();
     });
     this.setMaxScroll();
-    this.scrollSetup();
   }
 
   setMaxScroll() {
@@ -371,7 +376,7 @@ export class Gallery extends LitElement {
     } else {
       this.shouldScroll = true;
       this.gridView = false;
-      this.scrollSetup();
+      this.scrollerStart();
 
       this._gridIconEl.setAttribute('icon', 'grid');
     }
@@ -449,11 +454,12 @@ export class Gallery extends LitElement {
       emulateScroll: true,
       preventDefaultOnEmulateScroll: true,
       onWheel: (state, event) => {
-        this.handleScroll(state, event);
+        if (this.shouldScroll) {
+          console.log(this.shouldScroll);
+          this.handleScroll(state, event);
+        }
       },
-      onPointerMove: (state, event) => {
-        this.handlePointerMove(state, event);
-      },
+      onPointerMove: (state, event) => {},
       shouldScroll: (state, event) => {
         return this.shouldScroll;
       }
@@ -468,6 +474,8 @@ export class Gallery extends LitElement {
 
   showOverlay(e) {
     this.scrollerStop();
+    this.shouldScroll = false;
+    console.log(e.target);
     this.currentSlot = e.target.dataset.slot;
     this.slotEl.setAttribute('name', this.currentSlot);
     this.slotEl.parentElement.classList.add('is-active');
@@ -478,12 +486,12 @@ export class Gallery extends LitElement {
   }
 
   hideOverlay(e) {
-    this.scrollSetup();
+    this.scrollerStart();
     this.slotEl.removeAttribute('name', this.currentSlot);
     this.slotEl.parentElement.classList.remove('is-active');
     this.closeEl.classList.remove('is-active');
-    document.body.style.setProperty('--navbar-opacity', 1);
-    document.body.style.setProperty('--navbar-pointer-events', '');
+    document.documentElement.style.setProperty('--navbar-opacity', 1);
+    document.documentElement.style.setProperty('--navbar-pointer-events', '');
     document.documentElement.style.overflow = '';
     this.currentSlot = '';
   }
@@ -497,9 +505,12 @@ export class Gallery extends LitElement {
 
       <button
           @click=${this.hideOverlay}
-          class="c-button c-button--icon c-gallery__close-button"
+          class="
+            c-button c-button--icon
+            c-gallery__close-button
+          "
         >
-          <c-icon icon="x"></c-icon>
+          <c-icon icon="close"></c-icon>
       </button>
 
 
@@ -541,7 +552,7 @@ export class Gallery extends LitElement {
                         c-button
                       "
                       data-slot = ${i.id}
-                      @click=${this.handleClick}
+                      @click=${this.showOverlay}
                     >
                       Show More
                     </a>
@@ -584,7 +595,11 @@ export class Gallery extends LitElement {
                 </div>
                 <button
                   @click=${this.toggleGridView}
-                  class="c-button c-button--icon"
+                  class="
+                    c-button
+                    c-button--icon
+                    c-button--round
+                  "
                   data-grid-button
                 >
                   <c-icon icon="grid"></c-icon>
@@ -638,7 +653,7 @@ export class Gallery extends LitElement {
                         c-button
                       "
                       data-slot = ${i.id}
-                      @click=${this.handleClick}
+                      @click=${this.showOverlay}
                     >
                       Show More
                     </a>
@@ -667,14 +682,22 @@ export class Gallery extends LitElement {
                   <button
                     @click=${this._handleArrow}
                     data-direction="left"
-                    class="c-button c-button--icon"
+                    class="
+                      c-button
+                      c-button--icon
+                      c-button--round
+                    "
                   >
                     <c-icon icon="angle-left"></c-icon>
                   </button>
                   <button
                     @click=${this._handleArrow}
                     data-direction="right"
-                    class="c-button c-button--icon"
+                    class="
+                      c-button
+                      c-button--icon
+                      c-button--round
+                    "
                   >
                     <c-icon icon="angle-right"></c-icon>
                   </button>

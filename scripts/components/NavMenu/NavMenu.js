@@ -45,9 +45,10 @@ export class NavMenu extends LitElement {
           color: var(--color-fg-inverse-subtle);
           column-gap: var(--nav-menu-column-gap);
           display: grid;
+          font-family: var(--font-title);
           font-size: var(--text-size-small);
-          font-weight: var(--font-weight-title-normal-light);
-          letter-spacing: var(--letter-spacing-title-normal-light);
+          font-weight: var(--font-weight-title-normal);
+          letter-spacing: var(--letter-spacing-title-normal);
           transition: color .25s;
         }
 
@@ -58,19 +59,24 @@ export class NavMenu extends LitElement {
           grid-auto-flow: column;
         }
 
-        c-router-link.is-active a {
-          color: var(--color-fg-inverse-contrast);
-          opacity: 1;
-        }
-
-        a,
-        a:visited {
+        .c-nav-menu__router-links a,
+        .c-nav-menu__router-links a:visited {
+          opacity: .9;
           color: inherit;
           text-decoration: none;
+          transition: all calc(
+            var(--transition-duration) * .5
+          );
+          will-change: color, opacity;
         }
 
-        a:hover {
+        .c-nav-menu__router-links a:hover {
           color: var(--color-fg-inverse);
+        }
+
+        .c-nav-menu__router-links .is-active a {
+          color: var(--color-fg-inverse-contrast);
+          opacity: 1;
         }
 
 

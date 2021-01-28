@@ -4,11 +4,11 @@
 import { html } from '../../modules/lit-html.js';
 export function buildComponent(component) {
   let output;
-  console.log(component);
 
   if (component.__component === 'section-block.angle-content') {
     output = html`
       <c-hero-frame
+        id=${component.id}
         data=${JSON.stringify(component)}
       >
       </c-hero-frame>
@@ -18,6 +18,7 @@ export function buildComponent(component) {
   if (component.__component === 'section-block.reveal-content') {
     output = html`
       <c-reveal-section
+        id=${component.id}
         data=${JSON.stringify(component)}
       >
       </c-reveal-section>
@@ -28,6 +29,7 @@ export function buildComponent(component) {
     output = html`
       <c-scale-section
         data=${JSON.stringify(component)}
+        id=${component.id}
         component='image'
       >
       </c-scale-section>
@@ -38,6 +40,7 @@ export function buildComponent(component) {
     output = html`
       <c-scale-section
         data=${JSON.stringify(component)}
+        id=${component.id}
         component='article'
       >
       </c-scale-section>
@@ -48,6 +51,7 @@ export function buildComponent(component) {
     output = html`
       <c-scale-section
         data=${JSON.stringify(component)}
+        id=${component.id}
         component='article'
       >
       </c-scale-section>
@@ -58,6 +62,7 @@ export function buildComponent(component) {
     output = html`
       <c-scale-section
         data=${JSON.stringify(component)}
+        id=${component.id}
         component='background'
       >
       </c-scale-section>
@@ -68,6 +73,7 @@ export function buildComponent(component) {
     output = html`
       <c-fade-transition
         data=${JSON.stringify(component)}
+        id=${component.id}
       >
       </c-fade-transition>
     `;
@@ -77,6 +83,7 @@ export function buildComponent(component) {
     output = html`
       <c-details
         data=${JSON.stringify(component)}
+        id=${component.id}
       >
       </c-details>
     `;
@@ -86,6 +93,7 @@ export function buildComponent(component) {
     output = html`
       <c-contact-form
         data=${JSON.stringify(component)}
+        id=${component.id}
       >
       </c-contact-form>
     `;
@@ -95,6 +103,7 @@ export function buildComponent(component) {
     output = html`
       <c-speclist
         data=${JSON.stringify(component)}
+        id=${component.id}
         component='rows'
       >
       </c-speclist>
@@ -105,6 +114,7 @@ export function buildComponent(component) {
     output = html`
       <c-speclist
         data=${JSON.stringify(component)}
+        id=${component.id}
       >
       </c-speclist>
     `;
@@ -114,6 +124,7 @@ export function buildComponent(component) {
     output = html`
       <c-hero-multi-heading
         data=${JSON.stringify(component)}
+        id=${component.id}
       >
       </c-hero-multi-heading>
     `;
@@ -123,6 +134,7 @@ export function buildComponent(component) {
     output = html`
       <c-drive-in
         data=${JSON.stringify(component)}
+        id=${component.id}
       >
       </c-drive-in>
     `;

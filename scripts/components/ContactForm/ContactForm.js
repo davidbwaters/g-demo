@@ -3,206 +3,176 @@
  */
 import { LitElement, html, css } from '../../../modules/lit-element.js';
 import { remote } from '../../config/remote.js';
+import { buttons } from '../../styles/components.buttons.js';
+import { initialize } from '../../styles/initialize.js';
+import { objects } from '../../styles/objects.js';
+import { utilities } from '../../styles/utilities.js';
 export class ContactForm extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        align-content: center;
-        display: grid;
-        grid-template-columns: 90%;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 60rem;
-        padding-bottom: 6rem;
-        padding-top: 6rem;
-        row-gap: 2rem;
-        text-align: center;
-
-        --contact-form-field-transform: scale(.6) translateY(-2.2em);
-      }
-
-      @media (min-width:40em) {
-
+    return [initialize, objects, buttons, utilities, css`
         :host {
-          grid-template-columns: 80%;
+          align-content: center;
+          display: grid;
+          grid-template-columns: 90%;
+          justify-content: center;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 60rem;
+          padding-bottom: 6rem;
+          padding-top: 6rem;
+          row-gap: 2rem;
+          text-align: center;
+
+          --contact-form-field-transform: scale(.6) translateY(-2.2em);
         }
-      }
 
-      @media (min-width:60em) {
+        @media (min-width:40em) {
 
-        :host {
-          grid-template-columns: 80%;
+          :host {
+            grid-template-columns: 80%;
+          }
         }
-      }
+
+        @media (min-width:60em) {
+
+          :host {
+            grid-template-columns: 80%;
+          }
+        }
 
 
-      input:-webkit-autofill,
-      input:-webkit-autofill:hover,
-      input:-webkit-autofill:focus,
-      input:-internal-autofill-selected,
-      textarea:-webkit-autofill,
-      textarea:-webkit-autofill:hover,
-      textarea:-webkit-autofill:focus,
-      textarea:-internal-autofill-selected,
-      select:-webkit-autofill,
-      select:-webkit-autofill:hover,
-      select:-webkit-autofill:focus,
-      select:-internal-autofill-selected
-       {
-        background-color: white !important;
-        outline: none !important;
-        transition: background-color 5000s;
-      }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-internal-autofill-selected,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        textarea:-internal-autofill-selected,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus,
+        select:-internal-autofill-selected
+        {
+          background-color: white !important;
+          outline: none !important;
+          transition: background-color 5000s;
+        }
 
-      .c-contact-form__form-wrapper {
-        position: relative;
-      }
+        .c-contact-form__form-wrapper {
+          position: relative;
+        }
 
-      .c-contact-form__form {
-        display: grid;
-        text-align: left;
-      }
+        .c-contact-form__form {
+          display: grid;
+          text-align: left;
+        }
 
-      .c-contact-form__field {
-        display: grid;
-        font-size: var(--text-size-medium);
-        grid-template-columns: 1fr;
-        line-height: 1.6;
-        margin-top: 2em;
-        position: relative;
-      }
+        .c-contact-form__field {
+          display: grid;
+          grid-template-columns: 1fr;
+          line-height: 1.6;
+          margin-top: 2em;
+          position: relative;
+        }
 
-      .c-contact-form__field::after {
-        content: '';
-        height: 2px;
-        position: absolute;
-        width: 100%;
-        will-change: transform;
-      }
+        .c-contact-form__field::after {
+          content: '';
+          height: 2px;
+          position: absolute;
+          width: 100%;
+          will-change: transform;
+        }
 
-      .c-contact-form__field label {
-        color: var(--color-fg-subtle);
-        position: absolute;
-        top: .5em;
-        transition: all .5s;
-        transform-origin: left center;
-        will-change: transform, font-size;
-      }
+        .c-contact-form__field label {
+          color: var(--color-fg-subtle);
+          position: absolute;
+          top: .5em;
+          transition: all .5s;
+          transform-origin: left center;
+          will-change: transform, font-size;
+        }
 
-      .c-contact-form__field input,
-      .c-contact-form__field textarea {
-        border-bottom: solid 1px var(--color-fg-faint);
-        border-left: none;
-        border-right: none;
-        border-top: none;
-        box-sizing: border-box;
-        font: inherit;
-        line-height: 1.5;
-        padding-bottom: .5em;
-        padding-top: .5em;
-      }
+        .c-contact-form__field input,
+        .c-contact-form__field textarea {
+          border-bottom: solid 1px var(--color-fg-faint);
+          border-left: none;
+          border-right: none;
+          border-top: none;
+          box-sizing: border-box;
+          font: inherit;
+          line-height: 1.5;
+          padding-bottom: .5em;
+          padding-top: .5em;
+        }
 
-      .c-contact-form__field input:focus,
-      .c-contact-form__field textarea:focus {
-        border-bottom: solid 1px var(--color-fg-contrast);
-        outline: none;
-      }
+        .c-contact-form__field input:focus,
+        .c-contact-form__field textarea:focus {
+          border-bottom: solid 1px var(--color-fg-contrast);
+          outline: none;
+        }
 
-      .c-contact-form__field input:focus +
-      label,
-      .c-contact-form__field textarea:focus +
-      label {
-        color: var(--color-fg-faint);
-        transform:
-          var(--contact-form-field-transform);
-      }
+        .c-contact-form__field input:focus +
+        label,
+        .c-contact-form__field textarea:focus +
+        label {
+          color: var(--color-fg-faint);
+          transform:
+            var(--contact-form-field-transform);
+        }
 
-      .c-contact-form__message {
-        height: var(--contact-form-message-height);
-        margin-bottom: 3rem;
-        resize: none;
-        transition: all .25s;
-        will-change: height;
-      }
+        .c-contact-form__message {
+          height: var(--contact-form-message-height);
+          margin-bottom: 3rem;
+          resize: none;
+          transition: all .25s;
+          will-change: height;
+        }
 
-      .c-contact-form__submit {
-        background-color: white;
-        background-image: url(
-          '/images/Components/Submit.svg'
-        );
-        background-position: center right;
-        background-repeat: no-repeat;
-        border: none;
-        cursor: pointer;
-        font-size: .8rem;
-        height: 3rem;
-        justify-self: flex-end;
-        letter-spacing: .05rem;
-        line-height: 1rem;
-        opacity: .8;
-        padding-bottom: 1rem;
-        padding-left: 1rem;
-        padding-right: 3.5rem;
-        padding-top: 1rem;
-        position: relative;
-        text-transform: uppercase;
-        transition: opacity .2s;
-        width: auto;
-        will-change: opacity;
-      }
+        .c-contact-form__submit {
+          opacity: .8;
+          transition: opacity .2s;
+          will-change: opacity;
+        }
 
-      .c-contact-form__submit:hover {
-        background-blend-mode: exclusion;
-        opacity: .99;
-      }
+        .c-contact-form__success {
+          font: var(--heading-font);
+          font-size: var(--text-size-large);
+          opacity: 0;
+          font-weight: bold;
+          pointer-events: none;
+          position: absolute;
+          text-align: center;
+          transition: all 0.25s ease 0s;
+          transform: translateY(-100%);
+          top: 50%;
+          width: 100%;
+          will-change: transform, opacity;
+        }
 
-      .c-contact-form__submit:focus {
-        outline: none;
-      }
+        .c-contact-form__form-wrapper.has-succeeded {
+          background-color: var(--color-bg);
+          color: var(--color-success);
+        }
 
-      .c-contact-form__submit[disabled],
-      .c-contact-form__submit[disabled]:hover {
-        background-blend-mode: normal;
-        cursor: not-allowed;
-        opacity: .5;
-      }
+        .has-succeeded .c-contact-form__success {
+          opacity: .99;
+        }
 
-      .c-contact-form__success {
-        font-size: var(--text-size-heading-small);
-        font-weight: var(--font-bolder-weight);
-        opacity: 0;
-        font-weight: bold;
-        pointer-events: none;
-        position: absolute;
-        text-align: center;
-        transition: all 0.25s ease 0s;
-        transform: translateY(-100%);
-        top: 50%;
-        width: 100%;
-        will-change: transform, opacity;
-      }
-
-      .c-contact-form__form-wrapper.has-succeeded {
-        background-color: var(--color-success);
-        color: var(--color-fg-inverse);
-      }
-
-      .has-succeeded .c-contact-form__success {
-        opacity: .99;
-      }
-
-      .has-succeeded .c-contact-form__form {
-        opacity: 0;
-        pointer-events: none;
-      }
-    `;
+        .has-succeeded .c-contact-form__form {
+          opacity: 0;
+          pointer-events: none;
+        }
+      `];
   }
 
   static get properties() {
     return {
       data: {
         type: Object
+      },
+      formOnly: {
+        type: Boolean
       },
       heading: {
         type: String
@@ -339,9 +309,13 @@ export class ContactForm extends LitElement {
         url,
         formData
       });
+      this.dispatchEvent(new CustomEvent('formSubmitted'));
 
       this._formWrapperEl.classList.add('has-succeeded');
 
+      setTimeout(() => {
+        this._formWrapperEl.classList.remove('has-succeeded');
+      }, 10000);
       console.log({
         responseData
       });
@@ -352,7 +326,7 @@ export class ContactForm extends LitElement {
 
   render() {
     return html`
-      ${!this.FormOnly ? html`
+      ${!this.formOnly ? html`
           <c-heading
             class="c-contact-form__heading"
             data=${JSON.stringify(this.data.Heading)}
@@ -434,14 +408,15 @@ export class ContactForm extends LitElement {
               c-contact-form__submit
               c-button
               c-button--icon
-              c-button--ghost
+              c-button--inverse
+              c-button--round
             "
           >
             <c-icon icon="angle-right"></c-icon>
           </button>
         </form>
         <div class="c-contact-form__success">
-          Success! Message sent.
+          Success! <br> Message sent.
         </div>
 
       </div>

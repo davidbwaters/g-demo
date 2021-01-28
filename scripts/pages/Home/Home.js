@@ -30,13 +30,16 @@ export class HomePage extends Page {
     this.debug = true;
   }
 
-  firstUpdated() {
-    console.log(this.content);
-  }
+  firstUpdated() {}
 
   transitionIn() {
     super.transitionIn();
     this.shadowRoot.querySelector('c-hero-frame').blurAnimation();
+  }
+
+  async performUpdate() {
+    super.performUpdate();
+    super.addBlurFilter();
   }
 
   async preload() {

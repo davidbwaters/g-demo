@@ -173,31 +173,6 @@ export class Loader extends LitElement {
     this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
   }
 
-  disable() {
-    this.enabled = false;
-    this.setComplete();
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        document.documentElement.style.setProperty('--loader-opacity', '0');
-      });
-      requestAnimationFrame(() => {
-        if (document.documentElement.classList.contains('u-prevent-scroll')) {
-          document.documentElement.classList.remove('u-prevent-scroll');
-        }
-
-        document.documentElement.style.setProperty('--loader-display', 'none');
-      });
-    }, 1200);
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        document.documentElement.style.position = '';
-        document.documentElement.style.overflowY = '';
-        document.documentElement.style.setProperty('--loader-display', 'none');
-      });
-      this.dispatchEvent(new CustomEvent('loaderDisabled'));
-    }, 2400);
-  }
-
   updated() {
     if (this.progress < 75) {
       window.requestAnimationFrame(time => {
@@ -205,7 +180,7 @@ export class Loader extends LitElement {
           this.currentTime = time;
         }
 
-        if (this.progress - this.currentProgress > 5 && time - this.currentTime > 200) {
+        if (this.progress - this.currentProgress > 10 && time - this.currentTime > 400) {
           this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
           this.currentProgress = this.progress;
         }
@@ -231,6 +206,31 @@ export class Loader extends LitElement {
     document.documentElement.style.setProperty('--loader-display', 'grid');
     document.documentElement.style.setProperty('--loader-opacity', '1');
     document.documentElement.classList.add('u-prevent-scroll');
+  }
+
+  disable() {
+    this.enabled = false;
+    this.setComplete();
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--loader-opacity', '0');
+      });
+      requestAnimationFrame(() => {
+        if (document.documentElement.classList.contains('u-prevent-scroll')) {
+          document.documentElement.classList.remove('u-prevent-scroll');
+        }
+
+        document.documentElement.style.setProperty('--loader-display', 'none');
+      });
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          document.documentElement.style.position = '';
+          document.documentElement.style.overflowY = '';
+          document.documentElement.style.setProperty('--loader-display', 'none');
+        });
+        this.dispatchEvent(new CustomEvent('loaderDisabled'));
+      }, 600);
+    }, 1600);
   }
 
   render() {

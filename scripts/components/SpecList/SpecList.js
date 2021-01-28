@@ -12,6 +12,7 @@ export class SpecList extends LitElement {
         :host {
           background-color: var(--speclist-background-color);
           display: block;
+          margin-top: -2px;
         }
 
         .c-speclist__heading {
@@ -92,9 +93,12 @@ export class SpecList extends LitElement {
     return html`
       <div class="o-section-block">
 
-      <h3 class="c-speclist__heading">
-        ${this.data.Heading}
-      </h3>
+      <c-heading
+        data=${JSON.stringify({
+      Text: this.data.Heading
+    })}
+      >
+      </c-heading>
 
       ${this.Component === 'rows' ? html`
           <div class="o-media-block o-media-block--split">

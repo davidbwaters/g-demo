@@ -215,7 +215,7 @@ export class Router extends router(LitElement) {
           active.handleLoad();
         });
       });
-    }, this.loaderEl.duration * 0.1);
+    }, 1200);
   }
 
   updated() {

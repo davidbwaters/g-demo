@@ -8,6 +8,7 @@ import { buildComponent } from '../utils/buildComponent.js';
 import { initialize } from '../styles/initialize.js';
 import { objects } from '../styles/objects.js';
 import { utilities } from '../styles/utilities.js';
+import { observeElementInViewport } from '../../modules/observe-element-in-viewport.js';
 export class Page extends Component {
   static get styles() {
     return [initialize, objects, utilities];
@@ -43,8 +44,8 @@ export class Page extends Component {
       this.addEventListener('dataLoad', this.handlePreload);
     } else {
       await this.preload();
-      this.dispatchEvent(new CustomEvent('preloaded'));
       this.loaded = true;
+      this.dispatchEvent(new CustomEvent('preloaded'));
 
       if (this.debug) {
         console.log('Preloaded ' + this.dataEndpoint);
@@ -64,6 +65,10 @@ export class Page extends Component {
     });
   }
 
+  addBlurFilter() {
+    super.addBlurFilter();
+  }
+
   blurAnimation() {
     super.blurAnimation();
   }
@@ -72,11 +77,6 @@ export class Page extends Component {
     this.data = await this.getApiData(this.dataEndpoint);
     this.removeAttribute('data');
     this.dispatchEvent(new CustomEvent('dataLoad'));
-
-    if (this.debug) {
-      console.log(this.data);
-    }
-
     super.performUpdate();
   }
 
@@ -88,6 +88,26 @@ export class Page extends Component {
     }
 
     this.contentBuilt = true;
+  }
+
+  observeComponents(viewport, inHandler, outHandler, targetEls) {
+    let targets = targetEls ? targetEls : this.shadowRoot.querySelectorAll('[data-id]');
+    let observers = [];
+    targets.forEach(target => {
+      console.log(target);
+      observers = observers.concat(observeElementInViewport(target, inHandler, outHandler, {
+        viewport,
+        modTop: '-100px',
+        threshold: [90]
+      }));
+    });
+    this.observers = observers;
+
+    this.unobserveAll = () => {
+      observers.forEach(o => {
+        o();
+      });
+    };
   }
 
   onActivate() {
@@ -140,7 +160,12 @@ export class Page extends Component {
     }
   }
 
-  transitionIn() {}
+  async transitionIn() {
+    if (!this.transitionReady) {
+      await this.performUpdate();
+      this.transitionReady = true;
+    }
+  }
 
   async preload() {}
 

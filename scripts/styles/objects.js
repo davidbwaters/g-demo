@@ -217,7 +217,7 @@ export const objects = css`
 
   /* Spaced Rows */
 
-  .o-space-rows {
+  .o-spaced-rows {
     align-content: start;
     display: grid;
     row-gap: 3rem;
@@ -237,18 +237,15 @@ export const objects = css`
     grid-auto-flow: row;
     grid-template-columns: 1fr;
     justify-items: center;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-    row-gap: 3rem;
+    padding-top: calc(var(--spacing-responsive) * 5);
+    padding-bottom: calc(var(--spacing-responsive) * 5);
+    row-gap: calc(var(--spacing-responsive) * 2);
   }
 
-  @media(min-width: 40em) {
-
-    .o-section-block {
-      padding-top: 6rem;
-      padding-bottom: 6rem;
-    }
-
+  .o-section-block--spacing-small {
+    padding-top: calc(var(--spacing-responsive) * 3);
+    padding-bottom: calc(var(--spacing-responsive) * 3);
+    row-gap: calc(var(--spacing-responsive) * 1);
   }
 
   .o-section-block--top {
