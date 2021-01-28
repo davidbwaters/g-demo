@@ -1,11 +1,12 @@
 /*
  *  Scripts - Components - Icon
  */
-import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { html, css } from '../../../modules/lit-element.js';
+import { Component } from '../../bases/Component.js';
 import { initialize } from '../../styles/initialize.js';
 import { logoResponsive } from '../../styles/components.logo-responsive.js';
 import { remote } from '../../config/remote.js';
-export class Footer extends LitElement {
+export class Footer extends Component {
   static get styles() {
     return [initialize, logoResponsive, css`
         :host {
@@ -72,9 +73,8 @@ export class Footer extends LitElement {
           text-transform: uppercase;
         }
 
-        .c-footer__social-link {
-          margin-bottom: .5rem;
-          width: 1.5rem;
+        .c-footer__icon {
+          font-size: 1.4em;
         }
 
         p {
@@ -105,6 +105,8 @@ export class Footer extends LitElement {
     super();
     this.url = remote.url;
     this.setHeight = this.setHeight.bind(this);
+    this.dataEndpoint = '/footer';
+    this.contactDataEndpoint = '/contact';
     window.addEventListener('resize', this.setHeight);
   }
 
@@ -117,19 +119,11 @@ export class Footer extends LitElement {
     document.documentElement.style.setProperty('--footer-height', size.height / 16 + 'rem');
   }
 
-  async _getData() {
-    const response = await fetch(this.url + '/footer').then(res => res.json()).catch(err => console.error(err));
-    return {
-      statusCode: 200,
-      body: response
-    };
-  }
+  async _getData() {}
 
   async performUpdate() {
-    const data = await this._getData(data => {
-      this.data = data;
-    });
-    this.data = data.body; // console.log(this.data)
+    this.data = await this.getApiData(this.dataEndpoint);
+    this.contactData = await this.getApiData(this.contactDataEndpoint); // console.log(this.data)
     // console.log(this.socialData)
 
     super.performUpdate();
@@ -203,6 +197,30 @@ export class Footer extends LitElement {
           class="c-footer__column"
         >
 
+          <div
+            class="c-footer__items-inline"
+          >
+            ${this.contactData.SocialLinks.map(i => html`
+              <a
+                class="
+                  c-button
+                  c-button--inverse
+                  c-button--round
+                  c-button--icon
+                  c-footer__icon
+                "
+                href=${i.URL}
+
+                title=${i.Type}
+              >
+                <c-icon
+                  class="c-contact-page__social-icon"
+                  icon=${i.Type.toLowerCase()}
+                >
+                </c-icon>
+              </a>
+            `)}
+          </div>
 
         </div>
 
