@@ -91,6 +91,7 @@ export class VehiclesPage extends Page {
       console.log(this.navSectionLinks);
     });
     setTimeout(() => {}, 3000);
+    this.setPositons();
     this.scrollSetup();
     this.navSections.forEach(s => {//this.observer.observe(s)
     });
