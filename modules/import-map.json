@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "@appnest/masonry-layout": "./@appnest/masonry-layout.js",
+    "basicscroll": "./basicscroll.js",
+    "chocolat": "./chocolat.js",
+    "construct-style-sheets-polyfill": "./construct-style-sheets-polyfill.js",
+    "image-preloader": "./image-preloader.js",
+    "intersection-observer": "./intersection-observer.js",
+    "lit-element": "./lit-element.js",
+    "lit-element-router": "./lit-element-router.js",
+    "lit-html": "./lit-html.js",
+    "observe-element-in-viewport": "./observe-element-in-viewport.js",
+    "scrollbooster": "./scrollbooster.js"
+  }
+}
