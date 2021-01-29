@@ -54,7 +54,7 @@ export class ContactForm extends LitElement {
         select:-webkit-autofill:focus,
         select:-internal-autofill-selected
         {
-          background-color:var(--contact-form-background) !important;
+          background-color: var(--contact-form-background) !important;
           outline: none !important;
           transition: background-color 5000s;
         }
@@ -64,6 +64,7 @@ export class ContactForm extends LitElement {
           margin-left: auto;
           margin-right: auto;
           max-width: 58rem;
+          width: 100%;
         }
 
         .c-contact-form__form {
@@ -99,6 +100,7 @@ export class ContactForm extends LitElement {
 
         .c-contact-form__field input,
         .c-contact-form__field textarea {
+          background-color: var(--contact-form-background);
           border-bottom: solid 1px var(--color-fg-faint);
           border-left: none;
           border-right: none;
