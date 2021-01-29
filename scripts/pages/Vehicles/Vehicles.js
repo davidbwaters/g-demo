@@ -22,6 +22,7 @@ export class VehiclesPage extends Page {
 
         .c-vehicles-page__nav a {
           display: inline-block;
+          padding-left: calc(.075rem + 1vw);
           padding-right: calc(.075rem + 1vw);
         }
 
