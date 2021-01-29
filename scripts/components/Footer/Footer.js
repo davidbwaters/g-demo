@@ -12,13 +12,17 @@ export class Footer extends Component {
         :host {
           background-color: var(--color-bg-inverse);
           bottom: 0;
-          color: white;
+          color: var(--color-fg-inverse);
           display: block;
           padding-left: 10%;
           padding-right: 10%;
           position: fixed;
           width: 100%;
           z-index: var(--footer-z-index);
+        }
+
+        :host c-text-block {
+          color: var(--color-fg-inverse);
         }
 
         .c-footer__content {
@@ -29,7 +33,7 @@ export class Footer extends Component {
           display: grid;
           font-size: .8rem;
           grid-auto-flow: column;
-          grid-auto-columns: min-content;
+          grid-auto-columns: max-content;
           grid-template-rows: 1fr 1fr;
           justify-content: space-between;
           margin-left: auto;
@@ -191,6 +195,31 @@ export class Footer extends Component {
             c-footer__column-info
           "
         >
+
+          <a href=${'mailto:' + this.contactData.EmailAddresses[0].Address}>
+            ${this.contactData.EmailAddresses[0].Address}
+          </a>
+          <c-text-block
+            data=${JSON.stringify({
+      Text: [{
+        Text: this.contactData.ContactInfo[0].TextBlock
+      }],
+      TextSize: 'small',
+      Color: 'inherit'
+    })}
+          >
+          </c-text-block>
+          <c-text-block
+            data=${JSON.stringify({
+      Text: [{
+        Text: this.contactData.PhoneNumbers[0].Number
+      }],
+      TextSize: 'small',
+      Color: 'inherit'
+    })}
+          >
+          </c-text-block>
+
         </div>
 
         <div

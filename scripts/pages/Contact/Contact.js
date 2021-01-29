@@ -208,7 +208,7 @@ export class ContactPage extends Page {
       this.formToggle();
     };
 
-    this.formEl.addEventListener('formSubmitted', () => {
+    this.addEventListener('formSubmitted', () => {
       toggle();
       console.log('submitted');
     });
