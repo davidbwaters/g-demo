@@ -195,7 +195,6 @@ export class Footer extends Component {
             c-footer__column-info
           "
         >
-
           <a href=${'mailto:' + this.contactData.EmailAddresses[0].Address}>
             ${this.contactData.EmailAddresses[0].Address}
           </a>

@@ -18,7 +18,6 @@ export class ContactForm extends LitElement {
           justify-content: center;
           margin-left: auto;
           margin-right: auto;
-          max-width: 60rem;
           padding-bottom: 6rem;
           padding-top: 6rem;
           row-gap: 2rem;
@@ -55,13 +54,16 @@ export class ContactForm extends LitElement {
         select:-webkit-autofill:focus,
         select:-internal-autofill-selected
         {
-          background-color: white !important;
+          background-color:var(--contact-form-background) !important;
           outline: none !important;
           transition: background-color 5000s;
         }
 
         .c-contact-form__form-wrapper {
           position: relative;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 58rem;
         }
 
         .c-contact-form__form {

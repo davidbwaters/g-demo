@@ -26,7 +26,7 @@ export class AngleBackground extends LitElement {
       .c-angle-background__background-geometry {
         background-color: var(--angle-background-color);
         height: 500vh;
-        position: fixed;
+        position: absolute;
         left: 50%;
         opacity: var(--angle-background-opacity);
         pointer-events: none;

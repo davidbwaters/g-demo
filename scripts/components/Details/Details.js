@@ -23,6 +23,7 @@ export class Details extends LitElement {
           grid-template-rows: 1fr 1fr;
           justify-content: center;
           line-height: var(--line-height-title-normal-light);
+          padding: 0;
           row-gap: 2rem;
         }
 
