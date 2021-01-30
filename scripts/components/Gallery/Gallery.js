@@ -55,7 +55,6 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__item {
-          cursor: var(--gallery-item__cursor);
           display: grid;
           min-width: 0;
           scroll-snap-align: start;
@@ -119,10 +118,12 @@ export class Gallery extends LitElement {
 
         .c-gallery__item:hover {
           cursor: grab;
+          cursor: none;
         }
 
         .c-gallery__item:focus {
           cursor: grabbing;
+          cursor: none;
         }
 
         .c-gallery__item-background-image {
@@ -163,7 +164,7 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__lower img {
-          cursor: pointer;
+          cursor: none;
         }
 
         .c-gallery__lower-inner {
@@ -256,6 +257,7 @@ export class Gallery extends LitElement {
           opacity: 1;
           pointer-events: initial;
           transform: translateY(0vh);
+          z-index: 1;
         }
 
         .c-gallery--grid-view.c-gallery__inner {
@@ -300,6 +302,40 @@ export class Gallery extends LitElement {
           opacity: 0;
         }
 
+        .c-gallery__cursor {
+          background-color: hsla(220,5%,30%,.5);
+          border: solid 1px var(--color-fg-subtle);
+          border-radius: 3rem;
+          height: 3rem;
+          pointer-events: none;
+          position: absolute;
+          transform: translateX(-50%) translateY(-50%) scale(.2);
+          transform-origin: center center;
+          transition:
+            width .4s,
+            height .4s,
+            background-color .4s,
+            transform .4s
+          ;
+          width: 3rem;
+          will-change: transform, background-color;
+          z-index: 1;
+        }
+        .c-gallery__cursor.mouse-is-down {
+          border-radius: 3rem;
+        }
+        .c-gallery__cursor.is-over-button {
+          background-color: hsla(220,5%,10%,.5);
+          border: solid 1px var(--color-fg-subtle);
+          border-radius: 3rem;
+          transform: translateX(-50%) translateY(-50%) scale(.75);
+          transform-origin: center center;
+        }
+
+        .c-button {
+          cursor: none !important;
+        }
+
       `];
   }
 
@@ -328,11 +364,22 @@ export class Gallery extends LitElement {
     this.galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this.closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
     this.slotEl = this.shadowRoot.querySelector('slot');
-    this._innerEl = this.shadowRoot.querySelector('.c-gallery__inner');
-    this._layoutEl = this.shadowRoot.querySelector('[data-layout]');
-    this._gridIconEl = this.shadowRoot.querySelector('[data-grid-button]').querySelector('c-icon');
+    this.innerEl = this.shadowRoot.querySelector('.c-gallery__inner');
+    this.layoutEl = this.shadowRoot.querySelector('[data-layout]');
+    this.gridIconEl = this.shadowRoot.querySelector('[data-grid-button]').querySelector('c-icon');
+    this.cursorEl = this.shadowRoot.querySelector('.c-gallery__cursor');
+    this.buttonEls = this.shadowRoot.querySelectorAll('[data-slot]');
     window.addEventListener('resize', () => {
       this.setMaxScroll();
+    });
+    this.buttonEls.forEach(el => {
+      el.addEventListener('mouseover', e => {
+        console.log(e);
+        this.cursorEl.classList.add('is-over-button');
+      });
+      el.addEventListener('mouseleave', e => {
+        this.cursorEl.classList.remove('is-over-button');
+      });
     });
     this.setMaxScroll();
   }
@@ -363,21 +410,19 @@ export class Gallery extends LitElement {
       y: 0
     });
     this.galleryEl.classList.toggle('c-gallery--grid-view');
-
-    this._layoutEl.classList.toggle('has-grid-layout');
+    this.layoutEl.classList.toggle('has-grid-layout');
 
     if (!this.gridView) {
       this.gridView = true;
       this.shouldScroll = false;
-      this.booster.destroy(); // console.log(this._gridIconEl)
+      this.booster.destroy(); // console.log(this.gridIconEl)
 
-      this._gridIconEl.setAttribute('icon', 'columns');
+      this.gridIconEl.setAttribute('icon', 'columns');
     } else {
       this.shouldScroll = true;
       this.gridView = false;
       this.scrollerStart();
-
-      this._gridIconEl.setAttribute('icon', 'grid');
+      this.gridIconEl.setAttribute('icon', 'grid');
     }
   }
 
@@ -440,10 +485,6 @@ export class Gallery extends LitElement {
     });
   }
 
-  handlePointerMove(state, event) {// console.log(state)
-    // console.log(event.buttons)
-  }
-
   scrollerStart() {
     this.booster = new ScrollBooster({
       viewport: this,
@@ -458,7 +499,22 @@ export class Gallery extends LitElement {
           this.handleScroll(state, event);
         }
       },
-      onPointerMove: (state, event) => {},
+      onPointerDown: (state, event) => {
+        console.log(event);
+        this.cursorEl.classList.add('mouse-is-down');
+      },
+      onPointerUp: (state, event) => {
+        console.log(event);
+        this.cursorEl.classList.remove('mouse-is-down');
+      },
+      onPointerMove: (state, event) => {
+        let x = event.layerX;
+        let y = event.layerY;
+        requestAnimationFrame(() => {
+          this.cursorEl.style.left = x + 'px';
+          this.cursorEl.style.top = y + 'px';
+        });
+      },
       shouldScroll: (state, event) => {
         return this.shouldScroll;
       }
@@ -508,7 +564,9 @@ export class Gallery extends LitElement {
       <button
           @click=${this.hideOverlay}
           class="
-            c-button c-button--icon
+            c-button
+            c-button--icon
+            c-button--round
             c-gallery__close-button
           "
         >
@@ -618,6 +676,10 @@ export class Gallery extends LitElement {
           </div>
         ` : html`
           <div class="c-gallery__wrapper">
+
+            <div class="c-gallery__cursor">
+            </div>
+
             <div class="c-gallery__inner">
 
               ${this.data.map(i => html`
@@ -713,7 +775,6 @@ export class Gallery extends LitElement {
                 </button>
               </div>
             </div>
-
             <div
               class="c-gallery__overlay"
             >
