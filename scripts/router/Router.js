@@ -50,7 +50,7 @@ export class Router extends router(LitElement) {
     super();
     this.route = '';
     this.params = {};
-    this.query = {}; //this.debug = true
+    this.query = {}; //this.debug = false
 
     this.handleLoad = this.handleLoad.bind(this);
     this.handlePreload = this.handlePreload.bind(this);
@@ -215,7 +215,7 @@ export class Router extends router(LitElement) {
           active.handleLoad();
         });
       });
-    }, 2400);
+    }, 1200);
   }
 
   updated() {

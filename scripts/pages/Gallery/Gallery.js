@@ -97,7 +97,8 @@ export class GalleryPage extends Page {
     this.pageEndpoint = '/albums';
     this.dataEndpoint = '/image-galleries';
     this.hideFooter = true;
-    this.debug = true;
+    this.debug = false;
+    this.hasBooster = true;
   }
 
   firstUpdated() {

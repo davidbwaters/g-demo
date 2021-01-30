@@ -88,7 +88,7 @@ export class TextBlock extends LitElement {
     super();
     this.Size = 'Normal';
     this.TextBold = false;
-    this.Text = []; //this.debug = true
+    this.Text = []; //this.debug = false
   }
 
   firstUpdated() {

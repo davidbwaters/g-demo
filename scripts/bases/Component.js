@@ -23,8 +23,6 @@ export class Component extends LitElement {
     this.progress = 0;
 
     preloader.onProgress = progress => {
-      console.log(this);
-
       if (this.hasAttribute('active')) {
         this.progress += percentage / 4; // console.log(images)
         // console.log(this.progress)

@@ -22,12 +22,14 @@ export class VehiclesPage extends Page {
 
         .c-vehicles-page__nav a {
           display: inline-block;
-          padding-left: calc(.075rem + 1vw);
-          padding-right: calc(.075rem + 1vw);
+          opacity: .8;
+          padding-left: calc(1.1vw);
+          padding-right: calc(1.1vw);
         }
 
         .c-vehicles-page__nav a.is-active {
           color: var(--color-fg-contrast);
+          opacity: 1;
         }
       `];
   }
@@ -51,7 +53,7 @@ export class VehiclesPage extends Page {
   constructor() {
     super();
     this.dataEndpoint = '/vehicle';
-    this.debug = true;
+    this.debug = false;
     this.sectionIds = [{
       title: 'Intro',
       id: 30
@@ -60,7 +62,7 @@ export class VehiclesPage extends Page {
       id: 32
     }, {
       title: 'Interior',
-      id: 10
+      id: 6
     }, {
       title: 'Engine',
       id: 7
@@ -80,6 +82,27 @@ export class VehiclesPage extends Page {
   }
 
   firstUpdated() {
+    this.checkLoaded();
+  }
+
+  checkLoaded() {
+    this.scrollDataSetup();
+
+    if (this.navSections[0] === null) {
+      //console.log(this.navSections[0])
+      setTimeout(() => {
+        this.checkLoaded();
+      }, 4000);
+    } else {
+      //console.log(this.navSections[0])
+      this.scrollSetup();
+      this.navSections.forEach(s => {
+        this.observer.observe(s);
+      });
+    }
+  }
+
+  scrollDataSetup() {
     this.navSections = [];
     this.sectionIds.forEach(i => {
       this.navSections = this.navSections.concat(this.shadowRoot.getElementById(i.id));
@@ -89,15 +112,35 @@ export class VehiclesPage extends Page {
     this.sectionIds.forEach(i => {
       this.navSections = this.navSections.concat(this.shadowRoot.getElementById(i.id));
     });
-    this.navSectionLinks = this.shadowRoot.querySelectorAll('data-nav-target'); //this.scrollSetup()
-    //this.observer.observe(this.navSections)
+    this.navSectionLinks = this.shadowRoot.querySelectorAll('[data-nav-target]');
   }
 
-  scrollSetup(y) {}
+  scrollSetup(y) {
+    this.observer = new IntersectionObserver((entries, observer) => {
+      let links = this.navSectionLinks;
+      let id;
+      entries.forEach(entry => {
+        id = entry.target.id;
 
-  async transitionIn() {
-    super.transitionIn();
-    this.shadowRoot.querySelector('c-hero-frame').blurAnimation();
+        if (entry.isIntersecting) {
+          this.currentNav = id;
+        }
+      });
+      links.forEach(link => {
+        if (link.dataset.navTarget === id) {
+          if (!link.classList.contains('is-active')) {
+            link.classList.add('is-active');
+          }
+        } else {
+          if (link.classList.contains('is-active')) {
+            link.classList.remove('is-active');
+          }
+        }
+      });
+    }, {
+      threshold: 0.5,
+      rootMargin: '200px 0px -200px 0px'
+    });
   }
 
   handleClick(e) {
@@ -105,14 +148,19 @@ export class VehiclesPage extends Page {
     this.shadowRoot.getElementById(id).scrollIntoView();
   }
 
+  async transitionIn() {
+    super.addBlurFilter();
+    super.transitionIn();
+    this.shadowRoot.querySelector('c-hero-frame').blurAnimation();
+  }
+
   async performUpdate() {
     super.performUpdate();
-    super.addBlurFilter();
   }
 
   async preload() {
     super.buildComponents();
-    await this.imagePreloader([]);
+    await this.imagePreloader([this.data.Content[0].Image.url]);
   }
 
   render() {

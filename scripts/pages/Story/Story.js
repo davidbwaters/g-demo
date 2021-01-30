@@ -31,7 +31,7 @@ export class StoryPage extends Page {
   constructor() {
     super();
     this.dataEndpoint = '/story';
-    this.debug = true;
+    this.debug = false;
   }
 
   firstUpdated() {}

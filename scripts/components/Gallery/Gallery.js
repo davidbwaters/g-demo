@@ -323,7 +323,7 @@ export class Gallery extends LitElement {
   }
 
   firstUpdated() {
-    console.log(this.data);
+    // console.log(this.data)
     this.wrapperEl = this.shadowRoot.querySelector('.c-gallery__wrapper');
     this.galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this.closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
@@ -369,8 +369,7 @@ export class Gallery extends LitElement {
     if (!this.gridView) {
       this.gridView = true;
       this.shouldScroll = false;
-      this.booster.destroy();
-      console.log(this._gridIconEl);
+      this.booster.destroy(); // console.log(this._gridIconEl)
 
       this._gridIconEl.setAttribute('icon', 'columns');
     } else {
@@ -408,7 +407,7 @@ export class Gallery extends LitElement {
     });
   }
 
-  _handleArrow(e) {
+  handleArrow(e) {
     let direction = e.target.dataset.direction;
     let item = this._gallerySizes.item;
     let offset = item;
@@ -473,7 +472,10 @@ export class Gallery extends LitElement {
   }
 
   showOverlay(e) {
-    this.scrollerStop();
+    if (this.booster) {
+      this.scrollerStop();
+    }
+
     this.shouldScroll = false;
     console.log(e.target);
     this.currentSlot = e.target.dataset.slot;
@@ -579,14 +581,14 @@ export class Gallery extends LitElement {
                   class="c-gallery__arrows"
                 >
                   <button
-                    @click=${this._handleArrow}
+                    @click=${this.handleArrow}
                     data-direction="left"
                     class="c-button c-button--icon"
                   >
                     <c-icon icon="angle-left"></c-icon>
                   </button>
                   <button
-                    @click=${this._handleArrow}
+                    @click=${this.handleArrow}
                     data-direction="right"
                     class="c-button c-button--icon"
                   >
@@ -680,7 +682,7 @@ export class Gallery extends LitElement {
                   class="c-gallery__arrows"
                 >
                   <button
-                    @click=${this._handleArrow}
+                    @click=${this.handleArrow}
                     data-direction="left"
                     class="
                       c-button
@@ -691,7 +693,7 @@ export class Gallery extends LitElement {
                     <c-icon icon="angle-left"></c-icon>
                   </button>
                   <button
-                    @click=${this._handleArrow}
+                    @click=${this.handleArrow}
                     data-direction="right"
                     class="
                       c-button

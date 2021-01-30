@@ -226,8 +226,8 @@ export class ContactForm extends LitElement {
     }
 
     this._formWrapperEl = this.shadowRoot.querySelector('.c-contact-form__form-wrapper');
-    this._formEl = this.shadowRoot.querySelector('.c-contact-form__form');
-    console.log(this._formEl);
+    this._formEl = this.shadowRoot.querySelector('.c-contact-form__form'); // console.log(this._formEl)
+
     this._textAreaEl = this.shadowRoot.querySelector('.c-contact-form__message');
     this._submitEl = this.shadowRoot.querySelector('.c-contact-form__submit');
     this._isValid = {};
@@ -277,11 +277,6 @@ export class ContactForm extends LitElement {
   _autoExpand(textAreaEl, property) {
     this.shadowRoot.host.style.setProperty(property, 'inherit');
     const computed = window.getComputedStyle(textAreaEl);
-    console.log(computed.getPropertyValue('padding-bottom'));
-    console.log(computed.getPropertyValue('padding-top'));
-    console.log(computed.getPropertyValue('border-top-width'));
-    console.log(computed.getPropertyValue('border-bottom-width'));
-    console.log(textAreaEl.scrollHeight);
     const height = parseInt(computed.getPropertyValue('border-top-width'), 10) + textAreaEl.scrollHeight + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
     this.shadowRoot.host.style.setProperty(property, height + 'px');
   }

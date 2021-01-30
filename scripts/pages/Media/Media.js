@@ -101,7 +101,7 @@ export class MediaPage extends Page {
     this.pageEndpoint = '/articles';
     this.dataEndpoint = '/media-entries';
     this.hideFooter = true;
-    this.debug = true;
+    this.hasBooster = true; //this.debug = false
   }
 
   firstUpdated() {}
@@ -126,12 +126,12 @@ export class MediaPage extends Page {
         this.albumCovers = this.albumCovers.concat(item.Media.Cover.url);
       }
     });
-    console.log(this.buildComponent);
     await this.imagePreloader(this.albumCovers);
   }
 
   async preloadImages() {
-    if (this.debug) {//console.log(this.albumCovers)
+    if (this.debug) {
+      console.log(this.albumCovers);
     }
   }
 
@@ -143,8 +143,6 @@ export class MediaPage extends Page {
     await this.preload();
     this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
-    console.log(this.pageData.Articles);
-    console.log(this.contentData);
   }
 
   render() {
@@ -163,9 +161,7 @@ export class MediaPage extends Page {
               slot=${i.id}
               class="c-gallery-page__overlay"
             >
-            ${console.log(i.EntryContent)}
-
-            ${this.buildComponent(i.EntryContent)}
+              ${this.buildComponent(i.EntryContent)}
               <c-heading
                 data=${JSON.stringify({
       Text: i.Title

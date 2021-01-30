@@ -9,15 +9,23 @@ import { remote } from '../../config/remote.js';
 export class ScaleSection extends LitElement {
   static get styles() {
     return [initialize, objects, utilities, css`
+
         :host {
           background-color: var(--scale-section-background);
           color: var(--scale-section-color);
           display: grid;
-          min-height: var(--scale-section-min-height);
           overflow: hidden;
           position: relative;
           width: 100%;
           will-change: background-size, transform;
+        }
+
+        @media(min-width: 70em) {
+
+          :host {
+            min-height: var(--scale-section-min-height);
+          }
+
         }
 
         .c-scale-section__content {
@@ -83,7 +91,7 @@ export class ScaleSection extends LitElement {
           content: '';
           display: var(--scale-section-background-display);
           left: 0;
-          min-height: 40vw;
+          min-height: 70vh;
           opacity: var(--scale-section-background-opacity);
           position: absolute;
           right: 0;

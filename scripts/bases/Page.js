@@ -94,7 +94,7 @@ export class Page extends Component {
     let targets = targetEls ? targetEls : this.shadowRoot.querySelectorAll('[data-id]');
     let observers = [];
     targets.forEach(target => {
-      console.log(target);
+      // console.log(target)
       observers = observers.concat(observeElementInViewport(target, inHandler, outHandler, {
         viewport,
         modTop: '-100px',
@@ -116,7 +116,6 @@ export class Page extends Component {
     }
 
     this.basicScrolls = [...this.shadowRoot.querySelectorAll('c-scale-section'), ...this.shadowRoot.querySelectorAll('c-fade-transition'), ...this.shadowRoot.querySelectorAll('c-hero-frame'), ...this.shadowRoot.querySelectorAll('c-reveal-section'), ...this.shadowRoot.querySelectorAll('c-drive-in')];
-    this.galleries = [...this.shadowRoot.querySelectorAll('c-gallery')];
 
     if (this.basicScrolls && this.basicScrolls.length) {
       this.basicScrolls.forEach(el => {
@@ -128,10 +127,23 @@ export class Page extends Component {
       });
     }
 
-    if (this.galleries && this.galleries.length) {
-      this.galleries.forEach(el => {
-        el.scrollerStart();
-      });
+    if (this.hasBooster) {
+      let setup = () => {
+        this.galleries = [...this.shadowRoot.querySelectorAll('c-gallery')];
+
+        if (this.galleries[0] !== null && this.galleries[0] !== undefined) {
+          console.log(this.galleries[0]);
+          this.galleries.forEach(el => {
+            el.scrollerStart();
+          });
+        } else {
+          setTimeout(() => {
+            setup();
+          }, 2000);
+        }
+      };
+
+      setup();
     }
   }
 

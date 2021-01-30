@@ -2533,11 +2533,13 @@ small {
   --logo-large-height: 40;
   --transition-duration: .5s;
   --navbar-height: 3rem;
+  --navbar-spacing: 1rem;
+  --wrapper-max: 90%;
 }
 
-@media (min-width: 45em) {
+@media (min-width: 70em) {
   :root {
-    --navbar-height: 3rem;
+    --wrapper-max: 60rem;
   }
 }
 /*

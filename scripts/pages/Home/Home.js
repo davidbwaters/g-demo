@@ -25,12 +25,13 @@ export class HomePage extends Page {
 
   constructor() {
     super();
-    console.log(this.url);
     this.dataEndpoint = '/home';
-    this.debug = true;
+    this.debug = false;
   }
 
-  firstUpdated() {}
+  firstUpdated() {
+    super.addBlurFilter();
+  }
 
   transitionIn() {
     super.transitionIn();
@@ -39,7 +40,6 @@ export class HomePage extends Page {
 
   async performUpdate() {
     super.performUpdate();
-    super.addBlurFilter();
   }
 
   async preload() {

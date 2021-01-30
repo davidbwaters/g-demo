@@ -23,7 +23,6 @@ export class NavMenu extends LitElement {
 
         .c-nav-menu__inner {
           align-items: center;
-          box-sizing: border-box;
           color: white;
           display: grid;
           grid-column-gap: 1rem;
@@ -32,7 +31,10 @@ export class NavMenu extends LitElement {
           justify-content: space-between;
           margin-left: auto;
           margin-right: auto;
-          max-width: 60rem;
+          max-width: calc(
+            var(--wrapper-max) +
+            (var(--navbar-spacing)  * 2)
+          );
           padding-bottom: 1rem;
           padding-left: 1rem;
           padding-right: 1rem;
