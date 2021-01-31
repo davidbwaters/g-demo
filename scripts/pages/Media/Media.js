@@ -126,7 +126,7 @@ export class MediaPage extends Page {
         this.albumCovers = this.albumCovers.concat(item.Media.Cover.url);
       }
     });
-    await this.imagePreloader(this.albumCovers);
+    await super.imagePreloader(this.albumCovers);
   }
 
   async preloadImages() {

@@ -9,7 +9,6 @@
     "lit-element": "./lit-element.js",
     "lit-element-router": "./lit-element-router.js",
     "lit-html": "./lit-html.js",
-    "observe-element-in-viewport": "./observe-element-in-viewport.js",
     "scrollbooster": "./scrollbooster.js"
   }
 }

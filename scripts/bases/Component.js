@@ -20,15 +20,17 @@ export class Component extends LitElement {
     });
     let percentage = 100 / images.length;
     let preloader = new ImagePreloader();
+    let loader = document.querySelector('c-router-app').loaderEl;
     this.progress = 0;
 
     preloader.onProgress = progress => {
       if (this.hasAttribute('active')) {
-        this.progress += percentage / 4; // console.log(images)
-        // console.log(this.progress)
+        loader.realProgress = true;
+        this.progress += percentage / 4; //console.log(images)
 
+        console.log(progress);
         requestAnimationFrame(progress => {
-          document.querySelector('c-router-app').loaderEl.progress += percentage / 4;
+          loader.progress += percentage / 4;
         });
       }
     };

@@ -57,6 +57,9 @@ export class GalleryPage extends Page {
 
         }
 
+        .c-gallery-page__overlay-lower img {
+          cursor: pointer;
+        }
 
       `];
   }
@@ -99,12 +102,16 @@ export class GalleryPage extends Page {
     this.hideFooter = true;
     this.debug = false;
     this.hasBooster = true;
+    let galleryReady;
+    this.addEventListener('GalleryReady', () => {
+      galleryReady = true;
+    });
+    this.galleryReady = galleryReady;
   }
 
-  firstUpdated() {
-    // this.preloadImages()
-    this.galleryEl = this.shadowRoot.querySelector('c-gallery');
+  async firstUpdated() {
     Chocolat(this.shadowRoot.querySelectorAll('.chocolat-image'));
+    this.dispatchEvent(new CustomEvent('GalleryReady'));
   }
 
   async preload() {
@@ -153,14 +160,17 @@ export class GalleryPage extends Page {
         }
       });
     });
-    await this.imagePreloader(this.albumCovers);
+    super.imagePreloader(this.albumCovers);
   }
 
-  async preloadImages() {
-    await this.imagePreloader(this.pageImages);
-    await this.imagePreloader(this.thumbnails);
-
-    if (this.debug) {//console.log(this.albumCovers)
+  loadCovers() {
+    if (this.galleryReady) {
+      this.galleryEl = this.shadowRoot.querySelector('c-gallery');
+      this.galleryEl.preloadImages();
+    } else {
+      setTimeout(() => {
+        this.loadCovers();
+      }, 500);
     }
   }
 
@@ -169,12 +179,9 @@ export class GalleryPage extends Page {
   async performUpdate() {
     this.pageData = await this.getApiData(this.pageEndpoint);
     this.contentData = await this.getApiData(this.dataEndpoint);
-    await this.preload();
     this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
   }
-
-  buildComponents() {}
 
   render() {
     return html`
@@ -183,6 +190,7 @@ export class GalleryPage extends Page {
       >
         <c-gallery
           data=${JSON.stringify(this.galleryItems)}
+          data-component
         >
 
           ${this.galleryItems.map(i => html`
@@ -224,6 +232,7 @@ export class GalleryPage extends Page {
                     src=${this.url + p.formats.medium.url}
                     class="chocolat-image"
                     href=${this.url + p.url}
+                    data-gallery-thumb
                   >
 
                 `)}

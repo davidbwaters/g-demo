@@ -61,7 +61,7 @@ export class HeroFrame extends Component {
 
         .c-hero-frame__large-text-image {
           filter: url('#blurFilterSuper');
-          margin-bottom: 1rem;
+          margin-bottom: 0rem;
           margin-left: auto;
           margin-right: auto;
         }
@@ -71,7 +71,7 @@ export class HeroFrame extends Component {
 
           .c-hero-frame__large-text-image {
             margin-top: 0rem;
-            width: 75%;
+            width: 66%;
           }
 
         }
@@ -146,6 +146,7 @@ export class HeroFrame extends Component {
 
   firstUpdated() {
     super.addBlurFilter();
+    super.blurAnimation();
     this._scrollInstances = [{
       start: () => {
         this.scrollReady ? this._scrollInstance.start() : this.shouldStart = true;
@@ -159,6 +160,7 @@ export class HeroFrame extends Component {
   }
 
   blurAnimation() {
+    super.addBlurFilter();
     super.blurAnimation();
   }
 

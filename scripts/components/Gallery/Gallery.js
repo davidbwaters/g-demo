@@ -6,10 +6,11 @@ import { LitElement, css, html } from '../../../modules/lit-element.js'; //impor
 //  imagesPreloadedCheckWait
 //} from '../../utils/imagesPreload'
 
+import { Component } from '../../bases/Component.js';
 import ScrollBooster from '../../../modules/scrollbooster.js';
 import { remote } from '../../config/remote.js';
 import { buttons } from '../../styles/components.buttons.js';
-export class Gallery extends LitElement {
+export class Gallery extends Component {
   static get styles() {
     return [buttons, css`
         :host {
@@ -164,12 +165,13 @@ export class Gallery extends LitElement {
         }
 
         .c-gallery__lower img {
-          cursor: none;
+          cursor: default;
         }
 
         .c-gallery__lower-inner {
           align-items: center;
           box-sizing: border-box;
+          cursor: default;
           display: grid;
           grid-auto-columns: 1fr;
           grid-auto-flow: column;
@@ -231,7 +233,6 @@ export class Gallery extends LitElement {
           right: 1.25rem;
           z-index: 9;
         }
-
 
         .c-gallery__close-button.is-active {
           display: block;
@@ -321,18 +322,17 @@ export class Gallery extends LitElement {
           will-change: transform, background-color;
           z-index: 1;
         }
-        .c-gallery__cursor.mouse-is-down {
-          border-radius: 3rem;
-        }
         .c-gallery__cursor.is-over-button {
-          background-color: hsla(220,5%,10%,.5);
           border: solid 1px var(--color-fg-subtle);
           border-radius: 3rem;
           transform: translateX(-50%) translateY(-50%) scale(.75);
           transform-origin: center center;
         }
+        .c-gallery__cursor.mouse-is-down {
+          background-color: hsla(220,5%,10%,.8);
+        }
 
-        .c-button {
+        [data-gallery-expand] {
           cursor: none !important;
         }
 
@@ -368,13 +368,14 @@ export class Gallery extends LitElement {
     this.layoutEl = this.shadowRoot.querySelector('[data-layout]');
     this.gridIconEl = this.shadowRoot.querySelector('[data-grid-button]').querySelector('c-icon');
     this.cursorEl = this.shadowRoot.querySelector('.c-gallery__cursor');
-    this.buttonEls = this.shadowRoot.querySelectorAll('[data-slot]');
+    this.buttonEls = this.shadowRoot.querySelectorAll('[data-gallery-expand]');
+    this.thumbEls = this.shadowRoot.querySelector('.c-gallery__lower');
     window.addEventListener('resize', () => {
       this.setMaxScroll();
     });
     this.buttonEls.forEach(el => {
       el.addEventListener('mouseover', e => {
-        console.log(e);
+        //console.log(e)
         this.cursorEl.classList.add('is-over-button');
       });
       el.addEventListener('mouseleave', e => {
@@ -500,11 +501,11 @@ export class Gallery extends LitElement {
         }
       },
       onPointerDown: (state, event) => {
-        console.log(event);
+        //console.log(event)
         this.cursorEl.classList.add('mouse-is-down');
       },
       onPointerUp: (state, event) => {
-        console.log(event);
+        //console.log(event)
         this.cursorEl.classList.remove('mouse-is-down');
       },
       onPointerMove: (state, event) => {
@@ -522,16 +523,25 @@ export class Gallery extends LitElement {
     this.shouldScroll = true;
   }
 
+  async preloadImages() {
+    this.covers = [];
+    this.data.map(i => {
+      this.covers = this.covers.concat(i.Cover.url);
+    });
+    await super.imagePreloader(this.covers);
+    console.log('images-loaded');
+  }
+
   scrollerStop() {
-    this.booster.destroy();
+    if (this.booster) {
+      this.booster.destroy();
+    }
+
     this.shouldScroll = false;
   }
 
   showOverlay(e) {
-    if (this.booster) {
-      this.scrollerStop();
-    }
-
+    this.scrollerStop();
     this.shouldScroll = false;
     console.log(e.target);
     this.currentSlot = e.target.dataset.slot;
@@ -577,6 +587,9 @@ export class Gallery extends LitElement {
       ${this.type === 'articles' ? html`
 
           <div class="c-gallery__wrapper" data-articles>
+
+          <div class="c-gallery__cursor">
+            </div>
             <div class="c-gallery__inner">
 
               ${this.data.map(i => html`
@@ -717,6 +730,7 @@ export class Gallery extends LitElement {
                         c-button
                       "
                       data-slot = ${i.id}
+                      data-gallery-expand
                       @click=${this.showOverlay}
                     >
                       Show More

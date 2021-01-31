@@ -148,19 +148,13 @@ export class VehiclesPage extends Page {
     this.shadowRoot.getElementById(id).scrollIntoView();
   }
 
-  async transitionIn() {
-    super.addBlurFilter();
-    super.transitionIn();
-    this.shadowRoot.querySelector('c-hero-frame').blurAnimation();
-  }
-
   async performUpdate() {
     super.performUpdate();
   }
 
   async preload() {
     super.buildComponents();
-    await this.imagePreloader([this.data.Content[0].Image.url]);
+    await super.imagePreloader([this.data.Content[0].Image.url]);
   }
 
   render() {

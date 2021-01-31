@@ -1,9 +1,9 @@
 /*
  *  Stylesheets - Main
  */
-@import '/stylesheets/chocolat.css';
+@import "./chocolat.css";
 @import url("https://use.typekit.net/wkd0lyi.css");
-@import '/icons/icons.css';
+@import "../icons/icons.css";
 /*
  *  Generic - Initialize
  */
@@ -2334,6 +2334,13 @@ small {
 
 .u-z-index-10 {
   z-index: 10 !important;
+}
+
+/*
+ * Chocolat
+ */
+.chocolat-overlay {
+  opacity: 0.92 !important;
 }
 
 /*

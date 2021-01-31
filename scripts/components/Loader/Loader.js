@@ -12,7 +12,6 @@ export class Loader extends LitElement {
             --color-bg-inverse
           );
           display: var(--loader-display);
-
           grid-template-columns: 1fr;
           grid-template-rows: 1fr;
           height: 100vh;
@@ -151,8 +150,7 @@ export class Loader extends LitElement {
         reflect: true
       },
       progress: {
-        type: Number,
-        reflect: true
+        type: Number
       }
     };
   }
@@ -175,34 +173,65 @@ export class Loader extends LitElement {
   }
 
   updated() {
-    if (this.progress < 75) {
-      window.requestAnimationFrame(time => {
-        if (this.currentTime === 0) {
-          this.currentTime = time;
-        }
+    if (this.realProgress) {
+      if (this.progress < 75) {
+        window.requestAnimationFrame(time => {
+          if (this.currentTime === 0) {
+            this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
+            this.currentTime = time;
+          }
 
-        if (this.progress - this.currentProgress > 10 && time - this.currentTime > 400) {
-          this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
-          this.currentProgress = this.progress;
-        }
-      });
-    }
+          if (this.progress - this.currentProgress > 10 && time - this.currentTime > 400 && this.progress > this.currentProgress) {
+            this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
+            this.currentProgress = this.progress;
+          }
+        });
+      }
 
-    if (this.progress >= 80) {
-      this.setComplete();
+      if (this.progress >= 80) {
+        this.setComplete();
+      }
+    } else {
+      setTimeout(() => {
+        window.requestAnimationFrame(time => {
+          this.shadowRoot.host.style.setProperty('--loader-progress', 12 + '%');
+        });
+      }, 1200);
+      setTimeout(() => {
+        window.requestAnimationFrame(time => {
+          this.shadowRoot.host.style.setProperty('--loader-progress', 32 + '%');
+        });
+      }, 2000);
+      setTimeout(() => {
+        window.requestAnimationFrame(time => {
+          this.shadowRoot.host.style.setProperty('--loader-progress', 48 + '%');
+        });
+      }, 3200);
+      setTimeout(() => {
+        window.requestAnimationFrame(time => {
+          this.shadowRoot.host.style.setProperty('--loader-progress', 64 + '%');
+        });
+      }, 4000);
+      setTimeout(() => {
+        window.requestAnimationFrame(time => {
+          this.shadowRoot.host.style.setProperty('--loader-progress', 80 + '%');
+        });
+      }, 6000);
     }
   }
 
   setComplete() {
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        this.shadowRoot.host.style.setProperty('--loader-progress', 100 + '%');
-        this.progress = 100;
-      });
-    }, 200);
+    requestAnimationFrame(() => {
+      this.shadowRoot.host.style.setProperty('--loader-progress', '100%');
+    });
+    setTimeout(() => {}, 1400);
   }
 
   enable() {
+    this.progress = 0;
+    this.currentProgress = 0;
+    this.currentTime = 0;
+    this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
     this.enabled = true;
     document.documentElement.style.setProperty('--loader-display', 'grid');
     document.documentElement.style.setProperty('--loader-opacity', '1');
@@ -212,7 +241,10 @@ export class Loader extends LitElement {
   disable() {
     this.enabled = false;
     this.setComplete();
+    this.realProgress = false;
+    this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
     setTimeout(() => {
+      this.dispatchEvent(new CustomEvent('loaderDisabled'));
       requestAnimationFrame(() => {
         document.documentElement.style.setProperty('--loader-opacity', '0');
       });
@@ -220,23 +252,26 @@ export class Loader extends LitElement {
         if (document.documentElement.classList.contains('u-prevent-scroll')) {
           document.documentElement.classList.remove('u-prevent-scroll');
         }
-
-        document.documentElement.style.setProperty('--loader-display', 'none');
       });
       setTimeout(() => {
+        document.documentElement.style.setProperty('--loader-opacity', '0');
         requestAnimationFrame(() => {
           document.documentElement.style.position = '';
           document.documentElement.style.overflowY = '';
           document.documentElement.style.setProperty('--loader-display', 'none');
         });
-        this.dispatchEvent(new CustomEvent('loaderDisabled'));
-      }, 600);
-    }, 1600);
+        this.progress = 0;
+        this.currentProgress = 0;
+        this.currentTime = 0;
+      }, 500);
+    }, 1000);
   }
 
   render() {
     return html`
-      <div class="c-loader__inner">
+      <div
+        class="c-loader__inner"
+      >
         <div class="c-loader__content">
           <div class="c-loader__bar">
 

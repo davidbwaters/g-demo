@@ -29,13 +29,10 @@ export class HomePage extends Page {
     this.debug = false;
   }
 
-  firstUpdated() {
-    super.addBlurFilter();
-  }
-
   transitionIn() {
     super.transitionIn();
-    this.shadowRoot.querySelector('c-hero-frame').blurAnimation();
+    this.shadowRoot.querySelector('c-hero-frame'); //super.addBlurFilter()
+    //super.blurAnimation()
   }
 
   async performUpdate() {
@@ -44,7 +41,7 @@ export class HomePage extends Page {
 
   async preload() {
     super.buildComponents();
-    await this.imagePreloader([this.data.Content[0].Image.url, this.data.Content[1].UpperBackgroundImage.url, this.data.Content[1].LowerBackgroundImage.url]);
+    await super.imagePreloader([this.data.Content[0].Image.url, this.data.Content[1].UpperBackgroundImage.url, this.data.Content[1].LowerBackgroundImage.url]);
   }
 
   render() {

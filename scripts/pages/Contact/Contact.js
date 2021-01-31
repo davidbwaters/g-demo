@@ -174,6 +174,10 @@ export class ContactPage extends Page {
       `];
   }
 
+  async preload() {
+    await super.imagePreloader([this.data.MainImage.url]);
+  }
+
   static get properties() {
     return {
       data: {

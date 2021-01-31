@@ -23,7 +23,7 @@ export class Router extends router(LitElement) {
           display: block;
           opacity: var(--page-opacity);
           transition:
-            opacity var(--transition-duration) ease;
+            opacity .8s ease;
           will-change: opacity;
         }
       `];
@@ -32,12 +32,7 @@ export class Router extends router(LitElement) {
   static get properties() {
     return {
       loaderActive: {
-        type: Boolean,
-        reflect: true
-      },
-      loadingActiveRoute: {
-        type: Boolean,
-        reflect: true
+        type: Boolean
       }
     };
   }
@@ -50,10 +45,12 @@ export class Router extends router(LitElement) {
     super();
     this.route = '';
     this.params = {};
-    this.query = {}; //this.debug = false
-
+    this.query = {};
+    this.debug = true;
     this.handleLoad = this.handleLoad.bind(this);
     this.handlePreload = this.handlePreload.bind(this);
+    this.loadingActiveRoute = true;
+    this.isFirstLoad = true;
   }
 
   router(route, params, query, data) {
@@ -61,8 +58,7 @@ export class Router extends router(LitElement) {
     this.params = params;
     this.query = query;
 
-    if (this.debug) {
-      console.log(route, params, query, data);
+    if (this.debug) {// console.log(route, params, query, data)
     }
   }
 
@@ -155,7 +151,7 @@ export class Router extends router(LitElement) {
     }, 2500);
   }
 
-  handlePreload(e) {
+  async handlePreload(e) {
     if (this.debug) {
       console.log('preload ' + this._unloadedRouteEls[0]);
     }
@@ -169,7 +165,7 @@ export class Router extends router(LitElement) {
     this.preloadRoutes();
   }
 
-  preloadRoutes() {
+  async preloadRoutes() {
     this._unloadedRouteEls = [];
     this.routeEls.forEach(el => {
       if (!el.hasAttribute('loaded')) {
@@ -191,34 +187,42 @@ export class Router extends router(LitElement) {
     }
   }
 
-  handleLoad(e) {
+  async handleLoad(e) {
     if (this.debug) {
       console.log('Active route loaded ...');
     }
 
-    if (this.loadingActiveRoute) {
-      this.loadingActiveRoute = false;
-      this.activeRouteEl.removeEventListener('preloaded', this.handleLoad);
-      this.preloadRoutes();
+    this.activeRouteEl.loaded = true;
+    await this.activeRouteEl.updateComplete;
+    this.activeRouteEl.handleLoad();
+    console.log(this.activeRouteEl.onActivate);
+    this.activeRouteEl.handlePreload();
+    this.activeRouteEl.setAttribute('loaded', 'true');
+
+    if (this.debug) {
+      console.log('Awaited handlePreload ...');
     }
 
+    let active = this.activeRouteEl;
+    requestAnimationFrame(async function () {
+      active.shadowRoot.host.style.setProperty('--page-opacity', '1');
+    });
     setTimeout(() => {
       if (this.loaderEnabled) {
         this.loaderEl.disable();
       }
+    }, 100);
 
-      let active = this.activeRouteEl;
-      this.loaderEl.addEventListener('loaderDisabled', () => {
-        requestAnimationFrame(() => {
-          active.shadowRoot.host.style.setProperty('--page-opacity', '1');
-          active.onActivate();
-          active.handleLoad();
-        });
-      });
-    }, 1200);
+    if (this.loadingActiveRoute) {
+      this.loadingActiveRoute = false;
+      this.activeRouteEl.removeEventListener('preloaded', this.handleLoad);
+    }
+
+    this.activeRouteEl.onActivate();
+    this.preloadRoutes();
   }
 
-  updated() {
+  async onRouteChange() {
     if (this.debug) {
       console.log('Router updated ...');
     } // Deactivate current route.
@@ -240,24 +244,26 @@ export class Router extends router(LitElement) {
         this.footerEl.style.height = '';
         this._footerHidden = false;
       }
-    } // If the active route isn't loaded,
+    }
+
+    this.loaderEl.progress = 0; // If the active route isn't loaded,
     // enable the loader and add a listener
     // to handle when it loads.
     // If it is, handle loading it and preload
     // other routes
 
+    let loaded = this.activeRouteEl.loaded; //let loading = this.loadingActiveRoute
 
-    if (!this.activeRouteEl.loaded) {
+    if (!loaded) {
+      this.loaderEl.enable();
+      this.loaderEnabled = true;
+
       if (this.debug) {
         console.log('Active route loading ...');
       }
 
-      this.loaderEl.progress = 0;
-      this.loaderEl.enable();
-      this.loaderEnabled = true;
       this.loadingActiveRoute = true;
-      this.activeRouteEl.addEventListener('preloaded', this.handleLoad);
-      this.activeRouteEl.handlePreload();
+      this.handleLoad();
     } else {
       this.handleLoad();
       this.preloadRoutes();
@@ -268,6 +274,21 @@ export class Router extends router(LitElement) {
     this.navEl.setAttribute('active', '/' + this.route); // Fire resize event to workaround scroll issues
 
     this._resize();
+  }
+
+  updated() {
+    if (!this.isFirstLoad) {
+      this.onRouteChange();
+    }
+  }
+
+  firstUpdated() {
+    if (this.isFirstLoad) {
+      setTimeout(() => {
+        this.onRouteChange();
+        this.isFirstLoad = false;
+      }, 3000);
+    }
   }
 
 }

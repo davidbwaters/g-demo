@@ -1,7 +1,7 @@
 /*
  *  Scripts - Pages - Story
  */
-import { css, html } from '../../../modules/lit-element.js';
+import { css } from '../../../modules/lit-element.js';
 import { Page } from '../../bases/Page.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
@@ -43,7 +43,7 @@ export class StoryPage extends Page {
 
   async preload() {
     super.buildComponents();
-    await this.imagePreloader([]);
+    await super.imagePreloader([this.data.Content[0].Image.url]);
   }
 
   render() {

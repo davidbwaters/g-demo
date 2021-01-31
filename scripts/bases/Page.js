@@ -8,7 +8,6 @@ import { buildComponent } from '../utils/buildComponent.js';
 import { initialize } from '../styles/initialize.js';
 import { objects } from '../styles/objects.js';
 import { utilities } from '../styles/utilities.js';
-import { observeElementInViewport } from '../../modules/observe-element-in-viewport.js';
 export class Page extends Component {
   static get styles() {
     return [initialize, objects, utilities];
@@ -16,12 +15,14 @@ export class Page extends Component {
 
   constructor() {
     super();
+    console.log(this);
     this.handleLoad = this.handleLoad.bind(this);
     this.handlePreload = this.handlePreload.bind(this);
     this.addEventListener('dataLoad', this.handleDataLoad);
     this.addEventListener('preload', this.handlePreload);
     this.buildComponent = buildComponent;
-    this.content = []; // this.debug = true
+    this.content = [];
+    this.debug = true;
   }
 
   handleDataLoad() {
@@ -38,13 +39,28 @@ export class Page extends Component {
     this.removeEventListener('dataLoad', this.handleDataLoad);
   }
 
+  async loadChildren() {
+    await this.updateComplete;
+    await super.updateComplete;
+    let children = this.shadowRoot.querySelectorAll('[data-api-component]');
+    children = [...children];
+    await Promise.all(children.map(c => c.updateComplete));
+  }
+
   async handlePreload() {
     if (!this.dataLoaded) {
       this._watingForData = true;
       this.addEventListener('dataLoad', this.handlePreload);
     } else {
+      await this.loadChildren();
       await this.preload();
+
+      if (this.debug) {
+        console.log('awaited preload');
+      }
+
       this.loaded = true;
+      this.setAttribute('loaded', true);
       this.dispatchEvent(new CustomEvent('preloaded'));
 
       if (this.debug) {
@@ -58,24 +74,21 @@ export class Page extends Component {
     }
   }
 
-  handleLoad() {
+  async handleLoad() {
     this.transitionIn();
     requestAnimationFrame(() => {
       window.dispatchEvent(new Event('resize'));
     });
   }
 
-  addBlurFilter() {
-    super.addBlurFilter();
+  addBlurFilter() {//super.addBlurFilter()
   }
 
-  blurAnimation() {
-    super.blurAnimation();
+  blurAnimation() {//super.blurAnimation()
   }
 
   async performUpdate() {
     this.data = await this.getApiData(this.dataEndpoint);
-    this.removeAttribute('data');
     this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
   }
@@ -87,30 +100,13 @@ export class Page extends Component {
       });
     }
 
+    console.log(this);
     this.contentBuilt = true;
   }
 
-  observeComponents(viewport, inHandler, outHandler, targetEls) {
-    let targets = targetEls ? targetEls : this.shadowRoot.querySelectorAll('[data-id]');
-    let observers = [];
-    targets.forEach(target => {
-      // console.log(target)
-      observers = observers.concat(observeElementInViewport(target, inHandler, outHandler, {
-        viewport,
-        modTop: '-100px',
-        threshold: [90]
-      }));
-    });
-    this.observers = observers;
-
-    this.unobserveAll = () => {
-      observers.forEach(o => {
-        o();
-      });
-    };
-  }
-
   onActivate() {
+    console.log(this);
+
     if (this.debug) {
       console.log('Activating route ...');
     }
@@ -132,7 +128,7 @@ export class Page extends Component {
         this.galleries = [...this.shadowRoot.querySelectorAll('c-gallery')];
 
         if (this.galleries[0] !== null && this.galleries[0] !== undefined) {
-          console.log(this.galleries[0]);
+          // console.log(this.galleries[0])
           this.galleries.forEach(el => {
             el.scrollerStart();
           });
@@ -178,7 +174,5 @@ export class Page extends Component {
       this.transitionReady = true;
     }
   }
-
-  async preload() {}
 
 }

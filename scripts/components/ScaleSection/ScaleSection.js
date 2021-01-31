@@ -30,7 +30,7 @@ export class ScaleSection extends LitElement {
 
         .c-scale-section__content {
           align-content: var(--scale-section-content-align);
-          display:  var(--scale-section-content-display);
+          display:  grid;
           justify-content: var(--scale-section-content-justify);
           width: 100%;
         }
@@ -44,11 +44,13 @@ export class ScaleSection extends LitElement {
         }
 
         .c-scale-section__heading {
+          color: var(--scale-section-color);
           display:  var(--scale-section-heading-display);
           text-align: var(--scale-section-content-text-align);
         }
 
         .c-scale-section__text {
+          color: var(--scale-section-color);
           display:  var(--scale-section-text-display);
           text-align: var(--scale-section-content-text-align);
         }

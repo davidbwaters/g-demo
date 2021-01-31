@@ -153,7 +153,7 @@ export const objects = css`
 
   .o-block {
     --block-gap: calc(
-      var(--spacing-responsive) * 4
+      var(--spacing-responsive) * 2
     );
     align-content: center;
     column-gap: 0rem;
@@ -187,7 +187,9 @@ export const objects = css`
   @media(min-width: 70em) {
 
     .o-block--narrow  {
-      grid-template-columns: var(--wrapper-max);
+      grid-template-columns: calc(
+        var(--wrapper-max) / 9 * 7
+      );
     }
 
   }
