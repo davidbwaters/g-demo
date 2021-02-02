@@ -554,7 +554,7 @@ export class Gallery extends Component {
     this.data.map(i => {
       this.covers = this.covers.concat(i.Cover.url);
     });
-    await super.imagePreloader(this.covers);
+    await this.imagePreloader(this.covers);
     console.log('images-loaded');
   }
 
