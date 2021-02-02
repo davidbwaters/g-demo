@@ -209,10 +209,14 @@ export class Router extends router(LitElement) {
 
     if (this.isFirstLoad) {
       setTimeout(() => {
-        this.loaderEl.disable();
+        if (this.route !== 'gallery') {
+          this.loaderEl.disable();
+        }
       }, 2000);
     } else {
-      if (this.loaderEnabled) {
+      if (this.route === 'gallery' && this.galleryLoaded === true) {
+        this.loaderEl.disable();
+      } else if (this.loaderEnabled) {
         setTimeout(() => {
           this.loaderEl.disable();
         }, 800);

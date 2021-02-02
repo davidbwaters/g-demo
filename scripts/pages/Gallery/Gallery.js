@@ -109,15 +109,9 @@ export class GalleryPage extends Page {
     this.galleryReady = galleryReady;
   }
 
-  async firstUpdated() {
+  firstUpdated() {
     this.galleryEl = this.shadowRoot.querySelector('c-gallery');
-    await this.galleryEl.preloadImages();
-    console.log('covers');
-    this.loaded = true;
-    this.setAttribute('loaded', true);
-    this.dispatchEvent(new CustomEvent('preloaded'));
-    Chocolat(this.shadowRoot.querySelectorAll('.chocolat-image'));
-    this.dispatchEvent(new CustomEvent('GalleryReady'));
+    this.galleryEl.covers = this.albumCovers;
   }
 
   async preload() {
@@ -166,28 +160,6 @@ export class GalleryPage extends Page {
         }
       });
     });
-  }
-
-  async handlePreload() {
-    if (!this.dataLoaded) {
-      this._watingForData = true;
-      this.addEventListener('dataLoad', this.handlePreload);
-    } else {
-      await super.loadChildren();
-
-      if (this.debug) {
-        console.log('awaited preload');
-      }
-
-      if (this.debug) {
-        console.log('Preloaded ' + this.dataEndpoint);
-      }
-
-      if (this._watingForData) {
-        this._watingForData = false;
-        this.removeEventListener('dataLoad', this.handlePreload);
-      }
-    }
   }
 
   transitionIn() {}

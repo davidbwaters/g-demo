@@ -24,11 +24,12 @@ export class Gallery extends Component {
         }
 
         .c-gallery__wrapper {
+          display: grid;
           height: calc(100% - (var(--navbar-height) * 2.5));
+          margin-bottom: calc(var(--navbar-height) * 1.5);
+          margin-top: var(--navbar-height);
           overflow-x: hidden;
           overflow-y: auto;
-          padding-bottom: calc(var(--navbar-height) * 1.5);
-          padding-top: var(--navbar-height);
         }
 
         .c-gallery__inner {
@@ -280,10 +281,10 @@ export class Gallery extends Component {
         .c-gallery--grid-view.c-gallery__inner {
           grid-auto-flow: row;
           grid-template-columns: repeat(
-            auto-fill, minmax(12rem, 1fr)
+            auto-fill, minmax(16rem, 1fr)
           );
           grid-template-rows: repeat(
-            auto-fill, minmax(12rem, 1fr)
+            auto-fill, minmax(16rem, 1fr)
           );
           margin-bottom: 1rem;
           row-gap: 1rem;
@@ -385,7 +386,6 @@ export class Gallery extends Component {
   }
 
   firstUpdated() {
-    // console.log(this.data)
     this.wrapperEl = this.shadowRoot.querySelector('.c-gallery__wrapper');
     this.galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this.closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
@@ -409,6 +409,34 @@ export class Gallery extends Component {
       });
     });
     this.setMaxScroll();
+  }
+
+  updated() {
+    this.loaderEl = document.querySelector('c-router-app').loaderEl;
+    console.log('upd');
+
+    if (!this.imagesLoaded === true && this.covers && this.covers.length) {
+      console.log(this.loaderEl);
+      this.imagePreloader(this.covers).then(() => {
+        console.log('then');
+        this.loading = false;
+        this.loaderEl.disable();
+        this.imagesLoaded = true;
+        document.querySelector('c-router-app').galleryLoaded = true;
+      }).catch(err => {
+        console.log(err);
+        console.log('errrr');
+        this.loading = false;
+        this.loaderEl.disable();
+        this.imagesLoaded = true;
+        document.querySelector('c-router-app').galleryLoaded = true;
+      });
+    } else if (this.imagesLoaded) {
+      console.log('false');
+      setTimeout(() => {
+        this.loaderEl.disable();
+      }, 500);
+    }
   }
 
   setMaxScroll() {
@@ -547,15 +575,6 @@ export class Gallery extends Component {
       }
     });
     this.shouldScroll = true;
-  }
-
-  async preloadImages() {
-    this.covers = [];
-    this.data.map(i => {
-      this.covers = this.covers.concat(i.Cover.url);
-    });
-    await this.imagePreloader(this.covers);
-    console.log('images-loaded');
   }
 
   scrollerStop() {
