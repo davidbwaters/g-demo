@@ -11,6 +11,8 @@ export class Component extends LitElement {
   constructor() {
     super();
     this.url = remote.url;
+    this.addBlurFilter = this.addBlurFilter.bind(this);
+    this.blurAnimation = this.blurAnimation.bind(this);
   }
 
   async imagePreloader(images) {
@@ -20,22 +22,25 @@ export class Component extends LitElement {
     });
     let percentage = 100 / images.length;
     let preloader = new ImagePreloader();
-    let loader = document.querySelector('c-router-app').loaderEl;
     this.progress = 0;
+    this.loaderEl = document.querySelector('c-router-app').loaderEl;
+    this.loaderEl.realProgress = true;
 
     preloader.onProgress = progress => {
-      if (this.hasAttribute('active')) {
-        loader.realProgress = true;
-        this.progress += percentage / 4; //console.log(images)
+      console.log(this);
 
-        console.log(progress);
+      if (this.hasAttribute('active') && this.loaderEl.realProgress === true) {
+        this.progress += percentage / 4; // console.log(images)
+        // console.log(this.progress)
+
         requestAnimationFrame(progress => {
-          loader.progress += percentage / 4;
+          this.loaderEl.progress += percentage / 4;
         });
       }
     };
 
     await preloader.preload(...imagesAbsolute);
+    this.loaderEl.realProgress = false;
   }
 
   async getApiData(endpoint) {

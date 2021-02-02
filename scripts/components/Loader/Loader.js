@@ -1,8 +1,9 @@
 /*
  *  Scripts - Components - Loader */
-import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { html, css } from '../../../modules/lit-element.js';
 import { initialize } from '../../styles/initialize.js';
-export class Loader extends LitElement {
+import { Component } from '../../bases/Component.js';
+export class Loader extends Component {
   static get styles() {
     return [initialize, css`
 
@@ -36,7 +37,7 @@ export class Loader extends LitElement {
           width: 100%;
         }
 
-        .c-loader__branding{
+        .c-loader__branding {
           margin-left: auto;
           margin-right: auto;
           width: 8rem;
@@ -49,11 +50,11 @@ export class Loader extends LitElement {
             center 45%;
           background-repeat: no-repeat;
           background-size:
-            auto 3%,
-            auto 25%;
+            30% auto,
+            80% auto;
         }
 
-        @media(min-width: 60rem) {
+        @media(min-width: 40rem) {
 
           .c-loader__bar,
           .c-loader__bar::after {
@@ -174,11 +175,12 @@ export class Loader extends LitElement {
 
   updated() {
     if (this.realProgress) {
-      if (this.progress < 75) {
+      if (this.progress < 75 && this.currentProgress < this.progress) {
         window.requestAnimationFrame(time => {
           if (this.currentTime === 0) {
             this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
             this.currentTime = time;
+            this.currentProgress = this.progress;
           }
 
           if (this.progress - this.currentProgress > 10 && time - this.currentTime > 400 && this.progress > this.currentProgress) {
@@ -220,6 +222,11 @@ export class Loader extends LitElement {
     }
   }
 
+  async loadBackground() {
+    super.imagePreloader(['/images/Vector/Trace Profile Image Subtle.jpg']);
+    this.backgroundLoaded = true;
+  }
+
   setComplete() {
     requestAnimationFrame(() => {
       this.shadowRoot.host.style.setProperty('--loader-progress', '100%');
@@ -228,6 +235,11 @@ export class Loader extends LitElement {
   }
 
   enable() {
+    if (!this.backgroundLoaded) {
+      this.loadBackground();
+      this.backgroundLoaded = true;
+    }
+
     this.progress = 0;
     this.currentProgress = 0;
     this.currentTime = 0;
@@ -263,8 +275,8 @@ export class Loader extends LitElement {
         this.progress = 0;
         this.currentProgress = 0;
         this.currentTime = 0;
-      }, 500);
-    }, 1000);
+      }, 0);
+    }, 500);
   }
 
   render() {

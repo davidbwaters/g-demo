@@ -112,7 +112,7 @@ export class TextBlock extends LitElement {
       this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-medium-weight)');
       this.shadowRoot.host.style.setProperty('--text-block-line-height', 'var(--line-height-text-' + this.Size.toLowerCase() + ')');
     } else {
-      this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-lighter-weight)');
+      this.shadowRoot.host.style.setProperty('--text-block-weight', 'var(--font-main-weight)');
       this.shadowRoot.host.style.setProperty('--text-block-line-height', 'var(--line-height-text-spaced-' + this.Size.toLowerCase() + ')');
     }
 

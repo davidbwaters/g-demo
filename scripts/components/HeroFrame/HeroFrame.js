@@ -24,8 +24,8 @@ export class HeroFrame extends Component {
           overflow: hidden;
         }
 
-        .c-hero-frame__upper {
-          align-content: start;
+        .c-hero-frame__large-text-heading {
+          display: none;
         }
 
         .c-hero-frame__large-text-media-block {
@@ -145,8 +145,7 @@ export class HeroFrame extends Component {
   }
 
   firstUpdated() {
-    super.addBlurFilter();
-    super.blurAnimation();
+    this.blurAnimation();
     this._scrollInstances = [{
       start: () => {
         this.scrollReady ? this._scrollInstance.start() : this.shouldStart = true;
@@ -161,7 +160,9 @@ export class HeroFrame extends Component {
 
   blurAnimation() {
     super.addBlurFilter();
-    super.blurAnimation();
+    setTimeout(() => {
+      super.blurAnimation();
+    }, 500);
   }
 
   handleScrollReady() {
@@ -271,6 +272,7 @@ export class HeroFrame extends Component {
         <div class="
             o-section-block
             o-section-block--top
+            c-hero-frame__large-text
           "
         >
 
@@ -279,6 +281,7 @@ export class HeroFrame extends Component {
             c-hero-frame__upper
           ">
             <div class="
+              c-hero-frame__large-text-heading
             ">
               <c-heading data=${JSON.stringify({
       Text: this.data.LargeText.TextBlock,

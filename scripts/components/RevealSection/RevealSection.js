@@ -38,18 +38,9 @@ export class RevealSection extends LitElement {
           height: 100vh;
           justify-content: center;
           margin-top: 0;
-          position: relative;
+          position: sticky;
           text-align: center;
           width:100%;
-        }
-
-
-        @media (min-width:40em) {
-
-          .c-reveal-section__lower {
-            grid-template-columns: 80%;
-          }
-
         }
 
         .c-reveal-section__bars {

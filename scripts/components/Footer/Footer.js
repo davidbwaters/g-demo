@@ -10,6 +10,14 @@ export class Footer extends Component {
   static get styles() {
     return [initialize, logoResponsive, css`
         :host {
+
+        --logo-small-light: url('/images/Branding/Logo G - Light.svg');
+        --logo-small-dark: url('/images/Branding/Logo G - Dark.svg');
+        --logo-medium-light: url('/images/Branding/Logo Initials - Light.svg');
+        --logo-medium-dark: url('/images/Branding/Logo Initials - Dark.svg');
+        --logo-large-light: url('/images/Branding/Logo - Light.svg');
+        --logo-large-dark: url('/images/Branding/Logo - Dark.svg');
+
           background-color: var(--color-bg-inverse);
           bottom: 0;
           color: var(--color-fg-inverse);

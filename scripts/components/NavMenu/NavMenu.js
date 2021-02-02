@@ -9,6 +9,14 @@ export class NavMenu extends LitElement {
     return [initialize, css`
 
         :host {
+
+        --logo-small-light: url('/images/Branding/Logo G - Light.svg');
+        --logo-small-dark: url('/images/Branding/Logo G - Dark.svg');
+        --logo-medium-light: url('/images/Branding/Logo Initials - Light.svg');
+        --logo-medium-dark: url('/images/Branding/Logo Initials - Dark.svg');
+        --logo-large-light: url('/images/Branding/Logo - Light.svg');
+        --logo-large-dark: url('/images/Branding/Logo - Dark.svg');
+
           background-color: var(--color-bg-inverse);
           height: 3rem;
           opacity: var(--navbar-opacity);
@@ -49,8 +57,8 @@ export class NavMenu extends LitElement {
           display: grid;
           font-family: var(--font-title);
           font-size: var(--text-size-small);
-          font-weight: var(--font-weight-title-normal);
-          letter-spacing: var(--letter-spacing-title-normal);
+          font-weight: var(--font-weight-title-normal-light);
+          letter-spacing: var(--letter-spacing-title-normal-light);
           transition: color .25s;
         }
 

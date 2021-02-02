@@ -17,13 +17,14 @@ export class Gallery extends Component {
           display: block;
           max-width: 100vw;
           height: 100vh;
+          height: -webkit-fill-available;
           overflow: hidden;
           position: relative;
           width: 100%;
         }
 
         .c-gallery__wrapper {
-          height: calc(100vh - (var(--navbar-height) * 2.5));
+          height: calc(100% - (var(--navbar-height) * 2.5));
           overflow-x: hidden;
           overflow-y: auto;
           padding-bottom: calc(var(--navbar-height) * 1.5);
@@ -36,14 +37,21 @@ export class Gallery extends Component {
           grid-auto-flow: column;
           grid-auto-columns: 66%;
           grid-template-rows: calc(
-            100vh - (var(--navbar-height) * 2.5)
+            1fr
           );
           scroll-snap-type: x mandatory;
         }
 
         [data-articles] .c-gallery__inner {
 
+
           padding-left: .5rem;
+
+        }
+
+        [data-articles] .c-gallery__item {
+
+          align-content: start;
 
         }
 
@@ -85,7 +93,7 @@ export class Gallery extends Component {
         [data-articles] .c-gallery__item__inner {
           align-items: start;
           grid-template-rows:
-            min-content 2fr 1fr min-content;
+            min-content 1fr 1fr min-content;
         }
 
         .c-gallery__item-title {
@@ -131,7 +139,7 @@ export class Gallery extends Component {
           background-position: center center;
           background-repeat: no-repeat;
           background-size: cover;
-          height: 30vh;
+          height: 40vh;
           margin-bottom: 2rem;
           padding-left: 0rem;
           padding-right: 0rem;
@@ -330,6 +338,15 @@ export class Gallery extends Component {
         }
         .c-gallery__cursor.mouse-is-down {
           background-color: hsla(220,5%,10%,.8);
+        }
+
+
+        @media(max-width: 40rem) {
+
+          .c-gallery__cursor {
+            display: none;
+          }
+
         }
 
         [data-gallery-expand] {

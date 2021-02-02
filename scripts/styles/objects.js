@@ -81,7 +81,7 @@ export const objects = css`
   .o-media-block--split-flush-start {
 
     --media-block-gap:  calc(
-      var(--spacing-responsive) * 2
+      var(--spacing-responsive) * 3
     );
 
     column-gap: var(--media-block-gap);
@@ -202,7 +202,8 @@ export const objects = css`
 
   @media(min-width: 40em) {
 
-    .o-block--half {
+    .o-block--half,
+    .o-block--half\\@desktop {
       grid-template-columns: 50%;
       padding-left: 0;
       padding-right: 0;

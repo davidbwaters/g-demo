@@ -13,8 +13,8 @@ export class FadeTransition extends LitElement {
         box-sizing: content-box !important;
         display: grid;
 
-        padding-bottom: 4rem;
-        padding-top: 4rem;
+        padding-bottom: 6rem;
+        padding-top: 6rem;
         position: relative;
         width: 100%;
       }

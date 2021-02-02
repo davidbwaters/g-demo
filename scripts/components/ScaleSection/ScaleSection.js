@@ -32,6 +32,7 @@ export class ScaleSection extends LitElement {
           align-content: var(--scale-section-content-align);
           display:  grid;
           justify-content: var(--scale-section-content-justify);
+          row-gap: 0;
           width: 100%;
         }
 
@@ -326,7 +327,11 @@ export class ScaleSection extends LitElement {
         this.shadowRoot.host.style.setProperty('--scale-section-background', 'var(--color-bg)');
       }
 
-      this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg)');
+      if (!this.Component === 'article') {
+        this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg)');
+      }
+    } else {
+      this.shadowRoot.host.style.setProperty('--scale-section-color', 'initial');
     }
 
     if (this.Component === 'image') {
@@ -746,7 +751,11 @@ export class ScaleSection extends LitElement {
           ` : this.Component === 'background' && this.data.Heading === null && !this.data.Text.length ? html`
 
           ` : this.Component === 'background' ? html`
-            <div class="o-block o-block--narrow c-scale-section__content">
+            <div class="
+              o-block
+              o-block--half@desktop
+              c-scale-section__content
+            ">
               <div>
                   <c-heading
                     data="

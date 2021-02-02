@@ -24,6 +24,22 @@ export class Heading extends LitElement {
           text-align: var(--heading-text-align);
         }
 
+        @media (min-width: 60em) {
+
+          .c-heading__text {
+            margin-left: auto;
+            margin-right: auto;
+          }
+
+        }
+
+
+        @media (max-width: 60em) {
+          br {
+            display: none;
+          }
+        }
+
         .c-heading__text span {
           color: var(--heading-span-color);
         }

@@ -10,21 +10,36 @@ export class VehiclesPage extends Page {
   static get styles() {
     return [initialize, objects, utilities, css`
         .c-vehicles-page__nav {
-          background-color: var(--color-bg);
+          background-color: rgba(255,255,255,.85);
+          border-bottom: 1px solid rgba(0,0,0,0.2);
           color: var(--color-fg-subtle);
-          font-size: var(--text-size-small);
-          padding: .5rem;
+          font-size: calc( var(--text-size-small) * .85);
+          padding-bottom: .8rem;
+          padding-left: .25rem;
+          padding-right: .25rem;
+          padding-top: .8rem;
           position: fixed;
           text-align: center;
           width: 100%;
+          backdrop-filter: saturate(180%) blur(20px);
           z-index: 9;
+        }
+
+        @media(min-width: 70em) {
+
+          .c-vehicles-page__nav {
+            font-size: calc( var(--text-size-small) * 1);
+            padding-bottom: .5rem;
+            padding-top: .5rem;
+          }
+
         }
 
         .c-vehicles-page__nav a {
           display: inline-block;
           opacity: .8;
-          padding-left: calc(1.1vw);
-          padding-right: calc(1.1vw);
+          padding-left: calc(1.05vw);
+          padding-right: calc(1.05vw);
         }
 
         .c-vehicles-page__nav a.is-active {

@@ -16,8 +16,18 @@ export class HeroMultiHeading extends LitElement {
           display: grid;
           grid-template-columns: 1fr;
           grid-template-rows: min-content 1fr;
-          min-height: 95vh;
           padding-top: calc(var(--navbar-height) + 4rem);
+        }
+
+
+        @media(min-width:40rem) {
+
+          :host {
+
+            min-height: 95vh;
+
+            }
+
         }
 
         .c-hero-multi-heading__text {
@@ -41,6 +51,7 @@ export class HeroMultiHeading extends LitElement {
           background-position: center bottom;
           background-repeat: no-repeat;
           background-size: 180% auto;
+          min-height: 45vh;
           margin-top: 1rem;
         }
 
@@ -71,7 +82,13 @@ export class HeroMultiHeading extends LitElement {
     this.url = remote.url;
   }
 
+  async preload() {
+    await super.imagePreloader([this.data.Image.url]);
+  }
+
   firstUpdated() {
+    this.preload();
+
     if (this.data.GrayBackground) {
       this.shadowRoot.host.style.setProperty('--hero-multi-heading-background-color', 'var(--color-bg-subtle)');
     } else {

@@ -78,7 +78,7 @@ export class ContactPage extends Page {
           .c-contact-page__content {
             display: grid;
             grid-template-columns: 2.5rem 5fr 2.5rem 3fr;
-            row-gap: 1.5rem;
+            row-gap: 1.8rem;
           }
 
         }

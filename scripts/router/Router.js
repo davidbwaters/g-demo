@@ -197,21 +197,27 @@ export class Router extends router(LitElement) {
     this.activeRouteEl.handleLoad();
     console.log(this.activeRouteEl.onActivate);
     this.activeRouteEl.handlePreload();
-    this.activeRouteEl.setAttribute('loaded', 'true');
 
     if (this.debug) {
       console.log('Awaited handlePreload ...');
     }
 
     let active = this.activeRouteEl;
-    requestAnimationFrame(async function () {
+    requestAnimationFrame(function () {
       active.shadowRoot.host.style.setProperty('--page-opacity', '1');
     });
-    setTimeout(() => {
-      if (this.loaderEnabled) {
+
+    if (this.isFirstLoad) {
+      setTimeout(() => {
         this.loaderEl.disable();
+      }, 2000);
+    } else {
+      if (this.loaderEnabled) {
+        setTimeout(() => {
+          this.loaderEl.disable();
+        }, 800);
       }
-    }, 100);
+    }
 
     if (this.loadingActiveRoute) {
       this.loadingActiveRoute = false;
@@ -233,8 +239,15 @@ export class Router extends router(LitElement) {
     } // Set the active route element.
 
 
-    this.setActiveRouteEl(); // If the gallery is active, hide footer,
+    this.setActiveRouteEl();
+    let loaded = this.activeRouteEl.loaded; //let loading = this.loadingActiveRoute
+
+    if (loaded !== true) {
+      this.loaderEl.enable();
+      this.loaderEnabled = true;
+    } // If the gallery is active, hide footer,
     // if not make sure it's not hidden
+
 
     if (this.activeRouteEl.hideFooter) {
       this.footerEl.style.height = '0';
@@ -252,12 +265,7 @@ export class Router extends router(LitElement) {
     // If it is, handle loading it and preload
     // other routes
 
-    let loaded = this.activeRouteEl.loaded; //let loading = this.loadingActiveRoute
-
     if (!loaded) {
-      this.loaderEl.enable();
-      this.loaderEnabled = true;
-
       if (this.debug) {
         console.log('Active route loading ...');
       }
@@ -286,7 +294,10 @@ export class Router extends router(LitElement) {
     if (this.isFirstLoad) {
       setTimeout(() => {
         this.onRouteChange();
-        this.isFirstLoad = false;
+        setTimeout(() => {
+          this.isFirstLoad = false;
+          this.activeRouteEl.onActivate();
+        }, 3000);
       }, 3000);
     }
   }
