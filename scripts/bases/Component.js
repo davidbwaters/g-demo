@@ -40,6 +40,7 @@ export class Component extends LitElement {
     };
 
     await preloader.preload(...imagesAbsolute);
+    this.imagePreload = preloader;
     this.loaderEl.realProgress = false;
   }
 

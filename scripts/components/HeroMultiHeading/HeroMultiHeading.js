@@ -1,12 +1,13 @@
 /*
  *  Scripts - Components - Hero Multi Heading
  */
-import { LitElement, html, css } from '../../../modules/lit-element.js';
+import { html, css } from '../../../modules/lit-element.js';
 import { remote } from '../../config/remote.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
 import { utilities } from '../../styles/utilities.js';
-export class HeroMultiHeading extends LitElement {
+import { Component } from '../../bases/Component.js';
+export class HeroMultiHeading extends Component {
   static get styles() {
     return [initialize, objects, utilities, css`
 
@@ -83,7 +84,8 @@ export class HeroMultiHeading extends LitElement {
   }
 
   async preload() {
-    await super.imagePreloader([this.data.Image.url]);
+    await super.imagePreloader([//      this.data.Image.url
+    ]);
   }
 
   firstUpdated() {

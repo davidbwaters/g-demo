@@ -43,7 +43,7 @@ export class StoryPage extends Page {
 
   async preload() {
     super.buildComponents();
-    await super.imagePreloader([this.data.Content[0].Image.url]);
+    await super.imagePreloader([]);
   }
 
   render() {

@@ -6,12 +6,13 @@ import { Page } from '../../bases/Page.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
 import { utilities } from '../../styles/utilities.js';
+import { buttons } from '../../styles/components.buttons.js';
 export class MediaPage extends Page {
   static get styles() {
-    return [initialize, objects, utilities, css`
+    return [initialize, objects, utilities, buttons, css`
         :host {
           display: block;
-          min-height: 100vh;
+          height: 100%;
           overflow-x: hidden;
           width: 100%;
         }
@@ -19,6 +20,8 @@ export class MediaPage extends Page {
         .c-gallery-page__overlay {
           display: grid;
           align-content: center;
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr;
           justify-content: center;
           padding-top: 0rem;
           row-gap: 0rem;
@@ -38,9 +41,7 @@ export class MediaPage extends Page {
           align-content: center;
           display: grid;
           grid-gap: 1rem;
-          grid-template-columns: repeat(
-            auto-fill, minmax(8rem, 1fr)
-          );
+          grid-template-columns: auto;
           padding-bottom: 1rem;
           padding-left: 1rem;
           padding-right: 1rem;
@@ -55,7 +56,7 @@ export class MediaPage extends Page {
             display: grid;
             grid-gap: 1rem;
             grid-template-columns: repeat(
-              auto-fill, minmax(12rem, 1fr)
+              auto
             );
           }
 
@@ -119,7 +120,10 @@ export class MediaPage extends Page {
         Subtitle: item.Media.Subheading,
         EntryContent: this.contentData.filter(obj => {
           return obj.id === item.Media.id;
-        })[0].EntryContent
+        })[0].EntryContent,
+        ExternalLink: this.contentData.filter(obj => {
+          return obj.id === item.Media.id;
+        })[0].ExternalLink
       });
 
       if (item.Media.Cover) {
@@ -127,6 +131,8 @@ export class MediaPage extends Page {
       }
     });
     await super.imagePreloader(this.albumCovers);
+    console.log(this.pageData);
+    console.log(this.galleryItems);
   }
 
   async preloadImages() {
@@ -162,15 +168,17 @@ export class MediaPage extends Page {
               class="c-gallery-page__overlay"
             >
               ${this.buildComponent(i.EntryContent)}
-              <c-heading
-                data=${JSON.stringify({
+              <div
+                class="c-gallery-page__overlay-title"
+              >
+                <c-heading
+                  data=${JSON.stringify({
       Text: i.Title
     })}
-                class="c-gallery-page__overlay-title"
-                size="medium"
-              >
-              </c-heading>
-
+                  size="medium"
+                >
+                </c-heading>
+              </div>
               <div
                 class="c-gallery-page__content"
               >
@@ -183,9 +191,14 @@ export class MediaPage extends Page {
               <div
                 class="c-gallery-page__overlay-lower"
               >
-                ${i.ExternalLink && i.ExternalLink.length ? html`
+                ${i.ExternalLink ? html`
                     <a
-                      class="c-button"
+                      class="
+                        c-button
+                        c-button--large
+                        c-button--flush
+                        c-button--block
+                      "
                       href=${i.ExternalLink.URL}
                     >
                       ${i.ExternalLink.Text}

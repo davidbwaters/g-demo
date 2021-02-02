@@ -242,12 +242,9 @@ export class Router extends router(LitElement) {
     this.setActiveRouteEl();
     let loaded = this.activeRouteEl.loaded; //let loading = this.loadingActiveRoute
 
-    if (loaded !== true) {
-      this.loaderEl.enable();
-      this.loaderEnabled = true;
-    } // If the gallery is active, hide footer,
+    this.loaderEl.enable();
+    this.loaderEnabled = true; // If the gallery is active, hide footer,
     // if not make sure it's not hidden
-
 
     if (this.activeRouteEl.hideFooter) {
       this.footerEl.style.height = '0';

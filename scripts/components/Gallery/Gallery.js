@@ -17,7 +17,7 @@ export class Gallery extends Component {
           display: block;
           max-width: 100vw;
           height: 100vh;
-          height: -webkit-fill-available;
+          max-height: -webkit-fill-available;
           overflow: hidden;
           position: relative;
           width: 100%;
@@ -36,22 +36,18 @@ export class Gallery extends Component {
           display: grid;
           grid-auto-flow: column;
           grid-auto-columns: 66%;
-          grid-template-rows: calc(
-            1fr
-          );
+          grid-template-rows: 100%;
+          height: 100%;
           scroll-snap-type: x mandatory;
         }
 
         [data-articles] .c-gallery__inner {
-
-
           padding-left: .5rem;
-
         }
 
         [data-articles] .c-gallery__item {
 
-          align-content: start;
+          align-content: stretch;
 
         }
 
@@ -65,6 +61,7 @@ export class Gallery extends Component {
 
         .c-gallery__item {
           display: grid;
+          grid-template-rows: 100%;
           min-width: 0;
           scroll-snap-align: start;
           text-align: center;
@@ -72,15 +69,14 @@ export class Gallery extends Component {
 
 
         [data-articles] .c-gallery__item {
-
           padding-left: .5rem;
           padding-right: .5rem;
-
         }
 
         .c-gallery__item__inner {
           align-items: center;
           background-color: white;
+          box-sizing: border-box;
           display: grid;
           grid-template-rows:
             1fr min-content min-content min-content;
@@ -94,6 +90,12 @@ export class Gallery extends Component {
           align-items: start;
           grid-template-rows:
             min-content 1fr 1fr min-content;
+        }
+
+        .c-gallery__item-text-block {
+          padding-bottom: 1rem;
+          padding-left: 1rem;
+          padding-right: 1rem;
         }
 
         .c-gallery__item-title {
@@ -117,10 +119,8 @@ export class Gallery extends Component {
 
         [data-articles] .c-gallery__item-subtitle {
           display: block;
-          font-size: var(--text-size-title-stylized);
-          font-weight: var(--font-weight-title-stylized);
-          letter-spacing: var(--letter-spacing-title-stylized);
-          line-height: var(--line-height-title-stylized);
+          font-size: var(--text-size-small);
+          letter-spacing: 0;
           margin-bottom: 0rem;
           text-transform: none;
         }
@@ -139,11 +139,19 @@ export class Gallery extends Component {
           background-position: center center;
           background-repeat: no-repeat;
           background-size: cover;
-          height: 40vh;
+          min-height: 28vh;
           margin-bottom: 2rem;
           padding-left: 0rem;
           padding-right: 0rem;
           width: 100%;
+        }
+
+        @media(min-width:40em) {
+
+          .c-gallery__item-background-image {
+            min-height: 36vh;
+          }
+
         }
 
         .c-gallery__item img {
@@ -350,6 +358,7 @@ export class Gallery extends Component {
         }
 
         [data-gallery-expand] {
+          align-self: end;
           cursor: none !important;
         }
 
@@ -619,29 +628,33 @@ export class Gallery extends Component {
                       style=${'background-image: url(' + this.url + i.Cover.url + ');'}
                     ></div>
 
-                    <c-heading
-                      data=${JSON.stringify({
+                    <div class="c-gallery__item-text-block">
+                      <c-heading
+                        data=${JSON.stringify({
       Text: i.Title
     })}
-                      size="small"
-                      class="
-                        c-gallery-page__overlay-title
-                        c-gallery__item-title
-                      "
-                    >
-                      ${i.Title}
+                        size="small"
+                        class="
+                          c-gallery-page__overlay-title
+                          c-gallery__item-title
+                        "
+                      >
+                        ${i.Title}
 
-                    </c-heading>
-                    <span
-                      class="c-gallery__item-subtitle"
-                    >
-                      ${i.Subtitle}
-                    </span>
+                      </c-heading>
+                      <span
+                        class="c-gallery__item-subtitle"
+                      >
+                        ${i.Subtitle}
+                      </span>
+                    </div>
+
                     <a
                       class="
                         c-button
                       "
                       data-slot = ${i.id}
+                      data-gallery-expand
                       @click=${this.showOverlay}
                     >
                       Show More

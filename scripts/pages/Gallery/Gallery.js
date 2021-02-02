@@ -160,7 +160,6 @@ export class GalleryPage extends Page {
         }
       });
     });
-    super.imagePreloader(this.albumCovers);
   }
 
   loadCovers() {
@@ -179,6 +178,7 @@ export class GalleryPage extends Page {
   async performUpdate() {
     this.pageData = await this.getApiData(this.pageEndpoint);
     this.contentData = await this.getApiData(this.dataEndpoint);
+    await this.preload();
     this.dispatchEvent(new CustomEvent('dataLoad'));
     super.performUpdate();
   }

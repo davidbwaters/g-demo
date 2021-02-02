@@ -174,7 +174,7 @@ export class Loader extends Component {
   }
 
   updated() {
-    if (this.realProgress) {
+    if (this.realProgress === true) {
       if (this.progress < 75 && this.currentProgress < this.progress) {
         window.requestAnimationFrame(time => {
           if (this.currentTime === 0) {
@@ -223,7 +223,8 @@ export class Loader extends Component {
   }
 
   async loadBackground() {
-    super.imagePreloader(['/images/Vector/Trace Profile Image Subtle.jpg']);
+    let img = document.createElement('img');
+    img.src = '/images/Vector/Trace Profile Image Subtle.jpg';
     this.backgroundLoaded = true;
   }
 
