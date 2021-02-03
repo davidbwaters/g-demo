@@ -413,14 +413,16 @@ export class Gallery extends Component {
 
   updated() {
     this.loaderEl = document.querySelector('c-router-app').loaderEl;
-    console.log('upd');
 
-    if (!this.imagesLoaded === true && this.covers && this.covers.length) {
-      console.log(this.loaderEl);
+    if (!this.imagesLoaded === true && !this.loading === true && this.covers && this.covers.length) {
+      //console.log(this.loaderEl)
+      this.loading = true;
       this.imagePreloader(this.covers).then(() => {
         console.log('then');
         this.loading = false;
-        this.loaderEl.disable();
+        setTimeout(() => {
+          this.loaderEl.disable();
+        }, 800);
         this.imagesLoaded = true;
         document.querySelector('c-router-app').galleryLoaded = true;
       }).catch(err => {
@@ -435,7 +437,7 @@ export class Gallery extends Component {
       console.log('false');
       setTimeout(() => {
         this.loaderEl.disable();
-      }, 500);
+      }, 2000);
     }
   }
 

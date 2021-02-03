@@ -215,7 +215,9 @@ export class Router extends router(LitElement) {
       }, 2000);
     } else {
       if (this.route === 'gallery' && this.galleryLoaded === true) {
-        this.loaderEl.disable();
+        setTimeout(() => {
+          this.loaderEl.disable();
+        }, 800);
       } else if (this.loaderEnabled) {
         setTimeout(() => {
           this.loaderEl.disable();

@@ -17,7 +17,7 @@ export const initialize = css`
   a,
   a:visited {
     color: inherit;
-    font-family: var(--font-title);
+    font-family: var(--font-title), sans-serif;
     font-weight: var(--font-medium-weight);
     text-decoration: none;
   }

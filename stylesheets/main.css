@@ -2,8 +2,7 @@
  *  Stylesheets - Main
  */
 @import "./chocolat.css";
-@import url("https://use.typekit.net/wkd0lyi.css");
-@import "../icons/icons.css";
+@import '/icons/icons.css';
 /*
  *  Generic - Initialize
  */

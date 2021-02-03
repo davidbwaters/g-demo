@@ -224,15 +224,17 @@ export class Loader extends Component {
 
   async loadBackground() {
     let img = document.createElement('img');
-    img.src = '/images/Vector/Trace Profile Image Subtle.jpg';
+    await this.imagePreloader(['/images/Vector/Trace Profile Image Subtle.jpg'], '');
     this.backgroundLoaded = true;
   }
 
   setComplete() {
-    requestAnimationFrame(() => {
-      this.shadowRoot.host.style.setProperty('--loader-progress', '100%');
-    });
-    setTimeout(() => {}, 1400);
+    setTimeout(() => {
+      requestAnimationFrame(() => {});
+    }, 800);
+    this.progress = 100;
+    this.realProgress = false;
+    this.shadowRoot.host.style.setProperty('--loader-progress', '100%');
   }
 
   enable() {
@@ -277,7 +279,7 @@ export class Loader extends Component {
         this.currentProgress = 0;
         this.currentTime = 0;
       }, 0);
-    }, 500);
+    }, 1200);
   }
 
   render() {

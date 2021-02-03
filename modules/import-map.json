@@ -9,6 +9,7 @@
     "lit-element": "./lit-element.js",
     "lit-element-router": "./lit-element-router.js",
     "lit-html": "./lit-html.js",
+    "magnet-mouse": "./magnet-mouse.js",
     "scrollbooster": "./scrollbooster.js"
   }
 }

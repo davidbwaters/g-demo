@@ -13,7 +13,7 @@ export class Heading extends LitElement {
         .c-heading__text {
           color: var(--heading-color);
           display: var(--heading-display);
-          font-family: var(--font-heading);
+          font-family: var(--font-heading), sans-serif;
           font-size: var(--heading-size);
           font-weight: var(--heading-weight);
           letter-spacing: var(--letter-spacing-heading);

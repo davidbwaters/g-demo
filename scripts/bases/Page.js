@@ -81,10 +81,12 @@ export class Page extends Component {
     });
   }
 
-  addBlurFilter() {//super.addBlurFilter()
+  addBlurFilter(a = 10) {
+    super.addBlurFilter(a);
   }
 
-  blurAnimation() {//super.blurAnimation()
+  blurAnimation(a, t) {
+    super.blurAnimation(a, t);
   }
 
   async performUpdate() {

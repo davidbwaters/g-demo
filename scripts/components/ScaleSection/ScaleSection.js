@@ -349,15 +349,7 @@ export class ScaleSection extends LitElement {
 
     if (this.Component === 'background') {
       this.shadowRoot.host.style.setProperty('--scale-section-background-image', 'url(' + this.url + this.data.BackgroundImage.url + ')');
-      this.shadowRoot.host.style.setProperty('--scale-section-background-display', 'block');
-
-      if (this.data.ContentLight) {
-        this.shadowRoot.host.style.setProperty('--scale-section-background', 'var(--color-bg-inverse-contrast)');
-        this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg-inverse-contrast)');
-      } else {
-        this.shadowRoot.host.style.setProperty('--scale-section-background', 'var(--color-bg-contrast)');
-        this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg-contrast)');
-      }
+      this.shadowRoot.host.style.setProperty('--scale-section-background-display', 'grid');
 
       if (this.data.TextAlign) {
         this.shadowRoot.host.style.setProperty('--scale-section-text-align', this.data.TextAlign.toLowerCase());
@@ -382,6 +374,17 @@ export class ScaleSection extends LitElement {
       }
     } else {
       this.shadowRoot.host.style.setProperty('--scale-section-background-display', 'none');
+    }
+
+    if (this.data.ContentLight) {
+      this.shadowRoot.host.style.setProperty('--scale-section-background', 'var(--color-bg-inverse-contrast)');
+      this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg-inverse-contrast)');
+    } else if (this.Component === 'background') {
+      this.shadowRoot.host.style.setProperty('--scale-section-background', 'var(--color-bg-contrast)');
+      this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg-contrast)');
+    } else {
+      this.shadowRoot.host.style.setProperty('--scale-section-background', 'var(--color-bg)');
+      this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg-subtle)');
     }
 
     if (this.data.CustomColors) {

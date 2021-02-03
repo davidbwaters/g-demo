@@ -15,10 +15,18 @@ export class Component extends LitElement {
     this.blurAnimation = this.blurAnimation.bind(this);
   }
 
-  async imagePreloader(images) {
+  async imagePreloader(images, url) {
     let imagesAbsolute = [];
+    let imgUrl;
+
+    if (!url) {
+      imgUrl = this.url;
+    } else {
+      imgUrl = url;
+    }
+
     images.forEach(image => {
-      imagesAbsolute = imagesAbsolute.concat(this.url + image);
+      imagesAbsolute = imagesAbsolute.concat(imgUrl + image);
     });
     let percentage = 100 / images.length;
     let preloader = new ImagePreloader();
@@ -73,14 +81,14 @@ export class Component extends LitElement {
     }
   }
 
-  addBlurFilter() {
+  addBlurFilter(a = 10) {
     const filterWrapper = document.createElement('div');
     filterWrapper.style.height = 0;
     filterWrapper.innerHTML = `
       <svg>
         <defs>
           <filter id="blurFilterSuper">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10,0" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="${a},0" />
           </filter>
         </defs>
       </svg>
@@ -90,13 +98,13 @@ export class Component extends LitElement {
     this.hasBlurFilter = true;
   }
 
-  blurAnimation() {
+  blurAnimation(a = 10, t) {
     if (!this.hasBlurFilter) {
-      this.addBlurFilter();
+      this.addBlurFilter(a);
     }
 
     setTimeout(() => {
-      motionBlur(this.blurFilter);
+      motionBlur(this.blurFilter, a, t);
     }, 100);
   }
 

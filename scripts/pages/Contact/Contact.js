@@ -7,6 +7,7 @@ import { buttons } from '../../styles/components.buttons.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
 import { utilities } from '../../styles/utilities.js';
+import MagnetMouse from '../../../modules/magnet-mouse.js';
 export class ContactPage extends Page {
   static get styles() {
     return [initialize, objects, buttons, utilities, css`
@@ -30,7 +31,8 @@ export class ContactPage extends Page {
           display: grid;
           grid-template-columns: 1fr;
           grid-template-columns: 1fr;
-          max-height: 100vh;
+          max-height: calc(100vh - var(--navbar-height));
+          min-height: 50vh;
           overflow: hidden;
           top: 0;
         }
@@ -43,20 +45,53 @@ export class ContactPage extends Page {
 
         }
 
-        .c-contact-page__form-image {
+        .c-contact-page__main-image-blur,
+        .c-contact-page__form-image,
+        .c-contact-page__form-image-blur {
           background-position: center center;
           background-size: cover;
-          filter: url(#blurFilterSuper);
-          min-height: 50vh;
-          opacity: .01;
-          transition: opacity 1s ease;
+          height: 100%;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: 100%;
           will-change: opacity;
         }
 
-        .c-contact-page__form-image.is-active {
-          background-position: center center;
-          background-size: cover;
+        .c-contact-page__form-image {
+          opacity: .01;
+          transition: opacity .5s ease;
+        }
+
+        .c-contact-page__main-image-blur,
+        .c-contact-page__form-image-blur {
+          filter: url(#blurFilterSuper);
+          will-change: opacity;
+        }
+
+        .is-active .c-contact-page__main-image-blur {
+          animation: none;
+          opacity: .01;
+        }
+
+        .is-active .c-contact-page__form-image {
           opacity: .99;
+        }
+
+        .is-active .c-contact-page__form-image-blur {
+          animation: fade-in .5s .5s;
+          animation-fill-mode: forwards;
+          opacity: .99;
+        }
+
+        .c-contact-page__main-image-blur {
+          animation: fade-in .5s .5s;
+          animation-fill-mode: forwards;
+          opacity: .99;
+        }
+
+        .c-contact-page__form-image-blur {
+          opacity: .01;
         }
 
         .c-contact-page__content-wrapper {
@@ -163,7 +198,6 @@ export class ContactPage extends Page {
           z-index: 1;
         }
 
-
         .c-contact-page__close-button.is-active {
           background-position: center center;
           background-size: cover;
@@ -171,11 +205,20 @@ export class ContactPage extends Page {
           pointer-events: initial;
         }
 
+        @keyframes fade-in {
+          0% {
+            opacity: .99;
+          }
+          100% {
+            opacity: .01;
+          }
+        }
+
       `];
   }
 
   async preload() {
-    await super.imagePreloader([this.data.MainImage.url]);
+    await this.imagePreloader([this.data.MainImage.url]);
   }
 
   static get properties() {
@@ -201,11 +244,12 @@ export class ContactPage extends Page {
   }
 
   firstUpdated() {
-    super.addBlurFilter();
+    super.addBlurFilter(20);
     this.contactWrapperEl = this.shadowRoot.querySelector('.c-contact-page__content-wrapper');
-    this.formImageEl = this.shadowRoot.querySelector('.c-contact-page__form-image');
+    this.mainImageEl = this.shadowRoot.querySelector('.c-contact-page__main-image');
     this.formWrapper = this.shadowRoot.querySelector('.c-contact-page__form-wrapper');
     this.closeEl = this.shadowRoot.querySelector('.c-contact-page__close-button');
+    this.buttonEls = this.shadowRoot.querySelectorAll('c-button');
     this.formEl = this.shadowRoot.querySelector('.c-contact-form');
 
     let toggle = () => {
@@ -216,14 +260,24 @@ export class ContactPage extends Page {
       toggle();
       console.log('submitted');
     });
+    let root = this.shadowRoot;
+    console.log(root);
+    let mm = new MagnetMouse({
+      magnet: {
+        root: root,
+        element: '.c-button',
+        distance: 0
+      }
+    }); //mm.init()
+
+    window.dispatchEvent(new Event('resize'));
   }
 
   formToggle() {
-    this.formImageEl.classList.toggle('is-active');
+    this.mainImageEl.classList.toggle('is-active');
     this.formWrapper.classList.toggle('is-active');
     this.closeEl.classList.toggle('is-active');
     this.contactWrapperEl.classList.toggle('is-active');
-    super.blurAnimation();
   }
 
   transitionIn() {}
@@ -244,16 +298,29 @@ export class ContactPage extends Page {
           class="
             o-media-block__item
             c-contact-page__main-image
-            is-active
           "
           style=${'background-image: url(' + this.url + this.data.MainImage.url + ');'}
         >
+          <div
+            class="
+              c-contact-page__main-image-blur
+            "
+            style=${'background-image: url(' + this.url + this.data.MainImage.url + ');'}
+          >
+          </div>
           <div
             class="
               c-contact-page__form-image
             "
             style=${'background-image: url(' + this.url + this.data.FormImage.url + ');'}
           >
+            <div
+              class="
+                c-contact-page__form-image-blur
+              "
+              style=${'background-image: url(' + this.url + this.data.FormImage.url + ');'}
+            >
+            </div>
           </div>
         </div>
         <div
