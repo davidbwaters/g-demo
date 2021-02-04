@@ -19,10 +19,10 @@ export class Component extends LitElement {
     let imagesAbsolute = [];
     let imgUrl;
 
-    if (!url) {
-      imgUrl = this.url;
-    } else {
+    if (url === '' || url) {
       imgUrl = url;
+    } else {
+      imgUrl = this.url;
     }
 
     images.forEach(image => {

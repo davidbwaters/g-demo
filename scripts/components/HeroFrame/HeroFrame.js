@@ -194,7 +194,6 @@ export class HeroFrame extends Component {
           <div class="
             o-media-block
             o-media-block--narrow
-            o-media-block--content-spacing-large
             o-media-block--split-flush-end
             c-hero-frame__upper
           ">

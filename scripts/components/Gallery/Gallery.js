@@ -16,11 +16,20 @@ export class Gallery extends Component {
         :host {
           display: block;
           max-width: 100vw;
-          height: 100vh;
+          height: var(--gallery-height);
           max-height: -webkit-fill-available;
           overflow: hidden;
           position: relative;
           width: 100%;
+        }
+
+
+        @media(min-width: 40rem) {
+
+          :host {
+            max-height: none;
+          }
+
         }
 
         .c-gallery__wrapper {
@@ -28,6 +37,7 @@ export class Gallery extends Component {
           height: calc(100% - (var(--navbar-height) * 2.5));
           margin-bottom: calc(var(--navbar-height) * 1.5);
           margin-top: var(--navbar-height);
+          max-height: -webkit-fill-available;
           overflow-x: hidden;
           overflow-y: auto;
         }
@@ -128,12 +138,23 @@ export class Gallery extends Component {
 
         .c-gallery__item:hover {
           cursor: grab;
-          cursor: none;
         }
 
         .c-gallery__item:focus {
           cursor: grabbing;
-          cursor: none;
+        }
+
+
+        @media(min-width: 40rem) {
+
+          .c-gallery__item:hover {
+            cursor: none;
+          }
+
+          .c-gallery__item:focus {
+            cursor: none;
+          }
+
         }
 
         .c-gallery__item-background-image {
@@ -360,7 +381,16 @@ export class Gallery extends Component {
 
         [data-gallery-expand] {
           align-self: end;
-          cursor: none !important;
+        }
+
+
+        @media(max-width: 40rem) {
+
+          [data-gallery-expand] {
+            align-self: end;
+            cursor: none !important;
+          }
+
         }
 
       `];
@@ -383,9 +413,16 @@ export class Gallery extends Component {
     this.gridView = false;
     this.scrollerStop = this.scrollerStop.bind(this);
     this.scrollerStart = this.scrollerStart.bind(this);
+    this.setHeight = this.setHeight.bind(this);
+    window.addEventListener('resize', this.setHeight);
+  }
+
+  setHeight() {
+    this.shadowRoot.host.style.setProperty('--gallery-height', window.innerHeight + 'px');
   }
 
   firstUpdated() {
+    this.setHeight();
     this.wrapperEl = this.shadowRoot.querySelector('.c-gallery__wrapper');
     this.galleryEl = this.shadowRoot.querySelector('.c-gallery__inner');
     this.closeEl = this.shadowRoot.querySelector('.c-gallery__close-button');
@@ -416,23 +453,23 @@ export class Gallery extends Component {
 
     if (!this.imagesLoaded === true && !this.loading === true && this.covers && this.covers.length) {
       //console.log(this.loaderEl)
-      this.loading = true;
       this.imagePreloader(this.covers).then(() => {
         console.log('then');
         this.loading = false;
-        setTimeout(() => {
-          this.loaderEl.disable();
-        }, 800);
         this.imagesLoaded = true;
+        setTimeout(() => {
+          console.log('gallery loader disable');
+          this.loaderEl.disable();
+        }, 1400);
         document.querySelector('c-router-app').galleryLoaded = true;
       }).catch(err => {
         console.log(err);
         console.log('errrr');
         this.loading = false;
-        this.loaderEl.disable();
         this.imagesLoaded = true;
         document.querySelector('c-router-app').galleryLoaded = true;
       });
+      this.loading = true;
     } else if (this.imagesLoaded) {
       console.log('false');
       setTimeout(() => {

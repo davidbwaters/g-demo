@@ -169,7 +169,7 @@ export class VehiclesPage extends Page {
 
   async preload() {
     super.buildComponents();
-    await super.imagePreloader([this.data.Content[0].Image.url]);
+    await this.imagePreloader([this.data.Content[0].Image.url]);
   }
 
   render() {

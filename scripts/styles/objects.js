@@ -239,8 +239,8 @@ export const objects = css`
     grid-auto-flow: row;
     grid-template-columns: 1fr;
     justify-items: center;
-    padding-top: calc(var(--spacing-responsive) * 5);
-    padding-bottom: calc(var(--spacing-responsive) * 5);
+    padding-top: calc(var(--spacing-responsive) * 6);
+    padding-bottom: calc(var(--spacing-responsive) * 6);
     row-gap: calc(var(--spacing-responsive) * 2);
   }
 

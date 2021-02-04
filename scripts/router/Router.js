@@ -71,7 +71,6 @@ export class Router extends router(LitElement) {
 
     this._addOutlet();
 
-    this.loaderEl.enable();
     this.loaderEnabled = true;
   }
 
@@ -218,7 +217,7 @@ export class Router extends router(LitElement) {
         setTimeout(() => {
           this.loaderEl.disable();
         }, 800);
-      } else if (this.loaderEnabled) {
+      } else if (!this.route === 'gallery' && this.loaderEnabled) {
         setTimeout(() => {
           this.loaderEl.disable();
         }, 800);
@@ -294,6 +293,9 @@ export class Router extends router(LitElement) {
   }
 
   firstUpdated() {
+    this.loaderEl.enable();
+    this.loaderEnabled = true;
+
     if (this.isFirstLoad) {
       setTimeout(() => {
         this.onRouteChange();

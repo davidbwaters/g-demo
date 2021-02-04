@@ -51,7 +51,7 @@ export class HeroMultiHeading extends Component {
         .c-hero-multi-heading__image {
           background-position: center bottom;
           background-repeat: no-repeat;
-          background-size: 180% auto;
+          background-size: cover;
           min-height: 45vh;
           margin-top: 1rem;
         }

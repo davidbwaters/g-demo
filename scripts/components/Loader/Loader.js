@@ -223,7 +223,6 @@ export class Loader extends Component {
   }
 
   async loadBackground() {
-    let img = document.createElement('img');
     await this.imagePreloader(['/images/Vector/Trace Profile Image Subtle.jpg'], '');
     this.backgroundLoaded = true;
   }
@@ -237,9 +236,11 @@ export class Loader extends Component {
     this.shadowRoot.host.style.setProperty('--loader-progress', '100%');
   }
 
-  enable() {
+  async enable() {
+    this.requestUpdate();
+
     if (!this.backgroundLoaded) {
-      this.loadBackground();
+      await this.loadBackground();
       this.backgroundLoaded = true;
     }
 
@@ -247,6 +248,7 @@ export class Loader extends Component {
     this.currentProgress = 0;
     this.currentTime = 0;
     this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
+    console.log(this.progress);
     this.enabled = true;
     document.documentElement.style.setProperty('--loader-display', 'grid');
     document.documentElement.style.setProperty('--loader-opacity', '1');
@@ -257,11 +259,11 @@ export class Loader extends Component {
     this.enabled = false;
     this.setComplete();
     this.realProgress = false;
-    this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
     setTimeout(() => {
       this.dispatchEvent(new CustomEvent('loaderDisabled'));
       requestAnimationFrame(() => {
         document.documentElement.style.setProperty('--loader-opacity', '0');
+        this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
       });
       requestAnimationFrame(() => {
         if (document.documentElement.classList.contains('u-prevent-scroll')) {

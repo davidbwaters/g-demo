@@ -12,7 +12,8 @@ export class GalleryPage extends Page {
     return [initialize, objects, utilities, css`
         :host {
           display: block;
-          min-height: 100vh;
+          height: var(--gallery-height);
+          min-height: 100%;
           overflow-x: hidden;
           width: 100%;
         }
@@ -107,11 +108,18 @@ export class GalleryPage extends Page {
       galleryReady = true;
     });
     this.galleryReady = galleryReady;
+    this.setHeight = this.setHeight.bind(this);
+    window.addEventListener('resize', this.setHeight);
+  }
+
+  setHeight() {
+    this.shadowRoot.host.style.setProperty('--gallery-height', window.innerHeight + 'px');
   }
 
   firstUpdated() {
     this.galleryEl = this.shadowRoot.querySelector('c-gallery');
     this.galleryEl.covers = this.albumCovers;
+    this.setHeight();
   }
 
   async preload() {

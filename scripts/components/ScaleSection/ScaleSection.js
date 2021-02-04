@@ -60,8 +60,10 @@ export class ScaleSection extends LitElement {
           align-self: var(--scale-section-image-align);
           display: block;
           justify-self: var(--scale-section-image-justify);
+          padding-bottom: var(--scale-section-image-spacing-left);
           padding-left: var(--scale-section-image-spacing-left);
           padding-right: var(--scale-section-image-spacing-right);
+          padding-top: var(--scale-section-image-spacing-left);
           transform: scale(var(--scale-section-size));
           transform-origin: var(
             --scale-section-transform-origin
