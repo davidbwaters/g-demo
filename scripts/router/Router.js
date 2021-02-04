@@ -51,6 +51,7 @@ export class Router extends router(LitElement) {
     this.handlePreload = this.handlePreload.bind(this);
     this.loadingActiveRoute = true;
     this.isFirstLoad = true;
+    this.galleryLoaded = false;
   }
 
   router(route, params, query, data) {
@@ -207,19 +208,22 @@ export class Router extends router(LitElement) {
     });
 
     if (this.isFirstLoad) {
+      console.log('First load ...');
       setTimeout(() => {
         if (this.route !== 'gallery') {
           this.loaderEl.disable();
+          this.loaderEnabled = false;
         }
       }, 2000);
     } else {
-      if (this.route === 'gallery' && this.galleryLoaded === true) {
+      console.log('Not first load ...');
+      console.log(this.route);
+
+      if (this.route !== 'gallery' || this.route === 'gallery' && this.galleryLoaded === true) {
+        console.log('not gallery');
         setTimeout(() => {
           this.loaderEl.disable();
-        }, 800);
-      } else if (!this.route === 'gallery' && this.loaderEnabled) {
-        setTimeout(() => {
-          this.loaderEl.disable();
+          this.loaderEnabled = false;
         }, 800);
       }
     }
@@ -299,8 +303,8 @@ export class Router extends router(LitElement) {
     if (this.isFirstLoad) {
       setTimeout(() => {
         this.onRouteChange();
+        this.isFirstLoad = false;
         setTimeout(() => {
-          this.isFirstLoad = false;
           this.activeRouteEl.onActivate();
         }, 3000);
       }, 3000);

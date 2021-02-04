@@ -46,11 +46,11 @@ export class Loader extends Component {
         .c-loader__bar,
         .c-loader__bar::after {
           background-position:
-            center 67%,
+            center 72%,
             center 45%;
           background-repeat: no-repeat;
           background-size:
-            30% auto,
+            6rem auto,
             80% auto;
         }
 
@@ -175,7 +175,7 @@ export class Loader extends Component {
 
   updated() {
     if (this.realProgress === true) {
-      if (this.progress < 75 && this.currentProgress < this.progress) {
+      if (this.progress < 90 && this.currentProgress < this.progress) {
         window.requestAnimationFrame(time => {
           if (this.currentTime === 0) {
             this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');

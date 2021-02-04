@@ -414,6 +414,8 @@ export class Gallery extends Component {
     this.scrollerStop = this.scrollerStop.bind(this);
     this.scrollerStart = this.scrollerStart.bind(this);
     this.setHeight = this.setHeight.bind(this);
+    this.loading = true;
+    this.imagesLoaded = false;
     window.addEventListener('resize', this.setHeight);
   }
 
@@ -449,10 +451,11 @@ export class Gallery extends Component {
   }
 
   updated() {
+    this.routerEl = document.querySelector('c-router-app');
     this.loaderEl = document.querySelector('c-router-app').loaderEl;
 
-    if (!this.imagesLoaded === true && !this.loading === true && this.covers && this.covers.length) {
-      //console.log(this.loaderEl)
+    if (this.imagesLoaded !== true && this.loading !== false && this.covers && this.covers.length) {
+      console.log('loading gal images');
       this.imagePreloader(this.covers).then(() => {
         console.log('then');
         this.loading = false;
@@ -460,20 +463,21 @@ export class Gallery extends Component {
         setTimeout(() => {
           console.log('gallery loader disable');
           this.loaderEl.disable();
+          this.routerEl.loaderEnabled = false;
         }, 1400);
-        document.querySelector('c-router-app').galleryLoaded = true;
+        this.routerEl.galleryLoaded = true;
       }).catch(err => {
         console.log(err);
         console.log('errrr');
         this.loading = false;
         this.imagesLoaded = true;
-        document.querySelector('c-router-app').galleryLoaded = true;
+        this.routerEl.galleryLoaded = true;
       });
-      this.loading = true;
-    } else if (this.imagesLoaded) {
+    } else if (this.imagesLoaded === true) {
       console.log('false');
       setTimeout(() => {
         this.loaderEl.disable();
+        this.routerEl.loaderEnabled = false;
       }, 2000);
     }
   }
