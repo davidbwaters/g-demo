@@ -17,14 +17,14 @@ export class RevealSection extends LitElement {
         }
 
         .c-reveal-section__upper {
-          background-attachment: fixed;
           background-image: var(
             --reveal-section-upper-bg-image
           );
           background-size: auto 100vh;
           background-repeat: no-repeat;
-          background-position: bottom center;
-          height: 200vh;
+          background-position: top center;
+          height: 100vh;
+          position: sticky;
           top: 0;
           width: 100%;
         }
@@ -37,7 +37,7 @@ export class RevealSection extends LitElement {
           grid-template-columns: 90%;
           height: 100vh;
           justify-content: center;
-          margin-top: 0;
+          margin-top: 50vh;
           position: sticky;
           text-align: center;
           width:100%;
