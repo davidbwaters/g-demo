@@ -33,10 +33,12 @@ export class Gallery extends Component {
         }
 
         .c-gallery__wrapper {
+          box-sizing: border-box;
           display: grid;
           height: calc(100% - (var(--navbar-height) * 2.5));
-          margin-bottom: calc(var(--navbar-height) * 1.5);
-          margin-top: var(--navbar-height);
+          padding-bottom: calc(var(--navbar-height) * 1.5);
+          padding-top: var(--navbar-height);
+          height: var(--gallery-height);
           max-height: -webkit-fill-available;
           overflow-x: hidden;
           overflow-y: auto;
@@ -47,8 +49,8 @@ export class Gallery extends Component {
           display: grid;
           grid-auto-flow: column;
           grid-auto-columns: 66%;
-          grid-template-rows: 100%;
-          height: 100%;
+          grid-template-rows: calc(100% -  var(--navbar-height) * 1.5);
+          height: calc(100% - (var(--navbar-height) * 1));
           scroll-snap-type: x mandatory;
         }
 
@@ -72,7 +74,7 @@ export class Gallery extends Component {
 
         .c-gallery__item {
           display: grid;
-          grid-template-rows: 100%;
+          grid-template-rows: 90%%;
           min-width: 0;
           scroll-snap-align: start;
           text-align: center;
@@ -91,20 +93,17 @@ export class Gallery extends Component {
           display: grid;
           grid-template-rows:
             1fr min-content min-content min-content;
-          padding-bottom: 8vh;
-          padding-top: 8vh;
           row-gap: 0rem;
           justify-items: center;
         }
 
         [data-articles] .c-gallery__item__inner {
-          align-items: start;
+          align-items: stretch;
           grid-template-rows:
-            min-content 1fr 1fr min-content;
+            min-content 1fr min-content;
         }
 
         .c-gallery__item-text-block {
-          padding-bottom: 1rem;
           padding-left: 1rem;
           padding-right: 1rem;
         }
@@ -114,6 +113,8 @@ export class Gallery extends Component {
           font-weight: var(
             --font-bolder-weight
           );
+
+          margin-top: 1rem;
         }
 
         .c-gallery__item-subtitle {
@@ -124,7 +125,7 @@ export class Gallery extends Component {
           font-weight: var(--font-weight-title-tiny);
           letter-spacing: var(--letter-spacing-title-tiny);
           line-height: var(--line-height-title-tiny);
-          margin-bottom: .25rem;
+          margin-bottom: 1rem;
           text-transform: uppercase;
         }
 
@@ -162,7 +163,6 @@ export class Gallery extends Component {
           background-repeat: no-repeat;
           background-size: cover;
           min-height: 28vh;
-          margin-bottom: 2rem;
           padding-left: 0rem;
           padding-right: 0rem;
           width: 100%;
@@ -171,7 +171,7 @@ export class Gallery extends Component {
         @media(min-width:40em) {
 
           .c-gallery__item-background-image {
-            min-height: 36vh;
+            min-height: 28vh;
           }
 
         }

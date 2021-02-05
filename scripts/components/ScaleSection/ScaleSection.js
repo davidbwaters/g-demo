@@ -385,7 +385,6 @@ export class ScaleSection extends LitElement {
       this.shadowRoot.host.style.setProperty('--scale-section-background', 'var(--color-bg-contrast)');
       this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg-contrast)');
     } else {
-      this.shadowRoot.host.style.setProperty('--scale-section-background', 'var(--color-bg)');
       this.shadowRoot.host.style.setProperty('--scale-section-color', 'var(--color-fg-subtle)');
     }
 

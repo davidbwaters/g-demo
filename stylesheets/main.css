@@ -2348,7 +2348,7 @@ small {
 /* Root */
 :root {
   --spacing-unit: .25rem;
-  --spacing-responsive: calc(.65rem + 1vw);
+  --spacing-responsive: calc(.55rem + 1vw);
   --spacing-responsive-y: calc(.33rem + 1.5vh);
   --heading-spacing: 0em;
   --text-spacing: .5em;

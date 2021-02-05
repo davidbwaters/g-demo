@@ -204,7 +204,7 @@ export const objects = css`
 
     .o-block--half,
     .o-block--half\\@desktop {
-      grid-template-columns: 50%;
+      grid-template-columns: 66.6%;
       padding-left: 0;
       padding-right: 0;
       width: 100%;
