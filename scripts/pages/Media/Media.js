@@ -130,7 +130,7 @@ export class MediaPage extends Page {
         this.albumCovers = this.albumCovers.concat(item.Media.Cover.url);
       }
     });
-    await super.imagePreloader(this.albumCovers);
+    await this.imagePreloader(this.albumCovers);
     console.log(this.pageData);
     console.log(this.galleryItems);
   }

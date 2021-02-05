@@ -48,7 +48,7 @@ export class NavMenu extends LitElement {
           padding-right: 1rem;
           padding-top: 1rem;
 
-          --nav-menu-column-gap: 1rem;
+          --nav-menu-column-gap: .9rem;
         }
 
         .c-nav-menu__links {
@@ -56,7 +56,7 @@ export class NavMenu extends LitElement {
           column-gap: var(--nav-menu-column-gap);
           display: grid;
           font-family: var(--font-title);
-          font-size: var(--text-size-small);
+          font-size: calc(var(--text-size-small) * .9);
           font-weight: var(--font-weight-title-normal-light);
           letter-spacing: var(--letter-spacing-title-normal-light);
           transition: color .25s;

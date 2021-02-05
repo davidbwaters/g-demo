@@ -96,7 +96,7 @@ export class ScaleSection extends LitElement {
           content: '';
           display: var(--scale-section-background-display);
           left: 0;
-          min-height: 70vh;
+          min-height: 75vw;
           opacity: var(--scale-section-background-opacity);
           position: absolute;
           right: 0;

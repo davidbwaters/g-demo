@@ -24,7 +24,7 @@ export class Loader extends Component {
           top: 0;
           transition-duration:
             opacity
-            var(--loader-transition-duration);
+            .8s;
           width: 100%;
           z-index: 10;
         }
@@ -33,7 +33,7 @@ export class Loader extends Component {
           display: grid;
           margin-left: auto;
           margin-right: auto;
-          row-gap: 3rem;
+          row-gap: 2.8rem;
           width: 100%;
         }
 
@@ -91,8 +91,8 @@ export class Loader extends Component {
             url('/images/Vector/Trace Profile Image Subtle.jpg');
           clip-path: polygon(
             0 0,
-            var(--loader-progress) 0,
-            calc(var(--loader-progress) - 20%) 100%,
+            calc(var(--loader-progress) + 20%) 0,
+            calc(var(--loader-progress) - 0%) 100%,
             0% 100%
           );
           content: '';
@@ -100,7 +100,7 @@ export class Loader extends Component {
           height: 100%;
           opacity: 1;
           position: absolute;
-          transition: all 4s ease;
+          transition: all 1.6s ease;
           width: 100%;
           will-change: clip-path;
         }
@@ -161,7 +161,7 @@ export class Loader extends Component {
     this.enabled = true;
     this.duration = 1000;
     this.progress = 0;
-    this.throttle = 500;
+    this.throttle = 1000;
     this.currentProgress = 0;
     this.currentTime = 0;
   }
@@ -175,7 +175,7 @@ export class Loader extends Component {
 
   updated() {
     if (this.realProgress === true) {
-      if (this.progress < 90 && this.currentProgress < this.progress) {
+      if (this.progress < 85 && this.currentProgress < this.progress) {
         window.requestAnimationFrame(time => {
           if (this.currentTime === 0) {
             this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
@@ -183,57 +183,30 @@ export class Loader extends Component {
             this.currentProgress = this.progress;
           }
 
-          if (this.progress - this.currentProgress > 10 && time - this.currentTime > 400 && this.progress > this.currentProgress) {
+          if (this.progress - this.currentProgress > 10 && time - this.currentTime > 800 && this.progress > this.currentProgress) {
             this.shadowRoot.host.style.setProperty('--loader-progress', this.progress + '%');
             this.currentProgress = this.progress;
           }
         });
       }
-
-      if (this.progress >= 80) {
-        this.setComplete();
-      }
     } else {
-      setTimeout(() => {
-        window.requestAnimationFrame(time => {
-          this.shadowRoot.host.style.setProperty('--loader-progress', 12 + '%');
-        });
-      }, 1200);
-      setTimeout(() => {
-        window.requestAnimationFrame(time => {
-          this.shadowRoot.host.style.setProperty('--loader-progress', 32 + '%');
-        });
-      }, 2000);
-      setTimeout(() => {
-        window.requestAnimationFrame(time => {
-          this.shadowRoot.host.style.setProperty('--loader-progress', 48 + '%');
-        });
-      }, 3200);
-      setTimeout(() => {
-        window.requestAnimationFrame(time => {
-          this.shadowRoot.host.style.setProperty('--loader-progress', 64 + '%');
-        });
-      }, 4000);
-      setTimeout(() => {
-        window.requestAnimationFrame(time => {
-          this.shadowRoot.host.style.setProperty('--loader-progress', 80 + '%');
-        });
-      }, 6000);
+      /**
+      this.fakeProgress = setInterval(() => {
+         window.requestAnimationFrame((time) => {
+           this.progress += Math.random() * 10
+          this.shadowRoot.host.style.setProperty(
+            '--loader-progress',
+            this.progress + '%'
+          )
+         })
+       }, 3000)
+       */
     }
   }
 
   async loadBackground() {
     await this.imagePreloader(['/images/Vector/Trace Profile Image Subtle.jpg'], '');
     this.backgroundLoaded = true;
-  }
-
-  setComplete() {
-    setTimeout(() => {
-      requestAnimationFrame(() => {});
-    }, 800);
-    this.progress = 100;
-    this.realProgress = false;
-    this.shadowRoot.host.style.setProperty('--loader-progress', '100%');
   }
 
   async enable() {
@@ -255,8 +228,14 @@ export class Loader extends Component {
     document.documentElement.classList.add('u-prevent-scroll');
   }
 
+  setComplete() {
+    console.log('loader complete');
+    this.progress = 100;
+    this.realProgress = false;
+    this.shadowRoot.host.style.setProperty('--loader-progress', '100%'); //clearInterval(this.fakeProgress)
+  }
+
   disable() {
-    this.enabled = false;
     this.setComplete();
     this.realProgress = false;
     setTimeout(() => {
@@ -264,24 +243,29 @@ export class Loader extends Component {
       requestAnimationFrame(() => {
         document.documentElement.style.setProperty('--loader-opacity', '0');
         this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
+        window.dispatchEvent(new Event('resize'));
       });
       requestAnimationFrame(() => {
         if (document.documentElement.classList.contains('u-prevent-scroll')) {
           document.documentElement.classList.remove('u-prevent-scroll');
         }
+
+        this.enabled = false;
       });
       setTimeout(() => {
         document.documentElement.style.setProperty('--loader-opacity', '0');
-        requestAnimationFrame(() => {
-          document.documentElement.style.position = '';
-          document.documentElement.style.overflowY = '';
-          document.documentElement.style.setProperty('--loader-display', 'none');
-        });
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            document.documentElement.style.position = '';
+            document.documentElement.style.overflowY = '';
+            document.documentElement.style.setProperty('--loader-display', 'none');
+          });
+        }, 800);
         this.progress = 0;
         this.currentProgress = 0;
         this.currentTime = 0;
       }, 0);
-    }, 1200);
+    }, 1800);
   }
 
   render() {

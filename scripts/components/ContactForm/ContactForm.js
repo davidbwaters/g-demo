@@ -159,6 +159,16 @@ export class ContactForm extends LitElement {
           margin-left: auto;
         }
 
+        .c-contact-form__form-wrapper.has-succeeded {
+          background-color: var(--color-bg);
+          color: var(--color-success);
+        }
+
+        .c-contact-form__wrapper.has-failed {
+          background-color: var(--color-bg);
+          color: var(--color-error);
+        }
+
         .c-contact-form__success {
           font: var(--heading-font);
           font-size: var(--text-size-large);
@@ -172,11 +182,6 @@ export class ContactForm extends LitElement {
           top: 50%;
           width: 100%;
           will-change: transform, opacity;
-        }
-
-        .c-contact-form__form-wrapper.has-succeeded {
-          background-color: var(--color-bg);
-          color: var(--color-success);
         }
 
         .has-succeeded .c-contact-form__success {
@@ -312,14 +317,10 @@ export class ContactForm extends LitElement {
   }
 
   handleFocus(event) {
-    event.preventDefault();
-
     this._formEl.classList.toggle('is-focused');
   }
 
   handleBlur(event) {
-    event.preventDefault();
-
     this._formEl.classList.toggle('is-focused');
   }
 

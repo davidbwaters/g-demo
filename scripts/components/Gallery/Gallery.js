@@ -448,38 +448,29 @@ export class Gallery extends Component {
       });
     });
     this.setMaxScroll();
-  }
-
-  updated() {
     this.routerEl = document.querySelector('c-router-app');
     this.loaderEl = document.querySelector('c-router-app').loaderEl;
-
-    if (this.imagesLoaded !== true && this.loading !== false && this.covers && this.covers.length) {
-      console.log('loading gal images');
-      this.imagePreloader(this.covers).then(() => {
-        console.log('then');
-        this.loading = false;
-        this.imagesLoaded = true;
-        setTimeout(() => {
-          console.log('gallery loader disable');
-          this.loaderEl.disable();
-          this.routerEl.loaderEnabled = false;
-        }, 1400);
-        this.routerEl.galleryLoaded = true;
-      }).catch(err => {
-        console.log(err);
-        console.log('errrr');
-        this.loading = false;
-        this.imagesLoaded = true;
-        this.routerEl.galleryLoaded = true;
-      });
-    } else if (this.imagesLoaded === true) {
-      console.log('false');
-      setTimeout(() => {
-        this.loaderEl.disable();
-        this.routerEl.loaderEnabled = false;
-      }, 2000);
-    }
+    this.page = this.covers = this.getRootNode().getRootNode().host;
+    console.log(this.page);
+    this.page.preload();
+    this.pageActive = this.page.hasAttribute('active');
+    this.covers = this.page.albumCovers;
+    this.routerEl.galleryLoaded = false;
+    /*
+    this.imagePreloader(this.covers)
+       .then(() => {
+         // console.log('then')
+         this.loading = false
+        this.imagesLoaded = true
+         if (this.pageActive) {
+          this.routerEl
+            .galleryLoaded = true
+          this.requestUpdate()
+        }
+        }).catch((err) => {
+         console.log('errrr')
+       })
+       */
   }
 
   setMaxScroll() {

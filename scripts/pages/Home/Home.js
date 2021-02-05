@@ -41,7 +41,7 @@ export class HomePage extends Page {
 
   async preload() {
     super.buildComponents();
-    await super.imagePreloader([this.data.Content[0].Image.url, this.data.Content[1].UpperBackgroundImage.url, this.data.Content[1].LowerBackgroundImage.url]);
+    await this.imagePreloader([this.data.Content[0].Image.url, this.data.Content[1].UpperBackgroundImage.url, this.data.Content[1].LowerBackgroundImage.url]);
   }
 
   render() {

@@ -28,8 +28,13 @@ export const objects = css`
   }
 
   .o-media-block--narrow {
+
+    --media-block-narrow-column: calc(
+      var(--wrapper-max) / 9 * 7
+    );
+
     grid-template-columns: calc(
-      var(--wrapper-max) / 9 * 8
+      var(--wrapper-max) / 9 * 7
     );
   }
 
@@ -81,7 +86,7 @@ export const objects = css`
   .o-media-block--split-flush-start {
 
     --media-block-gap:  calc(
-      var(--spacing-responsive) * 3
+      var(--spacing-responsive) * 2
     );
 
     column-gap: var(--media-block-gap);
@@ -97,6 +102,18 @@ export const objects = css`
     );
     padding-right: calc(
       (100% - var(--wrapper-max)) / 2
+    );
+  }
+
+  .o-media-block--split-flush-end.o-media-block--narrow
+  .o-media-block__item:first-child,
+  .o-media-block--split-flush-start.o-media-block--narrow
+  .o-media-block__item:last-child {
+    padding-left: calc(
+      (100% - var(--media-block-narrow-column)) / 2
+    );
+    padding-right: calc(
+      (100% - var(--media-block-narrow-column)) / 2
     );
   }
 

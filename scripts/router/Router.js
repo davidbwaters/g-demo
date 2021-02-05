@@ -23,7 +23,7 @@ export class Router extends router(LitElement) {
           display: block;
           opacity: var(--page-opacity);
           transition:
-            opacity .8s ease;
+            opacity 1.2s ease;
           will-change: opacity;
         }
       `];
@@ -210,22 +210,18 @@ export class Router extends router(LitElement) {
     if (this.isFirstLoad) {
       console.log('First load ...');
       setTimeout(() => {
-        if (this.route !== 'gallery') {
-          this.loaderEl.disable();
-          this.loaderEnabled = false;
-        }
-      }, 2000);
+        this.loaderEl.disable();
+        this.loaderEnabled = false;
+      }, 200);
     } else {
-      console.log('Not first load ...');
-      console.log(this.route);
-
-      if (this.route !== 'gallery' || this.route === 'gallery' && this.galleryLoaded === true) {
-        console.log('not gallery');
-        setTimeout(() => {
-          this.loaderEl.disable();
-          this.loaderEnabled = false;
-        }, 800);
+      if (this.debug) {
+        console.log('Disabling loader ...');
       }
+
+      setTimeout(() => {
+        this.loaderEl.disable();
+        this.loaderEnabled = false;
+      }, 200);
     }
 
     if (this.loadingActiveRoute) {
