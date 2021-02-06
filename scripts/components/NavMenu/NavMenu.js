@@ -48,7 +48,7 @@ export class NavMenu extends LitElement {
           padding-right: 1rem;
           padding-top: 1rem;
 
-          --nav-menu-column-gap: .9rem;
+          --nav-menu-column-gap: .8rem;
         }
 
         .c-nav-menu__links {
@@ -56,10 +56,18 @@ export class NavMenu extends LitElement {
           column-gap: var(--nav-menu-column-gap);
           display: grid;
           font-family: var(--font-title);
-          font-size: calc(var(--text-size-small) * .9);
+          font-size: calc(var(--text-size-small) * .95);
           font-weight: var(--font-weight-title-normal-light);
           letter-spacing: var(--letter-spacing-title-normal-light);
           transition: color .25s;
+        }
+
+        @media(min-width:40em) {
+
+          .c-nav-menu__links {
+            font-size: calc(var(--text-size-small) * 1);
+          }
+
         }
 
         .c-nav-menu__router-links,

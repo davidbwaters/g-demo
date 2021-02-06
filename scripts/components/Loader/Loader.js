@@ -91,8 +91,8 @@ export class Loader extends Component {
             url('/images/Vector/Trace Profile Image Subtle.jpg');
           clip-path: polygon(
             0 0,
-            calc(var(--loader-progress) + 20%) 0,
-            calc(var(--loader-progress) - 0%) 100%,
+            calc((var(--loader-progress) * 1.2) + 0%) 0,
+            calc((var(--loader-progress) * 1.2) - 20%) 100%,
             0% 100%
           );
           content: '';
