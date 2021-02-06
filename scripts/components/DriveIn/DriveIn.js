@@ -65,7 +65,7 @@ export class DriveIn extends LitElement {
       props: {
         '--drive-in-translate': {
           from: 0 + '%',
-          to: 90 + '%'
+          to: 95 + '%'
         }
       }
     });
