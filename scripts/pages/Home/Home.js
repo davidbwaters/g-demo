@@ -35,10 +35,6 @@ export class HomePage extends Page {
     //super.blurAnimation()
   }
 
-  async performUpdate() {
-    super.performUpdate();
-  }
-
   async preload() {
     super.buildComponents();
     await this.imagePreloader([this.data.Content[0].Image.url, this.data.Content[1].UpperBackgroundImage.url, this.data.Content[1].LowerBackgroundImage.url]);

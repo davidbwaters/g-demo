@@ -91,7 +91,7 @@ export class ScaleSection extends LitElement {
           background-attachment: var(--scale-section-background-attachment);
           background-image: var(--scale-section-background-image);
           background-position: var(--scale-section-background-position);
-          background-size: cover;
+          background-size: auto 75vw;
           bottom: 0;
           content: '';
           display: var(--scale-section-background-display);
@@ -113,6 +113,7 @@ export class ScaleSection extends LitElement {
         @media(max-width: 70em) {
 
           .c-scale-section__background {
+            background-size: cover;
             position: static;
           }
 
