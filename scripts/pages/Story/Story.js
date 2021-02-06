@@ -34,7 +34,8 @@ export class StoryPage extends Page {
     this.debug = false;
   }
 
-  firstUpdated() {}
+  firstUpdated() {// console.log(this.data)
+  }
 
   transitionIn() {
     super.transitionIn();
@@ -43,7 +44,7 @@ export class StoryPage extends Page {
 
   async preload() {
     super.buildComponents();
-    await super.imagePreloader([]);
+    await this.imagePreloader([this.data.Content[0].Image.url, this.data.Content[1].Image.url, this.data.Content[2].Image.url, this.data.Content[3].Image.url]);
   }
 
   render() {

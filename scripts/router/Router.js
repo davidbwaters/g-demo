@@ -21,11 +21,16 @@ export class Router extends router(LitElement) {
 
         .c-page {
           display: block;
-          opacity: var(--page-opacity);
+          opacity: 0;
           transition:
             opacity 1.2s ease;
           will-change: opacity;
         }
+
+        .c-page[active="true"] {
+          opacity: 1;
+        }
+
       `];
   }
 
@@ -46,7 +51,7 @@ export class Router extends router(LitElement) {
     this.route = '';
     this.params = {};
     this.query = {};
-    this.debug = true;
+    this.debug = false;
     this.handleLoad = this.handleLoad.bind(this);
     this.handlePreload = this.handlePreload.bind(this);
     this.loadingActiveRoute = true;
@@ -88,11 +93,8 @@ export class Router extends router(LitElement) {
   setActiveRouteEl() {
     this.routeEls.forEach(el => {
       const name = el.getAttribute('route');
-      el.shadowRoot.host.style.setProperty('--page-opacity', '0');
 
       if (name === this.route) {
-        el.setAttribute('active', true);
-        el.active = true;
         this.activeRouteEl = el;
       } else {
         if (el.hasAttribute('active')) {
@@ -194,17 +196,16 @@ export class Router extends router(LitElement) {
 
     this.activeRouteEl.loaded = true;
     await this.activeRouteEl.updateComplete;
-    this.activeRouteEl.handleLoad();
-    console.log(this.activeRouteEl.onActivate);
-    this.activeRouteEl.handlePreload();
+    await this.activeRouteEl.handleLoad();
+    await this.activeRouteEl.handlePreload();
 
     if (this.debug) {
       console.log('Awaited handlePreload ...');
     }
 
-    let active = this.activeRouteEl;
-    requestAnimationFrame(function () {
-      active.shadowRoot.host.style.setProperty('--page-opacity', '1');
+    requestAnimationFrame(() => {
+      this.activeRouteEl.setAttribute('active', true);
+      this.activeRouteEl.active = true;
     });
 
     if (this.isFirstLoad) {

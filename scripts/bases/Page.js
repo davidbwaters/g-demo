@@ -15,14 +15,12 @@ export class Page extends Component {
 
   constructor() {
     super();
-    console.log(this);
     this.handleLoad = this.handleLoad.bind(this);
     this.handlePreload = this.handlePreload.bind(this);
     this.addEventListener('dataLoad', this.handleDataLoad);
     this.addEventListener('preload', this.handlePreload);
     this.buildComponent = buildComponent;
-    this.content = [];
-    this.debug = true;
+    this.content = []; //this.debug = true
   }
 
   handleDataLoad() {
@@ -61,7 +59,10 @@ export class Page extends Component {
 
       this.loaded = true;
       this.setAttribute('loaded', true);
-      this.dispatchEvent(new CustomEvent('preloaded'));
+      this.dispatchEvent(new CustomEvent('preloaded'), {
+        bubbles: true,
+        composed: true
+      });
 
       if (this.debug) {
         console.log('Preloaded ' + this.dataEndpoint);
@@ -91,7 +92,10 @@ export class Page extends Component {
 
   async performUpdate() {
     this.data = await this.getApiData(this.dataEndpoint);
-    this.dispatchEvent(new CustomEvent('dataLoad'));
+    this.dispatchEvent(new CustomEvent('dataLoad'), {
+      bubbles: true,
+      composed: true
+    });
     super.performUpdate();
   }
 
@@ -100,15 +104,13 @@ export class Page extends Component {
       this.data.Content.forEach(i => {
         this.content = this.content.concat(buildComponent(i, this.data, this.url));
       });
-    }
+    } // console.log(this)
 
-    console.log(this);
+
     this.contentBuilt = true;
   }
 
   onActivate() {
-    console.log(this);
-
     if (this.debug) {
       console.log('Activating route ...');
     }

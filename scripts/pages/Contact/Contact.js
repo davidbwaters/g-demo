@@ -256,20 +256,9 @@ export class ContactPage extends Page {
       this.formToggle();
     };
 
-    this.addEventListener('formSubmitted', () => {
+    this.addEventListener('contactSubmit', () => {
       toggle();
-      console.log('submitted');
     });
-    let root = this.shadowRoot;
-    console.log(root);
-    let mm = new MagnetMouse({
-      magnet: {
-        root: root,
-        element: '.c-button',
-        distance: 0
-      }
-    }); //mm.init()
-
     window.dispatchEvent(new Event('resize'));
   }
 

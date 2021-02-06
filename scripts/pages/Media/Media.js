@@ -130,14 +130,12 @@ export class MediaPage extends Page {
         this.albumCovers = this.albumCovers.concat(item.Media.Cover.url);
       }
     });
-    await this.imagePreloader(this.albumCovers);
-    console.log(this.pageData);
-    console.log(this.galleryItems);
+    await this.imagePreloader(this.albumCovers); // console.log(this.pageData)
+    // console.log(this.galleryItems)
   }
 
   async preloadImages() {
-    if (this.debug) {
-      console.log(this.albumCovers);
+    if (this.debug) {// console.log(this.albumCovers)
     }
   }
 
@@ -147,7 +145,10 @@ export class MediaPage extends Page {
     this.pageData = await this.getApiData(this.pageEndpoint);
     this.contentData = await this.getApiData(this.dataEndpoint);
     await this.preload();
-    this.dispatchEvent(new CustomEvent('dataLoad'));
+    this.dispatchEvent(new CustomEvent('dataLoad'), {
+      bubbles: true,
+      composed: true
+    });
     super.performUpdate();
   }
 

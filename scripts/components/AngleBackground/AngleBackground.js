@@ -103,7 +103,10 @@ export class AngleBackground extends LitElement {
     this._scrollSetup();
 
     this.getRootNode().host.scrollInstances = [this._scrollInstance];
-    this.dispatchEvent(new CustomEvent('scrollReady'));
+    this.dispatchEvent(new CustomEvent('scrollReady'), {
+      bubbles: true,
+      composed: true
+    });
 
     this._addObserver();
 

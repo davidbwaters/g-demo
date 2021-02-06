@@ -35,12 +35,12 @@ export class Component extends LitElement {
     this.loaderEl.realProgress = true;
 
     preloader.onProgress = progress => {
-      console.log(progress);
+      if (this.debug) {
+        console.log(progress);
+      }
 
       if (this.hasAttribute('active') && this.loaderEl.realProgress === true) {
-        this.progress += percentage / 2; // console.log(images)
-
-        console.log(this.progress);
+        this.progress += percentage / 2;
         requestAnimationFrame(progress => {
           this.loaderEl.progress += percentage / 4;
         });

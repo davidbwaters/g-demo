@@ -87,3 +87,6 @@ customElements.define('c-text-block', TextBlock);
 render(html`
     <c-router-app></c-router-app>
   `, document.body);
+const cl = ['background: #fff', 'border-bottom: solid 1px black', 'border-left: solid 1px black', 'border-top: solid 1px black', 'color: #666', 'line-height: 35px', 'padding: 10px 0px 10px 10px'].join(';');
+const clh = ['background: #fff', 'border-bottom: solid 1px black', 'border-right: solid 1px black', 'border-top: solid 1px black', 'color: red', 'line-height: 35px', 'padding: 10px 20px 10px 0'].join(';');
+console.log('%c Coded with %c ♥️', cl, clh);

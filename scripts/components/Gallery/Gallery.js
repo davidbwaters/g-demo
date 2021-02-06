@@ -450,27 +450,12 @@ export class Gallery extends Component {
     this.setMaxScroll();
     this.routerEl = document.querySelector('c-router-app');
     this.loaderEl = document.querySelector('c-router-app').loaderEl;
-    this.page = this.covers = this.getRootNode().getRootNode().host;
-    console.log(this.page);
+    this.page = this.covers = this.getRootNode().getRootNode().host; // console.log(this.page)
+
     this.page.preload();
     this.pageActive = this.page.hasAttribute('active');
     this.covers = this.page.albumCovers;
     this.routerEl.galleryLoaded = false;
-    /*
-    this.imagePreloader(this.covers)
-       .then(() => {
-         // console.log('then')
-         this.loading = false
-        this.imagesLoaded = true
-         if (this.pageActive) {
-          this.routerEl
-            .galleryLoaded = true
-          this.requestUpdate()
-        }
-        }).catch((err) => {
-         console.log('errrr')
-       })
-       */
   }
 
   setMaxScroll() {
@@ -584,7 +569,7 @@ export class Gallery extends Component {
       preventDefaultOnEmulateScroll: true,
       onWheel: (state, event) => {
         if (this.shouldScroll) {
-          console.log(this.shouldScroll);
+          // console.log(this.shouldScroll)
           this.handleScroll(state, event);
         }
       },
@@ -621,8 +606,8 @@ export class Gallery extends Component {
 
   showOverlay(e) {
     this.scrollerStop();
-    this.shouldScroll = false;
-    console.log(e.target);
+    this.shouldScroll = false; // console.log(e.target)
+
     this.currentSlot = e.target.dataset.slot;
     this.slotEl.setAttribute('name', this.currentSlot);
     this.slotEl.parentElement.classList.add('is-active');

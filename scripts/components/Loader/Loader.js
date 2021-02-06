@@ -220,8 +220,8 @@ export class Loader extends Component {
     this.progress = 0;
     this.currentProgress = 0;
     this.currentTime = 0;
-    this.shadowRoot.host.style.setProperty('--loader-progress', '0%');
-    console.log(this.progress);
+    this.shadowRoot.host.style.setProperty('--loader-progress', '0%'); // console.log(this.progress)
+
     this.enabled = true;
     document.documentElement.style.setProperty('--loader-display', 'grid');
     document.documentElement.style.setProperty('--loader-opacity', '1');
@@ -229,7 +229,7 @@ export class Loader extends Component {
   }
 
   setComplete() {
-    console.log('loader complete');
+    // console.log('loader complete')
     this.progress = 100;
     this.realProgress = false;
     this.shadowRoot.host.style.setProperty('--loader-progress', '100%'); //clearInterval(this.fakeProgress)
@@ -239,7 +239,10 @@ export class Loader extends Component {
     this.setComplete();
     this.realProgress = false;
     setTimeout(() => {
-      this.dispatchEvent(new CustomEvent('loaderDisabled'));
+      this.dispatchEvent(new CustomEvent('loaderDisabled'), {
+        bubbles: true,
+        composed: true
+      });
       requestAnimationFrame(() => {
         document.documentElement.style.setProperty('--loader-opacity', '0');
         this.shadowRoot.host.style.setProperty('--loader-progress', '0%');

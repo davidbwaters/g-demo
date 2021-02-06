@@ -164,14 +164,16 @@ export class ContactForm extends LitElement {
           color: var(--color-success);
         }
 
-        .c-contact-form__wrapper.has-failed {
+        .c-contact-form__form-wrapper.has-failed {
           background-color: var(--color-bg);
           color: var(--color-error);
         }
 
-        .c-contact-form__success {
+        .c-contact-form__success,
+        .c-contact-form__fail {
           font: var(--heading-font);
           font-size: var(--text-size-large);
+          font-weight: var(--font-normal-weight);
           opacity: 0;
           font-weight: bold;
           pointer-events: none;
@@ -184,11 +186,13 @@ export class ContactForm extends LitElement {
           will-change: transform, opacity;
         }
 
-        .has-succeeded .c-contact-form__success {
+        .has-succeeded .c-contact-form__success,
+        .has-failed .c-contact-form__fail {
           opacity: .99;
         }
 
-        .has-succeeded .c-contact-form__form {
+        .has-succeeded .c-contact-form__form,
+        .has-failed .c-contact-form__form {
           opacity: 0;
           pointer-events: none;
         }
@@ -305,6 +309,12 @@ export class ContactForm extends LitElement {
     if (!response.ok) {
       const errorMessage = await response.text();
       throw new Error(errorMessage);
+
+      this._formWrapperEl.classList.add('has-failed');
+
+      setTimeout(() => {
+        this._formWrapperEl.classList.remove('has-failed');
+      }, 5000);
     }
 
     return response.json();
@@ -335,18 +345,24 @@ export class ContactForm extends LitElement {
         url,
         formData
       });
-      this.dispatchEvent(new CustomEvent('formSubmitted'));
 
       this._formWrapperEl.classList.add('has-succeeded');
 
       setTimeout(() => {
         this._formWrapperEl.classList.remove('has-succeeded');
-      }, 10000);
-      console.log({
-        responseData
-      });
+
+        let event = new CustomEvent('contactSubmit', {
+          bubbles: true,
+          composed: true
+        });
+        this.dispatchEvent(event);
+      }, 6000); // console.log({ responseData })
     } catch (error) {
-      console.error(error);
+      this._formWrapperEl.classList.add('has-failed');
+
+      setTimeout(() => {
+        this._formWrapperEl.classList.remove('has-failed');
+      }, 5000);
     }
   }
 
@@ -452,6 +468,10 @@ export class ContactForm extends LitElement {
         </form>
         <div class="c-contact-form__success">
           Success! <br> Message sent.
+        </div>
+
+        <div class="c-contact-form__fail">
+          Oops! <br> There was a problem. Please submitting again.
         </div>
 
       </div>

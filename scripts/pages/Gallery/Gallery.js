@@ -170,7 +170,10 @@ export class GalleryPage extends Page {
     this.pageData = await this.getApiData(this.pageEndpoint);
     this.contentData = await this.getApiData(this.dataEndpoint);
     await this.preload();
-    this.dispatchEvent(new CustomEvent('dataLoad'));
+    this.dispatchEvent(new CustomEvent('dataLoad'), {
+      bubbles: true,
+      composed: true
+    });
     super.performUpdate();
   }
 
