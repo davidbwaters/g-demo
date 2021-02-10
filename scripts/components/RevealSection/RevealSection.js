@@ -20,7 +20,7 @@ export class RevealSection extends LitElement {
           background-image: var(
             --reveal-section-upper-bg-image
           );
-          background-size: auto 100vh;
+          background-size: cover;
           background-repeat: no-repeat;
           background-position: top center;
           height: 100vh;

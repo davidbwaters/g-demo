@@ -213,7 +213,7 @@ export class Router extends router(LitElement) {
       setTimeout(() => {
         this.loaderEl.disable();
         this.loaderEnabled = false;
-      }, 200);
+      }, 600);
     } else {
       if (this.debug) {
         console.log('Disabling loader ...');
@@ -222,7 +222,7 @@ export class Router extends router(LitElement) {
       setTimeout(() => {
         this.loaderEl.disable();
         this.loaderEnabled = false;
-      }, 200);
+      }, 600);
     }
 
     if (this.loadingActiveRoute) {
@@ -303,7 +303,7 @@ export class Router extends router(LitElement) {
         this.isFirstLoad = false;
         setTimeout(() => {
           this.activeRouteEl.onActivate();
-        }, 3000);
+        }, 4000);
       }, 3000);
     }
   }
