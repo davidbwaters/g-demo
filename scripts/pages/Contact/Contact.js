@@ -6,8 +6,8 @@ import { Page } from '../../bases/Page.js';
 import { buttons } from '../../styles/components.buttons.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
-import { utilities } from '../../styles/utilities.js';
-import MagnetMouse from '../../../modules/magnet-mouse.js';
+import { utilities } from '../../styles/utilities.js'; //import MagnetMouse from 'magnet-mouse'
+
 export class ContactPage extends Page {
   static get styles() {
     return [initialize, objects, buttons, utilities, css`
@@ -241,6 +241,7 @@ export class ContactPage extends Page {
   constructor() {
     super();
     this.dataEndpoint = '/contact';
+    this.toggled = false;
   }
 
   firstUpdated() {
@@ -250,7 +251,7 @@ export class ContactPage extends Page {
     this.formWrapper = this.shadowRoot.querySelector('.c-contact-page__form-wrapper');
     this.closeEl = this.shadowRoot.querySelector('.c-contact-page__close-button');
     this.buttonEls = this.shadowRoot.querySelectorAll('c-button');
-    this.formEl = this.shadowRoot.querySelector('.c-contact-form');
+    this.formEl = this.shadowRoot.querySelector('c-contact-form');
 
     let toggle = () => {
       this.formToggle();
@@ -263,10 +264,15 @@ export class ContactPage extends Page {
   }
 
   formToggle() {
+    this.toggled = !this.toggled;
     this.mainImageEl.classList.toggle('is-active');
     this.formWrapper.classList.toggle('is-active');
     this.closeEl.classList.toggle('is-active');
     this.contactWrapperEl.classList.toggle('is-active');
+
+    if (this.toggled) {
+      this.formEl.transitionIn();
+    }
   }
 
   transitionIn() {}
@@ -542,7 +548,7 @@ export class ContactPage extends Page {
             </button>
             <div class="c-contact-page__form-wrapper">
               <c-contact-form
-                data=${JSON.stringify(this.data)}
+                data=${JSON.stringify(this.data.Form)}
                 formOnly = true
               >
               </c-contact-form>

@@ -1,6 +1,7 @@
 {
   "imports": {
     "@appnest/masonry-layout": "./@appnest/masonry-layout.js",
+    "animejs/lib/anime.es.js": "./animejs/lib/anime.es.js",
     "basicscroll": "./basicscroll.js",
     "chocolat": "./chocolat.js",
     "construct-style-sheets-polyfill": "./construct-style-sheets-polyfill.js",
@@ -9,7 +10,6 @@
     "lit-element": "./lit-element.js",
     "lit-element-router": "./lit-element-router.js",
     "lit-html": "./lit-html.js",
-    "magnet-mouse": "./magnet-mouse.js",
     "scrollbooster": "./scrollbooster.js"
   }
 }

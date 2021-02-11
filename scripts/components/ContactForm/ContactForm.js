@@ -7,6 +7,7 @@ import { buttons } from '../../styles/components.buttons.js';
 import { initialize } from '../../styles/initialize.js';
 import { objects } from '../../styles/objects.js';
 import { utilities } from '../../styles/utilities.js';
+import anime from '../../../modules/animejs/lib/anime.es.js';
 export class ContactForm extends LitElement {
   static get styles() {
     return [initialize, objects, buttons, utilities, css`
@@ -72,7 +73,8 @@ export class ContactForm extends LitElement {
           text-align: left;
         }
 
-        .c-contact-form__field {
+        .c-contact-form__field,
+        .c-contact-form__message-field {
           display: grid;
           grid-template-columns: 1fr;
           line-height: 1.6;
@@ -81,7 +83,8 @@ export class ContactForm extends LitElement {
           position: relative;
         }
 
-        .c-contact-form__field::after {
+        .c-contact-form__field::after,
+        .c-contact-form__message-field::after {
           content: '';
           height: 2px;
           position: absolute;
@@ -89,7 +92,8 @@ export class ContactForm extends LitElement {
           will-change: transform;
         }
 
-        .c-contact-form__field label {
+        .c-contact-form__field label,
+        .c-contact-form__message-field label {
           color: var(--color-fg-subtle);
           position: absolute;
           top: 2.5em;
@@ -99,7 +103,7 @@ export class ContactForm extends LitElement {
         }
 
         .c-contact-form__field input,
-        .c-contact-form__field textarea {
+        .c-contact-form__message-field textarea {
           background-color: var(--contact-form-background);
           border-bottom: solid 1px var(--color-fg-faint);
           border-left: none;
@@ -113,13 +117,13 @@ export class ContactForm extends LitElement {
         }
 
         .c-contact-form__field input:focus,
-        .c-contact-form__field textarea:focus {
+        .c-contact-form__message-field textarea:focus {
           outline: none;
         }
 
         .c-contact-form__field input:focus +
         label,
-        .c-contact-form__field textarea:focus +
+        .c-contact-form__message-field textarea:focus +
         label {
           color: var(--color-fg-faint);
           transform:
@@ -228,6 +232,8 @@ export class ContactForm extends LitElement {
       this.text = this.data.Text;
     }
 
+    console.log(this.data);
+
     if (this.data.GrayBackground) {
       this.shadowRoot.host.style.setProperty('--contact-form-background', 'var(--color-bg-subtle)');
     } else {
@@ -290,6 +296,22 @@ export class ContactForm extends LitElement {
     this.shadowRoot.host.style.setProperty(property, height + 'px');
   }
 
+  transitionIn() {
+    const targets = this.shadowRoot.querySelectorAll('[data-form-item]');
+    targets.forEach(el => {
+      el.style.opacity = 0;
+    });
+    setTimeout(() => {
+      anime({
+        targets: targets,
+        duration: 600,
+        opacity: 1,
+        delay: anime.stagger(600),
+        easing: 'easeOutSine'
+      });
+    }, 400);
+  }
+
   async postFormDataAsJson({
     url,
     formData
@@ -308,13 +330,13 @@ export class ContactForm extends LitElement {
 
     if (!response.ok) {
       const errorMessage = await response.text();
-      throw new Error(errorMessage);
 
       this._formWrapperEl.classList.add('has-failed');
 
       setTimeout(() => {
         this._formWrapperEl.classList.remove('has-failed');
       }, 5000);
+      throw new Error(errorMessage);
     }
 
     return response.json();
@@ -369,16 +391,30 @@ export class ContactForm extends LitElement {
   render() {
     return html`
       ${!this.formOnly ? html`
+
           <c-heading
             class="c-contact-form__heading"
             data=${JSON.stringify(this.data.Heading)}
           >
           </c-heading>
           <c-text-block
+            class="c-contact-form__text"
             data=${JSON.stringify(this.data)}
           >
           </c-text-block>
-        ` : html` `}
+        ` : html`
+          <div class="c-contact-form__content">
+            <c-heading
+              class="c-contact-form__heading"
+              data=${JSON.stringify(this.data.Heading)}
+            >
+            </c-heading>
+            <c-text-block
+              data=${JSON.stringify(this.data)}
+            >
+            </c-text-block>
+          </div>
+        `}
 
       <div class="c-contact-form__form-wrapper">
 
@@ -388,7 +424,10 @@ export class ContactForm extends LitElement {
           id="contact-form"
           @submit=${this.handleSubmit}
         >
-          <div class="c-contact-form__field">
+          <div
+            class="c-contact-form__field"
+            data-form-item
+          >
 
             <input
               class="c-contact-form__name"
@@ -405,7 +444,10 @@ export class ContactForm extends LitElement {
             <span class="c-contact-form__line">
             </span>
           </div>
-          <div class="c-contact-form__field">
+          <div
+            class="c-contact-form__field"
+            data-form-item
+          >
             <input
               class="c-contact-form__email"
               type="email"
@@ -425,10 +467,10 @@ export class ContactForm extends LitElement {
             <span class="c-contact-form__line">
             </span>
           </div>
-          <div class="
-            c-contact-form__field
-            c-contact-form__message-field
-          ">
+          <div
+            class="c-contact-form__message-field"
+            data-form-item
+          >
             <textarea
               class="c-contact-form__message"
               name="Message"
