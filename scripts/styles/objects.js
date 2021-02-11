@@ -230,6 +230,15 @@ export const objects = css`
   }
 
 
+  @media(min-width: 70em) {
+
+    .o-block--half,
+    .o-block--half\\@desktop {
+      grid-template-columns: 37.5%;
+    }
+
+  }
+
   /* Spaced Rows */
 
   .o-spaced-rows {
