@@ -230,9 +230,8 @@ export class ContactForm extends LitElement {
     if (this.data) {
       this.heading = this.data.Heading;
       this.text = this.data.Text;
-    }
+    } // console.log(this.data)
 
-    console.log(this.data);
 
     if (this.data.GrayBackground) {
       this.shadowRoot.host.style.setProperty('--contact-form-background', 'var(--color-bg-subtle)');

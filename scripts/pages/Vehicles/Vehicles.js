@@ -169,7 +169,14 @@ export class VehiclesPage extends Page {
 
   async preload() {
     super.buildComponents();
-    await this.imagePreloader([this.data.Content[0].Image.url]);
+    let images = [];
+    this.data.Content.forEach(i => {
+      if (i.Image) {
+        images = images.concat(i.Image.url);
+      }
+    }); // console.log(images)
+
+    await this.imagePreloader(images);
   }
 
   render() {
